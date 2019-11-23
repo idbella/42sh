@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   ft_fstrjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 15:40:36 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/23 13:50:11 by yoyassin         ###   ########.fr       */
+/*   Created: 2018/10/10 16:07:58 by mfarhi            #+#    #+#             */
+/*   Updated: 2019/11/23 14:02:03 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
-# include <fcntl.h>
-# include "readline.h"
-# include "parser.h"
-# include "exec.h"
-# include "libft.h"
-# define EXIT_ON_EOT 0
-# define RETURN_ON_EOT 1
+#include "libft.h"
 
-typedef struct	s_shell
+char		*ft_fstrjoin(char const *s1, char const *s2)
 {
-	t_job			*jobs;
-	// t_env			*env;
-	int				last_exit;
-}				t_shell;
+	char	*str;
 
-#endif
+	str = ft_strjoin(s1, s2);
+	free((char *)s1);
+	free((char *)s2);
+	return (str);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/10/27 16:27:11 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/23 13:53:44 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ char					*ft_itoa(long long int n, int base);
 char					**ft_strsplit(char const *s, char c);
 char					*ft_strtrim(char const *s);
 char					*ft_strjoin(char const *s1, char const *s2);
+char					*ft_fstrjoin(char const *s1, char const *s2);
 char					*ft_strsub(char const *s, unsigned int start,
+									size_t len);
+char					*ft_fstrsub(char const *s, unsigned int start,
 									size_t len);
 int						ft_strnequ(char const *s1, char const *s2, size_t n);
 int						ft_strequ(char const *s1, char const *s2);
@@ -123,4 +126,5 @@ void					ft_printf(char *format, ...);
 void					ft_vprintf(int fd, va_list *list, char *format);
 void					ft_getflags(t_printf_params *params);
 void					ft_padding(int padding, char **str, char leading);
+void					free_array(char **arr);
 #endif
