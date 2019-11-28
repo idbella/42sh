@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   ft_print_hashmap.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/08 22:10:48 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 10:17:30 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/10/04 23:53:01 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/28 08:55:20 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+void		ft_print_hash_list(void)
 {
-	size_t	index;
-	char	*str;
+	int		i;
+	t_list	*l;
+	t_list	**lst;
+	t_map	*map;
 
-	str = NULL;
-	if (s)
+	i = 0;
+	lst = get_shell_cfg(0)->hashmap;
+	ft_printf("hits\t command\n");
+	while (i < COUNT)
 	{
-		if (!(str = ft_strnew(len)))
-			return (NULL);
-		index = 0;
-		while (index < len && s[index + start])
+		l = lst[i];
+		while (l)
 		{
-			str[index] = s[index + start];
-			index++;
+			map = l->content;
+			if (map->type == COMMANDS)
+				ft_printf("%3d\t %s\n", map->hits, map->value);
+			l = l->next;
 		}
-		str[index] = '\0';
+		i++;
 	}
-	return (str);
 }

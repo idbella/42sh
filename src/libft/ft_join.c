@@ -1,34 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   ft_join.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/08 22:10:48 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 10:17:30 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/11/28 09:49:37 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/28 10:35:07 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+char	*ft_read(int fd)
 {
-	size_t	index;
+	char	line[1024];
 	char	*str;
+	char	*tmp;
 
 	str = NULL;
-	if (s)
+	tmp = NULL;
+	ft_bzero(line, 1024);
+	while (read(fd, line, 1023) > 0)
 	{
-		if (!(str = ft_strnew(len)))
-			return (NULL);
-		index = 0;
-		while (index < len && s[index + start])
+		if (str)
 		{
-			str[index] = s[index + start];
-			index++;
+			tmp = ft_strjoin(str, line);
+			free(tmp);
 		}
-		str[index] = '\0';
+		else
+			str = ft_strdup(line);
+		ft_bzero(line, 1024);
 	}
+	return (str);
+}
+
+char	*ft_join(char *f, ...)
+{
+	int		p[2];
+	va_list	v;
+	char	*str;
+
+	va_start(v, f);
+	pipe(p);
+	ft_vprintf(p[1], &v, f);
+	close(p[1]);
+	va_end(v);
+	str = ft_read(p[0]);
+	close(p[0]);
 	return (str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/23 14:00:55 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/11/26 19:40:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,29 @@ typedef struct	s_process
 	int					flag;
 	char				*heredoc;
 	int					heredoc_fd;
+	char				exited;
+	char				stoped;
+	char				*name;
+	char				signaled;
 	struct s_process	*next;
 }				t_process;
 
 typedef struct	s_job
 {
 	t_process		*processes;
+	pid_t			pgid;
 	char			*command;
 	int				return_val;
 	int				flag;
+	int				id;
+	char			*cmd;
+	char			suspended;
+	char			killed;
+	char			foreground;
+	char			notified;
 	struct s_job	*next;
 }				t_job;
+
 /* 
 ** 
 */ 

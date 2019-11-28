@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   ft_empty.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/08 22:10:48 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 10:17:30 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/10/04 23:49:19 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/28 08:53:03 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+void		ft_empty(char freeall)
 {
-	size_t	index;
-	char	*str;
+	int		i;
+	t_list	**l;
+	t_map	*map;
+	t_list	*list;
+	t_list	*tmp;
 
-	str = NULL;
-	if (s)
+	i = -1;
+	l = get_shell_cfg(0)->hashmap;
+	while (++i < COUNT)
 	{
-		if (!(str = ft_strnew(len)))
-			return (NULL);
-		index = 0;
-		while (index < len && s[index + start])
+		list = l[i];
+		while (freeall && list)
 		{
-			str[index] = s[index + start];
-			index++;
+			map = list->content;
+			tmp = list->next;
+			if (freeall == ANYHASH || map->type == freeall)
+			{
+				free(map->key);
+				free(map->value);
+				free(list);
+			}
+			list = tmp;
 		}
-		str[index] = '\0';
+		l[i] = NULL;
 	}
-	return (str);
 }

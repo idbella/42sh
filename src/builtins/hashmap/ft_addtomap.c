@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_addtomap.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 15:37:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 12:15:15 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/10/04 23:52:00 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/28 08:54:29 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		main(int argc, char **argv, char **env)
+t_map		*ft_addtohashmap(char *key, char *value, char type)
 {
-	char		*line;
-	t_job		*tokens;
-	t_shell		shell;
+	t_list	**l;
+	t_map	*map;
+	int		index;
 
-	argc = 0;
-	argv = 0;
-	init_(&shell, env);
-	while (1)
+	if ((map = ft_getbykey(key, type)))
+		free(map->value);
+	else
 	{
-		line = readline("$> ", EXIT_ON_EOT);
-		if ((tokens = parse(line)))
-			exec(tokens);
+		l = get_shell_cfg(0)->hashmap;
+		map = malloc(sizeof(t_map));
+		map->key = ft_strdup(key);
+		map->hits = 0;
+		map->type = type;
+		index = ft_hash_calc(key);
+		ft_lstadd(&l[index], ft_lstnew(map, 0));
 	}
+	map->value = ft_strdup(value);
+	return (map);
 }

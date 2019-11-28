@@ -6,15 +6,25 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/11/21 17:19:51 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/11/28 11:33:09 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=libbuiltins.a
 
-OBJ=builtins.o
-
-CFLAGS=-Wall -Wextra -Werror -I../includes
+OBJ=builtins.o\
+hashmap/ft_addtomap.o\
+hashmap/ft_empty.o\
+hashmap/ft_get_hash.o\
+hashmap/ft_getbykey.o\
+hashmap/ft_hash.o\
+hashmap/ft_init_map.o\
+hashmap/ft_mapdelete_one.o\
+hashmap/ft_print_hashmap.o\
+env/ft_getenv.o\
+env/ft_export.o\
+env/ft_set.o
+CFLAGS=-g -Wall -Wextra -Werror -I../includes
 
 all:$(NAME)
 

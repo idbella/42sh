@@ -1,34 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   ft_set.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/08 22:10:48 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 10:17:30 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/11/28 11:25:32 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/28 11:30:58 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+/*
+** escape():
+** not yet :-(
+*/
+
+static char	*escape(char *str)
 {
-	size_t	index;
-	char	*str;
-
-	str = NULL;
-	if (s)
-	{
-		if (!(str = ft_strnew(len)))
-			return (NULL);
-		index = 0;
-		while (index < len && s[index + start])
-		{
-			str[index] = s[index + start];
-			index++;
-		}
-		str[index] = '\0';
-	}
 	return (str);
+}
+
+void	ft_set(void)
+{
+	int		i;
+	t_list	*l;
+	t_list	**lst;
+	t_map	*map;
+
+	i = 0;
+	lst = get_shell_cfg(0)->hashmap;
+	while (i < COUNT)
+	{
+		l = lst[i];
+		while (l)
+		{
+			map = l->content;
+			if (map->type == INTERN)
+				ft_printf_fd(1, "%s=%s\n", map->key, escape(map->value));
+			l = l->next;
+		}
+		i++;
+	}
 }

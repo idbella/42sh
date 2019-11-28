@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/23 13:53:44 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/11/28 09:53:36 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct			s_list
 	size_t			content_size;
 	struct s_list	*next;
 }						t_list;
+
 typedef struct			s_printf_params
 {
 	va_list	*list;
@@ -34,6 +35,8 @@ typedef struct			s_printf_params
 	int		padding;
 	char	leading;
 }						t_printf_params;
+
+char					*ft_join(char *f, ...);
 size_t					ft_nbrlen(long long int n, int base);
 int						ft_isspace(char c);
 char					*ft_strrepeat(char const *str, size_t count);

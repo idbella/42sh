@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   ft_init_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/08 22:10:48 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 10:17:30 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/10/04 23:47:46 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/28 09:26:27 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+void	ft_init_hash(void)
 {
-	size_t	index;
-	char	*str;
+	t_list	**l;
 
-	str = NULL;
-	if (s)
-	{
-		if (!(str = ft_strnew(len)))
-			return (NULL);
-		index = 0;
-		while (index < len && s[index + start])
-		{
-			str[index] = s[index + start];
-			index++;
-		}
-		str[index] = '\0';
-	}
-	return (str);
+	l = malloc(sizeof(t_list *) * COUNT);
+	get_shell_cfg(0)->hashmap = l;
+	ft_empty(0);
 }

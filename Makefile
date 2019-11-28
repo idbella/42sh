@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:59:12 by sid-bell          #+#    #+#              #
-#    Updated: 2019/11/21 20:00:51 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/11/28 12:15:01 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ FT=src/libft
 
 BUILTINS=src/builtins
 
-MAIN=src/main.o
+MAIN=src/main.o src/init.o
 
 LIBPARSER= $(PARSER)/libparser.a
 
@@ -38,11 +38,11 @@ LIBFT=$(FT)/libft.a
 
 LIBs= $(LIBEXEC) $(LIBPARSER) $(LIBREADLINE) $(LIBFT) $(LIBBUILTINS)
 
-CFLAGS=-Isrc/includes
+CFLAGS=-g -Isrc/includes $(FLAGS)
 
 all: $(LIBs) $(NAME)
 
-$(NAME):$(MAIN)  
+$(NAME): $(MAIN) 
 	gcc $(MAIN) $(LIBs) $(FLAGS) -o $(NAME) -Isrc/includes
 
 $(LIBFT):
@@ -77,4 +77,4 @@ fclean:
 	make -C $(EXEC) fclean
 	make -C $(BUILTINS) fclean
 
-.PHONY: $(LIBFT) $(LIBEXEC) $(LIBREADLINE) $(LIBPARSER)
+.PHONY: $(LIBFT) $(LIBEXEC) $(LIBREADLINE) $(LIBPARSER) $(LIBBUILTINS)
