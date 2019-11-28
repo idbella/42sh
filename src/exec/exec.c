@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/25 15:29:49 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/28 12:22:20 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_run(t_job *job)
 		ft_wait(job);
 }
 
-int		exec(DATATYPE job)
+int		exec(t_job *job)
 {
 	t_process	*proc;
 	pid_t		pid;

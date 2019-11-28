@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/26 19:40:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/28 12:19:40 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,5 @@ void			expand_tilde(char **args, int *j);
 void			quoted_escape(char **arg);
 void			remove_quotes(char **args);
 void			remove_escapes(char **str, char escape);
-
-# define DATATYPE t_job*
 
 #endif

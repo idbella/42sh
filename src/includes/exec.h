@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:44:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/22 17:51:32 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/11/28 12:22:02 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
+# include "parser.h"
 
-int		exec(DATATYPE tokens);
+int		exec(t_job *tokens);
 
 #endif
