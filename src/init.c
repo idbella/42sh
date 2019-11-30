@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:12:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 12:12:15 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/28 17:18:41 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ t_shell	*get_shell_cfg(t_shell *new)
 void	init_(t_shell *shell, char **env)
 {
 	get_shell_cfg(shell);
+	shell->interractive = 1;
 	ft_init_builtins(env);
+	ft_init_exec();
 	ft_init_readline();
 	shell->last_exit = 0;
 }

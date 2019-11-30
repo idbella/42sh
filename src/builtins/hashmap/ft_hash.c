@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 15:23:39 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 09:15:34 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/28 20:07:41 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	ft_get_flags(char **cmd)
 void		ft_hash(char **args)
 {
 	int		i;
-	//char	*file;
+	char	*file;
 
 	if (!args[0])
 	{
@@ -58,9 +58,9 @@ void		ft_hash(char **args)
 	}
 	while (args[i])
 	{
-		// if ((file = getpath(args[i], get_path(ft_getset(0)->env))))
-		// 	ft_addtohashmap(args[i], file, COMMANDS);
-		// else
+		if ((file = getfullpath(args[i])))
+			ft_addtohashmap(args[i], file, COMMANDS);
+		else
 			ft_printf_fd(2, "42sh: hash: %s: not found\n", args[i]);
 		i++;
 	}

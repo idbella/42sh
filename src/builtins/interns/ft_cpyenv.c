@@ -1,42 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_empty.c                                         :+:      :+:    :+:   */
+/*   ft_cpyenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/04 23:49:19 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 21:15:06 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/10/05 00:58:20 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/10/05 01:32:54 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void		ft_empty(char freeall)
+t_list	*ft_cpyenv(void)
 {
-	int		i;
-	t_list	**l;
-	t_map	*map;
-	t_list	*list;
-	t_list	*tmp;
+	t_list	*new;
+	t_list	*env;
+	t_env	*envnode;
+	t_env	*newnode;
+	t_list	*node;
 
-	i = -1;
-	l = get_shell_cfg(0)->hashmap;
-	while (++i < COUNT)
+	env = ft_getset(0)->env;
+	new = NULL;
+	while (env)
 	{
-		list = l[i];
-		while (freeall && list)
-		{
-			map = list->content;
-			tmp = list->next;
-			if (freeall == ANYHASH || map->type == freeall)
-			{
-				free(map->key);
-				free(map->value);
-				free(list);
-			}
-			list = tmp;
-		}
-		l[i] = NULL;
+		envnode = env->content;
+		newnode = malloc(sizeof(t_env));
+		newnode->name = ft_strdup(envnode->name);
+		newnode->value = ft_strdup(envnode->value);
+		node = ft_lstnew(newnode, 0);
+		ft_lstadd(&new, node);
+		env = env->next;
 	}
+	return (new);
 }

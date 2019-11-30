@@ -1,42 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_empty.c                                         :+:      :+:    :+:   */
+/*   ft_notify.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/04 23:49:19 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 21:15:06 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/09/17 19:45:13 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/30 20:40:31 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "jobcontrol.h"
 
-void		ft_empty(char freeall)
+void	ft_notify(void)
 {
-	int		i;
-	t_list	**l;
-	t_map	*map;
-	t_list	*list;
-	t_list	*tmp;
+	t_list		*list;
+	t_list		*tmp;
+	t_container	*container;
 
-	i = -1;
-	l = get_shell_cfg(0)->hashmap;
-	while (++i < COUNT)
+	container = ft_getset(NULL);
+	list = container->notify;
+	while (list)
 	{
-		list = l[i];
-		while (freeall && list)
-		{
-			map = list->content;
-			tmp = list->next;
-			if (freeall == ANYHASH || map->type == freeall)
-			{
-				free(map->key);
-				free(map->value);
-				free(list);
-			}
-			list = tmp;
-		}
-		l[i] = NULL;
+		ft_printf("%s", list->content);
+		tmp = list;
+		free(list->content);
+		list = list->next;
+		free(tmp);
 	}
+	container->notify = NULL;
 }

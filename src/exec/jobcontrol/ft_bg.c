@@ -1,42 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_empty.c                                         :+:      :+:    :+:   */
+/*   ft_bg.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/04 23:49:19 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 21:15:06 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/08/10 03:01:46 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/29 20:16:04 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "jobcontrol.h"
 
-void		ft_empty(char freeall)
+void	ft_bg(char **arg)
 {
-	int		i;
-	t_list	**l;
-	t_map	*map;
-	t_list	*list;
-	t_list	*tmp;
+	t_job	*job;
 
-	i = -1;
-	l = get_shell_cfg(0)->hashmap;
-	while (++i < COUNT)
+	if (!(job = ft_getjob(*arg, "bg")))
+		return ;
+	job->suspended = 0;
+	job->foreground = 0;
+	ft_resetstatus(job);
+	if (!killpg(job->pgid, SIGCONT))
+		ft_printf("[%d]\t+\t continued %s\n", job->id, job->command);
+	else
 	{
-		list = l[i];
-		while (freeall && list)
-		{
-			map = list->content;
-			tmp = list->next;
-			if (freeall == ANYHASH || map->type == freeall)
-			{
-				free(map->key);
-				free(map->value);
-				free(list);
-			}
-			list = tmp;
-		}
-		l[i] = NULL;
+		ft_printf("unable to continue job %s\n", job->command);
+		ft_deljob(job, ft_getset(NULL));
 	}
 }

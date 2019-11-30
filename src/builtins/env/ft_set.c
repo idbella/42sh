@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 11:25:32 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 11:30:58 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/28 20:20:24 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,18 @@ void	ft_set(void)
 				ft_printf_fd(1, "%s=%s\n", map->key, escape(map->value));
 			l = l->next;
 		}
+		i++;
+	}
+}
+
+void	ft_unset(char **args)
+{
+	int i;
+
+	i = 0;
+	while (args[i])
+	{
+		ft_hashdelete_one(args[i], INTERN);
 		i++;
 	}
 }

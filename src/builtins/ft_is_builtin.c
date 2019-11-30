@@ -1,42 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_empty.c                                         :+:      :+:    :+:   */
+/*   ft_is_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/04 23:49:19 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 21:15:06 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/11/28 13:58:00 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/28 15:35:37 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void		ft_empty(char freeall)
+t_function	*ft_is_builtin(char *arg)
 {
-	int		i;
-	t_list	**l;
 	t_map	*map;
-	t_list	*list;
-	t_list	*tmp;
+	int		i;
 
-	i = -1;
-	l = get_shell_cfg(0)->hashmap;
-	while (++i < COUNT)
+	i = 0;
+	map = get_shell_cfg(0)->builtins;
+	while (i < BUILTINS_COUNT)
 	{
-		list = l[i];
-		while (freeall && list)
-		{
-			map = list->content;
-			tmp = list->next;
-			if (freeall == ANYHASH || map->type == freeall)
-			{
-				free(map->key);
-				free(map->value);
-				free(list);
-			}
-			list = tmp;
-		}
-		l[i] = NULL;
+		if (ft_strequ(map->key, arg))
+			return (map->value);
+		i++;
+		map++;
 	}
+	return (NULL);
 }

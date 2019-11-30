@@ -1,0 +1,86 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_changestate.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/16 21:51:22 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/29 20:16:25 by sid-bell         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "shell.h"
+
+int		ft_stoped(t_job *job)
+{
+	t_process		*proc;
+
+	proc = job->processes;
+	while (proc)
+	{
+		if (!proc->stoped && !proc->exited)
+			return (0);
+		proc = proc->next;
+	}
+	job->suspended = 1;
+	return (1);
+}
+
+int		ft_terminated(t_job *job)
+{
+	t_process		*proc;
+
+	proc = job->processes;
+	while (proc)
+	{
+		if (proc->pid > 0 && !proc->exited)
+			return (0);
+		proc = proc->next;
+	}
+	job->killed = 1;
+	return (1);
+}
+
+void	ft_getstat(t_process *proc, int status)
+{
+	proc->status = WEXITSTATUS(status);
+	proc->signaled = WIFSIGNALED(status);
+	proc->stoped = WIFSTOPPED(status);
+	proc->exited = !proc->stoped;
+}
+
+void	ft_change_state(t_job *job, pid_t pid, int status)
+{
+	pid_t		pgid;
+	t_process	*proc;
+
+	if (job && (proc = ft_getproc_byjob(job, pid)))
+	{
+		ft_getstat(proc, status);
+		if (proc->signaled && !job->processes->next)
+		{
+			if (ft_print_termsig(status, job->command))
+			{
+				job->notified = 1;
+				return ;
+			}
+		}
+	}
+	else
+	{
+		proc = NULL;
+		pgid = getpgid(pid);
+		if (pgid == -1)
+			job = ft_pid_lookup(pid, &proc);
+		else
+		{
+			job = ft_getbypgid(ft_getset(NULL)->list, pgid);
+			proc = ft_getproc_byjob(job, pid);
+		}
+		if (proc)
+			ft_getstat(proc, status);
+	}
+	if (job)
+		job->notified = 0;
+}

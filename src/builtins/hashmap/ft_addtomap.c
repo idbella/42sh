@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 23:52:00 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 08:54:29 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/29 19:35:21 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,24 @@
 
 t_map		*ft_addtohashmap(char *key, char *value, char type)
 {
-	t_list	**l;
 	t_map	*map;
 	int		index;
+	t_list	*l;
 
 	if ((map = ft_getbykey(key, type)))
 		free(map->value);
 	else
 	{
-		l = get_shell_cfg(0)->hashmap;
 		map = malloc(sizeof(t_map));
 		map->key = ft_strdup(key);
-		map->hits = 0;
 		map->type = type;
 		index = ft_hash_calc(key);
-		ft_lstadd(&l[index], ft_lstnew(map, 0));
+		l = ft_lstnew(map, 0);
+		ft_lstadd(&get_shell_cfg(0)->hashmap[index], l);
 	}
+	// if (ft_strequ(key, "PATH"))
+	// 	ft_empty(COMMANDS);
+	map->hits = 0;
 	map->value = ft_strdup(value);
 	return (map);
 }

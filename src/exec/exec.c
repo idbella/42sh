@@ -6,92 +6,126 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 12:22:20 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/30 20:39:36 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	ft_wait(t_job *job)
+void	ft_init_exec()
 {
-	t_process *proc;
-
-	proc = job->processes;
-	while (proc)
-	{
-		waitpid(proc->pid, NULL, 0);
-		proc = proc->next;
-	}
+	ft_init_jobcontrol();
 }
 
-void	ft_run(t_job *job)
+char	ft_run_in_sub(t_process *p)
 {
-	t_process	*proc;
-	int			pfd[2];
-	int			save;
-
-	save = dup(0);
-	pfd[0] = -1;
-	proc = job->processes;
-	while (proc)
+	while(p)
 	{
-		if (pfd > 0)
-		{
-			dup2(pfd[0], 0);
-			close(pfd[0]);
-		}
-		if (proc->next)
-		{
-			pipe(pfd);
-			dup2(pfd[1], 1);
-			close(pfd[1]);
-		}
-		else
-			dup2(save, 1);
-		if (!(proc->pid = fork()))
-		{
-			if (job->pgid == -1)
-				setpgid(getpid(), getpid());
-			execvp(proc->arg[0], proc->arg);
-			perror("exec : ");
-			exit(0);
-		}
-		if (job->pgid == -1)
-			job->pgid = proc->pid;
-		setpgid(job->pgid, proc->pid);
-		proc = proc->next;
+		if (p->flag == OR || p->flag == AND)
+			return (1);
+			p = p->next;
 	}
-	dup2(save, 0);
-	if (job->flag != BG)
-		ft_wait(job);
+	return (0);
+}
+
+t_job	*ft_newjob(pid_t pid, int flag)
+{
+	t_job *jb;
+
+	jb = ft_memalloc(sizeof(t_job));
+	jb->flag = flag;
+	jb->next = NULL;
+	jb->processes = ft_memalloc(sizeof(t_process));
+	jb->processes->heredoc = NULL;
+	jb->processes->next = NULL;
+	ft_init_job(jb);
+	jb->processes->pid = pid;
+	return (jb);
+}
+
+t_job	*ft_list(t_process *pr)
+{
+	t_job		*job;
+	t_job		*new;
+	t_job		*head;
+
+	job = NULL;
+	head = NULL;
+	while (pr)
+	{
+		new = ft_newjob(0, 0);
+		new->flag = pr->flag;
+		new->processes->arg = pr->arg;
+		new->command = pr->arg[0];
+		if (job)
+			job->next = new;
+		else
+			head = new;
+		job = new;
+		pr = pr->next;
+	}
+	return (head);
+}
+
+int		ft_status(t_process *pr)
+{
+	int status;
+
+	status = 0;
+	while (pr)
+	{
+		if (pr->pid > 0)
+			status = pr->status;
+		else
+			status = 0;
+		pr = pr->next;
+	}
+	return (status);
 }
 
 int		exec(t_job *job)
 {
-	t_process	*proc;
 	pid_t		pid;
+	t_params	p;
+	t_job		*jb;
+	int			status;
+	int			flag;
 
+	p.argv_index = 0;
+	p.fd = 1;
+	p.tmpenv = NULL;
+	p.pipe_stdin = -1;
 	while (job)
 	{
-		job->pgid = -1;
-		if (job->flag == BG)
+		p.job = job;
+		ft_init_job(job);
+		if (job->flag == BG && ft_run_in_sub(job->processes))
 		{
-			proc = job->processes;
-			while (proc)
+			if (!(pid = fork()))
 			{
-				if (proc->flag == OR || proc->flag == AND)
-				{
-					if (!(pid = fork()))
-					{
-						ft_run(job);
-						exit(1);
-					}
-					break;
-				}
-				proc = proc->next;
+				get_shell_cfg(0)->interractive = 0;
+				ft_getset(0)->list = NULL;
+				job = ft_list(job->processes);
+				exec(job);
+				exit(0);
+			}
+			jb = ft_newjob(pid, 0);
+			ft_printf("[%d] %d\n", pid, jb->id); 
+			jb->command = job->command;
+			ft_addjob(jb, ft_getset(0));
+		}
+		else
+		{
+			ft_exec_job(&p, job->processes);
+			ft_wait(job);
+			if (job->flag == OR || job->flag == AND)
+			{
+				status = ft_status(job->processes);
+				flag = job->flag;
+				while (job && ((job->flag == AND && status) || (job->flag == OR && !status)))
+					job = job->next;
 			}
 		}
-		ft_run(job);
 		job = job->next;
 	}
 	return (0);

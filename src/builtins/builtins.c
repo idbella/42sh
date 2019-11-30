@@ -6,23 +6,51 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:19:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 11:01:09 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/30 15:06:33 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+void	ft_fill(t_shell *shell)
+{
+	shell->builtins[0].key = "echo";
+	shell->builtins[1].key = "cd";
+	shell->builtins[2].key = "export";
+	shell->builtins[2].value = ft_export;
+	shell->builtins[3].key = "set";
+	shell->builtins[3].value = ft_set;
+	shell->builtins[4].key = "hash";
+	shell->builtins[4].value = ft_hash;
+	shell->builtins[5].key = "jobs";
+	shell->builtins[5].value = ft_jobs;
+	shell->builtins[6].key = "fg";
+	shell->builtins[6].value = ft_fg;
+	shell->builtins[7].key = "bg";
+	shell->builtins[7].value = ft_bg;
+	shell->builtins[8].key = "unset";
+	shell->builtins[8].value = ft_unset;
+	shell->builtins[9].key = "exit";
+	shell->builtins[9].value = ft_exit;
+}
+
 void	ft_init_builtins(char **env)
 {
 	char	*key;
 	char	*value;
+	t_shell	*shell;
+	t_map	*mp;
 
 	ft_init_hash();
 	while (*env)
 	{
+		
 		ft_get_kv(*env, &key, &value);
-		ft_addtohashmap(key, value, INTERN)->exported = 1;
+		mp = ft_addtohashmap(key, value, INTERN);
+		mp->exported = 1;
 		env++;
 	}
-	get_shell_cfg(0)->env = ft_serialize_env(EXPORTED_ONLY);
+	shell = get_shell_cfg(0);
+	shell->env = ft_serialize_env(EXPORTED_ONLY);
+	ft_fill(shell);
 }

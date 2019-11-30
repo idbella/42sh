@@ -6,12 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 12:19:40 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/28 16:41:54 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/wait.h>
 #include <stdio.h>
+# include "datatypes.h"
 #ifndef PARSER_H
 # define PARSER_H
 
@@ -60,48 +61,6 @@
 # define PARAMS (void *)head, (void *)&curr, (void *)tail
 # define APPEND(type) append_lst(PARAMS, type)
 # define SETFLAG(type) set_flag(curr, token[j], type)
-
-typedef struct	s_redir
-{
-	int				type;
-	int				src_fd;
-	int				dst_fd;
-	char			*file;
-	struct s_redir	*next;
-}				t_redir;
-
-typedef struct	s_process
-{
-	char				**arg;
-	pid_t				pid;
-	int					status;
-	int					p0;
-	t_redir				*redir;
-	int					flag;
-	char				*heredoc;
-	int					heredoc_fd;
-	char				exited;
-	char				stoped;
-	char				*name;
-	char				signaled;
-	struct s_process	*next;
-}				t_process;
-
-typedef struct	s_job
-{
-	t_process		*processes;
-	pid_t			pgid;
-	char			*command;
-	int				return_val;
-	int				flag;
-	int				id;
-	char			*cmd;
-	char			suspended;
-	char			killed;
-	char			foreground;
-	char			notified;
-	struct s_job	*next;
-}				t_job;
 
 /* 
 ** 

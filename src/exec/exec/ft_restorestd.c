@@ -1,42 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_empty.c                                         :+:      :+:    :+:   */
+/*   ft_restorestd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/04 23:49:19 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 21:15:06 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/09/30 17:54:46 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/09/30 17:59:45 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void		ft_empty(char freeall)
+void	ft_restorestd(char stdin, char stdout, char stderr)
 {
-	int		i;
-	t_list	**l;
-	t_map	*map;
-	t_list	*list;
-	t_list	*tmp;
+	int fd;
 
-	i = -1;
-	l = get_shell_cfg(0)->hashmap;
-	while (++i < COUNT)
-	{
-		list = l[i];
-		while (freeall && list)
-		{
-			map = list->content;
-			tmp = list->next;
-			if (freeall == ANYHASH || map->type == freeall)
-			{
-				free(map->key);
-				free(map->value);
-				free(list);
-			}
-			list = tmp;
-		}
-		l[i] = NULL;
-	}
+	fd = open("/dev/tty", O_RDWR);
+	if (stdout)
+		dup2(fd, 1);
+	if (stderr)
+		dup2(fd, 2);
+	if (stdin)
+		dup2(fd, 0);
+	if (fd != 0 && fd != 1 && fd != 2)
+		close(fd);
 }

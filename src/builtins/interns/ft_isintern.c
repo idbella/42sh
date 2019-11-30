@@ -1,42 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_empty.c                                         :+:      :+:    :+:   */
+/*   ft_isintern.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/04 23:49:19 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 21:15:06 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/10/05 00:33:51 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/11/28 14:18:51 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void		ft_empty(char freeall)
+char	ft_isintern(char *cmd)
 {
-	int		i;
-	t_list	**l;
-	t_map	*map;
-	t_list	*list;
-	t_list	*tmp;
+	char	*key;
+	char	*value;
 
-	i = -1;
-	l = get_shell_cfg(0)->hashmap;
-	while (++i < COUNT)
-	{
-		list = l[i];
-		while (freeall && list)
-		{
-			map = list->content;
-			tmp = list->next;
-			if (freeall == ANYHASH || map->type == freeall)
-			{
-				free(map->key);
-				free(map->value);
-				free(list);
-			}
-			list = tmp;
-		}
-		l[i] = NULL;
-	}
+	if (!ft_strchr(cmd, '='))
+		return (0);
+	if (ft_isdigit(cmd[0]))
+		return (0);
+	ft_get_kv(cmd, &key, &value);
+	return (ft_str_isalnum(key));
 }
