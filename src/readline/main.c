@@ -3,29 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 15:37:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/30 14:59:09 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/12/01 22:21:30 by yelazrak          #+#    #+#             */
+/*   Updated: 2019/12/01 22:22:57 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		main(int argc, char **argv, char **env)
+int		main()
 {
-	char		*line;
-	t_job		*tokens;
-	t_shell		shell;
-
-	argc = 0;
-	argv = 0;
-	init_(&shell, env);
-	while (1)
+	t_init init;
+	char	*line = NULL;
+	
+	ft_init_readline(&init);
+	while (42)
 	{
-		line = readline("$> ", EXIT_ON_EOT);
-		if ((tokens = parse(line)))
-			exec(tokens);
-		ft_notify();
+		//ft_putendl_fd(line, 2);
+		if ((line = readline(&init)))
+		{
+		
+			dprintf(open("/dev/ttys012",O_RDWR),"\nstr = %s\n", line);
+			ft_init_output(&init);
+			;//ft_putendl_fd(line, 2);
+		}
+
 	}
+	return (0);
 }

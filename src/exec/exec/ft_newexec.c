@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_newexec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/30 16:41:51 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/01 21:57:00 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_pipe(int *pipefd, t_process *process)
 	return (pipefd[0]);
 }
 
-int		ft_heredoc(t_process *process)
+int		ft_printheredoc(t_process *process)
 {
 	if (process->heredoc)
 	{
@@ -71,7 +71,7 @@ char	ft_exec_job(t_params *params, t_process *process)
 		params->pipe_stdin = ft_pipe(fds, process);
 		if (process->heredoc || ft_redirect(params->fd, process->redir))
 		{
-			if (ft_heredoc(process))
+			if (ft_printheredoc(process))
 				continue ;
 			if (process->arg && process->arg[0])
 				status = ft_init_run(params, process);

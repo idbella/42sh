@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
+#    By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:59:12 by sid-bell          #+#    #+#              #
-#    Updated: 2019/11/28 12:15:01 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/01 22:01:07 by yelazrak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ CFLAGS=-g -Isrc/includes $(FLAGS)
 all: $(LIBs) $(NAME)
 
 $(NAME): $(MAIN) 
-	gcc $(MAIN) $(LIBs) $(FLAGS) -o $(NAME) -Isrc/includes
+	gcc $(MAIN) $(LIBs) $(FLAGS) -ltermcap -o $(NAME) -Isrc/includes
 
 $(LIBFT):
 	make -C $(FT)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by merras            #+#    #+#             */
-/*   Updated: 2019/11/23 14:45:11 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/02 16:41:03 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,5 @@ t_job		*parse(char *input)
 	free(line);
 	// t_job *tmp = head;
 	// print_parsing_res(tmp);
-	return (NULL);
+	return (head);
 }
