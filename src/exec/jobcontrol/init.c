@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 16:48:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/30 14:56:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/01 11:08:56 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,12 @@ void		ft_init_jobcontrol(void)
 
 void		ft_jobs_in_child(t_job *job)
 {
-	if (job->pgid)
-		setpgid(getpid(), job->pgid);
-	else
-		setpgid(getpid(), getpid());
+	if (get_shell_cfg(0)->interractive)
+	{
+		if (job->pgid)
+			setpgid(getpid(), job->pgid);
+		else
+			setpgid(getpid(), getpid());
+	}
 	ft_resetsignals();
 }

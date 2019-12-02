@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/16 21:51:22 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/29 20:16:25 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 08:46:32 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		ft_terminated(t_job *job)
 
 void	ft_getstat(t_process *proc, int status)
 {
-	proc->status = WEXITSTATUS(status);
+	proc->status = status;
 	proc->signaled = WIFSIGNALED(status);
 	proc->stoped = WIFSTOPPED(status);
 	proc->exited = !proc->stoped;

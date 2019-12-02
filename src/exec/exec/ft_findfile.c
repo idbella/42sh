@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 14:51:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/29 19:37:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:08:49 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*getfullpath(char *name)
 				fullname = ft_join("%s/%s", entrys[i], name);
 				if (!access(fullname, F_OK))
 					break ;
-				free(fullname);
+				ft_strdel(&fullname);
 				i++;
 			}
 			ft_free_array(entrys);
@@ -54,7 +54,7 @@ char	*getfullpath(char *name)
 	return (fullname);
 }
 
-char	*ft_findfile(char *name, char **error)
+char	*ft_findfile(char *name, char **error, char add)
 {
 	char	*file;
 	t_stat	state;
@@ -67,11 +67,11 @@ char	*ft_findfile(char *name, char **error)
 		else
 			file = ft_strdup(file);
 	}
-	if (!file && ((file = getfullpath(name))))
+	if (!file && ((file = getfullpath(name))) && add)
 		ft_addtohashmap(name, file, COMMANDS)->hits = 1;
 	if (file && !stat(file, &state))
 	{
-		if (S_ISREG(state.st_mode))
+		if (S_ISREG(state.st_mode) && !access(file, X_OK))
 			return (file);
 		else if (S_ISDIR(state.st_mode))
 			*error = "42sh: %s: is a directory\n";

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:19:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/30 15:06:33 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 09:58:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	ft_fill(t_shell *shell)
 	shell->builtins[8].value = ft_unset;
 	shell->builtins[9].key = "exit";
 	shell->builtins[9].value = ft_exit;
+	shell->builtins[10].key = "type";
+	shell->builtins[10].value = ft_type;
 }
 
 void	ft_init_builtins(char **env)
@@ -47,10 +49,11 @@ void	ft_init_builtins(char **env)
 		
 		ft_get_kv(*env, &key, &value);
 		mp = ft_addtohashmap(key, value, INTERN);
+		free(key);
+		free(value);
 		mp->exported = 1;
 		env++;
 	}
 	shell = get_shell_cfg(0);
-	shell->env = ft_serialize_env(EXPORTED_ONLY);
 	ft_fill(shell);
 }

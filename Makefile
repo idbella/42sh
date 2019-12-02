@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:59:12 by sid-bell          #+#    #+#              #
-#    Updated: 2019/11/28 12:15:01 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/01 11:42:37 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ LIBs= $(LIBEXEC) $(LIBPARSER) $(LIBREADLINE) $(LIBFT) $(LIBBUILTINS)
 
 CFLAGS=-g -Isrc/includes $(FLAGS)
 
-all: $(LIBs) $(NAME)
+all: $(NAME)
 
 $(NAME): $(MAIN) 
 	gcc $(MAIN) $(LIBs) $(FLAGS) -o $(NAME) -Isrc/includes
@@ -60,6 +60,8 @@ $(LIBEXEC):
 $(LIBBUILTINS):
 	make -C $(BUILTINS)
 
+$(MAIN): $(LIBs)
+
 clean:
 	rm -rf $(MAIN)
 	make -C $(FT) clean
@@ -78,3 +80,5 @@ fclean:
 	make -C $(BUILTINS) fclean
 
 .PHONY: $(LIBFT) $(LIBEXEC) $(LIBREADLINE) $(LIBPARSER) $(LIBBUILTINS)
+
+re:fclean all

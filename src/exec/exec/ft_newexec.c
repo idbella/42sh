@@ -6,12 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/30 16:41:51 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 08:33:13 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-#include <sys/resource.h>
 
 int		ft_pipe(int *pipefd, t_process *process)
 {
@@ -27,7 +26,7 @@ int		ft_pipe(int *pipefd, t_process *process)
 	return (pipefd[0]);
 }
 
-int		ft_heredoc(t_process *process)
+int		ft_printheredoc(t_process *process)
 {
 	if (process->heredoc)
 	{
@@ -48,12 +47,17 @@ char	ft_init_run(t_params *params, t_process *process)
 	if ((func = ft_is_builtin(process->arg[0])))
 	{
 		if (p && p->next)
-			ft_fork(params, NULL, process, func);
+			ft_fork(params, process, func);
 		else
 			func(process->arg + 1);
 		return (1);
 	}
-	return (ft_run(params, process));
+	else if (ft_isintern(process->arg[0]))
+	{
+		return (ft_getinterns(params, process));
+	}
+	ft_fork(params, process, NULL);
+	return (1);
 }
 
 char	ft_exec_job(t_params *params, t_process *process)
@@ -65,13 +69,15 @@ char	ft_exec_job(t_params *params, t_process *process)
 	status = 1;
 	while (process)
 	{
+		params->argv_index = 0;
+		params->tmpenv = NULL;
 		ft_init_proc(process);
 		dup2(fds[0], 0);
 		close(fds[0]);
 		params->pipe_stdin = ft_pipe(fds, process);
 		if (process->heredoc || ft_redirect(params->fd, process->redir))
 		{
-			if (ft_heredoc(process))
+			if (ft_printheredoc(process))
 				continue ;
 			if (process->arg && process->arg[0])
 				status = ft_init_run(params, process);

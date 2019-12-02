@@ -6,14 +6,14 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/30 15:56:03 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 10:02:15 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DATATYPES_H
 # define DATATYPES_H
 # include "libft.h"
-# define BUILTINS_COUNT 10
+# define BUILTINS_COUNT 11
 
 typedef struct	s_redir
 {
@@ -49,7 +49,6 @@ typedef struct	s_job
 	int				return_val;
 	int				flag;
 	int				id;
-	char			*cmd;
 	char			suspended;
 	char			killed;
 	char			foreground;
@@ -73,7 +72,7 @@ typedef struct	s_shell
 {
 	char			interractive;
 	t_map			builtins[BUILTINS_COUNT];
-	char			**env;
+	// char			**env;
 	t_list			**hashmap;
 	t_job			*jobs;
 	int				last_exit;

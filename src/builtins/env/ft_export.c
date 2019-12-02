@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 20:43:27 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 11:18:49 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/01 20:52:07 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		ft_printenv(void)
 {
 	char	**env;
 
-	env = get_shell_cfg(0)->env;
+	env = ft_serialize_env(EXPORTED_ONLY);
 	while (*env)
 	{
 		ft_printf("export %s\n", *env);

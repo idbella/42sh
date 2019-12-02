@@ -6,11 +6,22 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 00:33:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 14:18:51 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/01 09:03:10 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+char	ft_str_isalnum(char *str)
+{
+	while (*str)
+	{
+		if (!ft_isalnum(*str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
 
 char	ft_isintern(char *cmd)
 {

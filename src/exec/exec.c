@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/30 20:39:36 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 08:52:55 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_job	*ft_newjob(pid_t pid, int flag)
 	jb = ft_memalloc(sizeof(t_job));
 	jb->flag = flag;
 	jb->next = NULL;
+	jb->pgid = pid;
 	jb->processes = ft_memalloc(sizeof(t_process));
 	jb->processes->heredoc = NULL;
 	jb->processes->next = NULL;
@@ -83,40 +84,51 @@ int		ft_status(t_process *pr)
 	return (status);
 }
 
-int		exec(t_job *job)
+void	ft_execbg(t_job *job)
 {
 	pid_t		pid;
-	t_params	p;
 	t_job		*jb;
 	int			status;
-	int			flag;
 
-	p.argv_index = 0;
+	if (!(pid = fork()))
+	{
+		ft_resetsignals();
+		pid = getpid();
+		setpgid(pid, pid);
+		get_shell_cfg(0)->interractive = 0;
+		ft_getset(0)->list = NULL;
+		job = ft_list(job->processes);
+		status = exec(job);
+		exit(status ? 127 : 0);
+	}
+	setpgid(pid, pid);
+	jb = ft_newjob(pid, 0);
+	jb->pgid = pid;
+	ft_printf("[%d] %d\n", jb->id, jb->pgid); 
+	jb->command = job->command;
+	ft_addjob(jb, ft_getset(0));
+	ft_getset(NULL)->current = jb;
+}
+
+int		exec(t_job *job)
+{
+	t_params	p;
+	int			status;
+	int			flag;
+	int			rval;
+
 	p.fd = 1;
-	p.tmpenv = NULL;
-	p.pipe_stdin = -1;
+	rval = 0;
 	while (job)
 	{
+		p.pipe_stdin = -1;
 		p.job = job;
 		ft_init_job(job);
 		if (job->flag == BG && ft_run_in_sub(job->processes))
-		{
-			if (!(pid = fork()))
-			{
-				get_shell_cfg(0)->interractive = 0;
-				ft_getset(0)->list = NULL;
-				job = ft_list(job->processes);
-				exec(job);
-				exit(0);
-			}
-			jb = ft_newjob(pid, 0);
-			ft_printf("[%d] %d\n", pid, jb->id); 
-			jb->command = job->command;
-			ft_addjob(jb, ft_getset(0));
-		}
+			ft_execbg(job);
 		else
 		{
-			ft_exec_job(&p, job->processes);
+			rval = ft_exec_job(&p, job->processes);
 			ft_wait(job);
 			if (job->flag == OR || job->flag == AND)
 			{
@@ -128,5 +140,5 @@ int		exec(t_job *job)
 		}
 		job = job->next;
 	}
-	return (0);
+	return (rval);
 }

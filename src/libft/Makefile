@@ -6,13 +6,13 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/06 16:23:12 by sid-bell          #+#    #+#              #
-#    Updated: 2019/11/28 10:21:00 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/02 09:04:14 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=libft.a
 
-OFILES=ft_atoi.o ft_bzero.o ft_csd.o ft_errors_list.o ft_isalnum.o ft_isalpha.o ft_isascii.o\
+OFILES=ft_atoi.o ft_bzero.o ft_csd.o ft_isalnum.o ft_isalpha.o ft_isascii.o\
 ft_isdigit.o ft_isprint.o ft_isspace.o ft_itoa.o ft_lstadd.o ft_lstcount.o ft_lstdel.o\
 ft_lstdelone.o ft_lstfold.o ft_lstiter.o ft_lstmap.o ft_lstnew.o ft_lstprint.o ft_memalloc.o\
 ft_memccpy.o ft_memchr.o ft_memcmp.o ft_memcpy.o ft_memdel.o ft_memmove.o ft_putendl_fd.o\

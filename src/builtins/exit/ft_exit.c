@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/30 15:06:05 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 09:57:39 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ static char	ft_status(t_list *lst)
 	return (1);
 }
 
+void	ft_freemap()
+{
+	ft_empty(ANYHASH);
+	free(get_shell_cfg(0)->hashmap);
+}
+
 void		ft_exit(char **argv)
 {
 	t_container		*container;
@@ -52,6 +58,7 @@ void		ft_exit(char **argv)
 	}
 	else
 	{
+		ft_freemap();
 		r = 0;
 		if (argv[0] && !ft_isnumber(argv[0]) && (r = 255))
 			ft_printf_fd(2, "42sh: exit: numeric argument required\n");

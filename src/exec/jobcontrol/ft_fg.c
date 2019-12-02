@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:01:02 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/29 20:16:25 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/01 11:57:55 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_fg(char **arg)
 
 	if (!(job = ft_getjob(*arg, "fg")))
 		return ;
+	ft_printf("%s\n", job->command);
 	ft_resetstatus(job);
 	signal(SIGCHLD, SIG_DFL);
 	if (!killpg(job->pgid, SIGCONT))
@@ -43,7 +44,7 @@ void	ft_fg(char **arg)
 			ft_printf("can't setpgrp :-(\n");
 			return ;
 		}
-		ft_printf("[%d]\t+\t continued %s\n", job->id, job->command);
+		//ft_printf("[%d]\t+\t continued %s\n", job->id, job->command);
 		ft_wait(job);
 	}
 	else
