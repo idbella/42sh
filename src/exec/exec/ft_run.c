@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 12:39:00 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 20:10:50 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	ft_setup_child(t_params *params, t_job *job)
 {
-	t_shell	*sh;
+	ft_getset(0)->list = NULL;
 
-	sh = get_shell_cfg(0);
-	sh->jobs = NULL;
 	if (params->pipe_stdin >= 0)
 		close(params->pipe_stdin);
 	ft_jobs_in_child(job);

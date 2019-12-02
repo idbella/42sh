@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:40:36 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 16:40:27 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 20:47:05 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@
 # define RETURN_ON_EOT 1
 
 t_shell		*get_shell_cfg(t_shell *new);
-void		init_(t_shell *shell, char **env);
+void		init_(t_shell *shell, char **env, t_init *init);
 #endif

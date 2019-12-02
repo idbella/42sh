@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:59:12 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/01 11:42:37 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/02 20:47:32 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ CFLAGS=-g -Isrc/includes $(FLAGS)
 all: $(NAME)
 
 $(NAME): $(MAIN) 
-	gcc $(MAIN) $(LIBs) $(FLAGS) -o $(NAME) -Isrc/includes
+	gcc $(MAIN) $(LIBs) $(FLAGS) -o $(NAME) -Isrc/includes -ltermcap
 
 $(LIBFT):
 	make -C $(FT)

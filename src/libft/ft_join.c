@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 09:49:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 10:35:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 20:48:02 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_read(int fd)
+static char	*ft_readpipe(int fd)
 {
 	char	line[1024];
 	char	*str;
@@ -35,7 +35,7 @@ char	*ft_read(int fd)
 	return (str);
 }
 
-char	*ft_join(char *f, ...)
+char		*ft_join(char *f, ...)
 {
 	int		p[2];
 	va_list	v;
@@ -46,7 +46,7 @@ char	*ft_join(char *f, ...)
 	ft_vprintf(p[1], &v, f);
 	close(p[1]);
 	va_end(v);
-	str = ft_read(p[0]);
+	str = ft_readpipe(p[0]);
 	close(p[0]);
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 13:07:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 19:51:19 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	ft_init_run(t_params *params, t_process *process)
 	p = params->job->processes;
 	if ((func = ft_is_builtin(process->arg[0])))
 	{
-		if (p && p->next)
+		if ((p && p->next) || params->forkbuiltins)
 			ft_fork(params, process, func);
 		else
 			func(process->arg + 1);

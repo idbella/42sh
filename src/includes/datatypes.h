@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 12:12:02 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 19:49:12 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct	s_shell
 
 typedef struct			s_params
 {
+	int				forkbuiltins;
 	int				fd;
 	int				argv_index;
 	int				pipe_stdin;
