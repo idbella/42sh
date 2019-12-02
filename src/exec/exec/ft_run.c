@@ -6,24 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 08:34:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 12:39:00 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-static void	ft_free_array(char **args)
-{
-	int i;
-
-	i = 0;
-	while (args && args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
-}
 
 void	ft_setup_child(t_params *params, t_job *job)
 {
@@ -96,6 +83,9 @@ void	ft_fork(t_params *params, t_process *process, t_function *func)
 	char	*file;
 
 	env = ft_env(params, func);
+	file = NULL;
+	if (!func)
+		file = ft_getexecutable(params, process);
 	pid = fork();
 	if (!pid)
 	{
@@ -105,7 +95,7 @@ void	ft_fork(t_params *params, t_process *process, t_function *func)
 			func(process->arg + 1);
 			exit(0);
 		}
-		else if ((file = ft_getexecutable(params, process)))
+		else if (file)
 		{
 			execve(file, process->arg + params->argv_index, env);
 			ft_printf_fd(2, "Wrong exec format\n");

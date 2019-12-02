@@ -6,23 +6,32 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 14:51:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/01 22:08:49 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 13:01:16 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static void	ft_free_array(char **array)
+char	*ft_getpath(void)
 {
-	int i;
+	t_list		*l;
+	t_map		*m;
+	t_params	*p;
 
-	i = 0;
-	while (array[i])
+	p = ft_getset(0)->params;
+	m = NULL;
+	l = p ? p->tmpenv : NULL;
+	while (l)
 	{
-		free(array[i]);
-		i++;
+		m = l->content;
+		if (ft_strequ(m->key, "PATH"))
+			break ;
+		m = NULL;
+		l = l->next;
 	}
-	free(array);
+	if (!m)
+		return (ft_getenv("PATH"));
+	return (m->value);
 }
 
 char	*getfullpath(char *name)
@@ -35,7 +44,7 @@ char	*getfullpath(char *name)
 	fullname = NULL;
 	if (ft_strchr(name, '/'))
 		return (ft_strdup(name));
-	if ((path = ft_getenv("PATH")))
+	if ((path = ft_getpath()))
 	{
 		if ((entrys = ft_strsplit(path, ':')))
 		{
@@ -56,11 +65,13 @@ char	*getfullpath(char *name)
 
 char	*ft_findfile(char *name, char **error, char add)
 {
-	char	*file;
-	t_stat	state;
+	char		*file;
+	t_stat		state;
+	t_params	*p;
 
+	p = ft_getset(0)->params;
 	file = NULL;
-	if ((file = ft_getvlaue_bykey(name, COMMANDS)))
+	if ((!p->tmpenv) && (file = ft_getvlaue_bykey(name, COMMANDS)))
 	{
 		if (access(file, F_OK))
 			file = NULL;

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/01 21:03:43 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 12:11:26 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ char				**ft_serialize_env(char exported);
 void				ft_export(char **args);
 
 void				ft_set(void);
-void	            ft_unset(char **args);
+void				ft_unset(char **args);
 /*
 ** intern
 */
 
 char				ft_isintern(char *cmd);
-int		            ft_getinterns(t_params *params, t_process *process);
-void	            ft_cpyenv(t_params *p);
-void	            ft_add_to_tmp_map(t_params *p, char *key, char *value);
+int					ft_getinterns(t_params *params, t_process *process);
+void				ft_cpyenv(t_params *p);
+void				ft_add_to_tmp_map(t_params *p, char *key, char *value);
 
 /*
 ** HASHMAP
@@ -66,7 +66,9 @@ char				*ft_getvlaue_bykey(char *key, char type);
 void				ft_get_kv(char *str, char **key, char **val);
 
 
-void		ft_exit(char **argv);
+void				ft_cd(char **args);
 
-void	    ft_type(char **args);
+void				ft_exit(char **argv);
+
+void				ft_type(char **args);
 #endif

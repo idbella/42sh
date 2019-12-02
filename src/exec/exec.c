@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 08:52:55 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 11:32:21 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int		exec(t_job *job)
 
 	p.fd = 1;
 	rval = 0;
+	ft_getset(0)->params = &p;
 	while (job)
 	{
 		p.pipe_stdin = -1;
@@ -140,5 +141,6 @@ int		exec(t_job *job)
 		}
 		job = job->next;
 	}
+	ft_getset(0)->params = NULL;
 	return (rval);
 }
