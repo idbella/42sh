@@ -6,36 +6,36 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 16:12:10 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/11/07 17:19:46 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/02 10:18:45 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	expand_tilde(char **args, int *j)
-{
-	t_env	*curr;
-	char	*s1;
-	char	*s2;
-	char	*tmp;
-	char	tilde[2];
+// void	expand_tilde(char **args, int *j)
+// {
+// 	t_env	*curr;
+// 	char	*s1;
+// 	char	*s2;
+// 	char	*tmp;
+// 	char	tilde[2];
 
-	tilde[0] = TILDE;
-	tilde[1] = 0;
-	s1 = ft_strsub(*args, 0, ft_strpos(*args, tilde));
-	s2 = ft_strsub(*args, ft_strpos(*args, tilde) + 1,
-	ft_strlen(*args) - ft_strlen(s1) - 1);
-	if ((curr = ft_getenv("HOME", get_shell_cfg(0)->env)))
-	{
-		tmp = s1;
-		s1 = ft_strjoin(s1, curr->value);
-		free(tmp);
-	}
-	*j = ft_strlen(s1);
-	tmp = *args;
-	*args = ft_fstrjoin(s1, s2);
-	free(tmp);
-}
+// 	tilde[0] = TILDE;
+// 	tilde[1] = 0;
+// 	s1 = ft_strsub(*args, 0, ft_strpos(*args, tilde));
+// 	s2 = ft_strsub(*args, ft_strpos(*args, tilde) + 1,
+// 	ft_strlen(*args) - ft_strlen(s1) - 1);
+// 	if ((curr = ft_getenv("HOME", get_shell_cfg(0)->env)))
+// 	{
+// 		tmp = s1;
+// 		s1 = ft_strjoin(s1, curr->value);
+// 		free(tmp);
+// 	}
+// 	*j = ft_strlen(s1);
+// 	tmp = *args;
+// 	*args = ft_fstrjoin(s1, s2);
+// 	free(tmp);
+// }
 
 void	expand_dollar(char *dollar, char **args, int *j)
 {
@@ -52,11 +52,11 @@ void	expand_dollar(char *dollar, char **args, int *j)
 	s2 = ft_strsub(*args, pos + ft_strlen(dollar) + 1,
 	ft_strlen(*args) - (ft_strlen(dollar) + ft_strlen(s1)) - 1);
 	if ((*args)[pos + 1] == '?')
-		s1 = ft_fstrjoin(s1, ft_itoa(get_shell_cfg(0)->last_exit));
-	else if ((ft_getenv(dollar, get_shell_cfg(0)->env)))
+		s1 = ft_fstrjoin(s1, ft_itoa(ft_get_last_rvalue(), 10));
+	else if (ft_getenv(dollar))
 	{
 		tmp2 = s1;
-		s1 = ft_strjoin(s1, ft_getenv(dollar, get_shell_cfg(0)->env)->value);
+		s1 = ft_strjoin(s1, ft_getenv(dollar));
 		free(tmp2);
 	}
 	*j = ft_strlen(s1);

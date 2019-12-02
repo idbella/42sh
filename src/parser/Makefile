@@ -6,7 +6,7 @@
 #    By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/11/23 13:58:42 by yoyassin         ###   ########.fr        #
+#    Updated: 2019/12/02 10:17:43 by yoyassin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ INCLUDE = -I$(INC) -I$(LIB)/includes
 # LIBFT = $(LIB)/libft.a
 SRC_SUBDIRS = expansions parsing
 
-# SRC_EXPANSION = $(addprefix expansions/, escape.c exp_helper_funcs.c exp_helper_funcs2.c expansions.c globbing.c globbing2.c)
+SRC_EXPANSION = $(addprefix expansions/, escape.c exp_helper_funcs.c exp_helper_funcs2.c expansions.c)
 SRC_PARSING = $(addprefix parsing/, build_job_list.c build_parse_list.c parse.c parse_heredoc.c parse_redir.c parse_redir2.c pre_parsing.c special_chars.c syntax_checking.c utility_funcs.c)
 SRCS = $(SRC_EXPANSION) $(SRC_PARSING) 
 OBJECT = $(addprefix $(BUILD)/, $(SRCS:.c=.o))

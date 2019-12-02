@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/11/08 18:29:36 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/02 10:19:21 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void		expand(char **s1, int k, int *j, char *dollar)
 	else
 	{
 		(*s1)[k] = TILDE;
-		expand_tilde(s1, j);
+		// expand_tilde(s1, j);
 	}
 }
 
