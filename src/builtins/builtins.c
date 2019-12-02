@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:19:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 09:58:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 12:45:12 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	ft_fill(t_shell *shell)
 {
 	shell->builtins[0].key = "echo";
+	shell->builtins[0].value = NULL;
 	shell->builtins[1].key = "cd";
+	shell->builtins[1].value = ft_cd;
 	shell->builtins[2].key = "export";
 	shell->builtins[2].value = ft_export;
 	shell->builtins[3].key = "set";
@@ -34,6 +36,9 @@ void	ft_fill(t_shell *shell)
 	shell->builtins[9].value = ft_exit;
 	shell->builtins[10].key = "type";
 	shell->builtins[10].value = ft_type;
+	shell->builtins[11].key = "fg";
+	shell->builtins[11].value = NULL;
+	
 }
 
 void	ft_init_builtins(char **env)

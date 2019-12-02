@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+         #
+#    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/02 10:17:43 by yoyassin         ###   ########.fr        #
+#    Updated: 2019/12/02 13:06:09 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ INC = ../includes
 HDRS = ../includes/shell.h ../includes/parser.h
 LIB = libft
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror
 INCLUDE = -I$(INC) -I$(LIB)/includes
 # LIBFT = $(LIB)/libft.a
 SRC_SUBDIRS = expansions parsing

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 16:49:44 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/30 16:12:46 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 11:50:06 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,5 @@ void	                ft_init_proc(t_process *proc);
 //int						check_and_or(t_token *token);
 void					ft_ignore_signlas(void);
 t_job					*ft_pid_lookup(pid_t pid, t_process **procc);
+void	                ft_free_array(char **args);
 #endif

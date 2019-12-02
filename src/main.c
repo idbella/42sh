@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:37:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 14:24:35 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/02 16:35:16 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@ int		main(int argc, char **argv, char **env)
 	while (1)
 	{
 		line = readline("$> ", EXIT_ON_EOT);
-		if (ft_strequ("exit", line))
-			exit(0);
 		if ((tokens = parse(line)))
 			exec(tokens);
 		ft_notify();
 		free(line);
+		ft_free_job(tokens);
 	}
 }
