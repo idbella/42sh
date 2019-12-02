@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/02 10:19:21 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/02 16:34:10 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,20 @@
 char		*get_dollar_var(char *tmp, int *i)
 {
 	char	*dollar;
+	char	br;
 
 	*i = 1;
+	br = 0;
+	if (tmp[*i] == '{')
+	{
+		*i = 2;
+		br = 1;
+	}
 	if (tmp[*i] != '?')
 	{
 		while (ft_isalnum(tmp[*i]) || tmp[*i] == '_')
 			(*i)++;
-		dollar = ft_strsub(tmp, 1, (*i) - 1);
+		dollar = ft_strsub(tmp, 1, !br ? (*i) - 1 : *i);
 	}
 	else
 	{
@@ -36,7 +43,9 @@ void		expand(char **s1, int k, int *j, char *dollar)
 	if (dollar)
 	{
 		(*s1)[k] = DOLLAR;
-		expand_dollar(dollar, s1, j);
+		// printf("dollar: %s\n", dollar);
+		if (dollar[0] != '(')
+			expand_dollar(dollar, s1, j);
 	}
 	else
 	{
@@ -118,6 +127,7 @@ void		apply_expansions(char **args)
 		}
 		free(*args);
 		*args = tmp;
+		// printf("\narg: %s\n", *args);
 		remove_escapes(args, UQ_ESCAPE);
 		remove_escapes(args, Q_ESCAPE);
 		remove_quotes(args);
