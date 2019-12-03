@@ -1,0 +1,88 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_get_history_.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/20 08:16:33 by yelazrak          #+#    #+#             */
+/*   Updated: 2019/12/03 19:09:25 by yelazrak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "readline.h"
+
+void ft_write_file(t_init *init)
+{
+    int fd;
+    char c;
+
+    c = -3;
+    if (0 > (fd = open(".history", O_CREAT | O_WRONLY | O_APPEND, 0777)))
+    {
+        ft_putendl_fd("error _of file", 2);
+        return;
+    }
+    if ((init->last_history)->str && ft_strcmp((init->last_history)->str, ""))
+    {
+        ft_putstr_fd(ft_itoa(init->index, 10), fd);
+        write(fd, &c, 1);
+        write(fd, (init->last_history)->str, ft_strlen((init->last_history)->str));
+        c = -1;
+        write(fd, &c, 1);
+    }
+    close(fd);
+}
+
+static void ft_new_history_(t_init *init, char *line)
+{
+    t_history *new;
+
+    new = NULL;
+    init->index++;
+    if (!(new = (t_history *)malloc(sizeof(t_history))))
+        return;
+    if (ft_strchr(line, -3))
+    {
+        new->str = ft_strdup(ft_strchr(line, -3) + 1);
+        new->index = ft_atoi(line);
+    }
+    else
+    {
+        new->str = ft_strdup(line);
+        new->index = init->index;
+    }
+    new->next = NULL;
+    new->prvet = NULL;
+    if (!init->history)
+    {
+        init->last_history = new;
+        init->history = new;
+        return;
+    }
+    new->prvet = init->last_history;
+    (init->last_history)->next = new;
+    init->last_history = new;
+}
+
+void ft_read_file_(t_init *init)
+{
+    int fd;
+    char *line;
+
+    line = NULL;
+    if (0 > (fd = open(".history", O_RDWR)))
+        return;
+    while (get_next_line(fd, -1, &line))
+    {
+
+        ft_new_history_(init, line);
+        ft_strdel(&line);
+    }
+    close(fd);
+}
+void ft_add_history_(t_init *init, char *line)
+{
+    ft_new_history_(init, line);
+    ft_write_file(init);
+}
