@@ -138,7 +138,7 @@ void ft_init_readline(t_init *init);
 
 void ft_write_file(t_init *init);
 void ft_read_file_(t_init *init);
-void ft_add_history_(t_init *init, char *line);
+void ft_add_history_(t_init *init, char *line ,int i);
 char *ft_expansion(t_init *init, char *str);
 
 #endif

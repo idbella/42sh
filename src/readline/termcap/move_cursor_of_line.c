@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:20:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/03 21:13:25 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/03 22:16:28 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ char		*move_cursor_and_mangemant_fonction(char *str,
 	}
 	else
 		ft_str_line(str, init);
+	ft_add_history_(init, &init->out_put[5], 0);
 	return (NULL);
 }

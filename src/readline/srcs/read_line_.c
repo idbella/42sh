@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 04:41:44 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/01 22:35:15 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/03 22:48:12 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,11 @@ void	ft_initial_main(t_init *init)
 	ft_init_terminal();
 	ft_putstr("\033[H\033[J");
 	init->out_put = ft_strnew(0);
+	init->history_postoin = NULL;
 	ft_init_output(init);
 	ft_size_terminal(init);
+	ft_add_history_(init, "", 0);
+	
 }
 
 
