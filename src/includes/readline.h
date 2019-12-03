@@ -58,10 +58,13 @@ typedef struct s_sle_c
 
 } t_sle_c;
 
-typedef struct s_heredoc
+typedef struct s_history
 {
 	char *str;
-} t_heredoc;
+	int index;
+	struct s_history *next;
+	struct s_history *prvet;
+} t_history;
 
 typedef struct s_init
 {
@@ -79,6 +82,10 @@ typedef struct s_init
 	struct termios term_copy;
 	int heredoc_int;
 	char *heredoc_str;
+	t_history *history;
+	t_history *history_postoin;
+	t_history *last_history;
+	int index;
 } t_init;
 
 int ft_string_cmd(int flg, t_init *init);
@@ -101,7 +108,7 @@ void ft_move_mul_line(t_init *init, char *str);
 void ft_put_clor(t_init *init, char *str);
 void ft_size_terminal(t_init *init);
 char *ft_heredoc(char *str, t_init *init);
-char		*readline(t_init *init);
+char *readline(t_init *init);
 void ft_init_heredoc(t_init *init);
 void end_cursor(t_init *init);
 void home_cursor(t_init *init);
@@ -127,5 +134,11 @@ void ft_str_line(char *str, t_init *init);
 char *call_qote(t_init *init, char c);
 void ft_print_(char *str, t_init *init);
 int ft_tab_(t_init *init, int e_d);
-void		ft_init_readline(t_init *init);
+void ft_init_readline(t_init *init);
+
+void ft_write_file(t_init *init);
+void ft_read_file_(t_init *init);
+void ft_add_history_(t_init *init, char *line);
+char *ft_expansion(t_init *init, char *str);
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:37:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 21:14:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/03 20:59:05 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,16 @@ int		main(int argc, char **argv, char **env)
 	while (1)
 	{
 		if ((line = readline(&init)))
+		{
+			ft_add_history_(&init, line);
 			if ((tokens = parse(line)))
 			{
 				exec(tokens);
 				ft_free_job(tokens);
 			}
+		}
 		ft_notify();
-		free(line);
 		ft_init_output(&init);
+		ft_strdel(&line);
 	}
 }

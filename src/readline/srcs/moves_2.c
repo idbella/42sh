@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:38:01 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/01 22:38:48 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/03 19:26:20 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*ft_take_move(t_init *init, char *buffer, int position)
 		exit(1);
 	else
 	{
-		dprintf(open("/dev/ttys016",O_RDWR),"\n5str = %s\n", buffer);	
+		//dprintf(open("/dev/ttys016",O_RDWR),"\n5str = %s\n", buffer);	
 		if ((line = ft_read(buffer, position, init)))
 			return (line);
 	}

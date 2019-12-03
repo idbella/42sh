@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 08:16:33 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/03 19:09:25 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/03 19:45:17 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void ft_new_history_(t_init *init, char *line)
     new->prvet = init->last_history;
     (init->last_history)->next = new;
     init->last_history = new;
+    init->history_postoin = new;
 }
 
 void ft_read_file_(t_init *init)

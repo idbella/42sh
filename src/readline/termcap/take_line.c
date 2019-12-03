@@ -6,39 +6,39 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:13:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/01 22:31:36 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/03 21:27:53 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-// static void	ft_vide__line(t_init *init)
-// {
-// 	int		i;
+static void	ft_vide__line(t_init *init)
+{
+	int		i;
 
-// 	i = init->s_cursor;
-// 	end_cursor(init);
-// 	ft_printf("\033[%dB\033[%dA", 1, 1);
-// 	home_cursor(init);
-// 	ft_move(init, "+", i - 5);
-// 	ft_refrech(init);
-// }
+	i = init->s_cursor;
+	end_cursor(init);
+	ft_printf("\033[%dB\033[%dA", 1, 1);
+	home_cursor(init);
+	ft_move(init, "+", i - 5);
+	ft_refrech(init);
+}
 
-// static void	ft_move__(t_init *init, char *str)
-// {
-// 	(void)str;
-// 	if (init->s_cursor != init->s_l)
-// 	{
-// 		if (get_end(init, init->s_cursor) == 0 &&
-// 				(get_strat(init, init->s_cursor - 1) + 1) % (init->s_col) == 0)
-// 			ft_vide__line(init);
-// 		else if (get_end(init, init->s_cursor) != 0 &&
-// 				get_end(init, init->s_cursor) != 0 &&
-// 				(get_end(init, init->s_cursor) + get_strat(init,
-// 				init->s_cursor)) % (init->s_col) == 0)
-// 			ft_vide__line(init);
-// 	}
-// }
+static void	ft_move__(t_init *init, char *str)
+{
+	(void)str;
+	if (init->s_cursor != init->s_l)
+	{
+		if (get_end(init, init->s_cursor) == 0 &&
+				(get_strat(init, init->s_cursor - 1) + 1) % (init->s_col) == 0)
+			ft_vide__line(init);
+		else if (get_end(init, init->s_cursor) != 0 &&
+				get_end(init, init->s_cursor) != 0 &&
+				(get_end(init, init->s_cursor) + get_strat(init,
+				init->s_cursor)) % (init->s_col) == 0)
+			ft_vide__line(init);
+	}
+}
 
 int			ft_cat_of_line(char *str, t_init *init)
 {
@@ -128,7 +128,7 @@ void		ft_cat_string_of_line(t_init *init, char *str)
 	char	*tmp;
 
 	tmp = NULL;
-	//ft_move__(init, str);
+	ft_move__(init, str);
 	ft_cat_of_line(str, init);
 	//dprintf(open("/dev/ttys003",O_RDWR),"i = %d 	s_l = %d  cursor = %d, col = %d\n", 99, init->s_l, init->s_cursor,init->s_col);
 	tputs(tgetstr("sc", NULL), 0, my_putchar);

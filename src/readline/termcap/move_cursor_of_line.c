@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:20:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/01 22:32:19 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/03 21:13:25 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,11 @@ char		*move_cursor_and_mangemant_fonction(char *str,
 		return (NULL);
 	else if (str[0] == 10 && ft_strlen(str) == 1)
 	{
-		ft_refrech(init);
+		// if (ft_strcmp(&init->out_put[5], "") != 0)
+		//ft_refrech(init);
 		ft_putchar('\n');
-		if (ft_strcmp(&init->out_put[5], "") != 0)
-		{
-			i++;
 			if ((line = ft_cmd_mangement__(str, init)))
 				return (line);
-		}
-		ft_init_output(init);
 	}
 	else
 		ft_str_line(str, init);

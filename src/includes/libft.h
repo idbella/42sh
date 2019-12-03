@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 09:53:36 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/03 19:09:07 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdarg.h>
 # define _CHAR 1
 # define _INT 3
-# define BUFF_SIZE 512
+# define BUFF_SIZE 100
 
 typedef struct			s_list
 {
@@ -35,6 +35,14 @@ typedef struct			s_printf_params
 	int		padding;
 	char	leading;
 }						t_printf_params;
+
+
+typedef struct		s_line
+{
+	int				fd;
+	char			*str1;
+	struct s_line	*next;
+}					t_line;
 
 char					*ft_join(char *f, ...);
 size_t					ft_nbrlen(long long int n, int base);
@@ -115,8 +123,8 @@ char					*ft_strcpy(char *dst, const char *src);
 size_t					ft_strlen(char const *s);
 char					*ft_strdup(const char *s1);
 char					*ft_strndup(const char *s1, size_t n);
-void					*ft_memcpy(void *dst, const void *src, size_t n);
-int						get_next_line(const int fd, char **line);
+void					*ft_memcpy(void *dst, const void *src, size_t n);		
+int						get_next_line(int fd, char c, char **line);
 void					ft_printf_fd(int fd, char *format, ...);
 void					ft_getstr(t_printf_params *param);
 void					ft_gethex(t_printf_params *param);

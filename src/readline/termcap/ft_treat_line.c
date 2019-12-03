@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 15:21:04 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/01 21:57:45 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/03 21:28:12 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,43 +58,44 @@ static void	ft_key__65(char *str, t_init *init)
 {
 	(void)str;
 	(void)init;
-	// if (init->hstry_position == NULL && init->hstry_end != NULL)
-	// 	init->hstry_position = init->hstry_end;
-	// else if (init->hstry_position && init->hstry_position->prev != NULL)
-	// 	init->hstry_position = init->hstry_position->prev;
-	// if (init->hstry_position)
-	// {
-	// 	home_cursor(init);
-	// 	ft_printf("\033[%dD", 5);
-	// 	if (init->heredoc_int)
-	// 		ft_init_heredoc(init);
-	// 	else if (init->qoute == 1)
-	// 		ft_init_qote(init);
-	// 	else
-	// 		ft_init_output(init);
-	// 	tputs(tgetstr("cd", NULL), 0, my_putchar);
-	// 	ft_cat_string_of_line(init, &init->hstry_position->line[5]);
-	//}
+	if (init->history_postoin == NULL && init->last_history != NULL)
+		init->history_postoin = init->last_history;
+	else if (init->history_postoin && init->history_postoin->prvet!= NULL)
+		init->history_postoin = init->history_postoin->prvet;
+	if (init->history_postoin)
+	{
+		home_cursor(init);
+		ft_printf("\033[%dD", 5);
+		if (init->heredoc_int)
+			ft_init_heredoc(init);
+		else if (init->qoute == 1)
+			ft_init_qote(init);
+		else
+			ft_init_output(init);
+		tputs(tgetstr("cd", NULL), 0, my_putchar);
+		ft_cat_string_of_line(init, init->history_postoin->str);
+	}
 }
 
 static void	ft_key__66(char *str, t_init *init)
 {
 	(void)str;
 	(void)init;
-	// if (init->hstry_position != NULL && init->hstry_position)
-	// 	init->hstry_position = init->hstry_position->next;
-	// home_cursor(init);
-	// ft_printf("\033[%dD", 5);
-	// if (init->heredoc_int)
-	// 	ft_init_heredoc(init);
-	// else if (init->qoute == 1)
-	// 	ft_init_qote(init);
-	// else
-	// 	ft_init_output(init);
-	// tputs(tgetstr("cd", NULL), 0, my_putchar);
-	// if (init->hstry_position)
-	// 	ft_cat_string_of_line(init, &init->hstry_position->line[5]);
-	// else if (init->hstry_tmp)
+	
+	if (init->history_postoin != NULL && init->history_postoin)
+		init->history_postoin = init->history_postoin->next;
+	home_cursor(init);
+	ft_printf("\033[%dD", 5);
+	if (init->heredoc_int)
+		ft_init_heredoc(init);
+	else if (init->qoute == 1)
+		ft_init_qote(init);
+	else
+		ft_init_output(init);
+	tputs(tgetstr("cd", NULL), 0, my_putchar);
+	if (init->history_postoin)
+		ft_cat_string_of_line(init, init->history_postoin->str);
+	// else if (init->hustory_tmp)
 	// 	ft_cat_string_of_line(init, &init->hstry_tmp[5]);
 }
 
