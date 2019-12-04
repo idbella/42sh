@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 17:11:08 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/04 12:53:07 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/04 13:36:23 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*plus_func(t_param_expan_st *p_w)
 	}
 	else
 	{
-		map = ft_getbykey(p_w->param, INCLUDE_UNEXPORTED);
+		map = ft_getbykey(p_w->param, INTERN);
 		if (map)
 			return (ft_strdup(p_w->word));
 		else
@@ -41,7 +41,7 @@ char	*min_func(t_param_expan_st *p_w)
 
 	if (p_w->type == 'P')
 	{
-		map = ft_getbykey(p_w->param, INCLUDE_UNEXPORTED);
+		map = ft_getbykey(p_w->param, INTERN);
 		if (map && map->value)
 			return (ft_strdup(map->value));
 		if ((map && !map->value) || !map)
@@ -49,7 +49,7 @@ char	*min_func(t_param_expan_st *p_w)
 	}
 	else
 	{
-		map = ft_getbykey(p_w->param, INCLUDE_UNEXPORTED);
+		map = ft_getbykey(p_w->param, INTERN);
 		if (map)
 			return (ft_strdup(p_w->word));
 		else
@@ -64,25 +64,25 @@ char	*assign_func(t_param_expan_st *p_w)
 
 	if (p_w->type == 'P')
 	{
-		map = ft_getbykey(p_w->param, INCLUDE_UNEXPORTED);
+		map = ft_getbykey(p_w->param, INTERN);
 		if (map && map->value)
 			return (ft_strdup(map->value));
 		if ((map && !map->value) || !map)
 		{
-			ft_addtohashmap(p_w->param, p_w->word, INCLUDE_UNEXPORTED);
+			ft_addtohashmap(p_w->param, p_w->word, INTERN);
 			return (ft_strdup(p_w->word));
 		}
 	}
 	else
 	{
-		map = ft_getbykey(p_w->param, INCLUDE_UNEXPORTED);
+		map = ft_getbykey(p_w->param, INTERN);
 		if (map && map->value)
 			return (ft_strdup(map->value));
 		if ((map && !map->value))
 			return (NULL);
 		else
 		{
-			ft_addtohashmap(p_w->param, p_w->word, INCLUDE_UNEXPORTED);
+			ft_addtohashmap(p_w->param, p_w->word, INTERN);
 			return (ft_strdup(p_w->word));
 		}
 	}
@@ -95,7 +95,7 @@ char	*error_func(t_param_expan_st *p_w)
 
 	if (p_w->type == 'P')
 	{
-		map = ft_getbykey(p_w->param, INCLUDE_UNEXPORTED);
+		map = ft_getbykey(p_w->param, INTERN);
 		if (map && map->value)
 			return (ft_strdup(map->value));
 		if ((map && !map->value) || !map)
@@ -106,7 +106,7 @@ char	*error_func(t_param_expan_st *p_w)
 	}
 	else
 	{
-		map = ft_getbykey(p_w->param, INCLUDE_UNEXPORTED);
+		map = ft_getbykey(p_w->param, INTERN);
 		if (map && map->value)
 			return (ft_strdup(map->value));
 		if ((map && !map->value))

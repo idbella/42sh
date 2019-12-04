@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:46:25 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/04 13:04:53 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/04 13:33:44 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	*get_param_expan(char *param_expan)
 	 *type_operation have four possible values (+, -, =, ?) that we'll traiting them 
 	 *
 	 * */
-	printf("PARAM == %s\nWORD == %s\nTYPE == %c\nOPR_TYPE == %c\n", param_word.param, param_word.word,  param_word.type, param_word.operation_type);
 	if (!ft_strlen(param_word.param))
 		return (NULL);
 	else
