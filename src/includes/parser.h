@@ -6,13 +6,14 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 16:29:28 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/04 13:15:43 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/wait.h>
 #include <stdio.h>
 # include "datatypes.h"
+# include "param_expan.h"
 #ifndef PARSER_H
 # define PARSER_H
 
