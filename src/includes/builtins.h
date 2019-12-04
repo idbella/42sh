@@ -6,12 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:23:23 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/04 17:21:28 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
+# include "shell.h"
 # define COUNT 1000
 # define INTERN 1
 # define ALIAS 2
@@ -19,10 +20,11 @@
 # define ANYHASH 4
 # define EXPORTED 0
 # define INCLUDE_UNEXPORTED 1
-# define EXPORTED_ONLY 0
-# include "shell.h"
+# define EXPORTED_ONLY 2
+# define KEYS_ONLY 4
 
 typedef int		    t_function(char **args);
+typedef int		    t_testfunction();
 
 t_function			*ft_is_builtin(char *arg);
 void				ft_init_builtins(char **env);
@@ -74,7 +76,7 @@ int	    			ft_type(char **args);
 
 int	                ft_fc(char *args);
 
-
+int		            ft_test(char **args);
 /*
 ** ALIAS 
 */

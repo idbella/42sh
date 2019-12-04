@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:36:08 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/04 13:41:02 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define DATATYPES_H
 # include "libft.h"
 #include <termios.h>
-
 # define BUILTINS_COUNT 15
+# define TESTFUNCTIONS_COUNT 20
 
 typedef struct	s_redir
 {
@@ -95,12 +95,13 @@ typedef struct			s_container
 	t_job			*current;
 	t_list			*notify;
 	t_job			*last;
-	uint8_t	last_status;
+	uint8_t			last_status;
 	char			time_to_exit;
 	int				stdcopy;
 	t_list			*last_aliases;
 	t_params		*params;
 	t_list			*env;
+	t_map			testfunctions[20];	
 	struct termios	*term;
 }						t_container;
 

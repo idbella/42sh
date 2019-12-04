@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:19:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 20:40:44 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/04 13:44:22 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,27 @@ void	ft_addbuiltin(char *name, void *ptr)
 	}
 }
 
-void	ft_fill(t_shell *shell)
+void	ft_addtestbuiltin(char *name, void *ptr)
 {
-	int i;
+	int		i;
+	t_map	*blt;
 
+	blt = ft_getset(0)->testfunctions;
 	i = 0;
-	while (i < BUILTINS_COUNT)
-		shell->builtins[i++].key = NULL;
+	while (i < TESTFUNCTIONS_COUNT)
+	{
+		if (!blt[i].key)
+		{
+			blt[i].key = name;
+			blt[i].value = ptr;
+			break ;
+		}
+		i++;
+	}
+}
+
+void	ft_addblt()
+{
 	ft_addbuiltin("echo", ft_echo);
 	ft_addbuiltin("cd", ft_cd);
 	ft_addbuiltin("export", ft_export);
@@ -51,6 +65,20 @@ void	ft_fill(t_shell *shell)
 	ft_addbuiltin("type", ft_type);
 	ft_addbuiltin("alias", ft_alias);
 	ft_addbuiltin("unalias", ft_unalias);
+	ft_addbuiltin("test", ft_test);
+}
+
+void	ft_fill(t_shell *shell)
+{
+	int i;
+
+	i = 0;
+	while (i < BUILTINS_COUNT)
+		shell->builtins[i++].key = NULL;
+	i = 0;
+	while (i < TESTFUNCTIONS_COUNT)
+		ft_getset(0)->testfunctions[i++].key = NULL;
+	ft_addblt();
 }
 
 void	ft_init_builtins(char **env)

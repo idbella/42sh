@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 09:34:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 10:57:51 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/04 17:23:53 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static size_t	ft_envcount(char exported)
 		{
 			map = lst->content;
 			if (map->type == INTERN &&
-				(exported == INCLUDE_UNEXPORTED ||
-				(exported == EXPORTED_ONLY && map->exported)))
+				(exported & INCLUDE_UNEXPORTED ||
+				(exported & EXPORTED_ONLY && map->exported)))
 				count++;
 			lst = lst->next;
 		}
@@ -61,9 +61,14 @@ char			**ft_serialize_env(char exported)
 		{
 			map = lst->content;
 			if (map->type == INTERN &&
-				(exported == INCLUDE_UNEXPORTED ||
-				(exported == EXPORTED_ONLY && map->exported)))
-				env[index++] = ft_join("%s=%s", map->key, map->value);
+				(exported & INCLUDE_UNEXPORTED ||
+				(exported & EXPORTED_ONLY && map->exported)))
+			{
+				if (exported & KEYS_ONLY)
+					env[index++] = ft_join("%s", map->key);
+				else
+					env[index++] = ft_join("%s=%s", map->key, map->value);
+			}
 			lst = lst->next;
 		}
 		i++;
