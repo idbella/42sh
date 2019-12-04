@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 15:21:04 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/03 22:26:56 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/04 09:28:30 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	ft_key__66(char *str, t_init *init)
 	(void)str;
 	(void)init;
 	
-	if (init->history_postoin != NULL && init->history_postoin->next)
+	if (init->history_postoin != NULL && init->history_postoin)
 		init->history_postoin = init->history_postoin->next;
 	home_cursor(init);
 	ft_printf("\033[%dD", 5);

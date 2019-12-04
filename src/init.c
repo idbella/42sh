@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:12:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 21:36:58 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/04 09:11:00 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ void	init_(t_shell *shell, char **env, t_init *init)
 	ft_init_exec();
 	ft_init_readline(init);
 	ft_read_file_(init);
+	ft_add_history_(init, "", 0);
 	shell->last_exit = 0;
 }
