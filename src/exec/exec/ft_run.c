@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 20:10:50 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/04 10:59:02 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,37 +74,44 @@ char	*ft_getexecutable(t_params *params, t_process *process)
 	return (NULL);
 }
 
-void	ft_fork(t_params *params, t_process *process, t_function *func)
+void	ft_joingroup(t_params *params, t_process *process)
 {
-	char	**env;
-	pid_t	pid;
-	char	*file;
+	pid_t pid;
 
-	env = ft_env(params, func);
-	file = NULL;
-	if (!func)
-		file = ft_getexecutable(params, process);
-	pid = fork();
-	if (!pid)
-	{
-		ft_setup_child(params, params->job);
-		if (func)
-		{
-			func(process->arg + 1);
-			exit(0);
-		}
-		else if (file)
-		{
-			execve(file, process->arg + params->argv_index, env);
-			ft_printf_fd(2, "Wrong exec format\n");
-			exit(1);
-		}
-		exit(127);
-	}
-	process->pid = pid;
+	pid = process->pid;
 	if (!params->job->pgid)
 		params->job->pgid = pid;
 	if (get_shell_cfg(0)->interractive)
 		setpgid(pid, params->job->pgid);
-	ft_free_array(env);
+}
+
+int		ft_fork(t_params *params, t_process *process, t_function *func)
+{
+	char	**env;
+	char	*file;
+	int		rval;
+
+	rval = 0;
+	file = NULL;
+	(!func) ? file = ft_getexecutable(params, process) : 0;
+	if (!(process->pid = fork()))
+	{
+		ft_setup_child(params, params->job);
+		if (func)
+			exit(func(process->arg + params->argv_index + 1));
+		else if (file)
+		{
+			env = ft_env(params, func);
+			execve(file, process->arg + params->argv_index, env);
+			ft_printf_fd(2, "Wrong exec format\n");
+			exit(127);
+		}
+		exit(127);
+	}
+	else if (process->pid < 0)
+		rval = 1;
+	else
+		ft_joingroup(params, process);
+	free(file);
+	return (rval);
 }

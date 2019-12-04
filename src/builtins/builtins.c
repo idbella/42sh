@@ -6,39 +6,51 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:19:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 12:45:12 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/03 20:40:44 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+void	ft_addbuiltin(char *name, void *ptr)
+{
+	int		i;
+	t_map	*blt;
+
+	blt = get_shell_cfg(0)->builtins;
+	i = 0;
+	while (i < BUILTINS_COUNT)
+	{
+		if (!blt[i].key)
+		{
+			blt[i].key = name;
+			blt[i].value = ptr;
+			break ;
+		}
+		i++;
+	}
+}
+
 void	ft_fill(t_shell *shell)
 {
-	shell->builtins[0].key = "echo";
-	shell->builtins[0].value = NULL;
-	shell->builtins[1].key = "cd";
-	shell->builtins[1].value = ft_cd;
-	shell->builtins[2].key = "export";
-	shell->builtins[2].value = ft_export;
-	shell->builtins[3].key = "set";
-	shell->builtins[3].value = ft_set;
-	shell->builtins[4].key = "hash";
-	shell->builtins[4].value = ft_hash;
-	shell->builtins[5].key = "jobs";
-	shell->builtins[5].value = ft_jobs;
-	shell->builtins[6].key = "fg";
-	shell->builtins[6].value = ft_fg;
-	shell->builtins[7].key = "bg";
-	shell->builtins[7].value = ft_bg;
-	shell->builtins[8].key = "unset";
-	shell->builtins[8].value = ft_unset;
-	shell->builtins[9].key = "exit";
-	shell->builtins[9].value = ft_exit;
-	shell->builtins[10].key = "type";
-	shell->builtins[10].value = ft_type;
-	shell->builtins[11].key = "fg";
-	shell->builtins[11].value = NULL;
-	
+	int i;
+
+	i = 0;
+	while (i < BUILTINS_COUNT)
+		shell->builtins[i++].key = NULL;
+	ft_addbuiltin("echo", ft_echo);
+	ft_addbuiltin("cd", ft_cd);
+	ft_addbuiltin("export", ft_export);
+	ft_addbuiltin("set", ft_set);
+	ft_addbuiltin("hash", ft_hash);
+	ft_addbuiltin("jobs", ft_jobs);
+	ft_addbuiltin("fg", ft_fg);
+	ft_addbuiltin("bg", ft_bg);
+	ft_addbuiltin("unset", ft_unset);
+	ft_addbuiltin("exit", ft_exit);
+	ft_addbuiltin("type", ft_type);
+	ft_addbuiltin("alias", ft_alias);
+	ft_addbuiltin("unalias", ft_unalias);
 }
 
 void	ft_init_builtins(char **env)

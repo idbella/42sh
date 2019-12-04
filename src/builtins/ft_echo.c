@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_rvalue.c                                        :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/18 16:03:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:48:18 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/12/02 22:53:34 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/12/03 21:57:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "jobcontrol.h"
+#include "shell.h"
 
-void	ft_set_last_rvalue(uint8_t rvalue)
+int		ft_echo(char **args)
 {
-	t_container *container;
+	int		i;
+	char	endl;
 
-	container = ft_getset(NULL);
-	container->last_status = rvalue;
-}
-
-uint8_t	ft_get_last_rvalue(void)
-{
-	t_container *container;
-
-	container = ft_getset(NULL);
-	return (container->last_status);
+	endl = 1;
+	i = 0;
+	if (ft_strequ(args[0], "-n"))
+	{
+		endl = 0;
+		i++;
+	}
+	while (args[i])
+	{
+		if (args[i + 1])
+			ft_printf("%s ", args[i]);
+		else
+			ft_printf("%s", args[i]);
+		i++;
+	}
+	if (endl)
+		ft_putchar('\n');
+	return (0);
 }

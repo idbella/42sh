@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_rvalue.c                                        :+:      :+:    :+:   */
+/*   ft_free_aliases.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/18 16:03:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:48:18 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/10/03 14:17:59 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/10/04 16:12:43 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "jobcontrol.h"
+#include "shell.h"
 
-void	ft_set_last_rvalue(uint8_t rvalue)
+void	ft_free_aliases(void)
 {
-	t_container *container;
-
-	container = ft_getset(NULL);
-	container->last_status = rvalue;
-}
-
-uint8_t	ft_get_last_rvalue(void)
-{
-	t_container *container;
-
-	container = ft_getset(NULL);
-	return (container->last_status);
+	ft_empty(ALIAS);
 }

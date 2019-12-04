@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 20:43:27 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/01 20:52:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/04 09:29:56 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void		ft_printenv(void)
+int		ft_printenv(void)
 {
 	char	**env;
 
@@ -22,6 +22,7 @@ void		ft_printenv(void)
 		ft_printf("export %s\n", *env);
 		env++;
 	}
+	return (0);
 }
 
 static int	ft_get_flags(char **cmd)
@@ -65,49 +66,57 @@ char	ft_isalphanum(char *str)
 	return (1);
 }
 
-void		ft_export(char **args)
+static int	ft__export__(int export, char *arg)
 {
-	int		i;
+	t_map	*map;
 	char	*key;
 	char	*value;
+
+	ft_get_kv(arg, &key, &value);
+	if (ft_isdigit(key[0]) || !ft_isalphanum(key))
+	{
+		ft_printf("42sh: export: `%s': not a valid identifier\n", key);
+		return (1);
+	}
+	else
+	{
+		if (!export)
+		{
+			if ((map = ft_getbykey(key, INTERN)))
+			{
+				map->exported = 1;
+				value = map->value;
+			}
+			else
+				return (0);
+		}
+		ft_addtohashmap(key, value, INTERN)->exported = 1;
+	}
+	return (0);
+}
+
+int		ft_export(char **args)
+{
+	int		i;
 	char	export;
-	t_map	*map;
+	int		rvalue;
 
 	if (!args || !args[0])
-	{
-		ft_printenv();
-		return ;
-	}
+		return (ft_printenv());
 	if ((i = ft_get_flags(args)) < 0)
 	{
 		if (i == -1)
 			ft_printf_fd(2,
 				"42sh: usage: export [-p] [name[=value] ...]\n");
-		return ;
+		return (1);
 	}
+	rvalue = 0;
 	while (args[i])
 	{
 		export = ft_strchr(args[i], '=') ? 1 : 0;
-		ft_get_kv(args[i], &key, &value);
-		if (ft_isdigit(key[0]) || !ft_isalphanum(key))
-			ft_printf("42sh: export: `%s': not a valid identifier\n", key);
-		else
-		{
-			if (!export)
-			{
-				if ((map = ft_getbykey(key, INTERN)))
-				{
-					map->exported = 1;
-					value = map->value;
-				}
-				else
-				{
-					i++;
-					continue ;
-				}
-			}
-			ft_addtohashmap(key, value, INTERN)->exported = 1;
-		}
+		if (ft__export__(export, args[i]))
+			rvalue = 1;
 		i++;
 	}
+	return (rvalue);
 }

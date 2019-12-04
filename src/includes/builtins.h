@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 19:44:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/03 22:23:23 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define EXPORTED_ONLY 0
 # include "shell.h"
 
-typedef void		*t_function();
+typedef int		    t_function(char **args);
 
 t_function			*ft_is_builtin(char *arg);
 void				ft_init_builtins(char **env);
@@ -37,10 +37,10 @@ char				*ft_getenv(char *key);
 
 char				**ft_serialize_env(char exported);
 
-void				ft_export(char **args);
+int	    			ft_export(char **args);
 
-void				ft_set(void);
-void				ft_unset(char **args);
+int	    			ft_set(void);
+int	    			ft_unset(char **args);
 /*
 ** intern
 */
@@ -58,7 +58,7 @@ int					ft_hash_calc(char *key);
 void				ft_empty(char freeall);
 void				ft_init_hash(void);
 void				ft_hashdelete_one(char *key, char type);
-void				ft_hash(char **args);
+int	    			ft_hash(char **args);
 void				ft_print_hash_list(void);
 t_map				*ft_addtohashmap(char *key, char *value, char type);
 t_map				*ft_getbykey(char *key, char type);
@@ -66,11 +66,29 @@ char				*ft_getvlaue_bykey(char *key, char type);
 void				ft_get_kv(char *str, char **key, char **val);
 
 
-void				ft_cd(char **args);
+int	    			ft_cd(char **args);
 
-void				ft_exit(char **argv);
+int	    			ft_exit(char **argv);
 
-void				ft_type(char **args);
+int	    			ft_type(char **args);
 
-void	            ft_fc(char *args);
+int	                ft_fc(char *args);
+
+
+/*
+** ALIAS 
+*/
+
+void	            ft_show_aliases(char *key);
+int	                ft_alias(char **args);
+int	    	        ft_unalias(char **cmd);
+void	            ft_insert_at(t_job *job, t_process *proc, size_t index);
+int	                ft_handle_alias(t_job *job);
+
+int	                ft_echo(char **args);
+
+int	    			ft_fg(char **arg);
+int 				ft_bg(char **arg);
+int 				ft_jobs(char **args);
+
 #endif

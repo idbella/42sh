@@ -6,19 +6,21 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 21:15:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/01 22:07:48 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/03 22:04:19 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	ft_type(char **args)
+int		ft_type(char **args)
 {
 	int		i;
 	char	*file;
 	char	*err;
+	int		rval;
 
 	i = 0;
+	rval = 0;
 	while (args[i])
 	{
 		if (ft_is_builtin(args[i]))
@@ -30,7 +32,11 @@ void	ft_type(char **args)
 		else if ((file = ft_findfile(args[i], &err, 0)))
 			ft_printf("%s is %s\n", args[i], file);
 		else
+		{
+			rval = 1;
 			ft_printf("42sh: type %s: not found\n", args[i]);
+		}
 		i++;
 	}
+	return (rval);
 }

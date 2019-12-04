@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/02 12:11:44 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/03 20:42:20 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,9 @@ env/ft_set.o\
 interns/ft_getinters.o\
 interns/ft_isintern.o\
 interns/ft_cpyenv.o\
-cd/ft_cd.o
+cd/ft_cd.o\
+ft_echo.o\
+alias/ft_alias.o         alias/ft_free_aliases.o   alias/ft_showaliases.o  alias/ft_unalias.o
 
 CFLAGS=-g -Wall -Wextra -Werror -I../includes
 

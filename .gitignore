@@ -7,6 +7,8 @@
 *.obj
 *.elf
 
+.history
+
 # Linker output
 *.ilk
 *.map

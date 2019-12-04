@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_rvalue.c                                        :+:      :+:    :+:   */
+/*   ft_alias.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/18 16:03:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:48:18 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/04/04 18:38:24 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/12/03 22:30:46 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "jobcontrol.h"
+#include "shell.h"
 
-void	ft_set_last_rvalue(uint8_t rvalue)
+int		ft_alias(char **args)
 {
-	t_container *container;
+	char	*key;
+	char	*value;
+	int		i;
 
-	container = ft_getset(NULL);
-	container->last_status = rvalue;
-}
-
-uint8_t	ft_get_last_rvalue(void)
-{
-	t_container *container;
-
-	container = ft_getset(NULL);
-	return (container->last_status);
+	i = 0;
+	while (args[i])
+	{
+		if (ft_strpos(args[i], "=") > 0)
+		{
+			ft_get_kv(args[i], &key, &value);
+			ft_addtohashmap(key, value, ALIAS);
+			free(key);
+			free(value);
+		}
+		else
+			ft_show_aliases(args[i]);
+		i++;
+	}
+	if (i == 0)
+		ft_show_aliases(NULL);
+	return (0);
 }
