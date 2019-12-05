@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:37:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:08:42 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/05 15:37:40 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		main(int argc, char **argv, char **env)
 	{
 		if ((line = readline(&init)))
 		{
-			ft_add_history_(&init, line, 1);
+			
 			if ((tokens = parse(line)))
 			{
 				exec(tokens);

@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:13:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/05 14:46:03 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/05 15:13:19 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,9 @@ void		ft_cat_string_of_line(t_init *init, char *str)
 	tmp = ft_strdup(&init->out_put[init->s_cursor - ft_strlen(str)]);
 	ft_putstr_fd(tmp, 1);
 	ft_strdel(&tmp);
-	dprintf(open("/dev/ttys009",O_RDWR),"kkkk c = |%c|		yas = %d,  col = %d 	tab = %d\n", 
-	(init->out_put[(init->s_cursor - 1)]) ,get_strat(init, init->s_cursor - 1), init->s_col,
-		ft_tab_(init, init->s_cursor - 2));
+	// dprintf(open("/dev/ttys009",O_RDWR),"kkkk c = |%c|		yas = %d,  col = %d 	tab = %d\n", 
+	// (init->out_put[(init->s_cursor - 1)]) ,get_strat(init, init->s_cursor - 1), init->s_col,
+	// 	ft_tab_(init, init->s_cursor - 2));
 	if (init->s_cursor != init->s_l)
 	{
 		tputs(tgetstr("rc", NULL), 0, my_putchar);
