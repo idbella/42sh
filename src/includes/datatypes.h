@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 13:41:02 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/05 09:39:00 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct			s_container
 	t_list			*last_aliases;
 	t_params		*params;
 	t_list			*env;
+	char			**test_operators;
 	t_map			testfunctions[20];	
 	struct termios	*term;
 }						t_container;

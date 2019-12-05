@@ -1,32 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_isnbr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/11 07:12:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 09:26:20 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/12/05 13:32:23 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/12/05 18:43:50 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+char	*ft_isnbr(char *str)
 {
-	unsigned char *str1;
-	unsigned char *str2;
+	int		num;
+	int		sign;
+	char	*ptr;
 
-	str1 = (unsigned char *)s1;
-	str2 = (unsigned char *)s2;
-	if (!str1 || !str2)
-		return (1);
-	while (*str1 && *str2)
+	num = 0;
+	str = ft_strtrim(str);
+	ptr = str;
+	sign = 0;
+	if (*str == '+')
 	{
-		if (*str1 != *str2)
-			return (*str1 - *str2);
-		str1++;
-		str2++;
+		sign = 1;
+		str++;
 	}
-	return (*str1 - *str2);
+	if (!sign && *str == '-')
+		str++;
+	while (*str)
+	{
+		num = 1;
+		if (!ft_isdigit(*str))
+		{
+			free(ptr);
+			return (NULL);
+		}
+		str++;
+	}
+	return (ptr);
 }
