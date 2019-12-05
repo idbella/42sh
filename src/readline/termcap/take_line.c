@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:13:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/04 12:45:22 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/05 14:46:03 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,12 @@ int			ft_tab_(t_init *init, int e_d)
 	i = 0;
 	int a;
 
-	a = (get_strat(init, e_d) - 1) % init->s_col;
+	a = (get_strat(init, e_d));
 	//if (a == 0)
+	if (((init->s_col - (a % init->s_col)) % init->s_col) <= 7 && ((init->s_col - (a % init->s_col)) % init->s_col) > 0)
+		return (((init->s_col - (a % init->s_col)) % init->s_col) - 1);
+
+	a = (a - 1) % init->s_col;
 	a = e_d - a ;
 	while (a <= e_d)
 	{
@@ -122,36 +126,6 @@ int			ft_tab_(t_init *init, int e_d)
 
 void		ft_cat_string_of_line(t_init *init, char *str)
 {
-	// char	*tmp;
-
-	// tmp = NULL;
-	// ft_move__(init, str);
-	// ft_cat_of_line(str, init);
-	// //dprintf(open("/dev/ttys003",O_RDWR),"i = %d 	s_l = %d  cursor = %d, col = %d\n", 99, init->s_l, init->s_cursor,init->s_col);
-	// tputs(tgetstr("sc", NULL), 0, my_putchar);
-	// //if (init->s_cursor != init->s_l)
-	// tputs(tgetstr("cd", NULL), 0, my_putchar);
-	// tmp = ft_strdup(&init->out_put[init->s_cursor - ft_strlen(str)]);
-	// ft_putstr_fd(tmp, 1);
-	// ft_strdel(&tmp);
-	// if (init->s_cursor != init->s_l)
-	// {
-	// 	tputs(tgetstr("rc", NULL), 0, my_putchar);
-	// 	tputs(tgetstr("nd", NULL), 0, my_putchar);
-	// 	if (init->out_put[(init->s_cursor)] == '\n')
-	// 	{
-	// 		if ((get_strat(init, init->s_cursor - 1)) % (init->s_col) == 0)
-	// 			ft_printf("\033[%dB\033[%dD", 1, init->s_col - 1);
-	// 	}
-	// 	// else if (init->out_put[init->s_cursor - 2] == '\t' && (get_strat(init, init->s_cursor) - 2) % init->s_col == 0)//
-	// 	// ft_printf("\033[%dB\033[%dD", 1, init->s_col - 1);	////
-	// }
-	// if ((get_strat(init, init->s_cursor) - 1) % init->s_col == 0)
-	// 		ft_printf("\033[%dB\033[%dD", 1, init->s_col - 1);
-	// //dprintf(open("/dev/ttys004",O_RDWR),"\nba3edd 0get__ = %d 		get_end_ = %d	\n",(get_strat(init, init->s_cursor)), get_end(init, init->s_cursor));
-	
-	// //ft_refrech(init);
-	
 	char	*tmp;
 
 	tmp = NULL;
@@ -163,18 +137,21 @@ void		ft_cat_string_of_line(t_init *init, char *str)
 	tmp = ft_strdup(&init->out_put[init->s_cursor - ft_strlen(str)]);
 	ft_putstr_fd(tmp, 1);
 	ft_strdel(&tmp);
+	dprintf(open("/dev/ttys009",O_RDWR),"kkkk c = |%c|		yas = %d,  col = %d 	tab = %d\n", 
+	(init->out_put[(init->s_cursor - 1)]) ,get_strat(init, init->s_cursor - 1), init->s_col,
+		ft_tab_(init, init->s_cursor - 2));
 	if (init->s_cursor != init->s_l)
 	{
 		tputs(tgetstr("rc", NULL), 0, my_putchar);
 		init->s_cursor--;
 		ft_move_mul_line(init, "+");
 		//tputs(tgetstr("nd", NULL), 0, my_putchar);
-		if (init->out_put[(init->s_cursor)] == '\n')
-		{
-			if ((get_strat(init, init->s_cursor - 1)) % (init->s_col) == 0)
-				ft_printf("\033[%dB\033[%dD", 1, init->s_col - 1);
-		}
-		else if ((get_strat(init, init->s_cursor) - 1) % init->s_col == 0)
-			ft_printf("\033[%dB\033[%dD", 1, init->s_col - 1);
+		// if (init->out_put[(init->s_cursor)] == '\n')
+		// {
+		// 	if ((get_strat(init, init->s_cursor - 1)) % (init->s_col) == 0)
+		// 		ft_printf("\033[%dB\033[%dD", 1, init->s_col - 1);
+		// }
+		// else if ((get_strat(init, init->s_cursor) - 1) % init->s_col == 0)
+		// 	ft_printf("\033[%dB\033[%dD", 1, init->s_col - 1);
 	}
 }
