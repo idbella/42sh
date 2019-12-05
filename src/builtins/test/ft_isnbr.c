@@ -1,29 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   ft_isnbr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 15:40:36 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 13:15:18 by mmostafa         ###   ########.fr       */
+/*   Created: 2019/12/05 13:32:23 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/12/05 18:43:50 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
-# include <fcntl.h>
-# include "datatypes.h"
-# include "readline.h"
-# include "parser.h"
-# include "exec.h"
-# include "libft.h"
-# include "builtins.h"
-# include "jobcontrol.h"
+#include "shell.h"
 
-# define EXIT_ON_EOT 0
-# define RETURN_ON_EOT 1
+char	*ft_isnbr(char *str)
+{
+	int		num;
+	int		sign;
+	char	*ptr;
 
-t_shell		*get_shell_cfg(t_shell *new);
-void		init_(t_shell *shell, char **env, t_init *init);
-#endif
+	num = 0;
+	str = ft_strtrim(str);
+	ptr = str;
+	sign = 0;
+	if (*str == '+')
+	{
+		sign = 1;
+		str++;
+	}
+	if (!sign && *str == '-')
+		str++;
+	while (*str)
+	{
+		num = 1;
+		if (!ft_isdigit(*str))
+		{
+			free(ptr);
+			return (NULL);
+		}
+		str++;
+	}
+	return (ptr);
+}

@@ -1,11 +1,14 @@
 # Prerequisites
 *.d
 42sh
+*.swp
 # Object files
 *.o
 *.ko
 *.obj
 *.elf
+
+.history
 
 # Linker output
 *.ilk

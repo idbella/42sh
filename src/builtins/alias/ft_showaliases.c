@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_set.c                                           :+:      :+:    :+:   */
+/*   ft_showaliases.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 11:25:32 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:02:25 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/10/03 13:46:09 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/12/03 09:58:24 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-/*
-** escape():
-** not yet :-(
-*/
-
-static char	*escape(char *str)
-{
-	return (str);
-}
-
-int			ft_set(void)
+void	ft_print_alias_list(void)
 {
 	int		i;
 	t_list	*l;
@@ -37,24 +27,25 @@ int			ft_set(void)
 		while (l)
 		{
 			map = l->content;
-			if (map->type == INTERN)
-				ft_printf_fd(1, "%s=%s\n", map->key, escape(map->value));
+			if (map->type == ALIAS)
+				ft_printf_fd(1, "alias %s='%s'\n", map->key, map->value);
 			l = l->next;
 		}
 		i++;
 	}
-	return (0);
 }
 
-int			ft_unset(char **args)
+void	ft_show_aliases(char *key)
 {
-	int i;
+	char	*value;
 
-	i = 0;
-	while (args[i])
+	if (key)
 	{
-		ft_hashdelete_one(args[i], INTERN);
-		i++;
+		if ((value = ft_getvlaue_bykey(key, ALIAS)))
+			ft_printf_fd(1, "alias %s='%s'\n", key, value);
+		else
+			ft_printf_fd(2, "42sh: alias: %s: not found\n", key);
+		return ;
 	}
-	return (0);
+	ft_print_alias_list();
 }

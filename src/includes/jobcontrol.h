@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 16:49:44 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 11:50:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/05 13:40:20 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ typedef struct stat		t_stat;
 
 t_container				*ft_getset(t_container *container);
 void					ft_addjob(t_job *job, t_container *container);
-void					ft_fg(char **arg);
-void					ft_bg(char **arg);
-void					ft_jobs(char **args);
 void					ft_init_jobcontrol();
 void					ft_resetsignals();
 void					ft_deljob(t_job *job, t_container *container);
@@ -57,8 +54,8 @@ int						ft_stoped(t_job *job);
 int						ft_terminated(t_job *job);
 void					ft_resetstatus(t_job *job);
 void					ft_check_jobs_status(t_job *current);
-void					ft_set_last_rvalue(int rvalue);
-int						ft_get_last_rvalue(void);
+void					ft_set_last_rvalue(uint8_t rvalue);
+uint8_t					ft_get_last_rvalue(void);
 void	                ft_init_proc(t_process *proc);
 //void					pre_run(t_list *blt, t_list **env, t_token_list *tokens);
 //void					ft_runnext(t_token_list *tokens);

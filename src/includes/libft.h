@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 19:09:07 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/05 18:35:22 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void					ft_strdel(char **as);
 char					*ft_strnew(size_t size);
 void					ft_memdel(void **ap);
 void					*ft_memalloc(size_t size);
-int						ft_atoi(const char *str);
+long long int			ft_atoi(const char *str);
 int						ft_isprint(int c);
 int						ft_isascii(int c);
 int						ft_isalnum(int c);

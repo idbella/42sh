@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:02:19 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/29 20:16:25 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/03 22:06:17 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,24 +89,29 @@ void	ft_printall(char flag)
 	//ft_lstrev(&container->list);
 }
 
-void		ft_jobs(char **args)
+int		ft_jobs(char **args)
 {
 	char	flag;
 	int		i;
 	t_job	*job;
+	int		rval;
 
+	rval = 0;
 	flag = 0;
 	if ((i = ft_get_flags(args, &flag)) < 0)
-		return ;
+		return (1);
 	if (args[i])
 	{
 		while (args[i])
 		{
 			if ((job = ft_getjob(args[i], "jobs")))
 				ft_printjob(job, flag);
+			else
+				rval = 1;
 			i++;
 		}
 	}
 	else
 		ft_printall(flag);
+	return (rval);
 }

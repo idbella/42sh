@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   ft_strtest.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 15:40:36 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 13:15:18 by mmostafa         ###   ########.fr       */
+/*   Created: 2019/12/05 13:34:28 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/12/05 13:34:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
-# include <fcntl.h>
-# include "datatypes.h"
-# include "readline.h"
-# include "parser.h"
-# include "exec.h"
-# include "libft.h"
-# include "builtins.h"
-# include "jobcontrol.h"
+#include "shell.h"
 
-# define EXIT_ON_EOT 0
-# define RETURN_ON_EOT 1
-
-t_shell		*get_shell_cfg(t_shell *new);
-void		init_(t_shell *shell, char **env, t_init *init);
-#endif
+int		ft_strtest(int id, char *l_oper, char *r_oper)
+{
+	if (id == 15)
+	{
+		if (!r_oper)
+			return (0);
+		return (*r_oper != 0);
+	}
+	if (id == 16)
+		return (ft_strcmp(l_oper, r_oper));
+	if (id == 17)
+		return (ft_strequ(l_oper, r_oper));
+	if (id == 18)
+		return (ft_strequ(l_oper, r_oper));
+	return (1);
+}
