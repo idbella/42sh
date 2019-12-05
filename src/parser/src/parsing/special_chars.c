@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:49:44 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/11/12 10:08:28 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/02 18:06:59 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ int			sc_operator(char *line, int i)
 		return ((line[i] = OUT_RED_OP));
 	else if (line[i] == '<' && line[i + 1] != '<')
 		return ((line[i] = IN_RED_OP));
+	else if (line[i] == '$' && line[i + 1] && (ft_isalnum(line[i + 1])
+	|| line[i + 1] == '{' || line[i + 1] == '(' || line[i + 1] == '_'))
+		return ((line[i] = DOLLAR));
 	return (0);
 }
 

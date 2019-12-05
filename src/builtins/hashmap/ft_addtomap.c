@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 23:52:00 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 11:02:30 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/01 20:38:29 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ t_map		*ft_addtohashmap(char *key, char *value, char type)
 	t_map	*map;
 	int		index;
 	t_list	*l;
-
 
 	if ((map = ft_getbykey(key, type)))
 		free(map->value);

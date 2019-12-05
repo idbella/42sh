@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:37:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:08:42 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/02 18:03:01 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,19 @@ int		main(int argc, char **argv, char **env)
 	char		*line;
 	t_job		*tokens;
 	t_shell		shell;
-	t_init		init;
 
-	argc == 0 ? argv = NULL : 0;
-	init_(&shell, env, &init);
+	argc = 0;
+	argv = 0;
+	init_(&shell, env);
 	while (1)
 	{
-		if ((line = readline(&init)))
-		{
-			ft_add_history_(&init, line, 1);
-			if ((tokens = parse(line)))
-			{
-				exec(tokens);
-				ft_free_job(tokens);
-			}
-		}
+		line = readline("$> ", EXIT_ON_EOT);
+		if (ft_strequ(line, "exit"))
+			exit(0);
+		if ((tokens = parse(line)))
+			exec(tokens);
 		ft_notify();
-		ft_init_output(&init);
-		ft_strdel(&line);
+		free(line);
+		ft_free_job(tokens);
 	}
 }

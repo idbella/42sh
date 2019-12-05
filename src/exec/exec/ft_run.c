@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:59:02 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 12:39:00 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	ft_setup_child(t_params *params, t_job *job)
 {
-	ft_getset(0)->list = NULL;
+	t_shell	*sh;
 
+	sh = get_shell_cfg(0);
+	sh->jobs = NULL;
 	if (params->pipe_stdin >= 0)
 		close(params->pipe_stdin);
 	ft_jobs_in_child(job);
@@ -74,44 +76,37 @@ char	*ft_getexecutable(t_params *params, t_process *process)
 	return (NULL);
 }
 
-void	ft_joingroup(t_params *params, t_process *process)
+void	ft_fork(t_params *params, t_process *process, t_function *func)
 {
-	pid_t pid;
+	char	**env;
+	pid_t	pid;
+	char	*file;
 
-	pid = process->pid;
+	env = ft_env(params, func);
+	file = NULL;
+	if (!func)
+		file = ft_getexecutable(params, process);
+	pid = fork();
+	if (!pid)
+	{
+		ft_setup_child(params, params->job);
+		if (func)
+		{
+			func(process->arg + 1);
+			exit(0);
+		}
+		else if (file)
+		{
+			execve(file, process->arg + params->argv_index, env);
+			ft_printf_fd(2, "Wrong exec format\n");
+			exit(1);
+		}
+		exit(127);
+	}
+	process->pid = pid;
 	if (!params->job->pgid)
 		params->job->pgid = pid;
 	if (get_shell_cfg(0)->interractive)
 		setpgid(pid, params->job->pgid);
-}
-
-int		ft_fork(t_params *params, t_process *process, t_function *func)
-{
-	char	**env;
-	char	*file;
-	int		rval;
-
-	rval = 0;
-	file = NULL;
-	(!func) ? file = ft_getexecutable(params, process) : 0;
-	if (!(process->pid = fork()))
-	{
-		ft_setup_child(params, params->job);
-		if (func)
-			exit(func(process->arg + params->argv_index + 1));
-		else if (file)
-		{
-			env = ft_env(params, func);
-			execve(file, process->arg + params->argv_index, env);
-			ft_printf_fd(2, "Wrong exec format\n");
-			exit(127);
-		}
-		exit(127);
-	}
-	else if (process->pid < 0)
-		rval = 1;
-	else
-		ft_joingroup(params, process);
-	free(file);
-	return (rval);
+	ft_free_array(env);
 }

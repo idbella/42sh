@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:00:43 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 11:25:09 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/30 20:55:11 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,7 @@ int		ft_getfile(int fdout, t_redir *io)
 			io->file);
 		return (0);
 	}
-	if (io->src_fd == BOTH_FDS)
-	{
-		dup2(fd, 1);
-		dup2(fd, 2);
-	}
-	else
-		dup2(fd, io->src_fd);
+	dup2(fd, io->src_fd);
 	close(fd);
 	return (1);
 }
@@ -54,11 +48,11 @@ int		ft_redirect(int fdout, t_redir *red)
 {
 	while (red)
 	{
-		if (red->type == FD_AGGR && red->dst_fd == -1)
-		{
-			ft_printf_fd(2, "42sh : ambiguous redirect\n");
-			return (0);
-		}
+		// if (red->ambiguous)
+		// {
+		// 	ft_printf_fd(fdout, "42sh: %s: ambiguous redirect\n", red->file);
+		// 	return (0);
+		// }
 		if (red->file)
 		{
 			if (!ft_getfile(fdout, red))

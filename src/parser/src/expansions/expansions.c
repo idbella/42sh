@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/02 16:34:10 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/05 09:55:06 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		expand(char **s1, int k, int *j, char *dollar)
 	}
 }
 
-void		search_and_expand(char **s1, char c)
+void	search_and_expand(char **s1, char c)
 {
 	char	*tmp;
 	char	*dollar;
@@ -66,14 +66,14 @@ void		search_and_expand(char **s1, char c)
 	while ((tmp = ft_strchr((*s1) + j, c)))
 	{
 		k = ft_strlen(*s1) - ft_strlen(tmp);
-		if (c == '$')
+		if (c == DOLLAR)
 			dollar = get_dollar_var(tmp, &i);
 		if ((*s1)[k - 1 > 0 ? k - 1 : 0] != UQ_ESCAPE
 		&& (*s1)[k - 1 > 0 ? k - 1 : 0] != Q_ESCAPE)
-			c == '$' ? expand(s1, k, &j, dollar) : expand(s1, k, &j, NULL);
+			c == DOLLAR ? expand(s1, k, &j, dollar) : expand(s1, k, &j, NULL);
 		else
-			j = c == '$' ? k + i : j + 1;
-		if (c == '$')
+			j = c == DOLLAR ? k + i : j + 1;
+		if (c == DOLLAR)
 			free(dollar);
 	}
 }
@@ -85,7 +85,7 @@ void		update_arg(char *arg, char **tmp, int *k, char type)
 	if (!type || type == 1)
 	{
 		s = get_substring(arg, k, type);
-		search_and_expand(&s, '$');
+		search_and_expand(&s, DOLLAR);
 		if (!type)
 			search_and_expand(&s, '~');
 		else

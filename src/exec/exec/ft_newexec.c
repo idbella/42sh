@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:27:10 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 13:07:06 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		ft_printheredoc(t_process *process)
 	return (0);
 }
 
-int		ft_init_run(t_params *params, t_process *process)
+char	ft_init_run(t_params *params, t_process *process)
 {
 	t_function *func;
 	t_process	*p;
@@ -46,14 +46,18 @@ int		ft_init_run(t_params *params, t_process *process)
 	p = params->job->processes;
 	if ((func = ft_is_builtin(process->arg[0])))
 	{
-		if ((p && p->next) || params->forkbuiltins)
-			return (ft_fork(params, process, func));
+		if (p && p->next)
+			ft_fork(params, process, func);
 		else
-			return (func(process->arg + 1));
+			func(process->arg + 1);
+		return (1);
 	}
 	else if (ft_isintern(process->arg[0]))
+	{
 		return (ft_getinterns(params, process));
-	return (ft_fork(params, process, NULL));
+	}
+	ft_fork(params, process, NULL);
+	return (1);
 }
 
 char	ft_exec_job(t_params *params, t_process *process)
@@ -62,7 +66,7 @@ char	ft_exec_job(t_params *params, t_process *process)
 	char		status;
 
 	fds[0] = dup(0);
-	status = 0;
+	status = 1;
 	while (process)
 	{
 		params->argv_index = 0;
@@ -79,7 +83,7 @@ char	ft_exec_job(t_params *params, t_process *process)
 				status = ft_init_run(params, process);
 		}
 		else
-			status = 1;
+			status = 0;
 		process = process->next;
 	}
 	ft_restorestd(1, 1, 1);

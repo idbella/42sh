@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:44:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:23:43 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 08:31:56 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct  stat t_stat;
 
 void	ft_init_exec();
 int		exec(t_job *tokens);
-int	    ft_fork(t_params *params,
+void	ft_fork(t_params *params,
                 t_process *process, t_function *func);
 void	ft_restorestd(char stdin, char stdout, char stderr);
 int		ft_redirect(int fdout, t_redir *red);

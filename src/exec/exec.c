@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:48:12 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 11:32:21 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,15 @@ t_job	*ft_list(t_process *pr)
 	return (head);
 }
 
-uint8_t	ft_status(t_process *pr)
+int		ft_status(t_process *pr)
 {
-	uint8_t	status;
+	int status;
 
 	status = 0;
 	while (pr)
 	{
 		if (pr->pid > 0)
-			status = WEXITSTATUS(pr->status);
+			status = pr->status;
 		else
 			status = 0;
 		pr = pr->next;
@@ -88,6 +88,7 @@ void	ft_execbg(t_job *job)
 {
 	pid_t		pid;
 	t_job		*jb;
+	int			status;
 
 	if (!(pid = fork()))
 	{
@@ -97,7 +98,8 @@ void	ft_execbg(t_job *job)
 		get_shell_cfg(0)->interractive = 0;
 		ft_getset(0)->list = NULL;
 		job = ft_list(job->processes);
-		exit(exec(job));
+		status = exec(job);
+		exit(status ? 127 : 0);
 	}
 	setpgid(pid, pid);
 	jb = ft_newjob(pid, 0);
@@ -108,37 +110,30 @@ void	ft_execbg(t_job *job)
 	ft_getset(NULL)->current = jb;
 }
 
-
-
 int		exec(t_job *job)
 {
 	t_params	p;
-	uint8_t		status;
+	int			status;
 	int			flag;
+	int			rval;
 
 	p.fd = 1;
-	status = 0;
+	rval = 0;
 	ft_getset(0)->params = &p;
-	ft_getset(0)->last_aliases = NULL;
 	while (job)
 	{
 		p.pipe_stdin = -1;
 		p.job = job;
-		p.forkbuiltins = 0;
 		ft_init_job(job);
 		if (job->flag == BG && ft_run_in_sub(job->processes))
 			ft_execbg(job);
 		else
 		{
-			p.forkbuiltins = job->flag == BG || job->processes->next;
-			signal(SIGCHLD, SIG_DFL);
-			status = ft_exec_job(&p, job->processes);
+			rval = ft_exec_job(&p, job->processes);
 			ft_wait(job);
-			signal(SIGCHLD, ft_sigchld);
-			status = !status ? ft_status(job->processes) : status;
-			ft_set_last_rvalue(status);
 			if (job->flag == OR || job->flag == AND)
 			{
+				status = ft_status(job->processes);
 				flag = job->flag;
 				while (job && ((job->flag == AND && status) || (job->flag == OR && !status)))
 					job = job->next;
@@ -147,5 +142,5 @@ int		exec(t_job *job)
 		job = job->next;
 	}
 	ft_getset(0)->params = NULL;
-	return (status);
+	return (rval);
 }

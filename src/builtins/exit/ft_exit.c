@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:36:08 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 09:57:39 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,16 @@ static char	ft_status(t_list *lst)
 	return (1);
 }
 
-void	ft_freemap(void)
+void	ft_freemap()
 {
 	ft_empty(ANYHASH);
 	free(get_shell_cfg(0)->hashmap);
 }
 
-int		ft_exit(char **argv)
+void		ft_exit(char **argv)
 {
 	t_container		*container;
-	uint8_t	r;
+	unsigned char	r;
 
 	if (get_shell_cfg(0)->interractive)
 		ft_printf("exit\n");
@@ -55,11 +55,9 @@ int		ft_exit(char **argv)
 	{
 		ft_printf("There are stopped jobs\n");
 		container->time_to_exit = 0;
-		return (1);
 	}
 	else
 	{
-		tcsetattr(0, TCSANOW, ft_getset(0)->term);
 		ft_freemap();
 		r = 0;
 		if (argv[0] && !ft_isnumber(argv[0]) && (r = 255))
@@ -68,5 +66,4 @@ int		ft_exit(char **argv)
 			r = ft_atoi(argv[0]);
 		exit(r);
 	}
-	return (0);
 }

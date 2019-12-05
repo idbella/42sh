@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:03:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 09:29:02 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/11/30 20:32:19 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	ft_wait(t_job *job)
 	}
 	else
 	{
+		signal(SIGCHLD, SIG_DFL);
 		if (get_shell_cfg(0)->interractive)
 			tcsetpgrp(0, job->pgid);
 		while (1)
@@ -56,5 +57,6 @@ void	ft_wait(t_job *job)
 			}
 		}
 		ft_get_term(job);
+		signal(SIGCHLD, ft_sigchld);
 	}
 }

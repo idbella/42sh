@@ -6,12 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 01:04:33 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:57:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/02 08:33:38 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
 #define ENV_ENTRY 1
 #define INTEREN_ENTRY 2
 
@@ -37,13 +36,14 @@ int		ft_run(t_params *params, t_process *cmd)
 	index = params->argv_index;
 	if ((func = ft_is_builtin(cmd->arg[index])))
 	{
-		if (params->forkbuiltins)
-			return (ft_fork(params, cmd, func));
+		if (params->job->processes->next)
+			ft_fork(params, cmd, func);
 		else
-			return (func(cmd->arg + index + 1));
+			func(cmd->arg[index]);
 	}
 	else
-		return (ft_fork(params, cmd, NULL));
+		ft_fork(params, cmd, NULL);
+	return (0);
 }
 
 void	ft_addintern(t_params *params, char *str, int type)
@@ -83,5 +83,5 @@ int		ft_getinterns(t_params *params, t_process *cmd)
 		}
 		i++;
 	}
-	return (0);
+	return (1);
 }
