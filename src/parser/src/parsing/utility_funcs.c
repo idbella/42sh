@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:50:04 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/03 13:07:34 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/06 21:05:57 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,18 @@ char	*get_cmd_string(char *s)
 	{
 		if (s[i] == BLANK)
 			str[i] = ' ';
-		else if (s[i] == PIPE)
+		else if (s[i] == PIPE || s[i] == OR)
 			str[i] = '|';
 		else if (s[i] == OUT_RED_OP || s[i] == APP_OUT_RED_OP)
 			str[i] = '>';
 		else if (s[i] == IN_RED_OP || s[i] == HEREDOC_OP)
 			str[i] = '<';
-		else if (s[i] == OR)
-			str[i] = '|';
 		else if (s[i] == AND)
 			str[i] = '&';
+		else if (s[i] == Q_ESCAPE || s[i] == UQ_ESCAPE)
+			str[i] = '\\';
+		else if (s[i] == DOLLAR)
+			s[i] = '$';
 		i++;
 	}
 	return (str);

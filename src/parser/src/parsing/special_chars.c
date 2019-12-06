@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:49:44 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/02 18:06:59 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/06 21:02:23 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,7 @@ void		mark_operators(char *line)
 		else if (dq && line[(i - 1 > 0) ? i - 1 : 0] != Q_ESCAPE &&
 		line[i] == 92)
 			line[i] = Q_ESCAPE;
+		else if (dq && line[i] == '$')
+			line[i] = DOLLAR;
 	}
 }
