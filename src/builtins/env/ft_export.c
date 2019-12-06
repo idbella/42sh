@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 20:43:27 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 09:29:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 11:33:10 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,6 @@ static int	ft_get_flags(char **cmd)
 	return (i);
 }
 
-char	ft_isalphanum(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isalnum(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 static int	ft__export__(int export, char *arg)
 {
 	t_map	*map;
@@ -73,7 +59,7 @@ static int	ft__export__(int export, char *arg)
 	char	*value;
 
 	ft_get_kv(arg, &key, &value);
-	if (ft_isdigit(key[0]) || !ft_isalphanum(key))
+	if (ft_isdigit(key[0]) && key[1] && ft_isalphanum(key + 1))
 	{
 		ft_printf("42sh: export: `%s': not a valid identifier\n", key);
 		return (1);

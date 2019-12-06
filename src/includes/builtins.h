@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 13:54:03 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 14:40:20 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef int		    t_testfunction();
 t_function			*ft_is_builtin(char *arg);
 void				ft_init_builtins(char **env);
 char				*ft_getenv(char *key);
-
+char	            ft_isalphanum(char *str);
 /*
 ** ft_serialize_env():
 ** @param {exportd}: [INCLUDE_UNEXPORTED | EXPORTED_ONLY]
@@ -74,8 +74,8 @@ int	    			ft_cd(char **args);
 
 int	    			ft_exit(char **argv);
 
-int	                ft_fc(char *args);
-
+int		            ft_run_fc_editor(char **args);
+int                 ft_fc(char **args);
 int		            ft_test(char **args);
 /*
 ** ALIAS 
@@ -84,8 +84,6 @@ int		            ft_test(char **args);
 void	            ft_show_aliases(char *key);
 int	                ft_alias(char **args);
 int	    	        ft_unalias(char **cmd);
-void	            ft_insert_at(t_job *job, t_process *proc, size_t index);
-int	                ft_handle_alias(t_job *job);
 
 int	                ft_echo(char **args);
 

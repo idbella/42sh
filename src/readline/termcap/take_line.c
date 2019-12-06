@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   take_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:13:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/05 15:13:19 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/06 11:24:23 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,11 @@ void		ft_str_line(char *str, t_init *init)
 	tmp = NULL;
 	j = 0;
 	
-	 if (str[0] == 9)
-	 	return ;
-	// 	ft_autocomplete(init, env);
-	//else
+	if (str[0] == 9)
+	{
+		ft_autocomplete_42(init);
+		return;
+	}
 	
 	 if (str[0] == 127)
 		del_char_of_line(&init->out_put, init);

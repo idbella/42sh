@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 17:11:08 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/06 09:30:10 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/06 11:33:33 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,18 @@
 
 char	*plus_func(t_param_expan_st *p_w)
 {
-	t_map	*map;
-
 	if (p_w->type == 'P')
 	{
-		map = ft_getbykey(p_w->param, INTERN);
-		if (map && map->value)
+		p_w->map = ft_getbykey(p_w->param, INTERN);
+		if (p_w->map && p_w->map->value)
 			return (ft_strdup(p_w->word));
-		else if ((map && !map->value) || !map)
+		else if ((p_w->map && !p_w->map->value) || !p_w->map)
 			return (NULL);
 	}
 	else
 	{
-		map = ft_getbykey(p_w->param, INTERN);
-		if (map)
+		p_w->map = ft_getbykey(p_w->param, INTERN);
+		if (p_w->map)
 			return (ft_strdup(p_w->word));
 		else
 			return (NULL);
@@ -37,20 +35,18 @@ char	*plus_func(t_param_expan_st *p_w)
 
 char	*min_func(t_param_expan_st *p_w)
 {
-	t_map	*map;
-
 	if (p_w->type == 'P')
 	{
-		map = ft_getbykey(p_w->param, INTERN);
-		if (map && map->value)
-			return (ft_strdup(map->value));
-		if ((map && !map->value) || !map)
+		p_w->map = ft_getbykey(p_w->param, INTERN);
+		if (p_w->map && p_w->map->value)
+			return (ft_strdup(p_w->map->value));
+		if ((p_w->map && !p_w->map->value) || !p_w->map)
 			return (ft_strdup(p_w->word));
 	}
 	else
 	{
-		map = ft_getbykey(p_w->param, INTERN);
-		if (map)
+		p_w->map = ft_getbykey(p_w->param, INTERN);
+		if (p_w->map)
 			return (ft_strdup(p_w->word));
 		else
 			return (NULL);
@@ -60,14 +56,12 @@ char	*min_func(t_param_expan_st *p_w)
 
 char	*assign_func(t_param_expan_st *p_w)
 {
-	t_map	*map;
-
 	if (p_w->type == 'P')
 	{
-		map = ft_getbykey(p_w->param, INTERN);
-		if (map && map->value)
-			return (ft_strdup(map->value));
-		if ((map && !map->value) || !map)
+		p_w->map = ft_getbykey(p_w->param, INTERN);
+		if (p_w->map && p_w->map->value)
+			return (ft_strdup(p_w->map->value));
+		if ((p_w->map && !p_w->map->value) || !p_w->map)
 		{
 			ft_addtohashmap(p_w->param, p_w->word, INTERN);
 			return (ft_strdup(p_w->word));
@@ -75,10 +69,10 @@ char	*assign_func(t_param_expan_st *p_w)
 	}
 	else
 	{
-		map = ft_getbykey(p_w->param, INTERN);
-		if (map && map->value)
-			return (ft_strdup(map->value));
-		if ((map && !map->value))
+		p_w->map = ft_getbykey(p_w->param, INTERN);
+		if (p_w->map && p_w->map->value)
+			return (ft_strdup(p_w->map->value));
+		if ((p_w->map && !p_w->map->value))
 			return (NULL);
 		else
 		{
@@ -91,14 +85,12 @@ char	*assign_func(t_param_expan_st *p_w)
 
 char	*error_func(t_param_expan_st *p_w)
 {
-	t_map	*map;
-
 	if (p_w->type == 'P')
 	{
-		map = ft_getbykey(p_w->param, INTERN);
-		if (map && map->value)
-			return (ft_strdup(map->value));
-		if ((map && !map->value) || !map)
+		p_w->map = ft_getbykey(p_w->param, INTERN);
+		if (p_w->map && p_w->map->value)
+			return (ft_strdup(p_w->map->value));
+		if ((p_w->map && !p_w->map->value) || !p_w->map)
 		{
 			ft_putstr_fd(p_w->word, 2);
 			return (NULL);
@@ -106,10 +98,10 @@ char	*error_func(t_param_expan_st *p_w)
 	}
 	else
 	{
-		map = ft_getbykey(p_w->param, INTERN);
-		if (map && map->value)
-			return (ft_strdup(map->value));
-		if ((map && !map->value))
+		p_w->map = ft_getbykey(p_w->param, INTERN);
+		if (p_w->map && p_w->map->value)
+			return (ft_strdup(p_w->map->value));
+		if ((p_w->map && !p_w->map->value))
 			return (NULL);
 		else
 		{
@@ -120,31 +112,32 @@ char	*error_func(t_param_expan_st *p_w)
 	return (NULL);
 }
 
-char	*operators_manager(t_param_expan_st *param_word)
+char	*operators_manager(t_param_expan_st *p_w)
 {
-	if (param_word->type == 'P')
+	if (p_w->type == 'P')
 	{
-		if (param_word->operation_type == '+')
-			return (plus_func(param_word));
-		if (param_word->operation_type == '-')
-			return (min_func(param_word));
-		if (param_word->operation_type == '=')
-			return (assign_func(param_word));
-		if (param_word->operation_type == '?')
-			return (error_func(param_word));
+		if (p_w->operation_type == '+')
+			return (plus_func(p_w));
+		if (p_w->operation_type == '-')
+			return (min_func(p_w));
+		if (p_w->operation_type == '=')
+			return (assign_func(p_w));
+		if (p_w->operation_type == '?')
+			return (error_func(p_w));
 	}
-	if (param_word->type == 'A')
+	if (p_w->type == 'A')
 	{
-		if (param_word->operation_type == '+')
-			return (plus_func(param_word));
-		if (param_word->operation_type == '-')
-			return (min_func(param_word));
-		if (param_word->operation_type == '=')
-			return (assign_func(param_word));
-		if (param_word->operation_type == '?')
-			return (error_func(param_word));
+		if (p_w->operation_type == '+')
+			return (plus_func(p_w));
+		if (p_w->operation_type == '-')
+			return (min_func(p_w));
+		if (p_w->operation_type == '=')
+			return (assign_func(p_w));
+		if (p_w->operation_type == '?')
+			return (error_func(p_w));
 	}
-	if (param_word->type == 'F')
-		return (rm_ffixers(param_word));
-	return (ft_strdup(param_word->param));
+	if (p_w->type == 'F')
+		return (rm_ffixers(p_w));
+	p_w->map = ft_getbykey(p_w->param, INTERN);
+	return (p_w->map ? p_w->map->value : NULL);
 }

@@ -45,6 +45,13 @@ typedef struct s_var
 	int ao;
 } t_var;
 
+typedef struct			s_auto
+{
+	char				*str;
+	struct s_auto		*next;
+	struct s_auto		*prev;
+}						t_auto;
+
 typedef struct s_sle_c
 {
 	int cp;
@@ -86,9 +93,12 @@ typedef struct s_init
 	t_history *history_postoin;
 	t_history *last_history;
 	int index;
+	int					auto_comlpetion;
+	t_auto				*completion_lst;
+	t_auto				*completion_lst_position;
 } t_init;
 
-int ft_string_cmd(int flg, t_init *init);
+void ft_string_cmd(int	flg, t_init *init);
 void ft_name(char **line);
 int my_putchar(int c);
 int key_4_of_cursor(char *str, t_init *init);
@@ -122,6 +132,13 @@ void home_cursor_2(t_init *init);
 int get_end(t_init *init, int e_d);
 void ft_put_move(t_init *init, int i);
 char *ft_qoute(char *str, t_init *init);
+
+void	ft_autocomplete_42(t_init *init);
+void	ft_move_left(t_init *init);
+void	ft_move_right(t_init *init);
+void	ft_next_completion(t_init *init);
+void	ft_prev_completion(t_init *init);
+
 void ft_init_qote(t_init *init);
 char *ft_take_move(t_init *init,
 				   char *buffer, int position);

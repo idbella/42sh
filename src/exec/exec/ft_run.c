@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:59:02 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 14:32:10 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int		ft_fork(t_params *params, t_process *process, t_function *func)
 	char	**env;
 	char	*file;
 	int		rval;
+
 
 	rval = 0;
 	file = NULL;

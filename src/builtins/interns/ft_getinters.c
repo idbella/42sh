@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 01:04:33 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:57:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 13:25:36 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,29 @@ void	ft_addintern(t_params *params, char *str, int type)
 		ft_addtohashmap(key, value, INTERN);
 }
 
+void	ft_free_tmp_env(t_list *lst)
+{
+	t_map	*mp;
+	t_list	*next;
+
+	while (lst)
+	{
+		mp = lst->content;
+		free(mp->key);
+		free(mp->value);
+		next = lst->next;
+		free(mp);
+		free(lst);
+		lst = next;
+	}
+}
+
 int		ft_getinterns(t_params *params, t_process *cmd)
 {
 	char	**argv;
 	int		i;
 	char	type;
+	int		status;
 
 	type = ft_kv_type(cmd->arg);
 	argv = cmd->arg;
@@ -79,7 +97,8 @@ int		ft_getinterns(t_params *params, t_process *cmd)
 		else
 		{
 			params->argv_index = i;
-			return (ft_run(params, cmd));
+			status = ft_run(params, cmd);
+			ft_free_tmp_env(params->tmpenv);
 		}
 		i++;
 	}

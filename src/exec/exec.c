@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:48:12 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 14:44:41 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,6 @@ char	ft_run_in_sub(t_process *p)
 			p = p->next;
 	}
 	return (0);
-}
-
-t_job	*ft_newjob(pid_t pid, int flag)
-{
-	t_job *jb;
-
-	jb = ft_memalloc(sizeof(t_job));
-	jb->flag = flag;
-	jb->next = NULL;
-	jb->pgid = pid;
-	jb->processes = ft_memalloc(sizeof(t_process));
-	jb->processes->heredoc = NULL;
-	jb->processes->next = NULL;
-	ft_init_job(jb);
-	jb->processes->pid = pid;
-	return (jb);
 }
 
 t_job	*ft_list(t_process *pr)
@@ -66,22 +50,6 @@ t_job	*ft_list(t_process *pr)
 		pr = pr->next;
 	}
 	return (head);
-}
-
-uint8_t	ft_status(t_process *pr)
-{
-	uint8_t	status;
-
-	status = 0;
-	while (pr)
-	{
-		if (pr->pid > 0)
-			status = WEXITSTATUS(pr->status);
-		else
-			status = 0;
-		pr = pr->next;
-	}
-	return (status);
 }
 
 void	ft_execbg(t_job *job)
@@ -123,8 +91,8 @@ int		exec(t_job *job)
 	while (job)
 	{
 		p.pipe_stdin = -1;
+		p.tmpenv = NULL;
 		p.job = job;
-		p.forkbuiltins = 0;
 		ft_init_job(job);
 		if (job->flag == BG && ft_run_in_sub(job->processes))
 			ft_execbg(job);
@@ -135,7 +103,7 @@ int		exec(t_job *job)
 			status = ft_exec_job(&p, job->processes);
 			ft_wait(job);
 			signal(SIGCHLD, ft_sigchld);
-			status = !status ? ft_status(job->processes) : status;
+			status = !status ? ft_getjobstatus(job->processes) : status;
 			ft_set_last_rvalue(status);
 			if (job->flag == OR || job->flag == AND)
 			{
