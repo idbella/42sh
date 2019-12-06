@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   params_expan.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:46:25 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/06 10:38:21 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/06 13:19:38 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_param_expan(char *param_expan)
 		return (NULL);
 	}
 	if (ft_isdigit(param_word.param[0]) && param_word.param[1] &&
-		ft_isalphanum(param_word.param + 1))
+		ft_isalnum(*param_word.param + 1))
 	{
 		ft_strdel(&param_word.param);
 		ft_strdel(&param_word.word);

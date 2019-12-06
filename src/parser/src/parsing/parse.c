@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/06 09:31:48 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/06 15:22:37 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int			is_word(char *word)
 {
 	while (*word)
 	{
-		if (!ft_isalnum(*word) && *word != '_')
+		if (!ft_isalnum(*word) && *word != '_' && *word != '-')
 			return (0);
 		word++;
 	}

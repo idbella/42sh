@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 09:47:49 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/06 09:29:48 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/06 13:32:58 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ char	*expand_alias(t_token *token, char *alias)
 	{
 		arg = tokens->list[0];
 		i = 0;
-		while (*(tokens->list) && ft_strchr(arg, '='))
+		while (*(tokens->list) && arg && ft_strchr(arg, '='))
 			arg = tokens->list[++i];
 		if (arg)
 		{
@@ -185,7 +185,7 @@ t_token	*alias_expansion(char **line)
 	{
 		arg = tokens->list[0];
 		i = 0;
-		while (*(tokens->list) && ft_strchr(arg, '='))
+		while (*(tokens->list) && arg && ft_strchr(arg, '='))
 			arg = tokens->list[++i];
 		if (arg)
 		{
