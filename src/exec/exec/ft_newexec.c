@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:27:10 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 13:20:06 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ char	ft_exec_job(t_params *params, t_process *process)
 	while (process)
 	{
 		params->argv_index = 0;
-		params->tmpenv = NULL;
 		ft_init_proc(process);
 		dup2(fds[0], 0);
 		close(fds[0]);

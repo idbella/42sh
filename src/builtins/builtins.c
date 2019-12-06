@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:19:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 18:51:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 14:40:04 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ft_addblt()
 	ft_addbuiltin("alias", ft_alias);
 	ft_addbuiltin("unalias", ft_unalias);
 	ft_addbuiltin("test", ft_test);
+	ft_addbuiltin("fc", ft_fc);
 }
 
 void	ft_fill(t_shell *shell)

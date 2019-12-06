@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isintern.c                                      :+:      :+:    :+:   */
+/*   ft_editor.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/05 00:33:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 09:49:02 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/12/06 14:41:50 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/12/06 14:47:38 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-char	ft_str_isalnum(char *str)
+int		ft_run_fc_editor(char **args)
 {
-	while (*str)
-	{
-		if (!ft_isalnum(*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
+	t_params	p;
+	t_job		*job;
 
-char	ft_isintern(char *cmd)
-{
-	char	*key;
-	char	*value;
-
-	if (!ft_strchr(cmd, '='))
-		return (0);
-	ft_get_kv(cmd, &key, &value);
-	if (ft_isdigit(key[0]) && key[1] && ft_isalphanum(key + 1))
-		return (0);
-	return (ft_str_isalnum(key));
+	p.pipe_stdin = -1;
+	p.tmpenv = NULL;
+	p.argv_index = 0;
+	job = ft_newjob(0, 0);
+	job->processes->arg = args;
+	job->command = ft_strdup(args[0]);
+	p.job = job;
+	if (ft_fork(&p, job->processes, NULL))
+		return (1);
+	ft_wait(job);
+	return (ft_getjobstatus(job->processes));
 }

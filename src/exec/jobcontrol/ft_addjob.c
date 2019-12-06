@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 17:49:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 10:03:42 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 14:44:49 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,20 @@ void	ft_init_job(t_job *job)
 	job->killed = 0;
 	job->notified = 1;
 	job->id = ft_newid();
+}
+
+t_job	*ft_newjob(pid_t pid, int flag)
+{
+	t_job *jb;
+
+	jb = ft_memalloc(sizeof(t_job));
+	jb->flag = flag;
+	jb->next = NULL;
+	jb->pgid = pid;
+	jb->processes = ft_memalloc(sizeof(t_process));
+	jb->processes->heredoc = NULL;
+	jb->processes->next = NULL;
+	ft_init_job(jb);
+	jb->processes->pid = pid;
+	return (jb);
 }
