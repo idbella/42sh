@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 11:27:01 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/06 09:13:55 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,8 @@
 
 typedef	struct s_token
 {
-	// char			**token;
 	char			**list;
 	char			type;
-	char			expanded;
-	char			r;
-	int				index;
-	struct s_token	*up;
 	struct s_token	*sub;
 	struct s_token	*next;
 }				t_token;
@@ -108,6 +103,8 @@ char			*get_heredoc(char *str, int *i, int *hd_fd);
 int				is_not_blank(char *line, int j, int i);
 void			apply_expansions(char **args);
 t_token			*alias_expansion(char **line);
+char			*gather_tokens(t_token *tokens);
+char			*rc(t_token *tokens);
 void			search_and_expand(char **s1, char c);
 int				apply_glob_expansion(char *gl_pattern, char **args);
 void			quotes_delimiter(char **tmp);

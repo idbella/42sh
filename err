@@ -1,0 +1,22 @@
+==52236== Memcheck, a memory error detector
+==52236== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==52236== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==52236== Command: ./42sh
+==52236== Parent PID: 46247
+==52236== 
+--52236-- run: /usr/bin/dsymutil "./42sh"
+==52236== 
+==52236== HEAP SUMMARY:
+==52236==     in use at exit: 35,954 bytes in 767 blocks
+==52236==   total heap usage: 5,486 allocs, 4,719 frees, 121,945 bytes allocated
+==52236== 
+==52236== LEAK SUMMARY:
+==52236==    definitely lost: 2,851 bytes in 228 blocks
+==52236==    indirectly lost: 3,766 bytes in 209 blocks
+==52236==      possibly lost: 72 bytes in 3 blocks
+==52236==    still reachable: 11,411 bytes in 175 blocks
+==52236==         suppressed: 17,854 bytes in 152 blocks
+==52236== Rerun with --leak-check=full to see details of leaked memory
+==52236== 
+==52236== For counts of detected and suppressed errors, rerun with: -v
+==52236== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 4 from 4)

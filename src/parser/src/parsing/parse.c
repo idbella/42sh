@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/05 11:24:51 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/06 09:31:48 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,48 +175,35 @@ int			subst_syntax(char *line) //ONLY SIMPLE FORMAT FOR NOW
 
 t_job		*parse(char *input)
 {
-	// char		**cmd_chain;
+	char		**cmd_chain;
 	char		*line;
 	t_job		*head;
 	t_token		*tokens;
 
 	head = NULL;
 	line = ft_strdup(input);
-	// ft_addtohashmap("l", "ls -l", ALIAS);
-	ft_addtohashmap("l", "ls", ALIAS);
-	ft_addtohashmap("ll", "l -l", ALIAS);
-	ft_addtohashmap("lll", "ll -l", ALIAS);
-	ft_addtohashmap("c", "cat", ALIAS);
-	ft_addtohashmap("e", "echo", ALIAS);
-	// ft_addtohashmap("e", "ec", ALIAS);
-	ft_addtohashmap("lc", "ll | c && e", ALIAS);
-	ft_addtohashmap("llc", "ll | c", ALIAS);
 	// if (!(line = pre_parse(ft_strdup(input))))
 	// 	return (NULL);
 	mark_operators(line);
 	mark_bg_op(line);
 	tokens = alias_expansion(&line);
-	// while (tokens)
-	// {
-	// 	printf("token: %s type: %d\n", tokens->token, tokens->type);
-	// 	tokens = tokens->next;
-	// }
+	free(line);
+	line = gather_tokens(tokens);
+	mark_operators(line);
+	mark_bg_op(line);
 	if (check_syntax_errors(line) || subst_syntax(line))
 	{
 		free(line);
 		return (NULL);
 	}
-	// check_wildcard_c(&line);
-	// cmd_chain = ft_strsplit(line, SEMI_COL);
-	// if (!(head = get_jobs(cmd_chain, get_bg_jobs(line))))
-	// {
-	// 	free_array(cmd_chain);
-	// 	free(line);
-	// 	return (NULL);
-	// }
-	// free_array(cmd_chain);
-	// free(line);
-	// t_job *tmp = head;
-	// print_parsing_res(tmp);
-	return (NULL);
+	cmd_chain = ft_strsplit(line, SEMI_COL);
+	if (!(head = get_jobs(cmd_chain, get_bg_jobs(line))))
+	{
+		free_array(cmd_chain);
+		free(line);
+		return (NULL);
+	}
+	free_array(cmd_chain);
+	free(line);
+	return (head);
 }
