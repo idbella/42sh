@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_line_.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 04:41:44 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/03 22:48:12 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/06 11:17:13 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_catch_sig(int a)
 
 char		*readline(t_init *init)
 {
-	char			buffer[5];
+	char			buffer[9];
 	int				position;
 	char    		*line;
 
@@ -37,7 +37,14 @@ char		*readline(t_init *init)
 		if (g_sig_win)
 			ft_size_terminal(init);
 		buffer[position] = '\0';
-		
+		int i = 0;
+		//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\n**************\n");
+		while (buffer[i])
+		{
+			//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\n/////--%d---/////\n", buffer[i]);
+			i++;
+		}
+		//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\n**************\n");
 		if ((line = ft_take_move(init, buffer, position)))
 			return (line);
 	}
@@ -61,6 +68,9 @@ void	ft_initial_main(t_init *init)
 	init->history_postoin = NULL;
 	ft_init_output(init);
 	ft_size_terminal(init);
+	init->auto_comlpetion = 0;
+	init->completion_lst_position = NULL;
+	init->completion_lst = NULL;
 	ft_add_history_(init, "", 0);
 	
 }

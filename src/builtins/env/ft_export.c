@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 20:43:27 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 09:29:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 11:26:43 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,6 @@ static int	ft_get_flags(char **cmd)
 		i++;
 	}
 	return (i);
-}
-
-char	ft_isalphanum(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isalnum(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 static int	ft__export__(int export, char *arg)

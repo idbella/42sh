@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moves_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:38:01 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/03 19:26:20 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/06 11:17:13 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,12 @@ char	*ft_take_move(t_init *init, char *buffer, int position)
 	line = NULL;
 	if (ft_take_move_2(x, a, buffer, init) == 1)
 		x1 = 0;
+	else if (buffer[0] == 27 && buffer[1] == 91 &&
+				buffer[2] == 53 && buffer[3] == 126)
+		ft_next_completion(init);
+	else if (buffer[0] == 27 && buffer[1] == 91 &&
+				buffer[2] == 54 && buffer[3] == 126)
+		ft_prev_completion(init);
 	else if ((buffer[0] == 27 && buffer[1] == 27 &&
 				buffer[2] == 91 && buffer[3] == 65))
 		ft_alt_up(&x, &x1, &a, init);
@@ -103,7 +109,7 @@ char	*ft_take_move(t_init *init, char *buffer, int position)
 		exit(1);
 	else
 	{
-		//dprintf(open("/dev/ttys016",O_RDWR),"\n5str = %s\n", buffer);	
+		////dprintf(open("/dev/ttys016",O_RDWR),"\n5str = %s\n", buffer);	
 		if ((line = ft_read(buffer, position, init)))
 			return (line);
 	}

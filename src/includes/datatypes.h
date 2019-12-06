@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   datatypes.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 09:39:00 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/05 21:25:15 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define DATATYPES_H
 # include "libft.h"
 #include <termios.h>
-# define BUILTINS_COUNT 15
+# define BUILTINS_COUNT 14
 # define TESTFUNCTIONS_COUNT 20
 
 typedef struct	s_redir

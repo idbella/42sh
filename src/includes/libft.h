@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 18:35:22 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 11:27:36 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct		s_line
 	struct s_line	*next;
 }					t_line;
 
+char					ft_isalphanum(char *str);
 char					*ft_join(char *f, ...);
 size_t					ft_nbrlen(long long int n, int base);
 int						ft_isspace(char c);
