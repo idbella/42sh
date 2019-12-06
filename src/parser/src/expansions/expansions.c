@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/05 09:55:06 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/06 10:39:48 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char		*get_dollar_var(char *tmp, int *i)
 	}
 	if (tmp[*i] != '?')
 	{
-		while (ft_isalnum(tmp[*i]) || tmp[*i] == '_')
+		while (ft_isalnum(tmp[*i]) || ft_strchr(":+-_#=?%", tmp[*i]))
 			(*i)++;
 		dollar = ft_strsub(tmp, 1, !br ? (*i) - 1 : *i);
 	}
@@ -45,7 +45,12 @@ void		expand(char **s1, int k, int *j, char *dollar)
 		(*s1)[k] = DOLLAR;
 		// printf("dollar: %s\n", dollar);
 		if (dollar[0] != '(')
-			expand_dollar(dollar, s1, j);
+		{
+			if (!ft_strpos(":+-_#=?%", dollar))
+				expand_dollar(dollar, s1, j, 0);
+			else
+				expand_dollar(dollar, s1, j, 1);
+		}
 	}
 	else
 	{

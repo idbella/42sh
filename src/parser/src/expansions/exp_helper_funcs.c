@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 16:12:10 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/02 16:30:53 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/06 10:46:52 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@
 // 	free(tmp);
 // }
 
-void	expand_dollar(char *dollar, char **args, int *j)
+void	expand_dollar(char *dollar, char **args, int *j, char op)
 {
 	char	*s1;
 	char	*s2;
 	char	*tmp2;
 	int		pos;
 	char	ds[2];
+	char	*expansion;
 
+	expansion = NULL;
 	ds[0] = DOLLAR;
 	ds[1] = 0;
 	pos = ft_strpos(*args, ds);
@@ -52,12 +54,14 @@ void	expand_dollar(char *dollar, char **args, int *j)
 	s2 = ft_strsub(*args, pos + ft_strlen(dollar) + 1,
 	ft_strlen(*args) - (ft_strlen(dollar) + ft_strlen(s1)) - 1);
 	dollar = dollar[0] == '{' ? ft_strsub(dollar, 1, ft_strlen(dollar) - 2) : dollar;
+	printf("dollar : %s\n", dollar);
+	expansion = !op ? ft_getenv(dollar) : get_param_expan(dollar);
 	if ((*args)[pos + 1] == '?')
 		s1 = ft_fstrjoin(s1, ft_itoa(ft_get_last_rvalue(), 10));
-	else if (ft_getenv(dollar))
+	else if (expansion)
 	{
 		tmp2 = s1;
-		s1 = ft_strjoin(s1, ft_getenv(dollar));
+		s1 = ft_strjoin(s1, expansion);
 		free(tmp2);
 	}
 	*j = ft_strlen(s1);

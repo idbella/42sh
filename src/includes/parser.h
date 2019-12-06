@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 09:50:38 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/06 10:36:20 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void			quotes_delimiter(char **tmp);
 int				is_not_blank(char *line, int j, int i);
 char			*get_esc_char(char *str, char c);
 char			*get_substring(char *str, int *k, char type);
-void			expand_dollar(char *dollar, char **args, int *j);
+void			expand_dollar(char *dollar, char **args, int *j, char op);
 void			expand_tilde(char **args, int *j);
 void			quoted_escape(char **arg);
 void			remove_quotes(char **args);
