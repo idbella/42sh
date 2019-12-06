@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:50:04 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/02 10:18:53 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/03 13:07:34 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ char	*skip_operators(char type, char *token, int *start, int *j)
 	else if (type == 3)
 	{
 		while (token[*j]
+		&& token[*j] != PIPE && token[*j] != AND && token[*j] != OR)
+			(*j)++;
+	}
+	else if (type == 4)
+	{
+		while (token[*j] && token[*j] != BG
 		&& token[*j] != PIPE && token[*j] != AND && token[*j] != OR)
 			(*j)++;
 	}

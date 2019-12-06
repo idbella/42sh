@@ -6,14 +6,15 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 10:40:42 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/06 09:50:38 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/wait.h>
 #include <stdio.h>
-# include <sys/types.h>
-# include <pwd.h>
+#include <sys/types.h>
+#include <pwd.h>
+#include <uuid/uuid.h>
 # include "datatypes.h"
 # include "param_expan.h"
 #ifndef PARSER_H
@@ -67,7 +68,16 @@
 
 /* 
 ** 
-*/ 
+*/
+
+typedef	struct s_token
+{
+	char			**list;
+	char			type;
+	struct s_token	*sub;
+	struct s_token	*next;
+}				t_token;
+
 
 // t_shell			*init_shell(void);
 // t_shell			*get_shell_cfg(t_shell *new);
@@ -77,7 +87,7 @@ char			*pre_parse(char *line);
 void			mark_operators(char *line);
 int				get_bg_jobs(char *line);
 void			mark_bg_op(char *line);
-t_job			*parse();
+t_job			*parse(char *input);
 int				get_input(char **line, char *p, char *eof);
 void			check_wildcard_c(char **line);
 int				dquotes_checker(char **line, char *dq, int *i, int *j);
@@ -95,9 +105,10 @@ int				get_redir_fds(t_redir *curr, char *str, int *i);
 void			get_redir_file(t_redir *curr, char *str, int *i);
 char			*get_heredoc(char *str, int *i, int *hd_fd);
 int				is_not_blank(char *line, int j, int i);
-void			apply_globbing(char **line);
-int				get_glob_buffer(char *gl_pattern, char **args);
 void			apply_expansions(char **args);
+t_token			*alias_expansion(char **line);
+char			*gather_tokens(t_token *tokens);
+char			*rc(t_token *tokens);
 void			search_and_expand(char **s1, char c);
 int				apply_glob_expansion(char *gl_pattern, char **args);
 void			quotes_delimiter(char **tmp);
