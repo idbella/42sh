@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 10:36:20 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/06 15:17:45 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,11 @@ void			search_and_expand(char **s1, char c);
 int				apply_glob_expansion(char *gl_pattern, char **args);
 void			quotes_delimiter(char **tmp);
 int				is_not_blank(char *line, int j, int i);
+int				is_word(char *word);
 char			*get_esc_char(char *str, char c);
 char			*get_substring(char *str, int *k, char type);
 void			expand_dollar(char *dollar, char **args, int *j, char op);
-void			expand_tilde(char **args, int *j);
+void			expand_tilde(char **args);
 void			quoted_escape(char **arg);
 void			remove_quotes(char **args);
 void			remove_escapes(char **str, char escape);

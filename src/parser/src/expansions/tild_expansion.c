@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tild_expansion.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 19:30:27 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/05 10:44:55 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/06 13:17:21 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ char	*tild_expan(char *tild_str)
 	}
 	user_name = ft_strsub(tild_str, 1, ft_strlen(tild_str) - 1);
 	if (!(pw = getpwnam(user_name)))
-			return (ft_strdup(tild_str));
+		return (ft_strdup(tild_str));
 	return (pw->pw_name);
 }
