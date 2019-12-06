@@ -6,82 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 12:09:56 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 18:02:24 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/05 19:00:03 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-int		ft_getoper(char *oper)
-{
-	char	**ops;
-	int		i;
-
-	ops = ft_strsplit("\127,-b,-c,-d,-e,-f,-L,-p,-S,\
--u,-w,-x,-z,=,!=,-eq,-ne,-ge,-lt,-le,!,-g,-r,-s", ',');
-	i = 0;
-	while (ops[i])
-	{
-		if (ft_strequ(ops[i], oper))
-			return (i);
-		i++;
-	}
-	ft_printf_fd(2, "42sh: test: file: binary operator expected\n");
-	return (0);
-}
-
-int		ft_getops(char **args, char **l_oper, char **oper, char **r_oper)
-{
-	int		i;
-
-	i = 0;
-	while (args[i])
-	{
-		if (!*l_oper)
-			*l_oper = args[i];
-		else if (!*oper)
-			*oper = args[i];
-		else if (!*r_oper)
-			*r_oper = args[i];
-		else
-		{
-			ft_printf_fd(2, "42sh: test: too many arguments\n");
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int		ft_eval(int id, char *file, int *test)
-{
-	struct stat	st;
-	int			i;
-
-	i = 0;
-	if (!lstat(file, &st))
-	{
-		if (test[id - 1])
-		{
-			i = ((st.st_mode & S_IFMT) == test[id - 1]) ? 0 : 1;
-			return (i);
-		}
-		return (0);
-	}
-	return (12);
-}
-
-static void	ft_fill(int *test)
-{
-	test[0] = S_IFBLK;
-	test[1] = S_IFCHR;
-	test[2] = S_IFDIR;
-	test[3] = 0;
-	test[4] = S_IFREG;
-	test[5] = S_IFLNK;
-	test[6] = S_IFIFO;
-	test[7] = S_IFSOCK;
-}
 
 int		ft_test(char **args)
 {
@@ -94,18 +23,38 @@ int		ft_test(char **args)
 	oper = NULL;
 	l_oper = NULL;
 	r_oper = NULL;
-	ft_fill(test);
-	if (ft_getops(args, &l_oper, &oper, &r_oper))
+	if (!args[0])
 		return (1);
-	if (!r_oper)
+	if (!args[1])
+		return (0);
+	if (ft_strequ(args[0], "!"))
+	{
+		id = ft_test(args + 1);
+		if (id == 1 || id == 0)
+			return (!id);
+		return (2);
+	}
+	ft_setoprations(test);
+	if (ft_getoprators(args, &l_oper, &oper, &r_oper))
+		return (2);
+	if (!r_oper && oper)
 	{
 		r_oper = oper;
 		oper = l_oper;
+		l_oper = NULL;
 	}
-	if (!(id = ft_getoper(oper)))
-		return (1);
+	if (!(id = ft_getoperator_id(oper, (l_oper && r_oper) ? BINARY : UNARY)))
+		return (2);
 	//ft_printf("%s %d %s\n", l_oper, id, r_oper);
 	if (id < 8)
 		return (ft_eval(id, r_oper, test));
-	return (0);
+	if (id == 10 || id == 9)
+		return (ft_usergroup(id, r_oper));
+	if (id == 11 || id == 12 || id == 13)
+		return (ft_rwx(id, r_oper));
+	if (id == 14)
+		return (ft_sizetest(r_oper));
+	if (id < 18)
+		return (ft_strtest(id, l_oper, r_oper));
+	return (ft_mathcmp(id, l_oper, r_oper));
 }

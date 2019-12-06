@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 15:21:04 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/04 09:28:30 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/05 15:08:43 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	ft_key__65(char *str, t_init *init)
 		else
 			ft_init_output(init);
 		tputs(tgetstr("cd", NULL), 0, my_putchar);
-		ft_cat_string_of_line(init, init->history_postoin->str);
+		ft_str_line(init->history_postoin->str, init);
 	}
 }
 
@@ -94,7 +94,7 @@ static void	ft_key__66(char *str, t_init *init)
 		ft_init_output(init);
 	tputs(tgetstr("cd", NULL), 0, my_putchar);
 	if (init->history_postoin)
-		ft_cat_string_of_line(init, init->history_postoin->str);
+		ft_str_line(init->history_postoin->str, init);
 	//  else if (init->history_postoin->next)
 	//  	ft_cat_string_of_line(init, &init->hstry_tmp[5]);
 }

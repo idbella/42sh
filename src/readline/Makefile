@@ -6,7 +6,7 @@
 #    By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/03 19:29:44 by yelazrak         ###   ########.fr        #
+#    Updated: 2019/12/05 16:06:24 by yelazrak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ srcs/read_line_.o             termcap/print_line.o\
 termcap/cursor_moves.o        termcap/take_line.o\
 history_/ft_get_history_.o 	   history_/search_.o
 
-CFLAGS=-Wall -Wextra -Werror -I../includes
+CFLAGS=-g -Wall -Wextra -Werror -I../includes
 
 all:$(NAME)
 

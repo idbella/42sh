@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strtest.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/11 07:12:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 09:26:20 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/12/05 13:34:28 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/12/05 13:34:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int		ft_strtest(int id, char *l_oper, char *r_oper)
 {
-	unsigned char *str1;
-	unsigned char *str2;
-
-	str1 = (unsigned char *)s1;
-	str2 = (unsigned char *)s2;
-	if (!str1 || !str2)
-		return (1);
-	while (*str1 && *str2)
+	if (id == 15)
 	{
-		if (*str1 != *str2)
-			return (*str1 - *str2);
-		str1++;
-		str2++;
+		if (!r_oper)
+			return (0);
+		return (*r_oper != 0);
 	}
-	return (*str1 - *str2);
+	if (id == 16)
+		return (ft_strcmp(l_oper, r_oper));
+	if (id == 17)
+		return (ft_strequ(l_oper, r_oper));
+	if (id == 18)
+		return (ft_strequ(l_oper, r_oper));
+	return (1);
 }

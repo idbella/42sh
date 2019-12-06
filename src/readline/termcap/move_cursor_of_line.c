@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:20:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/03 22:16:28 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/05 15:49:56 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,27 @@ char		*move_cursor_and_mangemant_fonction(char *str,
 		return (NULL);
 	else if (str[0] == 10 && ft_strlen(str) == 1)
 	{
-		// if (ft_strcmp(&init->out_put[5], "") != 0)
-		//ft_refrech(init);
 		ft_putchar('\n');
-			if ((line = ft_cmd_mangement__(str, init)))
+		line = ft_cmd_mangement__(str, init);
+		if (line && ft_strchr(line, '!'))
+		{
+			if ((line = ft_expansion(init, line)))
+			{
+				ft_init_output(init);
+				ft_str_line(line,init);
+			}
+			else
+			{
+				ft_putendl_fd("42sh: !: event not found", 2);
+				ft_init_output(init);
+			}
+		}
+		else
+		{
+			if (line)
+				ft_add_history_(init, line, 1);
 				return (line);
+		}
 	}
 	else
 		ft_str_line(str, init);

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:36:08 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/05 09:54:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 char	ft_isnumber(char *str)
 {
+	int num;
+
+	num = 0;
 	while (*str)
 	{
+		num = 1;
 		if (!ft_isdigit(*str))
 			return (0);
 		str++;
 	}
-	return (1);
+	return (num);
 }
 
 static char	ft_status(t_list *lst)

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 17:21:28 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/05 13:54:03 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define INCLUDE_UNEXPORTED 1
 # define EXPORTED_ONLY 2
 # define KEYS_ONLY 4
+# define BINARY 0
+# define UNARY 1
 
 typedef int		    t_function(char **args);
 typedef int		    t_testfunction();
@@ -72,8 +74,6 @@ int	    			ft_cd(char **args);
 
 int	    			ft_exit(char **argv);
 
-int	    			ft_type(char **args);
-
 int	                ft_fc(char *args);
 
 int		            ft_test(char **args);
@@ -92,5 +92,23 @@ int	                ft_echo(char **args);
 int	    			ft_fg(char **arg);
 int 				ft_bg(char **arg);
 int 				ft_jobs(char **args);
+char	            ft_isnumber(char *str);
 
+/*
+** TEST
+*/
+
+int	    			ft_type(char **args);;
+int		            ft_usergroup(int id, char *file);
+int		            ft_rwx(int id, char *file);
+int		            ft_getoperator_id(char *oper, char type);
+int		            ft_getoprators(char **args,
+                        char **l_oper, char **oper, char **r_oper);
+char	            *ft_isnbr(char *str);
+int		            ft_eval(int id, char *file, int *test);
+void	            ft_setoprations(int *test);
+int		            ft_strtest(int id, char *l_oper, char *r_oper);
+int		            ft_sizetest(char *file);
+int		            ft_mathcmp(int id, char *n1, char *n2);
+int		            ft_expression(char *expr);
 #endif

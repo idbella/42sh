@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/27 16:25:14 by merras            #+#    #+#             */
-/*   Updated: 2019/12/02 16:34:00 by yoyassin         ###   ########.fr       */
+/*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
+/*   Updated: 2019/12/06 09:31:48 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,83 @@ int			is_not_blank(char *line, int j, int i)
 	return (valid);
 }
 
+int			is_word(char *word)
+{
+	while (*word)
+	{
+		if (!ft_isalnum(*word) && *word != '_')
+			return (0);
+		word++;
+	}
+	return (1);
+}
+
+int			match_expr(char *token)
+{
+	char	err;
+	int		pos;
+	char	*s[2];
+
+	err = 0;
+	pos = 0;
+	if (token[0] != '#')
+	{
+
+		if ((pos = ft_strpos(token, ":-")) != -1)
+		{
+			s[0] = ft_strsub(token, 0, pos);
+			s[1] = ft_strdup(token + pos + 1);
+			// printf("s1:%s\ns2:%s\n", s[0], s[1]);
+		}
+	}
+	else
+	{
+		if (!is_word(token + 1))
+			err = 1;
+	}
+	if (err)
+		ft_putendl_fd("42sh: bad substitution", 2);
+	free(token);
+	return (1);
+}
+
+int			subst_syntax(char *line) //ONLY SIMPLE FORMAT FOR NOW
+{
+	int		i;
+	int		start;
+	char	*token;
+
+	i = 0;
+	start = 0;
+	while (line[i])
+	{
+		if (line[i] == DOLLAR && line[++i] && line[i] == '{')
+		{
+			start = ++i;
+			while (line[i] != '}')
+			{
+				if (line[i] == BLANK || line[i] == ' ' || line[i] == '{')
+				{
+					ft_putendl_fd("42sh: bad substitution", 2);
+					return (0);
+				}
+				i++;
+			}
+			token = ft_strsub(line, start, i - start);
+			if (!match_expr(token))
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 t_job		*parse(char *input)
 {
 	char		**cmd_chain;
 	char		*line;
 	t_job		*head;
+	t_token		*tokens;
 
 	head = NULL;
 	line = ft_strdup(input);
@@ -114,12 +186,16 @@ t_job		*parse(char *input)
 	// 	return (NULL);
 	mark_operators(line);
 	mark_bg_op(line);
-	if (check_syntax_errors(line))
+	tokens = alias_expansion(&line);
+	free(line);
+	line = gather_tokens(tokens);
+	mark_operators(line);
+	mark_bg_op(line);
+	if (check_syntax_errors(line) || subst_syntax(line))
 	{
 		free(line);
 		return (NULL);
 	}
-	// check_wildcard_c(&line);
 	cmd_chain = ft_strsplit(line, SEMI_COL);
 	if (!(head = get_jobs(cmd_chain, get_bg_jobs(line))))
 	{
@@ -129,7 +205,5 @@ t_job		*parse(char *input)
 	}
 	free_array(cmd_chain);
 	free(line);
-	// t_job *tmp = head;
-	// print_parsing_res(tmp);
 	return (head);
 }
