@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 17:11:08 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/04 13:36:23 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/06 09:30:10 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*plus_func(t_param_expan_st *p_w)
 
 	if (p_w->type == 'P')
 	{
-		map = ft_getbykey(p_w->param, INCLUDE_UNEXPORTED);
+		map = ft_getbykey(p_w->param, INTERN);
 		if (map && map->value)
 			return (ft_strdup(p_w->word));
 		else if ((map && !map->value) || !map)
