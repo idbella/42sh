@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 21:15:28 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/04 09:34:52 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/06 11:30:48 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ typedef struct s_param_expan_st
 {
 	char	*word;
 	char	*param;
+	t_map	*map;
 	char	type;
 	char	operation_type;
 }				t_param_expan_st;
