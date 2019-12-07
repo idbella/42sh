@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/07 13:27:36 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 17:17:20 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,44 @@
 char		*get_dollar_var(char *tmp, int *i)
 {
 	char	*dollar;
-	char	br;
+	char	open;
 
 	*i = 1;
-	br = 0;
-	if (tmp[*i] == '{' || tmp[*i] == '(')
-	{
-		br = tmp[*i];
+	if (tmp[*i] == '{')
 		*i = 2;
-	}
 	if (tmp[*i] != '?')
 	{
-		while (tmp[*i])
+		if ((*i) == 1)
 		{
-			while (ft_isalnum(tmp[*i]) || (br == '{' && ft_strchr(":+-_#=?%", tmp[*i]))
-			|| (br == '(' && tmp[*i]))
+			while (tmp[*i] && (ft_isalnum(tmp[*i]) || tmp[*i] == '_'))
 				(*i)++;
-			if ((br == '(' && tmp[*i] == ')') || (br == '{' && tmp[*i] == '}'))
-				break ;
 		}
-		dollar = ft_strsub(tmp, 1, !br ? (*i) - 1 : *i);
+		else
+		{
+			open = 1;
+			while (tmp[*i] && open)
+			{
+				if (tmp[*i] == '{')
+					open += 1;
+				else if (tmp[*i] == '}')
+					open -= 1;
+				(*i)++;
+			}
+		}
+		dollar = ft_strsub(tmp, 1, (*i) - 1);
 	}
 	else
-	{
-		dollar = ft_strdup("?");
-		(*i)++;
-	}
+		dollar = *i == 1 ? ft_strdup("?") : ft_strdup("{?}");
 	return (dollar);
 }
+
+// char		*parse_dollar(char *dollar)
+// {
+// 	char	*new;
+
+// 	new = NULL;
+// 	while (dollar)
+// }
 
 void		expand(char **s1, int k, int *j, char *dollar)
 {
@@ -51,6 +61,7 @@ void		expand(char **s1, int k, int *j, char *dollar)
 		(*s1)[k] = DOLLAR;
 		if (dollar[0] != '(')
 		{
+			// dollar = parse_dollar(dollar);
 			if (!ft_strpos(":+-_#=?%", dollar))
 				expand_dollar(dollar, s1, j, 0);
 			else
@@ -78,6 +89,7 @@ void	search_and_expand(char **s1, char c)
 		k = ft_strlen(*s1) - ft_strlen(tmp);
 		if (c == DOLLAR)
 			param = get_dollar_var(tmp, &i);
+		// printf("dollar: %s\n", param);
 		if ((*s1)[k - 1 > 0 ? k - 1 : 0] != UQ_ESCAPE
 		&& (*s1)[k - 1 > 0 ? k - 1 : 0] != Q_ESCAPE)
 			expand(s1, k, &j, param);

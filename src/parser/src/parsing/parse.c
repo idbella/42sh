@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/07 12:49:35 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 14:06:42 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ t_job		*parse(char *input)
 	line = gather_tokens(tokens);
 	mark_operators(line);
 	mark_bg_op(line);
-	if (check_syntax_errors(line) || subst_syntax(line))
+	if (check_syntax_errors(line) /*|| subst_syntax(line)*/)
 	{
 		free(line);
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:49:44 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/07 11:02:38 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 14:30:26 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void		mark_operators(char *line)
 		if (!q && !dq && NEQ_ESCAPE(i))
 		{
 			if (line[i] == '$' && line[i + 1] && (ft_isalnum(line[i + 1])
-			|| line[i + 1] == '{' || line[i + 1] == '(' || line[i + 1] == '_'))
+			|| line[i + 1] == '{' || line[i + 1] == '(' || line[i + 1] == '_'
+			|| line[i + 1] == '?'))
 			{
 				line[i] = DOLLAR;
 				continue ;
@@ -101,7 +102,8 @@ void		mark_operators(char *line)
 		line[i] == 92)
 			line[i] = Q_ESCAPE;
 		else if (line[i] == '$' && line[i + 1] && (ft_isalnum(line[i + 1])
-		|| line[i + 1] == '{' || line[i + 1] == '(' || line[i + 1] == '_'))
+		|| line[i + 1] == '{' || line[i + 1] == '(' || line[i + 1] == '_'
+		|| line[i + 1] == '?'))
 			line[i] = DOLLAR;
 	}
 }
