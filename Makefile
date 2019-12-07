@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:59:12 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/02 20:47:32 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/06 18:53:12 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,22 +45,27 @@ all: $(NAME)
 $(NAME): $(MAIN) 
 	gcc $(MAIN) $(LIBs) $(FLAGS) -o $(NAME) -Isrc/includes -ltermcap
 
+$(MAIN): $(LIBs)
+
 $(LIBFT):
-	make -C $(FT)
+	@echo "\tCompiling LIB-FT"
+	@make -C $(FT)
 
 $(LIBPARSER):
-	make -C $(PARSER)
+	@echo "\tCompiling LIB-PARSER"
+	@make -C $(PARSER)
 
 $(LIBREADLINE):
-	make -C $(READLINE)
+	@echo "\tCompiling LIB-READLINE"
+	@make -C $(READLINE)
 
 $(LIBEXEC):
-	make -C $(EXEC)
+	@echo "\tCompiling LIB-EXEC"
+	@make -C $(EXEC)
 
 $(LIBBUILTINS):
-	make -C $(BUILTINS)
-
-$(MAIN): $(LIBs)
+	@echo "\tCompiling LIB-BUILTINS"
+	@make -C $(BUILTINS)
 
 clean:
 	rm -rf $(MAIN)

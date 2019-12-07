@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 18:31:52 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/06 11:17:13 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/07 10:46:36 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,20 +201,49 @@ t_auto	*ft_get_completion_path_42(char *to_complete)
 
 t_auto	*ft_get_completion_built_42(char *to_complete, t_auto **lst)
 {
-	char	**env;
+	// char	**env;
 	int		len;
 	int		i;
 
 	i = 0;
-	env = ft_serialize_env(INCLUDE_UNEXPORTED | KEYS_ONLY);
+	// env = ft_serialize_env(INCLUDE_UNEXPORTED | KEYS_ONLY);
+	len = ft_strlen(to_complete);
 	while (i < BUILTINS_COUNT)
 	{
-		len = ft_strlen(to_complete);
 		if (ft_strncmp(get_shell_cfg(0)->builtins[i].key, to_complete, len) == 0)
 			*lst = add_to_auto_42(*lst, get_shell_cfg(0)->builtins[i].key);
 		i++;
 	}
 	return(*lst);
+}
+
+
+t_auto	*ft_get_completion_env_var_42(char *to_complete)
+{
+	t_auto	*lst;
+	char	**env;
+	int		len;
+	int		i;
+
+	i = 0;
+	lst = NULL;
+	env = ft_serialize_env(INCLUDE_UNEXPORTED | KEYS_ONLY);
+	while (to_complete[i] && to_complete[i] != '$')
+		i++;
+	to_complete = &(to_complete[i + 1]);
+	i = 0;
+	len = ft_strlen(to_complete);
+	while (env[i])
+	{
+		// dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\nto = %s var = %s\n", to_complete, env[i]);
+		if (ft_strncmp(env[i], to_complete, len) == 0)
+		{
+			lst = add_to_auto_42(lst, env[i]);
+			//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\nto = %s var = %s\n", to_complete, env[i]);
+		}
+		i++;
+	}
+	return (lst);
 }
 
 t_auto	*ft_get_completion_42(char *to_complete, t_init *init, char from)
@@ -230,6 +259,10 @@ t_auto	*ft_get_completion_42(char *to_complete, t_init *init, char from)
 	{
 		lst = ft_get_completion_path_42(to_complete);
 		lst = ft_get_completion_built_42(to_complete, &lst);
+	}
+	else if (from == 'V')
+	{
+		lst = ft_get_completion_env_var_42(to_complete);
 	}
 	return (lst);
 }
@@ -398,36 +431,75 @@ t_auto	*ft_search_complete_pwd_42(char *to_complete)
 	return(auto_lst);
 }
 
+int		ft_is_var(char *to_complete)
+{
+	//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\ni am checking if var\n");
+	//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\n+++---%s---+++\n",to_complete);
+	int i;
+	int n;
 
-void	ft_print_completion_42(t_init *init)
+	i = 0;
+	n = 0;
+	while (to_complete[i])
+	{
+		if (to_complete[i] == '$')
+			n++;
+		i++;
+	}
+	return (n);
+}
+
+
+void	ft_print_one_completion(t_init *init, char *to_complete)
+{
+	char	*completion;
+	int		i;
+	char	*str;
+
+	i = 0;
+	completion = NULL;
+	str = NULL;
+	if (ft_is_var(to_complete) == 1)
+		{
+			while (to_complete[i] && to_complete[i] != '$')
+				i++;
+			str = ft_strsub(to_complete, 0, i + 1);
+			completion = ft_strjoin(str, (init->completion_lst->str));
+			ft_strdel(&str);
+			replace_the_auto_comlete_42(init, completion);
+			
+		}
+		else
+			completion = ft_strdup(init->completion_lst->str);
+		replace_the_auto_comlete_42(init, completion);
+		ft_strdel(&completion);
+}
+
+void	ft_print_completion_42(t_init *init, char *to_complete)
 {
 	int			max_len;
 	int			lst_len;
 	int			print_len;
-
+	
 	init->completion_lst_position = init->completion_lst;
 	if (init->completion_lst == NULL)
 		return ;
 	max_len = ft_max_len_lst_42(init->completion_lst, &lst_len);
 	if (lst_len == 1)
-		replace_the_auto_comlete_42(init, (init->completion_lst)->str);
+		ft_print_one_completion(init, to_complete);
 	else if (lst_len > 1)
 	{
 		init->auto_comlpetion = 1;
 		print_len = ft_8_42(max_len);
-		tputs(tgetstr("sc", NULL), 0, my_putchar);
+		///tputs(tgetstr("sc", NULL), 0, my_putchar);
 		ft_ls_print_42(init->completion_lst, print_len, lst_len);
-		tputs(tgetstr("rc", NULL), 0, my_putchar);
+		///tputs(tgetstr("rc", NULL), 0, my_putchar);
+		ft_putchar('\n');
+		ft_putstr(init->out_put);
 	}
 
 }
 
-
-// int		ft_is_var(char *to_complete)
-// {
-	
-// 	return (0);
-// }
 
 // int		ft_is_folder(char *to_complete)
 // {
@@ -439,6 +511,7 @@ void	ft_autocomplete_42(t_init *init)
 {
 	char	*to_complete;
 	char	*s;
+	int 	n;
 
 	to_complete = NULL;
 	s = &(init->out_put[5]);
@@ -453,24 +526,42 @@ void	ft_autocomplete_42(t_init *init)
 	////if this is env var should be completed
 	if (ft_is_first_word_42(s) == 0)
 	{
-		//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\ni am the first word\n");
 		to_complete = ft_take_to_complte_42(init);
-		//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\n---%s-----\n",to_complete);
-		if (to_complete != NULL)
+		n = ft_is_var(to_complete);
+		if (n == 1)
 		{
-			init->completion_lst = ft_get_completion_42(to_complete, init, 'C');
-			ft_print_completion_42(init);
+			init->completion_lst = ft_get_completion_42(to_complete, init, 'V');
+			ft_print_completion_42(init, to_complete);
+		}   
+		else if (n > 1)
+			return ;
+		else
+		{
+			if (to_complete != NULL)
+			{
+				init->completion_lst = ft_get_completion_42(to_complete, init, 'C');
+				ft_print_completion_42(init, to_complete);
+			}
 		}
 	}
 	else
 	{
-		//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\ni am noooot da first word\n");
 		to_complete = ft_take_to_complte_42(init);
-		//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\n***--%s--***\n",to_complete);
-		init->completion_lst = ft_search_complete_pwd_42(to_complete);
-		if (init->completion_lst == NULL)
+		n = ft_is_var(to_complete);
+		if (n == 1)
+		{
+			init->completion_lst = ft_get_completion_42(to_complete, init, 'V');
+			ft_print_completion_42(init, to_complete);
+		}   
+		else if (n > 1)
 			return ;
-		ft_print_completion_42(init);
+		else
+		{
+			init->completion_lst = ft_search_complete_pwd_42(to_complete);
+			if (init->completion_lst == NULL)
+				return ;
+			ft_print_completion_42(init, to_complete);
+		}
 	}
 	ft_free_auto_lst(&(init->completion_lst));
 	init->completion_lst = NULL;

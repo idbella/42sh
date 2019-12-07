@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalphanum.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/06 11:27:18 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/06 11:28:28 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/07 10:41:01 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	ft_isalphanum(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_isalnum(str[i]))
+		if (!ft_isalnum(str[i]) && *str != '_')
 			return (0);
 		i++;
 	}

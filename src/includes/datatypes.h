@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/07 10:54:33 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 11:07:33 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct			s_container
 	t_list			*list;
 	t_job			*current;
 	t_list			*notify;
-	t_job			*last;
+	t_job			*prev;
 	uint8_t			last_status;
 	char			time_to_exit;
 	int				stdcopy;

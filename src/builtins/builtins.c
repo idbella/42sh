@@ -6,11 +6,27 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:19:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 14:40:04 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 20:27:58 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+t_function	*ft_is_builtin(char *arg)
+{
+	t_map	*map;
+	int		i;
+
+	i = 0;
+	while (i < BUILTINS_COUNT)
+	{
+		map = &get_shell_cfg(0)->builtins[i];
+		if (ft_strequ(map->key, arg))
+			return (map->value);
+		i++;
+	}
+	return (NULL);
+}
 
 void	ft_addbuiltin(char *name, void *ptr)
 {
@@ -20,25 +36,6 @@ void	ft_addbuiltin(char *name, void *ptr)
 	blt = get_shell_cfg(0)->builtins;
 	i = 0;
 	while (i < BUILTINS_COUNT)
-	{
-		if (!blt[i].key)
-		{
-			blt[i].key = name;
-			blt[i].value = ptr;
-			break ;
-		}
-		i++;
-	}
-}
-
-void	ft_addtestbuiltin(char *name, void *ptr)
-{
-	int		i;
-	t_map	*blt;
-
-	blt = ft_getset(0)->testfunctions;
-	i = 0;
-	while (i < TESTFUNCTIONS_COUNT)
 	{
 		if (!blt[i].key)
 		{
@@ -69,39 +66,30 @@ void	ft_addblt()
 	ft_addbuiltin("fc", ft_fc);
 }
 
-void	ft_fill(t_shell *shell)
-{
-	int i;
-
-	i = 0;
-	while (i < BUILTINS_COUNT)
-		shell->builtins[i++].key = NULL;
-	i = 0;
-	while (i < TESTFUNCTIONS_COUNT)
-		ft_getset(0)->testfunctions[i++].key = NULL;
-	ft_addblt();
-}
-
 void	ft_init_builtins(char **env)
 {
 	char	*key;
 	char	*value;
 	t_shell	*shell;
 	t_map	*mp;
+	int		i;
 
+	
 	ft_init_hash();
 	while (*env)
 	{
-		
 		ft_get_kv(*env, &key, &value);
-		mp = ft_addtohashmap(key, value, INTERN);
+		if ((mp = ft_addtohashmap(key, value, INTERN)))
+			mp->exported = 1;
 		free(key);
 		free(value);
-		mp->exported = 1;
 		env++;
 	}
 	shell = get_shell_cfg(0);
-	ft_fill(shell);
+	i = 0;
+	while (i < BUILTINS_COUNT)
+		shell->builtins[i++].key = NULL;
+	ft_addblt();
 	ft_getset(0)->test_operators = ft_strsplit("\127,-b,-c,-d,-e,-f,-L,-p,-S,\
 -u,-g,-r,-w,-x,-z,-s,=,!=,-eq,-ne,-ge,-lt,-le,-gt", ',');
 }

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 17:49:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 14:44:49 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 21:29:49 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void	ft_addjob(t_job *job, t_container *container)
 	t_list		*list;
 
 	list = container->list;
+	if (container->current != job)
+	{
+		container->prev = container->current;
+		container->current = job;
+	}
 	if (ft_getbypgid(list, job->pgid))
 		return ;
 	ft_lstadd(&container->list, ft_lstnew(job, 0));

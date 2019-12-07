@@ -6,13 +6,13 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/06 14:42:37 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/06 20:31:29 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=libbuiltins.a
 
-OBJ=ft_type.o ft_is_builtin.o\
+OBJ=type/ft_type.o\
 exit/ft_exit.o\
 builtins.o\
 hashmap/ft_addtomap.o\
@@ -30,7 +30,7 @@ interns/ft_getinters.o\
 interns/ft_isintern.o\
 interns/ft_cpyenv.o\
 cd/ft_cd.o\
-ft_echo.o\
+echo/ft_echo.o\
 alias/ft_alias.o         alias/ft_free_aliases.o   alias/ft_showaliases.o  alias/ft_unalias.o\
 test/ft_eval.o          test/ft_numbertest.o    test/ft_test.o\
 test/ft_rd_wr_ex.o      test/ft_usergroup.o\

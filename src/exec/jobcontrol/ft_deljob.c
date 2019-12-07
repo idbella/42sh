@@ -6,20 +6,21 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 02:57:49 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 16:44:01 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 21:28:17 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "jobcontrol.h"
 
-void	ft_del(t_list *prev, t_list *list, t_container *container)
+void	ft_del(/*t_list *prev, t_list *list,*/ t_container *container)
 {
-	if (list->next)
-		container->current = list->next->content;
-	else if (prev)
-		container->current = prev->content;
-	else
-		container->current = NULL;
+	// if (list->next)
+	// 	container->current = list->next->content;
+	// else if (prev)
+	// 	container->current = prev->content;
+	// else
+	// 	container->current = NULL;
+	container->current = container->prev;
 }
 
 void	ft_save_last_status(t_job *job)
@@ -54,7 +55,7 @@ void	ft_deljob(t_job *job, t_container *container)
 		if (jb->pgid == job->pgid)
 		{
 			if (container->current && container->current->pgid == jb->pgid)
-				ft_del(prev, list, container);
+				ft_del(/*prev, list,*/ container);
 			if (prev)
 				prev->next = list->next;
 			else

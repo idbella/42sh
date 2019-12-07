@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/16 21:51:22 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 14:01:29 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 19:47:17 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_change_state(t_job *job, pid_t pid, int status)
 		ft_getstat(proc, status);
 		if (proc->signaled && !job->processes->next)
 		{
-			if (ft_print_termsig(status, job->command))
+			if (ft_print_termsig(status))
 			{
 				job->notified = 1;
 				return ;

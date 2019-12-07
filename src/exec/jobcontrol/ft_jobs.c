@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:02:19 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:06:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 21:33:31 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ void	ft_printjob(t_job *job, char flag)
 	container = ft_getset(0);
 	sign = ' ';
 	sign = job == container->current ? '+' : ' ';
-	sign = job == container->last ? '-' : sign;
+	sign = job == container->prev ? '-' : sign;
 	if (flag == 'l')
 		ft_printf("[%d] %c %d %s %s\n",
 				job->id,
 				sign,
 				job->pgid,
-				job->suspended ? "suspended" : "running",
+				job->suspended ? "Stoped" : "Running",
 				job->command);
 	else if (flag == 'p')
 		ft_printf("%d\n", job->pgid);
@@ -67,7 +67,7 @@ void	ft_printjob(t_job *job, char flag)
 		ft_printf("[%d] %c %s %s\n",
 				job->id,
 				sign,
-				job->suspended ? "suspended" : "running",
+				job->suspended ? "Stoped" : "Running",
 				job->command);
 }
 

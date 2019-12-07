@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 15:59:22 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/29 21:34:47 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 19:09:21 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_resetsignals(void)
 	signal(SIGTTOU, SIG_DFL);
 	signal(SIGTTIN, SIG_DFL);
 	signal(SIGCHLD, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	ft_ignore_signlas(void)
