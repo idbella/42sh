@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 16:48:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/01 11:08:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 21:09:46 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		ft_init_jobcontrol(void)
 	container->list = NULL;
 	container->current = NULL;
 	container->notify = NULL;
-	container->last = NULL;
+	container->prev = NULL;
 	container->last_aliases = NULL;
 	container->last_status = 0;
 	container->time_to_exit = 1;

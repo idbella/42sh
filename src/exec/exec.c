@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 14:44:41 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 21:07:48 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	ft_execbg(t_job *job)
 	ft_printf("[%d] %d\n", jb->id, jb->pgid); 
 	jb->command = job->command;
 	ft_addjob(jb, ft_getset(0));
-	ft_getset(NULL)->current = jb;
 }
 
 

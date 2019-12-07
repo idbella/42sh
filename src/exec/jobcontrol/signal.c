@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 23:03:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:41:47 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/06 20:03:49 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_stopped_action(t_job *job, t_job *current)
 	char		*st;
 
 	container = ft_getset(0);
-	st = ft_join("[%d] + Stopped %s\n", job->id, job->command);
+	st = ft_join("[%d] + Stopped \t%s\n", job->id, job->command);
 	ft_addjob(job, container);
 	(job == current) ? container->current = job : 0;
 	return (st);
@@ -39,13 +39,13 @@ void	ft_check_job(t_job *job, t_job *current, t_container *container)
 	status = proc->status;
 	if (ft_terminated(job))
 	{
-		if (job != current || proc->signaled)
+		if (job != current || (proc->signaled && WTERMSIG(proc->status) != 2))
 		{
 			if (WIFEXITED(status) && WEXITSTATUS(status))
 				st = ft_join("[%d] + Exit %d\t %s\n", job->id, WEXITSTATUS(status), job->command);
 			else
-				st = ft_join("[%d] + %s %s\n", job->id,
-					ft_strsignal(WTERMSIG(status)), job->command);
+				st = ft_join("[%d]+ %s: %d %s\n", job->id,
+					ft_strsignal(WTERMSIG(status)),WTERMSIG(status), job->command);
 		}
 	}
 	else if (!job->killed && ft_stoped(job))
