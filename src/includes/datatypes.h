@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   datatypes.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 13:50:45 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/07 10:54:33 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,8 @@ typedef struct	s_job
 	char			killed;
 	char			foreground;
 	char			notified;
+	char			sub;
 	struct s_job	*next;
-	t_redir			*gr_redir;
-	struct s_job	*sub;
-	struct s_job	*group;
 }				t_job;
 
 typedef struct		s_map

@@ -6,7 +6,7 @@
 #    By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/06 10:44:37 by yoyassin         ###   ########.fr        #
+#    Updated: 2019/12/07 11:01:17 by yoyassin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ INCLUDE = -I$(INC) -I$(LIB)/includes
 SRC_SUBDIRS = expansions parsing param_expan
 
 SRC_PARAM_EXPAN = $(addprefix param_expan/, params_expan.c rm_mpattern.c params_expan_operaters.c split_param_word.c)
-SRC_EXPANSION = $(addprefix expansions/, alias_expansion.c tild_expansion.c escape.c exp_helper_funcs.c exp_helper_funcs2.c expansions.c)
+SRC_EXPANSION = $(addprefix expansions/, control_substitution.c alias_expansion.c tild_expansion.c escape.c exp_helper_funcs.c exp_helper_funcs2.c expansions.c)
 SRC_PARSING = $(addprefix parsing/, build_job_list.c build_parse_list.c parse.c parse_heredoc.c parse_redir.c parse_redir2.c pre_parsing.c special_chars.c syntax_checking.c utility_funcs.c)
 SRCS = $(SRC_EXPANSION) $(SRC_PARSING) $(SRC_PARAM_EXPAN)
 OBJECT = $(addprefix $(BUILD)/, $(SRCS:.c=.o))

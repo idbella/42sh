@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:49:44 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/06 21:02:23 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 11:02:38 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,6 @@ int			sc_operator(char *line, int i)
 		return ((line[i] = OUT_RED_OP));
 	else if (line[i] == '<' && line[i + 1] != '<')
 		return ((line[i] = IN_RED_OP));
-	else if (line[i] == '$' && line[i + 1] && (ft_isalnum(line[i + 1])
-	|| line[i + 1] == '{' || line[i + 1] == '(' || line[i + 1] == '_'))
-		return ((line[i] = DOLLAR));
 	return (0);
 }
 
@@ -71,10 +68,12 @@ void		mark_operators(char *line)
 	int		i;
 	char	q;
 	char	dq;
+	int		b_p;
 
 	q = 0;
 	dq = 0;
 	i = -1;
+	b_p = 0;
 	while (line[++i])
 	{
 		if (!q && line[i] == '"' && NEQ_ESCAPE(i))
@@ -83,15 +82,26 @@ void		mark_operators(char *line)
 			q = !q;
 		if (!q && !dq && NEQ_ESCAPE(i))
 		{
-			if (dc_operator(line, i) || sc_operator(line, i))
+			if (line[i] == '$' && line[i + 1] && (ft_isalnum(line[i + 1])
+			|| line[i + 1] == '{' || line[i + 1] == '(' || line[i + 1] == '_'))
+			{
+				line[i] = DOLLAR;
 				continue ;
-			else if (isspace(line[i]))
+			}
+			if (line[i] == '{' || line[i] == '(')
+				b_p++;
+			else if (line[i] == '}' || line[i] == ')')
+				b_p--;
+			if (!b_p && (dc_operator(line, i) || sc_operator(line, i)))
+				continue ;
+			else if (!b_p && isspace(line[i]))
 				line[i] = BLANK;
 		}
 		else if (dq && line[(i - 1 > 0) ? i - 1 : 0] != Q_ESCAPE &&
 		line[i] == 92)
 			line[i] = Q_ESCAPE;
-		else if (dq && line[i] == '$')
+		else if (line[i] == '$' && line[i + 1] && (ft_isalnum(line[i + 1])
+		|| line[i + 1] == '{' || line[i + 1] == '(' || line[i + 1] == '_'))
 			line[i] = DOLLAR;
 	}
 }

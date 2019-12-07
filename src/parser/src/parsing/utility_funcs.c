@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:50:04 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/06 21:05:57 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 10:53:54 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int		get_list_node(char type, void **curr, char *str)
 			return (0);
 		((t_job *)*curr)->command = get_cmd_string(str);
 		((t_job *)*curr)->flag = 0;
+		((t_job *)*curr)->sub = 0;
 		((t_job *)*curr)->next = NULL;
 	}
 	else

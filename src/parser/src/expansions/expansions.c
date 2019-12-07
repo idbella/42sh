@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/06 21:02:44 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 11:00:52 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,26 @@ char		*get_dollar_var(char *tmp, int *i)
 
 	*i = 1;
 	br = 0;
-	if (tmp[*i] == '{')
+	if (tmp[*i] == '{' || tmp[*i] == '(')
 	{
 		*i = 2;
-		br = 1;
+		br = tmp[*i];
 	}
 	if (tmp[*i] != '?')
 	{
-		while (ft_isalnum(tmp[*i]) || ft_strchr(":+-_#=?%", tmp[*i]))
+		while (tmp[*i])
+		{
+			while (ft_isalnum(tmp[*i]) || (br == '{' && ft_strchr(":+-_#=?{}%", tmp[*i]))
+			|| (br == '(' && tmp[*i]))
+				(*i)++;
+			if (br == '(' && tmp[*i] == ')')
+				break ;
+			else if (br == '{' && tmp[*i] == '}')
+				break ;
 			(*i)++;
+		}
 		dollar = ft_strsub(tmp, 1, !br ? (*i) - 1 : *i);
+		// printf("dollar : %s\n", dollar);
 	}
 	else
 	{
@@ -49,6 +59,11 @@ void		expand(char **s1, int k, int *j, char *dollar)
 				expand_dollar(dollar, s1, j, 0);
 			else
 				expand_dollar(dollar, s1, j, 1);
+		}
+		else
+		{
+			control_subtitution(dollar, s1, j);
+			(*j)++;
 		}
 	}
 }

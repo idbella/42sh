@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 15:17:45 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 11:00:27 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void			apply_expansions(char **args);
 t_token			*alias_expansion(char **line);
 char			*gather_tokens(t_token *tokens);
 char			*rc(t_token *tokens);
+void			control_subtitution(char *token, char **s1, int *j);
 void			search_and_expand(char **s1, char c);
 int				apply_glob_expansion(char *gl_pattern, char **args);
 void			quotes_delimiter(char **tmp);
