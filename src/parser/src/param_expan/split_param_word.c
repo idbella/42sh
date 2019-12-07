@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 09:18:20 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/06 19:07:12 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/07 12:54:24 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void	specify_expan_type(t_param_expan_st *p_w, char *p_ex, int i)
 		p_ex[i] = -1;
 		if (p_ex[i + 1] == '+' && (p_w->operation_type = p_ex[i + 1]))
 			p_ex[i + 1] = -1;
-		if (p_ex[i + 1] == '-' && (p_w->operation_type = p_ex[i + 1]))
+		else if (p_ex[i + 1] == '-' && (p_w->operation_type = p_ex[i + 1]))
 			p_ex[i + 1] = -1;
-		if (p_ex[i + 1] == '=' && (p_w->operation_type = p_ex[i + 1]))
+		else if (p_ex[i + 1] == '=' && (p_w->operation_type = p_ex[i + 1]))
 			p_ex[i + 1] = -1;
-		if (p_ex[i + 1] == '?' && (p_w->operation_type = p_ex[i + 1]))
+		else if (p_ex[i + 1] == '?' && (p_w->operation_type = p_ex[i + 1]))
 			p_ex[i + 1] = -1;
 	}
 	else if (p_ex[i] == '%' || p_ex[i] == '#')
@@ -72,15 +72,15 @@ void	specify_expan_type(t_param_expan_st *p_w, char *p_ex, int i)
 	else
 	{
 		p_w->type = 'A';
+		if (p_ex[i] == '-')
+			p_w->operation_type = p_ex[i];
+		if (p_ex[i] == '+')
+			p_w->operation_type = p_ex[i];
+		if (p_ex[i] == '=')
+			p_w->operation_type = p_ex[i];
+		if (p_ex[i] == '?')
+			p_w->operation_type = p_ex[i];
 		p_ex[i] = -1;
-		if (p_ex[i + 1] == '+' && (p_w->operation_type = p_ex[i + 1]))
-			p_ex[i + 1] = -1;
-		if (p_ex[i + 1] == '-' && (p_w->operation_type = p_ex[i + 1]))
-			p_ex[i + 1] = -1;
-		if (p_ex[i + 1] == '=' && (p_w->operation_type = p_ex[i + 1]))
-			p_ex[i + 1] = -1;
-		if (p_ex[i + 1] == '?' && (p_w->operation_type = p_ex[i + 1]))
-			p_ex[i + 1] = -1;
 	}
 }
 
@@ -89,9 +89,11 @@ void	specify_param_word(t_param_expan_st *p_w, char *p_ex)
 	int		i;
 
 	i = 0;
+	if (p_ex[0] == -1)
+		i = 1;
 	while (p_ex[i] && p_ex[i] != -1)
 		i++;
-	p_w->param = ft_strsub(p_ex, 0, i);
+	p_w->param = ft_strsub(p_ex, (p_ex[0] == -1 ? 1 : 0), i);
 	if (p_ex[i] == -1 && p_ex[i + 1] == -1)
 		i += 2;
 	else
