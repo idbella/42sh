@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 09:18:20 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/07 12:54:24 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/07 17:42:56 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	specify_expan_type(t_param_expan_st *p_w, char *p_ex, int i)
 		if (p_ex[i] == '%')
 		{
 			p_ex[i] = -1;
-			if (p_ex[i + 1] == '%' && (p_w->operation_type == 'S'))
+			if (p_ex[i + 1] == '%' && (p_w->operation_type = 'S'))
 				p_ex[i + 1] = -1;
 			else
 				p_w->operation_type = 's';
@@ -62,7 +62,7 @@ void	specify_expan_type(t_param_expan_st *p_w, char *p_ex, int i)
 				p_w->operation_type = 'l';
 			else
 			{
-				if (p_ex[i + 1] == '#' && (p_w->operation_type == 'B'))
+				if (p_ex[i + 1] == '#' && (p_w->operation_type = 'B'))
 					p_ex[i + 1] = -1;
 				else
 					p_w->operation_type = 'b';

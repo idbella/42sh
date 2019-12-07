@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:59:34 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/07 13:06:41 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/07 18:41:30 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		find_preffix(char *src, char *preffix, char preffix_size)
 			else
 				i_preffix -= 2;
 		}
-		if (src[i_src] != preffix[i_preffix])
+		if (src[i_src] != preffix[i_preffix] || !preffix[i_preffix])
 			break;
 		i_src++;
 		i_preffix++;
@@ -60,13 +60,11 @@ int		find_preffix(char *src, char *preffix, char preffix_size)
 int		find_suffix(char *src, char *suffix, char suffix_size)
 {
 	int		i_src;
-	int		init;
 	int		globing;
 	int		i_suffix;
-
+	
 	i_src = ft_strlen(src);
-	i_suffix = ft_strlen(src);
-	init = 0;
+	i_suffix = ft_strlen(suffix);
 	while (i_src && i_suffix)
 	{
 		if (suffix[i_suffix] == '*')
@@ -91,8 +89,10 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 			else
 				i_suffix -= 2;
 		}
-		if (src[i_src] != suffix[i_suffix])
+		if (src[i_src] != suffix[i_suffix] || !i_suffix)
 			break;
+		i_src--;
+		i_suffix--;
 	}
 	if (i_suffix)
 		return (-1);
@@ -102,27 +102,31 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 char	*rm_suffix(t_param_expan_st *p_w)
 {
 	int		i_src;
+	char	*value;
 
+	value = ft_getvlaue_bykey(p_w->param, INTERN);
 	if (p_w->operation_type == 's')
 	{
-		i_src = find_suffix(p_w->param, p_w->word, 's');
-		return (ft_strsub(p_w->param, i_src, ft_strlen(p_w->param) - i_src));
+		i_src = find_suffix(value, p_w->word, 's');
+		return (ft_strsub(value, 0, i_src));
 	}
-	i_src = find_suffix(p_w->param, p_w->word, 'S');
-	return (ft_strsub(p_w->param, i_src, ft_strlen(p_w->param) - i_src));
+	i_src = find_suffix(value, p_w->word, 'S');
+	return (ft_strsub(value, 0, i_src));
 }
 
 char	*rm_preffix(t_param_expan_st *p_w)
 {
 	int		i_src;
+	char	*value;
 
+	value = ft_getvlaue_bykey(p_w->param, INTERN);
 	if (p_w->operation_type == 'b')
 	{
-		i_src = find_preffix(p_w->param, p_w->word, 'b');
-		return (ft_strsub(p_w->param, 0, i_src));
+		i_src = find_preffix(value, p_w->word, 'b');
+		return (ft_strsub(value, i_src, ft_strlen(value) - i_src));
 	}
-	i_src = find_suffix(p_w->param, p_w->word, 'B');
-	return (ft_strsub(p_w->param, 0, i_src));
+	i_src = find_preffix(value, p_w->word, 'B');
+	return (ft_strsub(value, i_src, ft_strlen(value) - i_src));
 }
 char	*rm_ffixers(t_param_expan_st *param_word)
 {
