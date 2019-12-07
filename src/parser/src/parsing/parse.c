@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/06 15:22:37 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 12:49:35 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int			match_expr(char *token)
 	if (err)
 		ft_putendl_fd("42sh: bad substitution", 2);
 	free(token);
-	return (1);
+	return (err);
 }
 
 int			subst_syntax(char *line) //ONLY SIMPLE FORMAT FOR NOW
@@ -159,13 +159,13 @@ int			subst_syntax(char *line) //ONLY SIMPLE FORMAT FOR NOW
 			{
 				if (line[i] == BLANK || line[i] == ' ' || line[i] == '{')
 				{
-					ft_putendl_fd("42sh: bad substitution", 2);
+					ft_putstr_fd("42sh: bad substitution", 2);
 					return (0);
 				}
 				i++;
 			}
 			token = ft_strsub(line, start, i - start);
-			if (!match_expr(token))
+			if (match_expr(token))
 				return (1);
 		}
 		i++;

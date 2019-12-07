@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/07 11:03:54 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 11:34:38 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	control_subtitution(char *token, char **s1, int *j)
 	(void)j;
 	(void)s1;
 	line = ft_strsub(token, 1, ft_strlen(token) - 2);
-	printf("line: %s\n", line);
+	// printf("line: %s\n", line);
 	pipe(p);
 	get_shell_cfg(0)->interractive = 0;
 	if (!fork())

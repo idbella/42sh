@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/07 11:00:52 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/07 13:27:36 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,20 @@ char		*get_dollar_var(char *tmp, int *i)
 	br = 0;
 	if (tmp[*i] == '{' || tmp[*i] == '(')
 	{
-		*i = 2;
 		br = tmp[*i];
+		*i = 2;
 	}
 	if (tmp[*i] != '?')
 	{
 		while (tmp[*i])
 		{
-			while (ft_isalnum(tmp[*i]) || (br == '{' && ft_strchr(":+-_#=?{}%", tmp[*i]))
+			while (ft_isalnum(tmp[*i]) || (br == '{' && ft_strchr(":+-_#=?%", tmp[*i]))
 			|| (br == '(' && tmp[*i]))
 				(*i)++;
-			if (br == '(' && tmp[*i] == ')')
+			if ((br == '(' && tmp[*i] == ')') || (br == '{' && tmp[*i] == '}'))
 				break ;
-			else if (br == '{' && tmp[*i] == '}')
-				break ;
-			(*i)++;
 		}
 		dollar = ft_strsub(tmp, 1, !br ? (*i) - 1 : *i);
-		// printf("dollar : %s\n", dollar);
 	}
 	else
 	{
