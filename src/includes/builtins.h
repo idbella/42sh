@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 11:06:19 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/08 19:47:42 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		            ft_test(char **args);
 void	            ft_show_aliases(char *key);
 int	                ft_alias(char **args);
 int	    	        ft_unalias(char **cmd);
-
+char	            **ft_getaliaskeys(void);
 int	                ft_echo(char **args);
 
 int	    			ft_fg(char **arg);
