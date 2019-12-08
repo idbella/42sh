@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/07 11:34:38 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/08 19:11:22 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,19 @@ void	control_subtitution(char *token, char **s1, int *j)
 	}
 	wait(NULL);
 	close(p[1]);
+	// *s1 = NULL;
 	while (get_next_line(p[0], '\n',&buffer))
-		printf("buffer: %s\n", buffer);
+	{
+		// printf("buffer: %s\n", buffer);
+		if (!*s1)
+		{
+			*s1 = ft_strdup(buffer);
+		}
+		else
+		{
+			*s1 = ft_strjoin(*s1, buffer);
+		}
+		
+	}
 	close(p[0]);
 }

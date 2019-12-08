@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/07 11:00:27 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/08 15:55:13 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@
 /* 
 ** 
 */
-
+# define STACK_SIZE 100
 typedef	struct s_token
 {
 	char			**list;
@@ -78,6 +78,12 @@ typedef	struct s_token
 	struct s_token	*next;
 }				t_token;
 
+typedef	struct s_stack
+{
+	char			*str;
+	int				d_pos;
+	struct s_token	*next;
+}				t_stack;
 
 // t_shell			*init_shell(void);
 // t_shell			*get_shell_cfg(t_shell *new);
@@ -110,14 +116,14 @@ t_token			*alias_expansion(char **line);
 char			*gather_tokens(t_token *tokens);
 char			*rc(t_token *tokens);
 void			control_subtitution(char *token, char **s1, int *j);
-void			search_and_expand(char **s1, char c);
+void			search_and_expand(char **s1);
 int				apply_glob_expansion(char *gl_pattern, char **args);
 void			quotes_delimiter(char **tmp);
 int				is_not_blank(char *line, int j, int i);
 int				is_word(char *word);
 char			*get_esc_char(char *str, char c);
 char			*get_substring(char *str, int *k, char type);
-void			expand_dollar(char *dollar, char **args, int *j, char op);
+void			expand_dollar(char *dollar, char **args, int *j, int length);
 void			expand_tilde(char **args);
 void			quoted_escape(char **arg);
 void			remove_quotes(char **args);
