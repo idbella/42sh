@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 01:04:33 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 13:25:36 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/08 09:39:24 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int		ft_getinterns(t_params *params, t_process *cmd)
 			params->argv_index = i;
 			status = ft_run(params, cmd);
 			ft_free_tmp_env(params->tmpenv);
+			params->tmpenv = NULL;
 		}
 		i++;
 	}

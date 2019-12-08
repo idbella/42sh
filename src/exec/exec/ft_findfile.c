@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 14:51:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 13:01:16 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/08 09:34:18 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 char	*ft_getpath(void)
 {
-	t_list		*l;
-	t_map		*m;
-	t_params	*p;
+	t_list		*list;
+	t_map		*map;
+	t_params	*params;
 
-	p = ft_getset(0)->params;
-	m = NULL;
-	l = p ? p->tmpenv : NULL;
-	while (l)
+	params = ft_getset(0)->params;
+	map = NULL;
+	list = params ? params->tmpenv : NULL;
+	while (list)
 	{
-		m = l->content;
-		if (ft_strequ(m->key, "PATH"))
+		map = list->content;
+		if (ft_strequ(map->key, "PATH"))
 			break ;
-		m = NULL;
-		l = l->next;
+		map = NULL;
+		list = list->next;
 	}
-	if (!m)
+	if (!map)
 		return (ft_getenv("PATH"));
-	return (m->value);
+	return (map->value);
 }
 
 char	*getfullpath(char *name)
@@ -42,8 +42,6 @@ char	*getfullpath(char *name)
 	char	*fullname;
 
 	fullname = NULL;
-	if (ft_strchr(name, '/'))
-		return (ft_strdup(name));
 	if ((path = ft_getpath()))
 	{
 		if ((entrys = ft_strsplit(path, ':')))
@@ -71,13 +69,15 @@ char	*ft_findfile(char *name, char **error, char add)
 
 	p = ft_getset(0)->params;
 	file = NULL;
-	if ((!p->tmpenv) && (file = ft_getvlaue_bykey(name, COMMANDS)))
+	if (!p->tmpenv && (file = ft_getvlaue_bykey(name, COMMANDS)))
 	{
 		if (access(file, F_OK))
 			file = NULL;
 		else
 			file = ft_strdup(file);
 	}
+	if (ft_strchr(name, '/'))
+		file = ft_strdup(name);
 	if (!file && ((file = getfullpath(name))) && add)
 		ft_addtohashmap(name, file, COMMANDS)->hits = 1;
 	if (file && !stat(file, &state))

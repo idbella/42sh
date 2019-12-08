@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 14:40:20 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/08 11:06:19 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ char	            ft_isalphanum(char *str);
 ** get a (char **) version of the envirenment , return value may
 ** include unexported intern variables when `INCLUDE_UNEXPORTED` is specified
 */
+
+/*
+** ft_getopt
+*/
+
+int             	ft_getopt(char **args, char *buffer, char *valid);
 
 char				**ft_serialize_env(char exported);
 

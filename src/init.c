@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:12:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 21:21:39 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/07 18:50:54 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void	init_(t_shell *shell, char **env, t_init *init)
 	ft_init_readline(init);
 	ft_read_file_(init);
 	ft_add_history_(init, "", 0);
+	ft_getset(0)->term = &init->term_copy;
 	shell->last_exit = 0;
 }

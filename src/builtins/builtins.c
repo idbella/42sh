@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:19:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 20:27:58 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/08 10:54:00 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ft_init_builtins(char **env)
 	t_map	*mp;
 	int		i;
 
-	
 	ft_init_hash();
 	while (*env)
 	{

@@ -6,13 +6,13 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/06 20:31:29 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/08 11:33:10 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=libbuiltins.a
 
-OBJ=type/ft_type.o\
+OBJ=ft_getopt.o type/ft_type.o\
 exit/ft_exit.o\
 builtins.o\
 hashmap/ft_addtomap.o\

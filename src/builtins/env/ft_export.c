@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 20:43:27 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 11:33:10 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/08 11:44:36 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,6 @@ int		ft_printenv(void)
 	return (0);
 }
 
-static int	ft_get_flags(char **cmd)
-{
-	int i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (*cmd[i] == '-')
-		{
-			if (ft_strequ(cmd[i] + 1, "p"))
-			{
-				ft_printenv();
-				return (-2);
-			}
-			else
-			{
-				ft_printf_fd(2, "42sh: export: -%c: invalid option\n", cmd[i]);
-				return (-1);
-			}
-		}
-		else
-			return (i);
-		i++;
-	}
-	return (i);
-}
-
 static int	ft__export__(int export, char *arg)
 {
 	t_map	*map;
@@ -61,6 +34,7 @@ static int	ft__export__(int export, char *arg)
 	ft_get_kv(arg, &key, &value);
 	if (ft_isdigit(key[0]) && key[1] && ft_isalphanum(key + 1))
 	{
+
 		ft_printf("42sh: export: `%s': not a valid identifier\n", key);
 		return (1);
 	}
@@ -86,16 +60,19 @@ int		ft_export(char **args)
 	int		i;
 	char	export;
 	int		rvalue;
+	char	buffer[127];
 
 	if (!args || !args[0])
 		return (ft_printenv());
-	if ((i = ft_get_flags(args)) < 0)
+	if ((i = ft_getopt(args, buffer, "P")) < 0)
 	{
-		if (i == -1)
-			ft_printf_fd(2,
+		ft_printf_fd(2, "42sh: export: -%c: invalid option\n", -i);
+		ft_printf_fd(2,
 				"42sh: usage: export [-p] [name[=value] ...]\n");
 		return (1);
 	}
+	if (buffer['P'])
+		return (ft_printenv());
 	rvalue = 0;
 	while (args[i])
 	{

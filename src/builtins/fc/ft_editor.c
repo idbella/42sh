@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/06 14:41:50 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 14:47:38 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/08 13:07:14 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		ft_run_fc_editor(char **args)
 	t_params	p;
 	t_job		*job;
 
+	if (!args || !args[0])
+		return (1);
 	p.pipe_stdin = -1;
 	p.tmpenv = NULL;
 	p.argv_index = 0;
