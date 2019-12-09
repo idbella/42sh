@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 16:12:10 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/08 16:03:31 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/09 16:16:48 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ void	expand_dollar(char *dollar, char **args, int *j, int length)
 	s1 = ft_strsub(*args, 0, pos);
 	s2 = ft_strsub(*args, pos + length + 1,
 	ft_strlen(*args) - (length + ft_strlen(s1)) - 1);
-	dollar = dollar[0] == '{' ? ft_strsub(dollar, 1, ft_strlen(dollar) - 2) : dollar;
+	// printf("len: %d\n", length - 2);
+	dollar = dollar[0] == '{' ? ft_strsub(dollar, 1, length - 2) : dollar;
 	expansion = get_param_expan(dollar);
+	printf("dollar: %s\n", dollar);
 	if ((*args)[pos + 1] == '?')
 		s1 = ft_fstrjoin(s1, ft_itoa(ft_get_last_rvalue(), 10));
 	else if (expansion)

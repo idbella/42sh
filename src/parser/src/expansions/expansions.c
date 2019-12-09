@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/09 13:17:22 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/09 16:42:50 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void		expand_param(char **s, char type)
 				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 			if ((exp = control_subtitution(param, type)))
 				str[0] = ft_strjoin(str[0], exp);
+			// printf("exp: %s\n", exp);
 		}
 		else
 		{
@@ -88,9 +89,15 @@ void		expand_param(char **s, char type)
 			if ((*s)[ft_strlen(param) + k + 1])
 				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 			param = ft_strsub(param, 1, ft_strlen(param) - 2);
+			// printf("dparam: %s\n", param);
 			if ((exp = get_param_expan(param)))
 				str[0] = ft_strjoin(str[0], exp);
+			// printf("exp2: %s\n", exp);
 		}
+		if (str[0] && !ft_strlen(str[0]))
+			str[0][0] = BLANK;
+		if (str[1] && !ft_strlen(str[1]))
+			str[1][0] = BLANK;
 		// printf("param: %s\n", param);
 		// printf("str[0]: %s\nstr[1]: %s\n", str[0], str[1]);
 		// printf("ft_strlen(param) + k + 1: %lu\n", ft_strlen(param) + k + 1);
@@ -117,15 +124,15 @@ void		search_and_expand(char **s, char type)
 	while ((tmp = ft_strchr((*s) + j, DOLLAR)))
 	{
 		k = ft_strlen(*s) - ft_strlen(tmp);
+		str[0] = ft_strsub(*s, 0, k);
 		if ((*s)[k + 1] == '(')
 		{
 			param = get_dollar_var(tmp, &i, 0);
-			str[0] = ft_strsub(*s, 0, k);
+			// str[0] = ft_strsub(*s, 0, k);
 			if ((*s)[ft_strlen(param) + k + 1])
 				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 			if ((exp = control_subtitution(param, type)))
 				str[0] = ft_strjoin(str[0], exp);
-			*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0), str[1] ? str[1] : ft_strnew(0));
 		}
 		else
 		{
@@ -133,13 +140,25 @@ void		search_and_expand(char **s, char type)
 			if (ft_strchr(param, DOLLAR))
 			{
 				len = ft_strlen(param);
+				if ((*s)[ft_strlen(param) + k + 1])
+					str[1] = ft_strdup((*s) + len + k + 1);
 				expand_param(&param, type);
-				expand_dollar(param, s, &j, len);
+				param = ft_strsub(param, 1, ft_strlen(param) - 2);
+				// expand_dollar(param, s, &j, len);
 			}
 			else
-				expand_dollar(param, s, &j, -1);
+				param = ft_strsub(param, 1, ft_strlen(param) - 2);
+			// printf("param: %s\n", param);
+			if ((exp = get_param_expan(param)))
+				str[0] = ft_strjoin(str[0], exp);
 		}
-		j += 1;
+		if (str[0] && !ft_strlen(str[0]))
+			str[0][0] = BLANK;
+		if (str[1] && !ft_strlen(str[1]))
+			str[1][0] = BLANK;
+		*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0), str[1] ? str[1] : ft_strnew(0));
+		if ((size_t)j < ft_strlen(*s))
+			j += 1;
 	}
 }
 
@@ -174,8 +193,7 @@ char		**convert_args(t_arg *h, int size)
 	int 	i;
 	int		j;
 
-	// printf("size: %d\n", size);
-	if (!(new = (char **)malloc(sizeof(char *) * size + 1)))
+	if (!(new = (char **)malloc(sizeof(char *) * (size + 1))))
 		exit(EXIT_FAILURE);
 	i = 0;
 	j = 0;
@@ -184,13 +202,14 @@ char		**convert_args(t_arg *h, int size)
 		i = 0;
 		while (h->arg[i])
 		{
-			new[j] = h->arg[i];
+			new[j] = ft_strdup(h->arg[i]);
+			// printf("new[j]: %s\n", new[j]);
 			i++;
 			j++;
 		}
 		h = h->next;
 	}
-	new[j] = 0;
+	new[j] = NULL;
 	return (new);
 }
 
@@ -228,9 +247,13 @@ char 		**apply_expansions(char **args)
 		if (ft_strchr(*args, BLANK))
 		{
 			c->arg = ft_strsplit(*args, BLANK);
-			while (c->arg[size])
-				size++;
-			size++;
+			int	j = 0;
+			while (c->arg[j])
+			{
+				// printf("c>arg: %s\n", c->arg[j]);
+				j++;
+			}
+			size += j;
 		}
 		else
 		{
@@ -247,12 +270,7 @@ char 		**apply_expansions(char **args)
 		t = c;
 		args++;
 	}
-	char **new = convert_args(h, size);
-	char **tmp2 = new;
-	// while (*new)
-	// {
-	// 	printf("*new: %s\n", *new);
-	// 	new++;
-	// }
-	return (tmp2);
+	char **new = NULL;
+	new = convert_args(h, size);
+	return (new);
 }
