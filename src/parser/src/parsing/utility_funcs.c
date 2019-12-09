@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility_funcs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:50:04 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/07 10:53:54 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/08 21:04:56 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,10 @@ int		get_list_node(char type, void **curr, char *str)
 		((t_process *)*curr)->heredoc_fd = -1;
 		if ((check_redirections(str, ((t_process *)*curr))) == (char *)-1)
 			return (0);
-		((t_process *)*curr)->arg = ft_strsplit(str, BLANK);
+		if (str && str != (char *)-1)
+			((t_process *)*curr)->arg = ft_strsplit(str, BLANK);
+		else
+			str = NULL;
 		apply_expansions(((t_process *)*curr)->arg);
 		((t_process *)*curr)->flag = 0;
 		((t_process *)*curr)->next = NULL;

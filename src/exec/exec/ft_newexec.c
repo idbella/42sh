@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 09:23:33 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/08 21:25:26 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,20 @@ char	ft_exec_job(t_params *params, t_process *process)
 				status = ft_init_run(params, process);
 			else if (!get_shell_cfg(0)->interractive)
 			{
+				
 				if (!params->job->processes->next)
 				{
 					char *line;
-					if (process->redir->file && process->redir->type & O_RDONLY)
+					// if (process->redir->file && process->redir->type & O_RDONLY)
+					// {
+						
 						while (get_next_line(0, '\n', &line) > 0)
 						{
-							ft_printf("%s\n", line);
+							ft_printf_fd(1, "%s\n", line);
 						}
+					// }
+					// else
+					// 	ft_printf("false\n");
 				}
 			}
 		}
