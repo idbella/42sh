@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/09 11:32:28 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/09 13:17:22 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,33 @@ void		expand_param(char **s, char type)
 	tmp = NULL;
 	j = 0;
 	i = 0;
+	param = NULL;
 	while ((tmp = ft_strrchr((*s) + j, DOLLAR)))
 	{
 		k = ft_strlen(*s) - ft_strlen(tmp);
 		str[0] = ft_strsub(*s, 0, k);
-		if ((*s)[ft_strlen(param) + k + 1])
-			str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 		if ((*s)[k + 1] == '(')
 		{
 			param = get_dollar_var(tmp, &i, 0);
+			if ((*s)[ft_strlen(param) + k + 1])
+				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 			if ((exp = control_subtitution(param, type)))
 				str[0] = ft_strjoin(str[0], exp);
 		}
 		else
 		{
 			param = get_dollar_var(tmp, &i, 1);
+			if ((*s)[ft_strlen(param) + k + 1])
+				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 			param = ft_strsub(param, 1, ft_strlen(param) - 2);
 			if ((exp = get_param_expan(param)))
 				str[0] = ft_strjoin(str[0], exp);
 		}
+		// printf("param: %s\n", param);
+		// printf("str[0]: %s\nstr[1]: %s\n", str[0], str[1]);
+		// printf("ft_strlen(param) + k + 1: %lu\n", ft_strlen(param) + k + 1);
 		*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0), str[1] ? str[1] : ft_strnew(0));
+		// printf("*s: %s\n", *s);
 	}
 }
 
