@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 15:55:13 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/09 11:28:47 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,13 @@ typedef	struct s_token
 	struct s_token	*next;
 }				t_token;
 
+typedef	struct s_arg
+{
+	char			**arg;
+	struct s_arg	*next;
+}				t_arg;
+
+
 typedef	struct s_stack
 {
 	char			*str;
@@ -111,12 +118,12 @@ int				get_redir_fds(t_redir *curr, char *str, int *i);
 void			get_redir_file(t_redir *curr, char *str, int *i);
 char			*get_heredoc(char *str, int *i, int *hd_fd);
 int				is_not_blank(char *line, int j, int i);
-void			apply_expansions(char **args);
+char			**apply_expansions(char **list);
 t_token			*alias_expansion(char **line);
 char			*gather_tokens(t_token *tokens);
 char			*rc(t_token *tokens);
-void			control_subtitution(char *token, char **s1, int *j);
-void			search_and_expand(char **s1);
+char			*control_subtitution(char *token, char type);
+void			expand_param(char **s, char type);
 int				apply_glob_expansion(char *gl_pattern, char **args);
 void			quotes_delimiter(char **tmp);
 int				is_not_blank(char *line, int j, int i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility_funcs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:50:04 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/08 21:04:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/09 11:27:49 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int		get_list_node(char type, void **curr, char *str)
 			((t_process *)*curr)->arg = ft_strsplit(str, BLANK);
 		else
 			str = NULL;
-		apply_expansions(((t_process *)*curr)->arg);
+		((t_process *)*curr)->arg = apply_expansions(((t_process *)*curr)->arg);
 		((t_process *)*curr)->flag = 0;
 		((t_process *)*curr)->next = NULL;
 	}
