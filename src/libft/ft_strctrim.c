@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strctrim.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 23:19:05 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/12 22:27:54 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/09 17:34:55 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*ft_strctrim(char const *str, char c)
 	while (end > 0 && str[end] == c)
 		end--;
 	len = end - start + 1;
+	if (len < 0)
+		len = 0;
 	if (!(new = ft_strsub(str, start, len)))
 		return (NULL);
 	return ((char *)new);

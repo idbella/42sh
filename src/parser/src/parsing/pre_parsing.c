@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:53:56 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/04 11:12:12 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/10 13:12:45 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,17 @@ int			get_bg_jobs(char *line)
 void		mark_bg_op(char *line)
 {
 	int		i;
+	char	q;
+	char	dq;
 
 	i = -1;
 	while (line[++i])
 	{
-		if (line[i + 1] != OUT_RED_OP &&
+		if (!q && line[i] == '"' && NEQ_ESCAPE(i))
+			dq = !dq;
+		else if (!dq && line[i] == '\'' && NEQ_ESCAPE(i))
+			q = !q;
+		if (!q && !dq && NEQ_ESCAPE(i) && line[i + 1] != OUT_RED_OP &&
 			line[(i - 1 > 0) ? i - 1 : 0] != OUT_RED_OP &&
 			line[(i - 1 > 0) ? i - 1 : 0] != IN_RED_OP &&
 			line[i] == '&')

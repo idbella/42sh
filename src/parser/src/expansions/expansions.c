@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/09 16:42:50 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/09 16:56:06 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,10 +249,7 @@ char 		**apply_expansions(char **args)
 			c->arg = ft_strsplit(*args, BLANK);
 			int	j = 0;
 			while (c->arg[j])
-			{
-				// printf("c>arg: %s\n", c->arg[j]);
 				j++;
-			}
 			size += j;
 		}
 		else

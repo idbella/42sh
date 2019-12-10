@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/09 11:20:21 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/10 13:13:05 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,16 @@
 /*
 **	-Check if line is properly quoted.
 **	-Mark the operators '|' '||' '&&' '>' ... + spaces.
-**	-Apply globbing '*' only.
 **	-Syntax checking.
+**  -TO DO: - revise syntax checking + add support for ${} and $().
+**			- flag quoted arg[0]
+**			- add <() >()
+**			- fix alias expansion.
+**			- fix ${?}
+**			- heredoc.
+**			- search for errors.
+**			- norminette and leaks.
+**			- more tests.
 */
 
 void		print_parsing_res(t_job *head)
@@ -186,11 +194,24 @@ t_job		*parse(char *input)
 	// 	return (NULL);
 	mark_operators(line);
 	mark_bg_op(line);
+	// printf("line: %s\n", line);
+	if (check_syntax_errors(line) /*|| subst_syntax(line)*/)
+	{
+		free(line);
+		return (NULL);
+	}
 	tokens = alias_expansion(&line);
+	// printf("line: %s\n", line);÷
 	free(line);
 	line = gather_tokens(tokens);
+	// printf("line: %s\n", line);
 	mark_operators(line);
 	mark_bg_op(line);
+	// printf("line: %s\n", line);
+	// printf("line: %s\n", line);
+	// printf("breakdown:\n");
+	// for (int i = 0; line[i]; i++)
+		// printf("c: %d\n", line[i]);
 	if (check_syntax_errors(line) /*|| subst_syntax(line)*/)
 	{
 		free(line);

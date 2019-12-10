@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 09:47:49 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/06 13:32:58 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/10 13:03:41 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,26 @@ char	*gather_tokens(t_token *tokens)
 {
 	char	*str;
 	int		j;
+	int		n;
 
-	str = ft_strnew(0);
+	str = NULL;
+	n = 1;
 	while (tokens)
 	{
 		j = 0;
+		// printf("n : %d\n", n++);
 		while (tokens->list[j])
 		{
-			str = ft_strjoin(str, tokens->list[j]);
-			str = ft_strjoin(str, " ");
+			if (!str)
+				str = ft_strdup(tokens->list[j]);
+			else
+				str = ft_join("%s %s", str, tokens->list[j]);
 			j++;
 		}
 		if (tokens->type == AND || tokens->type == OR)
 			join_char(&str, tokens->type);
-		join_char(&str, tokens->type);
+		if (tokens->type != SEMI_COL)
+			join_char(&str, tokens->type);
 		tokens = tokens->next;
 	}
 	return (str);
@@ -56,52 +62,56 @@ char	*gather_tokens(t_token *tokens)
 
 t_token	*get_tokens(t_token **head, char *line)
 {
-	char	**cmd_chain;
+	char	*cmd_chain;
 	int		i;
 	int		old_i;
 	t_token	*token;
 	t_token	*tail;
+	char	*str;
 
-	cmd_chain = ft_strsplit(line, SEMI_COL);
+	// cmd_chain = ft_strsplit(line, SEMI_COL);
 	*head = NULL;
 	tail = NULL;
 	token = NULL;
-	while (*cmd_chain)
+	cmd_chain = line;
+	i = 0;
+	old_i = 0;
+	while (cmd_chain[i])
 	{
-		i = 0;
-		old_i = 0;
-		while ((*cmd_chain)[i])
+		if (token && (cmd_chain[i] == BG || cmd_chain[i] == AND ||
+		cmd_chain[i] == OR || cmd_chain[i] == PIPE || cmd_chain[i] == SEMI_COL))
 		{
-			if (token && ((*cmd_chain)[i] == BG || (*cmd_chain)[i] == AND
-			|| (*cmd_chain)[i] == OR || (*cmd_chain)[i] == PIPE))
-			{
-				old_i += i - old_i;
-				token->type = (*cmd_chain)[i];
-				i = ((*cmd_chain)[i] == AND || (*cmd_chain)[i] == OR) ? i + 2 : i + 1;
-				if (!*head)
-					*head = token;
-				else
-					tail->next = token;
-				tail = token;
-				token = NULL;
-			}
+			old_i += i - old_i;
+			token->type = cmd_chain[i];
+			i = (cmd_chain[i] == AND || cmd_chain[i] == OR) ? i + 2 : i + 1;
+			if (!*head)
+				*head = token;
 			else
-			{
-				token = NULL;
-				token = (t_token *)malloc(sizeof(t_token));
-				token->type = 0;
-				token->list = NULL;
-				token->sub = NULL;
-				token->next = NULL;
-				token->list = ft_strsplit(skip_operators(4, *cmd_chain, &old_i, &i), BLANK);
-			}
+				tail->next = token;
+			tail = token;
+			token = NULL;
 		}
-		cmd_chain++;
+		else
+		{
+			str = skip_operators(4, cmd_chain, &old_i, &i);
+			token = NULL;
+			token = (t_token *)malloc(sizeof(t_token));
+			token->type = 0;
+			token->list = NULL;
+			token->sub = NULL;
+			token->next = NULL;
+			token->list = ft_strsplit(str, BLANK);
+		}
 	}
-	if (!*head)
-		*head = token;
-	else
-		tail->next = token;
+	if (token)
+	{
+		if (!*head)
+			*head = token;
+		else
+			tail->next = token;
+		tail = token;
+		token = NULL;
+	}
 	return (*head);
 }
 
@@ -151,14 +161,13 @@ char	*expand_alias(t_token *token, char *alias)
 		if (arg)
 		{
 			if ((alias = ft_getvlaue_bykey(arg, ALIAS)))
-				tokens->list[0] = expand_alias(tokens, alias);
+				tokens->list[0] = ft_strdup(expand_alias(tokens, ft_strdup(alias)));
 		}
 		int	j;
 		j = 0;
 		while (tokens->list[j])
 		{
-			str = ft_strjoin(str, tokens->list[j]);
-			str = ft_strjoin(str, " ");
+			str = ft_join("%s %s", str, tokens->list[j]);
 			j++;
 		}
 		if (tokens->type == AND || tokens->type == OR)
@@ -190,7 +199,8 @@ t_token	*alias_expansion(char **line)
 		if (arg)
 		{
 			if ((alias = ft_getvlaue_bykey(arg, ALIAS)))
-				tokens->list[0] = expand_alias(tokens, alias);
+				tokens->list[0] = expand_alias(tokens, ft_strdup(alias));
+			// printf("tokens->list[0]: %s\n", tokens->list[0]);
 		}
 		tokens = tokens->next;
 	}
