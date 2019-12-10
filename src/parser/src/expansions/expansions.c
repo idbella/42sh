@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/09 16:56:06 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/10 14:35:01 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ void		search_and_expand(char **s, char type)
 			// printf("param: %s\n", param);
 			if ((exp = get_param_expan(param)))
 				str[0] = ft_strjoin(str[0], exp);
+			// printf("str[0]: %s\nexp: %s\n", str[0], exp);
 		}
 		if (str[0] && !ft_strlen(str[0]))
 			str[0][0] = BLANK;

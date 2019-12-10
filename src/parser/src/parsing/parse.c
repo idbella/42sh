@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/10 13:13:05 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/10 14:37:54 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,32 +152,8 @@ int			match_expr(char *token)
 
 int			subst_syntax(char *line) //ONLY SIMPLE FORMAT FOR NOW
 {
-	int		i;
-	int		start;
-	char	*token;
-
-	i = 0;
-	start = 0;
-	while (line[i])
-	{
-		if (line[i] == DOLLAR && line[++i] && line[i] == '{')
-		{
-			start = ++i;
-			while (line[i] != '}')
-			{
-				if (line[i] == BLANK || line[i] == ' ' || line[i] == '{')
-				{
-					ft_putstr_fd("42sh: bad substitution", 2);
-					return (0);
-				}
-				i++;
-			}
-			token = ft_strsub(line, start, i - start);
-			if (match_expr(token))
-				return (1);
-		}
-		i++;
-	}
+	(void)line;
+	// printf("line: %s\n", line);
 	return (0);
 }
 
@@ -189,19 +165,19 @@ t_job		*parse(char *input)
 	t_token		*tokens;
 
 	head = NULL;
+	if (!ft_strlen(input))
+		return (NULL);
 	line = ft_strdup(input);
 	// if (!(line = pre_parse(ft_strdup(input))))
 	// 	return (NULL);
 	mark_operators(line);
 	mark_bg_op(line);
-	// printf("line: %s\n", line);
-	if (check_syntax_errors(line) /*|| subst_syntax(line)*/)
+	if (check_syntax_errors(line) || subst_syntax(line))
 	{
 		free(line);
 		return (NULL);
 	}
 	tokens = alias_expansion(&line);
-	// printf("line: %s\n", line);÷
 	free(line);
 	line = gather_tokens(tokens);
 	// printf("line: %s\n", line);
