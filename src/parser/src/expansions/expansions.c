@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/10 14:35:01 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/11 14:53:54 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,39 +20,37 @@ char		*get_dollar_var(char *tmp, int *i, char op)
 	*i = 1;
 	if (tmp[*i] == '{' || tmp[*i] == '(')
 		*i = 2;
-	if (tmp[*i] != '?')
+	if ((*i) == 1)
 	{
-		if ((*i) == 1)
-		{
-			while (tmp[*i] && (ft_isalnum(tmp[*i]) || tmp[*i] == '_'))
-				(*i)++;
-		}
-		else
-		{
-			open = 1;
-			while (tmp[*i] && open)
-			{
-				if (op)
-				{
-					if (tmp[*i] == '{')
-						open += 1;
-					else if (tmp[*i] == '}')
-						open -= 1;
-				}
-				else
-				{
-					if (tmp[*i] == '(')
-						open += 1;
-					else if (tmp[*i] == ')')
-						open -= 1;
-				}
-				(*i)++;
-			}
-		}
-		dollar = ft_strsub(tmp, 1, (*i) - 1);
+		while (tmp[*i] && (ft_isalnum(tmp[*i]) || tmp[*i] == '_' || tmp[*i] == '?'))
+			(*i)++;
 	}
 	else
-		dollar = *i == 1 ? ft_strdup("?") : ft_strdup("{?}");
+	{
+		open = 1;
+		while (tmp[*i] && open)
+		{
+			if (op)
+			{
+				if (tmp[*i] == '{')
+					open += 1;
+				else if (tmp[*i] == '}')
+					open -= 1;
+			}
+			else
+			{
+				if (tmp[*i] == '(')
+					open += 1;
+				else if (tmp[*i] == ')')
+					open -= 1;
+			}
+			(*i)++;
+		}
+	}
+	dollar = ft_strsub(tmp, 1, (*i) - 1);
+	// }
+	// else
+	// 	dollar = *i == 1 ? ft_strdup("?") : ft_strdup("{?}");
 	return (dollar);
 }
 
@@ -81,28 +79,22 @@ void		expand_param(char **s, char type)
 				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 			if ((exp = control_subtitution(param, type)))
 				str[0] = ft_strjoin(str[0], exp);
-			// printf("exp: %s\n", exp);
 		}
 		else
 		{
 			param = get_dollar_var(tmp, &i, 1);
 			if ((*s)[ft_strlen(param) + k + 1])
 				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
-			param = ft_strsub(param, 1, ft_strlen(param) - 2);
-			// printf("dparam: %s\n", param);
+			if (param[0] == '{')
+				param = ft_strsub(param, 1, ft_strlen(param) - 2);
 			if ((exp = get_param_expan(param)))
 				str[0] = ft_strjoin(str[0], exp);
-			// printf("exp2: %s\n", exp);
 		}
 		if (str[0] && !ft_strlen(str[0]))
 			str[0][0] = BLANK;
 		if (str[1] && !ft_strlen(str[1]))
 			str[1][0] = BLANK;
-		// printf("param: %s\n", param);
-		// printf("str[0]: %s\nstr[1]: %s\n", str[0], str[1]);
-		// printf("ft_strlen(param) + k + 1: %lu\n", ft_strlen(param) + k + 1);
 		*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0), str[1] ? str[1] : ft_strnew(0));
-		// printf("*s: %s\n", *s);
 	}
 }
 
@@ -125,10 +117,10 @@ void		search_and_expand(char **s, char type)
 	{
 		k = ft_strlen(*s) - ft_strlen(tmp);
 		str[0] = ft_strsub(*s, 0, k);
+		str[1] = NULL;
 		if ((*s)[k + 1] == '(')
 		{
 			param = get_dollar_var(tmp, &i, 0);
-			// str[0] = ft_strsub(*s, 0, k);
 			if ((*s)[ft_strlen(param) + k + 1])
 				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 			if ((exp = control_subtitution(param, type)))
@@ -143,21 +135,23 @@ void		search_and_expand(char **s, char type)
 				if ((*s)[ft_strlen(param) + k + 1])
 					str[1] = ft_strdup((*s) + len + k + 1);
 				expand_param(&param, type);
-				param = ft_strsub(param, 1, ft_strlen(param) - 2);
-				// expand_dollar(param, s, &j, len);
+				if (param[0] == '{')
+					param = ft_strsub(param, 1, ft_strlen(param) - 2);
 			}
 			else
-				param = ft_strsub(param, 1, ft_strlen(param) - 2);
-			// printf("param: %s\n", param);
+			{
+				if (param[0] == '{')
+					param = ft_strsub(param, 1, ft_strlen(param) - 2);
+			}
 			if ((exp = get_param_expan(param)))
 				str[0] = ft_strjoin(str[0], exp);
-			// printf("str[0]: %s\nexp: %s\n", str[0], exp);
 		}
 		if (str[0] && !ft_strlen(str[0]))
 			str[0][0] = BLANK;
 		if (str[1] && !ft_strlen(str[1]))
 			str[1][0] = BLANK;
 		*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0), str[1] ? str[1] : ft_strnew(0));
+		str[1] = NULL;
 		if ((size_t)j < ft_strlen(*s))
 			j += 1;
 	}
@@ -204,7 +198,6 @@ char		**convert_args(t_arg *h, int size)
 		while (h->arg[i])
 		{
 			new[j] = ft_strdup(h->arg[i]);
-			// printf("new[j]: %s\n", new[j]);
 			i++;
 			j++;
 		}

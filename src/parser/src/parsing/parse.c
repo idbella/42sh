@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/11 10:06:44 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/11 10:12:07 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 **	-Check if line is properly quoted.
 **	-Mark the operators '|' '||' '&&' '>' ... + spaces.
 **	-Syntax checking.
-**  -TO DO: - revise syntax checking + add support for ${} and $().
+**  -TO DO: - revise syntax checking + add support for ${} and $(). -DONE.
 **			- flag quoted arg[0]
 **			- add <() >()
-**			- fix alias expansion.
+**			- fix alias expansion. -DONE.
 **			- fix ${?}
 **			- heredoc.
 **			- search for errors.
@@ -170,7 +170,7 @@ int			correct_syntax(char *param)
 	{
 		while (param[i])
 		{
-			if (ft_isalnum(param[i]) || param[i] == '_')
+			if (ft_isalnum(param[i]) || param[i] == '_' || param[i] == '?')
 			{
 				while (ft_isalnum(param[i]) || param[i] == '_')
 					i++;
@@ -270,8 +270,6 @@ t_job		*parse(char *input)
 	if (!ft_strlen(input))
 		return (NULL);
 	line = ft_strdup(input);
-	// if (!(line = pre_parse(ft_strdup(input))))
-	// 	return (NULL);
 	mark_operators(line);
 	mark_bg_op(line);
 	if (check_syntax_errors(line) || subst_syntax(line))
@@ -282,14 +280,8 @@ t_job		*parse(char *input)
 	tokens = alias_expansion(&line);
 	free(line);
 	line = gather_tokens(tokens);
-	// printf("line: %s\n", line);
 	mark_operators(line);
 	mark_bg_op(line);
-	// printf("line: %s\n", line);
-	// printf("line: %s\n", line);
-	// printf("breakdown:\n");
-	// for (int i = 0; line[i]; i++)
-		// printf("c: %d\n", line[i]);
 	if (check_syntax_errors(line) /*|| subst_syntax(line)*/)
 	{
 		free(line);
