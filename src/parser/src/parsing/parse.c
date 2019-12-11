@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/10 14:37:54 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/11 10:06:44 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ int			match_expr(char *token)
 		{
 			s[0] = ft_strsub(token, 0, pos);
 			s[1] = ft_strdup(token + pos + 1);
-			// printf("s1:%s\ns2:%s\n", s[0], s[1]);
 		}
 	}
 	else
@@ -150,10 +149,113 @@ int			match_expr(char *token)
 	return (err);
 }
 
-int			subst_syntax(char *line) //ONLY SIMPLE FORMAT FOR NOW
+int			correct_syntax(char *param)
 {
-	(void)line;
-	// printf("line: %s\n", line);
+	int		pos;
+	int		i;
+
+	pos = 0;
+	i = 0;
+	if (param[0] == '#')
+	{
+		i = 1;
+		while (param[i])
+		{
+			if (!ft_isalnum(param[i]) && param[i] != '_')
+				return (0);
+			i++;
+		}
+	}
+	else
+	{
+		while (param[i])
+		{
+			if (ft_isalnum(param[i]) || param[i] == '_')
+			{
+				while (ft_isalnum(param[i]) || param[i] == '_')
+					i++;
+				if (param[i] && param[i] != ':' && param[i] != '#'
+				&& param[i] != '-' && param[i] != '?' && param[i] != '+'
+				&& param[i] != '=' && param[i] != '%')
+					return (0);
+				else
+					return (1);
+			}
+			else
+				return (0);
+		}
+	}
+	return (1);
+}
+
+int			valid_parameter(char *param, char type)
+{
+	char	*token;
+	char	*tmp;
+	char	*n_param;
+	int		i;
+
+	token = NULL;
+	tmp = NULL;
+	if (type == '(')
+	{
+		token = ft_strsub(param, 1, ft_strlen(param) - 2);
+		if (!ft_strlen(token))
+			return (0);
+		else if (param[ft_strlen(param) - 1] != ')')
+			return (0);
+	}
+	else
+	{
+		if (param[0] == '{')
+		{
+			token = ft_strsub(param, 1, ft_strlen(param) - 2);
+			if (!ft_strlen(token))
+				return (0);
+			else if (param[ft_strlen(param) - 1] != '}')
+				return (0);
+			else if (!correct_syntax(token))
+				return (0);
+		}
+		else
+			return (1);
+	}
+	if ((tmp = ft_strchr(token, DOLLAR)))
+	{
+		if (tmp[1] == '(')
+			n_param = get_dollar_var(tmp, &i, 0);
+		else
+			n_param = get_dollar_var(tmp, &i, 1);
+		if (!valid_parameter(n_param, tmp[1]))
+			return (0);
+	}
+	return (1);
+}
+
+int			subst_syntax(char *line)
+{
+	char	*tmp;
+	char	*param;
+	int		j;
+	int		i;
+	int		k;
+
+	j = 0;
+	i = 0;
+	while ((tmp = ft_strchr(line + j, DOLLAR)))
+	{
+		k = ft_strlen(line) - ft_strlen(tmp);
+		if (line[k + 1] == '(')
+			param = get_dollar_var(tmp, &i, 0);
+		else
+			param = get_dollar_var(tmp, &i, 1);
+		if (!valid_parameter(param, line[k + 1]))
+		{
+			ft_putendl_fd("42sh: bad substitution", 2);
+			return (1);
+		}
+		j = k + i;
+	}
 	return (0);
 }
 
@@ -204,3 +306,4 @@ t_job		*parse(char *input)
 	free(line);
 	return (head);
 }
+

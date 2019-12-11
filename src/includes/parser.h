@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/09 11:28:47 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/10 14:59:44 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void			get_redir_file(t_redir *curr, char *str, int *i);
 char			*get_heredoc(char *str, int *i, int *hd_fd);
 int				is_not_blank(char *line, int j, int i);
 char			**apply_expansions(char **list);
+char			*get_dollar_var(char *tmp, int *i, char op);
 t_token			*alias_expansion(char **line);
 char			*gather_tokens(t_token *tokens);
 char			*rc(t_token *tokens);

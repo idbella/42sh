@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:53:56 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/10 13:12:45 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/10 15:09:30 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void		mark_bg_op(char *line)
 	char	dq;
 
 	i = -1;
+	q = 0;
+	dq = 0;
 	while (line[++i])
 	{
 		if (!q && line[i] == '"' && NEQ_ESCAPE(i))
