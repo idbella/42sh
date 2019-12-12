@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:50:04 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/09 17:35:43 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/12 19:33:32 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int		get_list_node(char type, void **curr, char *str)
 		else
 			str = NULL;
 		if (((t_process *)*curr)->arg)
-			((t_process *)*curr)->arg = apply_expansions(((t_process *)*curr)->arg);
+			apply_expansions(((t_process *)*curr));
 		((t_process *)*curr)->flag = 0;
 		((t_process *)*curr)->next = NULL;
 	}

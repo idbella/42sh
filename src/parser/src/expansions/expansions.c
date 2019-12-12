@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/11 14:53:54 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/12 20:03:46 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,88 @@ char		**convert_args(t_arg *h, int size)
 	return (new);
 }
 
-char 		**apply_expansions(char **args)
+char		**get_assignments(char ***args)
+{
+	int		pos;
+	char	flag;
+	char	*tmp = NULL;
+	int		k = 0;
+	int		size = 0;
+	t_arg	*h = NULL;
+	t_arg	*c = NULL;
+	t_arg	*t = NULL;
+
+	pos = 0;
+	while (**args)
+	{
+		quotes_delimiter(*args);
+		flag = 1;
+		if ((pos = ft_strpos(**args, "=")) != -1)
+		{
+			flag = 0;
+			while (pos >= 0 && (**args)[pos])
+			{
+				if ((**args)[pos] != QUOTE && (**args)[pos] != D_QUOTE
+				&& (**args)[pos] != Q_ESCAPE && (**args)[pos] != UQ_ESCAPE)
+					pos--;
+				else
+				{
+					flag = 1;
+					break ;
+				}
+			}
+			if (!flag)
+			{
+				k = 0;
+				tmp = ft_strnew(0);
+				while ((**args)[k])
+				{
+					if ((**args)[k] != QUOTE && (**args)[k] != D_QUOTE)
+						update_arg(**args, &tmp, &k, 0);
+					else if ((**args)[k] != QUOTE)
+						update_arg(**args, &tmp, &k, 1);
+					else if ((**args)[k])
+						update_arg(**args, &tmp, &k, 2);
+				}
+				expand_tilde(&tmp);
+				free(**args);
+				**args = tmp;
+				remove_escapes(*args, UQ_ESCAPE);
+				remove_escapes(*args, Q_ESCAPE);
+				remove_quotes(*args);
+				c = malloc(sizeof(t_arg));
+				printf("ass: %s\n", **args);
+				if (ft_strchr(**args, BLANK))
+				{
+					c->arg = ft_strsplit(**args, BLANK);
+					int	j = 0;
+					while (c->arg[j])
+						j++;
+					size += j;
+				}
+				else
+				{
+					c->arg = (char **)malloc(sizeof(char *) * 2);
+					c->arg[0] = ft_strdup(**args);
+					c->arg[1] = NULL;
+					size++;
+				}
+				c->next = NULL;
+				if (!h)
+					h = c;
+				else
+					t->next = c;
+				t = c;
+			}
+		}
+		if (flag)
+			break ;
+		(*args)++;
+	}
+	return (convert_args(h, size));
+}
+
+void		apply_expansions(t_process *process)
 {
 	char	*tmp;
 	int		k;
@@ -215,8 +296,13 @@ char 		**apply_expansions(char **args)
 	t_arg	*h = NULL;
 	t_arg	*c = NULL;
 	t_arg	*t = NULL;
+	char	**args;
+	int		pos;
 
 	size = 0;
+	args = process->arg;
+	pos = 0;
+	process->ass = get_assignments(&args);
 	while (*args)
 	{
 		quotes_delimiter(args);
@@ -259,9 +345,8 @@ char 		**apply_expansions(char **args)
 		else
 			t->next = c;
 		t = c;
+		printf("arg: %s\n", *args);
 		args++;
 	}
-	char **new = NULL;
-	new = convert_args(h, size);
-	return (new);
+	process->arg = convert_args(h, size);
 }
