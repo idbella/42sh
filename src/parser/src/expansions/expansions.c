@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/13 09:50:41 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/13 16:04:15 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		expand_param(char **s, char type)
 			if ((*s)[ft_strlen(param) + k + 1])
 				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 			if ((exp = control_subtitution(param, type)))
-				str[0] = ft_strjoin(str[0], exp);
+				str[0] = str[0] ? ft_strjoin(str[0], exp) : ft_strdup(exp);
 		}
 		else
 		{
@@ -127,7 +127,7 @@ void		search_and_expand(char **s, char type)
 			if ((*s)[ft_strlen(param) + k + 1])
 				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 			if ((exp = control_subtitution(param, type)))
-				str[0] = ft_strjoin(str[0], exp);
+				str[0] = str[0] ? ft_strjoin(str[0], exp) : ft_strdup(exp);
 		}
 		else
 		{
@@ -146,13 +146,14 @@ void		search_and_expand(char **s, char type)
 				if (param[0] == '{')
 					param = ft_strsub(param, 1, ft_strlen(param) - 2);
 			}
-			if ((exp = get_param_expan(param)))
+			if ((exp = get_param_expan(param)) && ft_strlen(exp))
 				str[0] = str[0] ? ft_strjoin(str[0], exp) : ft_strdup(exp);
 		}
 		if (str[0] && !ft_strlen(str[0]))
 			str[0][0] = BLANK;
 		if (str[1] && !ft_strlen(str[1]))
 			str[1][0] = BLANK;
+		// printf("str[0]: %s\nstr[1]: %s\nexp: %s\n", str[0], str[1], exp);
 		*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0), str[1] ? str[1] : ft_strnew(0));
 		str[0] = NULL;
 		str[1] = NULL;
