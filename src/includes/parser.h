@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/12 19:33:13 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/13 13:47:45 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,14 @@ typedef	struct s_arg
 	struct s_arg	*next;
 }				t_arg;
 
-
-typedef	struct s_stack
+typedef	struct	s_alias
 {
-	char			*str;
-	int				d_pos;
-	struct s_token	*next;
-}				t_stack;
+	char			*key;
+	char			*value;
+	struct s_alias	*prev;
+	struct s_alias	*next;
+}				t_alias;
+
 
 // t_shell			*init_shell(void);
 // t_shell			*get_shell_cfg(t_shell *new);

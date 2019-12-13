@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/12 20:03:46 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/13 09:50:41 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void		expand_param(char **s, char type)
 	while ((tmp = ft_strrchr((*s) + j, DOLLAR)))
 	{
 		k = ft_strlen(*s) - ft_strlen(tmp);
-		str[0] = ft_strsub(*s, 0, k);
+		if (k > 0)
+			str[0] = ft_strsub(*s, 0, k);
 		if ((*s)[k + 1] == '(')
 		{
 			param = get_dollar_var(tmp, &i, 0);
@@ -88,13 +89,15 @@ void		expand_param(char **s, char type)
 			if (param[0] == '{')
 				param = ft_strsub(param, 1, ft_strlen(param) - 2);
 			if ((exp = get_param_expan(param)))
-				str[0] = ft_strjoin(str[0], exp);
+				str[0] = str[0] ? ft_strjoin(str[0], exp) : ft_strdup(exp);
 		}
 		if (str[0] && !ft_strlen(str[0]))
 			str[0][0] = BLANK;
 		if (str[1] && !ft_strlen(str[1]))
 			str[1][0] = BLANK;
 		*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0), str[1] ? str[1] : ft_strnew(0));
+		str[0] = NULL;
+		str[1] = NULL;
 	}
 }
 
@@ -116,8 +119,8 @@ void		search_and_expand(char **s, char type)
 	while ((tmp = ft_strchr((*s) + j, DOLLAR)))
 	{
 		k = ft_strlen(*s) - ft_strlen(tmp);
-		str[0] = ft_strsub(*s, 0, k);
-		str[1] = NULL;
+		if (k > 0)
+			str[0] = ft_strsub(*s, 0, k);
 		if ((*s)[k + 1] == '(')
 		{
 			param = get_dollar_var(tmp, &i, 0);
@@ -129,11 +132,11 @@ void		search_and_expand(char **s, char type)
 		else
 		{
 			param = get_dollar_var(tmp, &i, 1);
+			len = ft_strlen(param);
+			if ((*s)[ft_strlen(param) + k + 1])
+				str[1] = ft_strdup((*s) + len + k + 1);
 			if (ft_strchr(param, DOLLAR))
 			{
-				len = ft_strlen(param);
-				if ((*s)[ft_strlen(param) + k + 1])
-					str[1] = ft_strdup((*s) + len + k + 1);
 				expand_param(&param, type);
 				if (param[0] == '{')
 					param = ft_strsub(param, 1, ft_strlen(param) - 2);
@@ -144,13 +147,14 @@ void		search_and_expand(char **s, char type)
 					param = ft_strsub(param, 1, ft_strlen(param) - 2);
 			}
 			if ((exp = get_param_expan(param)))
-				str[0] = ft_strjoin(str[0], exp);
+				str[0] = str[0] ? ft_strjoin(str[0], exp) : ft_strdup(exp);
 		}
 		if (str[0] && !ft_strlen(str[0]))
 			str[0][0] = BLANK;
 		if (str[1] && !ft_strlen(str[1]))
 			str[1][0] = BLANK;
 		*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0), str[1] ? str[1] : ft_strnew(0));
+		str[0] = NULL;
 		str[1] = NULL;
 		if ((size_t)j < ft_strlen(*s))
 			j += 1;
@@ -207,12 +211,52 @@ char		**convert_args(t_arg *h, int size)
 	return (new);
 }
 
+int			expand(char **args, t_arg *c)
+{
+	int		k;
+	char	*tmp;
+	int		size;
+
+	k = 0;
+	size = 0;
+	tmp = ft_strnew(0);
+	while ((*args)[k])
+	{
+		if ((*args)[k] != QUOTE && (*args)[k] != D_QUOTE)
+			update_arg(*args, &tmp, &k, 0);
+		else if ((*args)[k] != QUOTE)
+			update_arg(*args, &tmp, &k, 1);
+		else if ((*args)[k])
+			update_arg(*args, &tmp, &k, 2);
+	}
+	expand_tilde(&tmp);
+	free(*args);
+	*args = tmp;
+	remove_escapes(args, UQ_ESCAPE);
+	remove_escapes(args, Q_ESCAPE);
+	remove_quotes(args);
+	if (ft_strchr(*args, BLANK))
+	{
+		c->arg = ft_strsplit(*args, BLANK);
+		int	j = 0;
+		while (c->arg[j])
+			j++;
+		size += j;
+	}
+	else
+	{
+		c->arg = (char **)malloc(sizeof(char *) * 2);
+		c->arg[0] = ft_strdup(*args);
+		c->arg[1] = NULL;
+		size++;
+	}
+	return (size);
+}
+
 char		**get_assignments(char ***args)
 {
 	int		pos;
 	char	flag;
-	char	*tmp = NULL;
-	int		k = 0;
 	int		size = 0;
 	t_arg	*h = NULL;
 	t_arg	*c = NULL;
@@ -239,41 +283,9 @@ char		**get_assignments(char ***args)
 			}
 			if (!flag)
 			{
-				k = 0;
-				tmp = ft_strnew(0);
-				while ((**args)[k])
-				{
-					if ((**args)[k] != QUOTE && (**args)[k] != D_QUOTE)
-						update_arg(**args, &tmp, &k, 0);
-					else if ((**args)[k] != QUOTE)
-						update_arg(**args, &tmp, &k, 1);
-					else if ((**args)[k])
-						update_arg(**args, &tmp, &k, 2);
-				}
-				expand_tilde(&tmp);
-				free(**args);
-				**args = tmp;
-				remove_escapes(*args, UQ_ESCAPE);
-				remove_escapes(*args, Q_ESCAPE);
-				remove_quotes(*args);
 				c = malloc(sizeof(t_arg));
-				printf("ass: %s\n", **args);
-				if (ft_strchr(**args, BLANK))
-				{
-					c->arg = ft_strsplit(**args, BLANK);
-					int	j = 0;
-					while (c->arg[j])
-						j++;
-					size += j;
-				}
-				else
-				{
-					c->arg = (char **)malloc(sizeof(char *) * 2);
-					c->arg[0] = ft_strdup(**args);
-					c->arg[1] = NULL;
-					size++;
-				}
 				c->next = NULL;
+				size += expand(*args, c);
 				if (!h)
 					h = c;
 				else
@@ -290,62 +302,26 @@ char		**get_assignments(char ***args)
 
 void		apply_expansions(t_process *process)
 {
-	char	*tmp;
-	int		k;
 	int		size;
 	t_arg	*h = NULL;
 	t_arg	*c = NULL;
 	t_arg	*t = NULL;
 	char	**args;
-	int		pos;
 
 	size = 0;
 	args = process->arg;
-	pos = 0;
 	process->ass = get_assignments(&args);
 	while (*args)
 	{
 		quotes_delimiter(args);
-		k = 0;
-		tmp = ft_strnew(0);
-		while ((*args)[k])
-		{
-			if ((*args)[k] != QUOTE && (*args)[k] != D_QUOTE)
-				update_arg(*args, &tmp, &k, 0);
-			else if ((*args)[k] != QUOTE)
-				update_arg(*args, &tmp, &k, 1);
-			else if ((*args)[k])
-				update_arg(*args, &tmp, &k, 2);
-		}
-		expand_tilde(&tmp);
-		free(*args);
-		*args = tmp;
-		remove_escapes(args, UQ_ESCAPE);
-		remove_escapes(args, Q_ESCAPE);
-		remove_quotes(args);
 		c = malloc(sizeof(t_arg));
-		if (ft_strchr(*args, BLANK))
-		{
-			c->arg = ft_strsplit(*args, BLANK);
-			int	j = 0;
-			while (c->arg[j])
-				j++;
-			size += j;
-		}
-		else
-		{
-			c->arg = (char **)malloc(sizeof(char *) * 2);
-			c->arg[0] = ft_strdup(*args);
-			c->arg[1] = NULL;
-			size++;
-		}
 		c->next = NULL;
+		size += expand(args, c);
 		if (!h)
 			h = c;
 		else
 			t->next = c;
 		t = c;
-		printf("arg: %s\n", *args);
 		args++;
 	}
 	process->arg = convert_args(h, size);

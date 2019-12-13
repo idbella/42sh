@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/11 10:12:07 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/13 13:25:16 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 **	-Mark the operators '|' '||' '&&' '>' ... + spaces.
 **	-Syntax checking.
 **  -TO DO: - revise syntax checking + add support for ${} and $(). -DONE.
-**			- flag quoted arg[0]
+**			- flag quoted arg[0] -DONE
 **			- add <() >()
 **			- fix alias expansion. -DONE.
-**			- fix ${?}
-**			- heredoc.
+**			- fix ${?} -partially
+**			- heredoc. 
 **			- search for errors.
 **			- norminette and leaks.
 **			- more tests.
@@ -282,7 +282,7 @@ t_job		*parse(char *input)
 	line = gather_tokens(tokens);
 	mark_operators(line);
 	mark_bg_op(line);
-	if (check_syntax_errors(line) /*|| subst_syntax(line)*/)
+	if (check_syntax_errors(line) || subst_syntax(line))
 	{
 		free(line);
 		return (NULL);

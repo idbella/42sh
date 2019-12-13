@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 09:47:49 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/10 13:03:41 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/13 14:35:23 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ t_token	*get_tokens(t_token **head, char *line)
 	t_token	*tail;
 	char	*str;
 
-	// cmd_chain = ft_strsplit(line, SEMI_COL);
 	*head = NULL;
 	tail = NULL;
 	token = NULL;
@@ -140,18 +139,22 @@ char	*extract_arg(char *token, int offset)
 	return (NULL);
 }
 
-char	*expand_alias(t_token *token, char *alias)
+char	*expand_alias(t_token *token, char *alias, t_alias *h)
 {
 	int		i;
 	char	*arg;
 	t_token *tokens;
 	char	*str;
+	t_alias	*c;
+	char	match;
 
 	mark_operators(alias);
 	mark_bg_op(alias);
 	token->sub = get_tokens(&token->sub, alias);
 	tokens = token->sub;
 	str = ft_strnew(0);
+	c = NULL;
+	match = 0;
 	while (tokens)
 	{
 		arg = tokens->list[0];
@@ -161,7 +164,24 @@ char	*expand_alias(t_token *token, char *alias)
 		if (arg)
 		{
 			if ((alias = ft_getvlaue_bykey(arg, ALIAS)))
-				tokens->list[0] = ft_strdup(expand_alias(tokens, ft_strdup(alias)));
+			{
+				h->next = malloc(sizeof(t_alias));
+				h->next->prev = h;
+				h->next->next = NULL;
+				h->next->key = ft_strdup(arg);
+				c = h->next;
+				while (c)
+				{
+					if (c->prev && ft_strequ(c->key, alias))
+					{
+						match = 1;
+						break ;
+					}
+					c = c->prev;
+				}
+				if (!match)
+					tokens->list[0] = ft_strdup(expand_alias(tokens, ft_strdup(alias), h->next));
+			}
 		}
 		int	j;
 		j = 0;
@@ -185,6 +205,7 @@ t_token	*alias_expansion(char **line)
 	char			*alias;
 	int				i;
 	t_token			*tmp;
+	t_alias			*h;
 
 	tokens = NULL;
 	arg = NULL;
@@ -199,7 +220,13 @@ t_token	*alias_expansion(char **line)
 		if (arg)
 		{
 			if ((alias = ft_getvlaue_bykey(arg, ALIAS)))
-				tokens->list[0] = expand_alias(tokens, ft_strdup(alias));
+			{
+				h = malloc(sizeof(t_alias));
+				h->key = ft_strdup(arg);
+				h->next = NULL;
+				h->prev = NULL;
+				tokens->list[0] = expand_alias(tokens, ft_strdup(alias), h);
+			}
 			// printf("tokens->list[0]: %s\n", tokens->list[0]);
 		}
 		tokens = tokens->next;
