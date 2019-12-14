@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:37:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/10 14:33:32 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/14 15:07:51 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int		main(int argc, char **argv, char **env)
 	init_(&shell, env, &init);
 	while (1)
 	{
-		if ((line = readline(&init)) && ft_strlen(line) > 0)
+		if ((line = readline(&init, "(42)>")) && ft_strlen(line) > 0)
 		{
-			tcsetattr(0, TCSANOW, &init.term_copy);
+			//tcsetattr(0, TCSANOW, &init.term_copy);
 			if ((tokens = parse(line)))
 			{
 				exec(tokens);
@@ -33,8 +33,8 @@ int		main(int argc, char **argv, char **env)
 			}
 		}
 		ft_notify();
-		ft_init_output(&init);
+		//ft_init_output(&init);
 		ft_strdel(&line);
-		ft_init_terminal();
+		///ft_init_terminal();
 	}
 }

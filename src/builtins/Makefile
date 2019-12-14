@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
+#    By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/14 11:33:50 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/14 14:16:40 by yelazrak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ test/ft_eval.o          test/ft_numbertest.o    test/ft_test.o\
 test/ft_rd_wr_ex.o      test/ft_usergroup.o\
 test/ft_getoperators.o  test/ft_sizetest.o\
 test/ft_isnbr.o         test/ft_strtest.o\
-fc/ft_fc.o fc/ft_editor.o
+fc/fc.o         fc/fc_.o        fc/fc_flg.o
 CFLAGS=-g -Wall -Wextra -Werror -I../includes
 
 all:$(NAME)

@@ -6,11 +6,11 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 17:55:42 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/05 16:42:10 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/10 21:56:52 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "shell.h"
 
 static char *get_last_arg(t_init *init, char *str)
 {
@@ -23,10 +23,22 @@ static char *get_last_arg(t_init *init, char *str)
     }
     while (tmp)
     {
-        //printf("tmp = %s        i = %s\n", tmp->str, str);
         if (ft_strncmp(tmp->str, str, ft_strlen(str)) == 0)
             return (ft_strdup(tmp->str));
         tmp = tmp->prvet;
+    }
+    return (NULL);
+}
+static char *get_first_arg(t_init *init, char *str)
+{
+    t_history *tmp;
+
+    tmp = init->history;
+    while (tmp)
+    {
+        if (ft_strncmp(tmp->str, str + 1, ft_strlen(str + 1)) == 0)
+            return (ft_strdup(tmp->str));
+        tmp = tmp->next;
     }
     return (NULL);
 }
@@ -90,12 +102,19 @@ static char *ft_get_data(t_init *init, char *str)
         t = get_history_index(init, ft_atoi(&str[1]));
         return (t);
     }
-    if (ft_isdigit(str[0]))
+     else if (str[0] == '-' && !ft_isdigit(str[1]))
     {
+
+        t = get_first_arg(init, str);ft_putendl(t);
+        return (t);
+    }
+    else if (ft_isdigit(str[0]))
+    {//get_first_arg(t_init *init, char *str)
         t = get_index(init, ft_atoi(&str[0]));
         return (t);
     }
-    t = get_last_arg(init, str);
+    else
+        t = get_last_arg(init, str);
     return (t);
 }
 
@@ -109,7 +128,6 @@ static char *ft_join__(char *str, char *new, int index, int j)
     
     line = ft_strsub(str, 0, index);
     tmp_2 = ft_strjoin(line, new);
-   /// ft_printf("str = |%s| index = %d\n", line, index);
      ft_strdel(&new);
     ft_strdel(&line);
     line = ft_strjoin(tmp_2, tmp);

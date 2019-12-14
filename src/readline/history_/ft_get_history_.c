@@ -6,11 +6,11 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 08:16:33 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/04 09:24:02 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/13 09:59:40 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "shell.h"
 
 void ft_write_file(t_init *init)
 {
@@ -63,7 +63,8 @@ void ft_new_history_(t_init *init, char *line)
     new->prvet = init->last_history;
     (init->last_history)->next = new;
     init->last_history = new;
-    init->history_postoin = new;
+ if (init->history_postoin)
+   init->history_postoin = new;
 }
 
 
@@ -105,6 +106,7 @@ void ft_add_history_(t_init *init, char *line, int i)
         {
             ft_del_history(init);
             ft_new_history_(init, line);
+            //init->history_postoin = init->last_history;
             ft_write_file(init);
         }
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   datatypes.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/14 10:47:27 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:34:19 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,81 @@
 # define BUILTINS_COUNT 15
 # define TESTFUNCTIONS_COUNT 20
 
+
+/*
+**
+*/
+
+// typedef struct s_cmd
+// {
+// 	char *str;
+// 	struct s_cmd *next;
+// } t_cmd;
+// typedef struct s_fc
+// {
+// 	int flg;
+// 	char *edit;
+// 	char *start;
+// 	char *end;
+// 	char *cmd;
+
+// } t_fc;
+typedef struct			s_auto
+{
+	char				*str;
+	struct s_auto		*next;
+	struct s_auto		*prev;
+}						t_auto;
+typedef struct s_sle_c
+{
+	int cp;
+	int cpd;
+	int s_t;
+	int e_d;
+	int pass;
+	int cp_end;
+	int cp_st;
+	int selection;
+
+} t_sle_c;
+
+typedef struct s_history
+{
+	char *str;
+	int index;
+	struct s_history *next;
+	struct s_history *prvet;
+} t_history;
+
+typedef struct s_init
+{
+	int skip_read;
+	int s_col;
+	int s_l;
+	int qoute;
+	char *kote;
+	char qt;
+	int search;
+	char *str_search;
+	int esq;
+	char *key;
+	int s_cursor;
+	char *out_put;
+	t_sle_c s;
+	char *tmp;
+	struct termios term_copy;
+	int heredoc_int;
+	char *heredoc_str;
+	t_history *history;
+	t_history *history_postoin;
+	t_history *last_history;
+	int index;
+	int auto_comlpetion;
+	t_auto *completion_lst;
+	t_auto *completion_lst_position;
+	char *promt;
+} t_init;
+/*********/
 typedef struct	s_redir
 {
 	int				type;
@@ -76,6 +151,7 @@ typedef struct	s_shell
 	t_map			builtins[BUILTINS_COUNT];
 	t_list			**hashmap;
 	t_job			*jobs;
+	t_init			*init;
 	int				last_exit;
 }				t_shell;
 

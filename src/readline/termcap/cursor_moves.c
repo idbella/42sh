@@ -6,15 +6,15 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 00:34:50 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/01 21:57:45 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/13 10:31:29 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "shell.h"
 
 void		home_cursor(t_init *init)
 {
-	while (init->s_cursor > 5)
+	while (init->s_cursor > (int)ft_strlen(init->promt))
 		ft_move(init, "-", 1);
 }
 
@@ -26,9 +26,12 @@ void		end_cursor(t_init *init)
 
 void		home_cursor_2(t_init *init)
 {
-	if (init->s_cursor > 5 && init->out_put[init->s_cursor - 1] == '\n')
+	//dprintf(open("/dev/ttys002", O_RDWR),"str = |%s|	\n","jhgjhfjg");
+		//dprintf(open("/dev/ttys002",O_RDWR),"str = |%s|		len = |%d| \n",init->promt, (int)ft_strlen(init->promt));
+
+	if (init->s_cursor > (int)ft_strlen(init->promt) && init->out_put[init->s_cursor - 1] == '\n')
 		ft_move(init, "-", 1);
-	while (init->s_cursor > 5 && init->out_put[init->s_cursor - 1] != '\n')
+	while (init->s_cursor > (int)ft_strlen(init->promt) && init->out_put[init->s_cursor - 1] != '\n')
 		ft_move(init, "-", 1);
 }
 

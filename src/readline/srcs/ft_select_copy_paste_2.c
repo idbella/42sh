@@ -6,11 +6,11 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 16:34:26 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/01 21:57:45 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/11 12:55:21 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "shell.h"
 
 void	ft_refrech(t_init *init)
 {
@@ -20,7 +20,7 @@ void	ft_refrech(t_init *init)
 	init->s.selection = 0;
 	tputs(tgetstr("sc", NULL), 0, my_putchar);
 	home_cursor(init);
-	ft_printf("\033[%dD", 5);
+	ft_printf("\033[%dD", (int)ft_strlen(init->promt));
 	init->s_cursor = i;
 	tputs(tgetstr("cd", NULL), 0, my_putchar);
 	ft_putstr_fd(&init->out_put[0], 1);

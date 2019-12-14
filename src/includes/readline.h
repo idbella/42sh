@@ -22,6 +22,7 @@
 #include <dirent.h>
 #include <curses.h>
 #include <term.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -31,74 +32,17 @@
 int g_sig;
 int g_sig_win;
 
-typedef struct s_var
-{
-	int index;
-	int start;
-	char *tmp;
-	char *string;
-	char *var;
-	char *var_2;
-	char t;
-	char c;
-	char b;
-	int ao;
-} t_var;
+// #define RR 0b00000001
+// #define LL 0b00000010
+// #define SS 0b00000100
+// #define EE 0b00001000
+// #define NN 0b00010000
+// # define IS_FLG (fc->flg & R) == R || (fc->flg & LL) == LL || (fc->flg & N) == N
+// # define IS_FLG_ (fc->flg & S) == S
 
-typedef struct			s_auto
-{
-	char				*str;
-	struct s_auto		*next;
-	struct s_auto		*prev;
-}						t_auto;
 
-typedef struct s_sle_c
-{
-	int cp;
-	int cpd;
-	int s_t;
-	int e_d;
-	int pass;
-	int cp_end;
-	int cp_st;
-	int selection;
 
-} t_sle_c;
-
-typedef struct s_history
-{
-	char *str;
-	int index;
-	struct s_history *next;
-	struct s_history *prvet;
-} t_history;
-
-typedef struct s_init
-{
-	int skip_read;
-	int s_col;
-	int s_l;
-	int qoute;
-	char *kote;
-	char qt;
-	char *key;
-	int s_cursor;
-	char *out_put;
-	t_sle_c s;
-	char *tmp;
-	struct termios term_copy;
-	int heredoc_int;
-	char *heredoc_str;
-	t_history *history;
-	t_history *history_postoin;
-	t_history *last_history;
-	int index;
-	int					auto_comlpetion;
-	t_auto				*completion_lst;
-	t_auto				*completion_lst_position;
-} t_init;
-
-void ft_string_cmd(int	flg, t_init *init);
+void ft_string_cmd(int flg, t_init *init);
 void ft_name(char **line);
 int my_putchar(int c);
 int key_4_of_cursor(char *str, t_init *init);
@@ -117,9 +61,9 @@ void ft_exec_ket_s(t_init *init);
 void ft_move_mul_line(t_init *init, char *str);
 void ft_put_clor(t_init *init, char *str);
 void ft_size_terminal(t_init *init);
-char *ft_heredoc(char *str, t_init *init);
-char *readline(t_init *init);
-void ft_init_heredoc(t_init *init);
+// char *ft_heredoc(char *str, t_init *init);
+char *readline(t_init *init, char *promt);
+// void ft_init_heredoc(t_init *init);
 void end_cursor(t_init *init);
 void home_cursor(t_init *init);
 void ft_move(t_init *init, char *str, int a);
@@ -132,19 +76,13 @@ void home_cursor_2(t_init *init);
 int get_end(t_init *init, int e_d);
 void ft_put_move(t_init *init, int i);
 char *ft_qoute(char *str, t_init *init);
-
-void	ft_autocomplete_42(t_init *init);
-void	ft_move_left(t_init *init);
-void	ft_move_right(t_init *init);
-void	ft_next_completion(t_init *init);
-void	ft_prev_completion(t_init *init);
-
 void ft_init_qote(t_init *init);
 char *ft_take_move(t_init *init,
 				   char *buffer, int position);
 void ft_init_s_00(t_init *init);
-void ft_del_str(t_init *init, int a);
+ void ft_del_str(t_init *init, int a);
 void ft_alt_down(int *x, int *a, t_init *init);
+
 void ft_alt_up(int *x, int *x1, int *a, t_init *init);
 int ft_check_key(t_init *init, char *str);
 void ft_str_line(char *str, t_init *init);
@@ -155,7 +93,23 @@ void ft_init_readline(t_init *init);
 
 void ft_write_file(t_init *init);
 void ft_read_file_(t_init *init);
-void ft_add_history_(t_init *init, char *line ,int i);
+void ft_add_history_(t_init *init, char *line, int i);
 char *ft_expansion(t_init *init, char *str);
+/******/
+char    *get_arg(char *key);
+int	ft_print___(char *options, char **args, int fd);
+char *ft_rep_lace(char *str, char *dst);
+char		*readline_(t_init *init, char *promt);
+ char *ft_qoute__fin(t_init *init);
+char *ft_check_qout(char *str, t_init *init);
+char *ft_search_(char *str, t_init *init);
 
+void	ft_autocomplete_42(t_init *init);
+void	ft_move_left(t_init *init);
+void	ft_move_right(t_init *init);
+void	ft_next_completion(t_init *init);
+void	ft_prev_completion(t_init *init);
+
+//char *sandr(char *str, char *to_search, char *to_replace);
+//int     ft_get_arg_ex(char *options, char **args, int fd);
 #endif

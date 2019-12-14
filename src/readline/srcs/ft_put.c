@@ -6,20 +6,20 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 20:35:10 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/01 21:57:21 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/11 12:55:40 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "shell.h"
 
 void	ft_init_cmd(t_init *init)
 {
 	char	*tmp;
 
-	tmp = ft_strsub(init->out_put, 0, 5);
+	tmp = ft_strsub(init->out_put, 0, (int)ft_strlen(init->promt));
 	free(init->out_put);
-	init->s_cursor = 5;
-	init->s_l = 5;
+	init->s_cursor = (int)ft_strlen(init->promt);
+	init->s_l = (int)ft_strlen(init->promt);
 	init->out_put = ft_strdup(tmp);
 	free(tmp);
 }

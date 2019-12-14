@@ -3,42 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   take_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:13:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/06 11:24:23 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/14 15:05:25 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "shell.h"
 
-static void	ft_vide__line(t_init *init)
-{
-	int		i;
+// static void	ft_vide__line(t_init *init)
+// {
+// 	int		i;
 
-	i = init->s_cursor;
-	end_cursor(init);
-	ft_printf("\033[%dB\033[%dA", 1, 1);
-	home_cursor(init);
-	ft_move(init, "+", i - 5);
-	ft_refrech(init);
-}
+// 	i = init->s_cursor;
+// 	end_cursor(init);
+// 	ft_printf("\033[%dB\033[%dA", 1, 1);
+// 	home_cursor(init);
+// 	ft_move(init, "+", i - (int)ft_strlen(init->promt));
+// 	ft_refrech(init);
+// }
 
-static void	ft_move__(t_init *init, char *str)
-{
-	(void)str;
-	if (init->s_cursor != init->s_l)
-	{
-		if (get_end(init, init->s_cursor) == 0 &&
-				(get_strat(init, init->s_cursor - 1) + 1) % (init->s_col) == 0)
-			ft_vide__line(init);
-		else if (get_end(init, init->s_cursor) != 0 &&
-				get_end(init, init->s_cursor) != 0 &&
-				(get_end(init, init->s_cursor) + get_strat(init,
-				init->s_cursor)) % (init->s_col) == 0)
-			ft_vide__line(init);
-	}
-}
+// static void	ft_move__(t_init *init, char *str)
+// {
+// 	(void)str;
+// 	if (init->s_cursor != init->s_l)
+// 	{
+// 		if (get_end(init, init->s_cursor) == 0 &&
+// 				(get_strat(init, init->s_cursor - 1) + 1) % (init->s_col) == 0)
+// 			ft_vide__line(init);
+// 		else if (get_end(init, init->s_cursor) != 0 &&
+// 				get_end(init, init->s_cursor) != 0 &&
+// 				(get_end(init, init->s_cursor) + get_strat(init,
+// 				init->s_cursor)) % (init->s_col) == 0)
+// 			ft_vide__line(init);
+// 	}
+// }
 
 int			ft_cat_of_line(char *str, t_init *init)
 {
@@ -57,6 +57,7 @@ int			ft_cat_of_line(char *str, t_init *init)
 	ft_strdel(&line);
 	init->s_cursor += ft_strlen(str);
 	init->s_l = ft_strlen(init->out_put);
+	
 	return (0);
 }
 
@@ -68,11 +69,7 @@ void		ft_str_line(char *str, t_init *init)
 	tmp = NULL;
 	j = 0;
 	
-	if (str[0] == 9)
-	{
-		ft_autocomplete_42(init);
-		return;
-	}
+	
 	
 	 if (str[0] == 127)
 		del_char_of_line(&init->out_put, init);
@@ -82,20 +79,21 @@ void		ft_str_line(char *str, t_init *init)
 	 {
 		 str[0] = '\t';
 		 str[1] = '\0';
-	 }	
+	 }
 		while (str[j])
 		{			
-			if (ft_isprint(str[j]) || str[j] == '\n' || str[j] == '\t')
+			if (ft_isprint(str[j]) || str[j] == '\n' || (str[j] == '\t'))
 			   {
-		
-					tmp = ft_strsub(str, j, 1);
-					ft_cat_string_of_line(init, tmp);
-					ft_strdel(&tmp);
+				   	
+						tmp = ft_strsub(str, j, 1);
+						ft_cat_string_of_line(init, tmp);
+						ft_strdel(&tmp);
 				}
 				
 			j++;
-		}
+		}	
 	}
+
 }
 
 
@@ -107,10 +105,8 @@ int			ft_tab_(t_init *init, int e_d)
 	int a;
 
 	a = (get_strat(init, e_d));
-	//if (a == 0)
 	if (((init->s_col - (a % init->s_col)) % init->s_col) <= 7 && ((init->s_col - (a % init->s_col)) % init->s_col) > 0)
 		return (((init->s_col - (a % init->s_col)) % init->s_col) - 1);
-
 	a = (a - 1) % init->s_col;
 	a = e_d - a ;
 	while (a <= e_d)
@@ -130,7 +126,7 @@ void		ft_cat_string_of_line(t_init *init, char *str)
 	char	*tmp;
 
 	tmp = NULL;
-	ft_move__(init, str);
+	//ft_move__(init, str);
 	ft_cat_of_line(str, init);
 	tputs(tgetstr("sc", NULL), 0, my_putchar);
 	if (init->s_cursor != init->s_l)
@@ -138,21 +134,10 @@ void		ft_cat_string_of_line(t_init *init, char *str)
 	tmp = ft_strdup(&init->out_put[init->s_cursor - ft_strlen(str)]);
 	ft_putstr_fd(tmp, 1);
 	ft_strdel(&tmp);
-	// dprintf(open("/dev/ttys009",O_RDWR),"kkkk c = |%c|		yas = %d,  col = %d 	tab = %d\n", 
-	// (init->out_put[(init->s_cursor - 1)]) ,get_strat(init, init->s_cursor - 1), init->s_col,
-	// 	ft_tab_(init, init->s_cursor - 2));
 	if (init->s_cursor != init->s_l)
 	{
 		tputs(tgetstr("rc", NULL), 0, my_putchar);
 		init->s_cursor--;
 		ft_move_mul_line(init, "+");
-		//tputs(tgetstr("nd", NULL), 0, my_putchar);
-		// if (init->out_put[(init->s_cursor)] == '\n')
-		// {
-		// 	if ((get_strat(init, init->s_cursor - 1)) % (init->s_col) == 0)
-		// 		ft_printf("\033[%dB\033[%dD", 1, init->s_col - 1);
-		// }
-		// else if ((get_strat(init, init->s_cursor) - 1) % init->s_col == 0)
-		// 	ft_printf("\033[%dB\033[%dD", 1, init->s_col - 1);
 	}
 }

@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   moves_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:38:01 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/06 11:17:13 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/14 14:22:32 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "shell.h"
 
 void	ft_move_left(t_init *init)
 {
 	int i;
 
-	if (init->s_cursor > 5)
+	if (init->s_cursor > (int)ft_strlen(init->promt))
 	{
 		i = init->s_cursor;
-		while (i > 5)
+		while (i > (int)ft_strlen(init->promt))
 		{
 			i--;
 			if (init->out_put[i] == ' ' &&
@@ -115,3 +115,4 @@ char	*ft_take_move(t_init *init, char *buffer, int position)
 	}
 	return (NULL);
 }
+

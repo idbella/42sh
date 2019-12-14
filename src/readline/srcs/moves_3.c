@@ -6,11 +6,11 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 23:04:20 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/01 21:57:45 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/11 12:54:44 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "shell.h"
 
 void	ft_mini_alt_down(int *x, int *a, t_init *init)
 {
@@ -33,7 +33,7 @@ void	ft_alt_down(int *x, int *a, t_init *init)
 			ft_move(init, "+", 1);
 		if (init->s_cursor < init->s_col &&
 				get_strat(init, init->s_cursor) == init->s_cursor + 1)
-			*x = *x - 5;
+			*x = *x - (int)ft_strlen(init->promt);
 		while (init->out_put[init->s_cursor] != '\n' &&
 				init->s_cursor < init->s_l && *x != 0)
 			ft_move(init, "+", 1);
@@ -75,12 +75,12 @@ void	ft_alt_up(int *x, int *x1, int *a, t_init *init)
 		if (init->s_cursor < init->s_col &&
 				get_strat(init, init->s_cursor) ==
 				init->s_cursor + 1 && *x != 0)
-			ft_move(init, "+", 5);
+			ft_move(init, "+", (int)ft_strlen(init->promt));
 		if (*x)
 			*x += *a;
 		*a = 0;
 		while (init->out_put[init->s_cursor] != '\n' &&
-				init->s_cursor >= 5 && *x > 1 && *x != 0)
+				init->s_cursor >= (int)ft_strlen(init->promt)&& *x > 1 && *x != 0)
 		{
 			(*x)--;
 			ft_move(init, "+", 1);
