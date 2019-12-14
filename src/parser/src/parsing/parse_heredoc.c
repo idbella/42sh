@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 21:33:24 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/11/23 14:05:35 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 19:20:29 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,30 @@
 char	*get_heredoc_string(char *eof)
 {
 	char	*buf;
-	// int		ret;
+	char	eol[2];
+	t_init	*in;
+	char	*heredoc;
 
 	buf = NULL;
+	eol[0] = 4;
+	eol[1] = 0;
+	in = get_shell_cfg(0)->init;
+	in->heredoc_int = 1;
+	heredoc = NULL;
 	while (1)
 	{
-		// if (!(ret = get_input(&buf, "heredoc> ", eof)))
-		// {
-		// 	free(eof);
-		// 	return ((char *)-1);
-		// }
-		// else if (ret == 2)
-		break ;
+		buf = readline(in, "heredoc> ");
+		if (!buf)
+			return ((char *)-1);
+		if (ft_strequ(buf, eof) || ft_strequ(buf, eol))
+			break ;
+		if (!heredoc)
+			heredoc = ft_strdup(buf);
+		else
+			heredoc = ft_fstrjoin(ft_fstrjoin(heredoc, ft_strdup("\n")), buf);
 	}
 	free(eof);
-	return (buf);
+	return (heredoc);
 }
 
 int		get_heredoc_fd(char *str, int *i)
