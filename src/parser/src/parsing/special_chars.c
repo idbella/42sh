@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:49:44 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 10:13:19 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 13:34:43 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ int			sc_operator(char *line, int i)
 	else if (line[i] == '>' && line[i + 1] != '>')
 		return ((line[i] = OUT_RED_OP));
 	else if (line[i] == '<' && line[i + 1] != '<')
+	{
+		dprintf(2, "WHY THO ??? \n");
 		return ((line[i] = IN_RED_OP));
+	}
 	return (0);
 }
 
@@ -76,10 +79,14 @@ void		mark_operators(char *line)
 	b_p = 0;
 	while (line[++i])
 	{
-		if (!q && line[i] == '"' && NEQ_ESCAPE(i))
+		if (!b_p && !q && line[i] == '"' && NEQ_ESCAPE(i))
 			dq = !dq;
-		else if (!dq && line[i] == '\'' && NEQ_ESCAPE(i))
+		else if (!b_p && !dq && line[i] == '\'' && NEQ_ESCAPE(i))
 			q = !q;
+		else if ((line[i] == '{' || line[i] == '(') && NEQ_ESCAPE(i))
+			b_p++;
+		else if ((line[i] == '}' || line[i] == ')') && NEQ_ESCAPE(i))
+			b_p--;
 		if (!q && !dq && NEQ_ESCAPE(i))
 		{
 			if (line[i] == '$' && line[i + 1] && (ft_isalnum(line[i + 1])
@@ -89,10 +96,6 @@ void		mark_operators(char *line)
 				line[i] = DOLLAR;
 				continue ;
 			}
-			if (line[i] == '{' || line[i] == '(')
-				b_p++;
-			else if (line[i] == '}' || line[i] == ')')
-				b_p--;
 			if (!b_p && (dc_operator(line, i) || sc_operator(line, i)))
 				continue ;
 			else if (!b_p && isspace(line[i]))

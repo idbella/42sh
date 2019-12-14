@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 10:07:10 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 13:35:01 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ int			subst_syntax(char *line)
 
 int			syntax_error(char **line)
 {
-	if (check_syntax_errors(*line) /*|| subst_syntax(*line)*/)
+	if (check_syntax_errors(*line) || subst_syntax(*line))
 	{
 		free(*line);
 		return (1);
@@ -299,13 +299,14 @@ t_job		*parse(char *input)
 	head = NULL;
 	if (!(line = pre_parse(input)))
 		return (NULL);
-	// printf("line: %s\n", line);
+	// printf("+++line: %s\n", line);
 	tokens = alias_expansion(&line);
 	free(line);
 	line = gather_tokens(tokens);
 	highlight_ops(line);
 	if (syntax_error(&line))
 		return (NULL);
+	// printf("---line: %s\n", line);
 	cmd_chain = ft_strsplit(line, SEMI_COL);
 	if (!(head = get_jobs(cmd_chain, get_bg_jobs(line))))
 	{

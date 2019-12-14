@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 11:14:43 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 13:23:51 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ char	*control_subtitution(char *token, char type)
 	int		p[2];
 	char	*str;
 	pid_t	pid;
+	int		i;
 
 	line = ft_strsub(token, 1, ft_strlen(token) - 2);
 	// line = ft_strctrim(token, '(');
 	// line = ft_strctrim(token, ')');
-	printf("2_line: %s\n", line);
+	// printf("2_line: %s\n", line);
 	pipe(p);
 	if (!(pid = fork()))
 	{
@@ -43,9 +44,18 @@ char	*control_subtitution(char *token, char type)
 	{
 		if (buffer && ft_strlen(buffer))
 		{
-			// dprintf(2, "buffer : %s\n", buffer);
+			// dprintf(2, "\ntype: %d buffer : %s \n", type, buffer);
 			if (!str)
+			{
 				str = ft_strdup(buffer);
+				i = 0;
+				while (str[i])
+				{
+					if (str[i] == ' ')
+						str[i] = BLANK;
+					i++;
+				}
+			}
 			else
 			{
 				if (type)

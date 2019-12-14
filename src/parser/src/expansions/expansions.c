@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 11:23:47 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 13:35:27 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,13 +128,13 @@ void		search_and_expand(char **s, char type)
 		if ((*s)[k + 1] == '(')
 		{
 			param = get_dollar_var(tmp, &i, 0);
-			// dprintf(2, "s: %s \n param: %s\n", *s, param);
+			// dprintf(2, "s: %s \nparam: %s\n", *s, param);
 			if ((*s)[ft_strlen(param) + k + 1])
 				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
 			// dprintf(2, "s: %s\nstr[1]: %s\n", *s, str[1]);
 			if ((exp = control_subtitution(param, type)) && ft_strlen(exp))
 				str[0] = str[0] ? ft_strjoin(str[0], exp) : ft_strdup(exp);
-			dprintf(2, "exp: %s\n", exp);
+			// dprintf(2, "exp: %s\n", exp);
 		}
 		else
 		{
@@ -202,6 +202,7 @@ char		**convert_args(t_arg *h, int size)
 		exit(EXIT_FAILURE);
 	i = 0;
 	j = 0;
+	// dprintf(2, "size: %d\n", size);
 	while (h)
 	{
 		i = 0;
@@ -213,6 +214,7 @@ char		**convert_args(t_arg *h, int size)
 				continue ;
 			}
 			new[j] = ft_strdup(h->arg[i]);
+			// dprintf(2, "new: %s\n", new[j]);
 			i++;
 			j++;
 		}
@@ -252,9 +254,9 @@ int			expand(char **args, t_arg *c)
 		int	j = 0;
 		while (c->arg[j])
 		{
-			j++;
-			if (ft_strlen(*args))
+			if (ft_strlen(c->arg[j]))
 				size++;
+			j++;
 		}
 	}
 	else
@@ -312,7 +314,11 @@ char		**get_assignments(char ***args)
 			break ;
 		(*args)++;
 	}
+	// if (size)
 	return (convert_args(h, size));
+	// char **tmp = malloc(sizeof(char *));
+	// tmp[0] = NULL;
+	// return (tmp);
 }
 
 void		apply_expansions(t_process *process)
@@ -331,6 +337,7 @@ void		apply_expansions(t_process *process)
 		quotes_delimiter(args);
 		c = malloc(sizeof(t_arg));
 		c->next = NULL;
+		// dprintf(2, "*args: %s\n", *args);
 		size += expand(args, c);
 		if (!h)
 			h = c;
