@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 13:54:47 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 17:07:10 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*control_subtitution(char *token, char type)
 	int		i;
 
 	line = ft_strsub(token, 1, ft_strlen(token) - 2);
+	// dprintf(2, "line : %s\n", line);
 	pipe(p);
 	if (!(pid = fork()))
 	{
