@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/13 16:04:15 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 11:23:47 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ char		*get_dollar_var(char *tmp, int *i, char op)
 			(*i)++;
 		}
 	}
+	// printf("tmp: %s\n", tmp);
 	dollar = ft_strsub(tmp, 1, (*i) - 1);
+	// dprintf(2, "tmp: %s\ndollar: %s\n\n", tmp, dollar);
 	// }
 	// else
 	// 	dollar = *i == 1 ? ft_strdup("?") : ft_strdup("{?}");
@@ -109,7 +111,7 @@ void		search_and_expand(char **s, char type)
 	int		i;
 	int		k;
 	int		len;
-	char	*exp;
+	char	*exp = NULL;
 	char	*str[2] = {NULL, NULL};
 
 	tmp = NULL;
@@ -119,15 +121,20 @@ void		search_and_expand(char **s, char type)
 	while ((tmp = ft_strchr((*s) + j, DOLLAR)))
 	{
 		k = ft_strlen(*s) - ft_strlen(tmp);
+		str[0] = NULL;
+		str[1] = NULL;
 		if (k > 0)
 			str[0] = ft_strsub(*s, 0, k);
 		if ((*s)[k + 1] == '(')
 		{
 			param = get_dollar_var(tmp, &i, 0);
+			// dprintf(2, "s: %s \n param: %s\n", *s, param);
 			if ((*s)[ft_strlen(param) + k + 1])
 				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
-			if ((exp = control_subtitution(param, type)))
+			// dprintf(2, "s: %s\nstr[1]: %s\n", *s, str[1]);
+			if ((exp = control_subtitution(param, type)) && ft_strlen(exp))
 				str[0] = str[0] ? ft_strjoin(str[0], exp) : ft_strdup(exp);
+			dprintf(2, "exp: %s\n", exp);
 		}
 		else
 		{
@@ -153,10 +160,8 @@ void		search_and_expand(char **s, char type)
 			str[0][0] = BLANK;
 		if (str[1] && !ft_strlen(str[1]))
 			str[1][0] = BLANK;
-		// printf("str[0]: %s\nstr[1]: %s\nexp: %s\n", str[0], str[1], exp);
+		// dprintf(2, "str[0]: %s\nstr[1]: %s\nexp: %s\n", str[0], str[1], exp);
 		*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0), str[1] ? str[1] : ft_strnew(0));
-		str[0] = NULL;
-		str[1] = NULL;
 		if ((size_t)j < ft_strlen(*s))
 			j += 1;
 	}
@@ -202,6 +207,11 @@ char		**convert_args(t_arg *h, int size)
 		i = 0;
 		while (h->arg[i])
 		{
+			if (!ft_strlen(h->arg[i]))
+			{
+				i++;
+				continue ;
+			}
 			new[j] = ft_strdup(h->arg[i]);
 			i++;
 			j++;
@@ -241,15 +251,19 @@ int			expand(char **args, t_arg *c)
 		c->arg = ft_strsplit(*args, BLANK);
 		int	j = 0;
 		while (c->arg[j])
+		{
 			j++;
-		size += j;
+			if (ft_strlen(*args))
+				size++;
+		}
 	}
 	else
 	{
 		c->arg = (char **)malloc(sizeof(char *) * 2);
 		c->arg[0] = ft_strdup(*args);
 		c->arg[1] = NULL;
-		size++;
+		if (ft_strlen(*args))
+			size++;
 	}
 	return (size);
 }

@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/13 13:25:16 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 10:07:10 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,36 @@ int			subst_syntax(char *line)
 	return (0);
 }
 
+int			syntax_error(char **line)
+{
+	if (check_syntax_errors(*line) /*|| subst_syntax(*line)*/)
+	{
+		free(*line);
+		return (1);
+	}
+	return (0);
+}
+
+void		highlight_ops(char *line)
+{
+	mark_operators(line);
+	mark_bg_op(line);
+}
+
+char		*pre_parse(char *input)
+{
+	char	*line;
+
+	line = NULL;
+	if (!ft_strlen(input))
+		return (NULL);
+	line = ft_strdup(input);
+	highlight_ops(line);
+	if (syntax_error(&line))
+		return (NULL);
+	return (line);
+}
+
 t_job		*parse(char *input)
 {
 	char		**cmd_chain;
@@ -267,26 +297,15 @@ t_job		*parse(char *input)
 	t_token		*tokens;
 
 	head = NULL;
-	if (!ft_strlen(input))
+	if (!(line = pre_parse(input)))
 		return (NULL);
-	line = ft_strdup(input);
-	mark_operators(line);
-	mark_bg_op(line);
-	if (check_syntax_errors(line) || subst_syntax(line))
-	{
-		free(line);
-		return (NULL);
-	}
+	// printf("line: %s\n", line);
 	tokens = alias_expansion(&line);
 	free(line);
 	line = gather_tokens(tokens);
-	mark_operators(line);
-	mark_bg_op(line);
-	if (check_syntax_errors(line) || subst_syntax(line))
-	{
-		free(line);
+	highlight_ops(line);
+	if (syntax_error(&line))
 		return (NULL);
-	}
 	cmd_chain = ft_strsplit(line, SEMI_COL);
 	if (!(head = get_jobs(cmd_chain, get_bg_jobs(line))))
 	{

@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/10 15:12:32 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 11:14:43 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ char	*control_subtitution(char *token, char type)
 	pid_t	pid;
 
 	line = ft_strsub(token, 1, ft_strlen(token) - 2);
+	// line = ft_strctrim(token, '(');
+	// line = ft_strctrim(token, ')');
+	printf("2_line: %s\n", line);
 	pipe(p);
 	if (!(pid = fork()))
 	{
@@ -38,16 +41,21 @@ char	*control_subtitution(char *token, char type)
 	close(p[1]);
 	while (get_next_line(p[0], '\n', &buffer))
 	{
-		if (!str)
-			str = ft_strdup(buffer);
-		else
+		if (buffer && ft_strlen(buffer))
 		{
-			if (type)
-				str = ft_join("%s%c%s", str, '\n', buffer);
+			// dprintf(2, "buffer : %s\n", buffer);
+			if (!str)
+				str = ft_strdup(buffer);
 			else
-				str = ft_join("%s%c%s", str, BLANK, buffer);
+			{
+				if (type)
+					str = ft_join("%s%c%s", str, '\n', buffer);
+				else
+					str = ft_join("%s%c%s", str, BLANK, buffer);
+			}
 		}
 	}
 	close(p[0]);
+	// printf("str: %s\n", str);
 	return (str);
 }

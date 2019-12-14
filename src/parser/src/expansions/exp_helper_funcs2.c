@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 16:08:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/11/08 12:52:36 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 11:09:10 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,34 @@ void		quotes_delimiter(char **tmp)
 	int		i;
 	int		q;
 	int		dq;
+	int		b_p;
 
 	q = 0;
 	dq = 0;
 	i = 0;
+	b_p = 0;
 	while ((*tmp)[i])
 	{
-		if (!q && (*tmp)[i] == '"' &&
-		(*tmp)[(i - 1 > 0) ? i - 1 : 0] != Q_ESCAPE
-		&& (*tmp)[(i - 1 > 0) ? i - 1 : 0] != UQ_ESCAPE)
+		if ((*tmp)[i] == '(' || (*tmp)[i] == '{')
+			b_p++;
+		else if ((*tmp)[i] == ')' || (*tmp)[i] == '}')
+			b_p--;
+		if (!b_p)
 		{
-			dq = !dq;
-			(*tmp)[i] = D_QUOTE;
-		}
-		else if (!dq && (*tmp)[i] == '\'' &&
-		(*tmp)[(i - 1 > 0) ? i - 1 : 0] != Q_ESCAPE &&
-		(*tmp)[(i - 1 > 0) ? i - 1 : 0] != UQ_ESCAPE)
-		{
-			q = !q;
-			(*tmp)[i] = QUOTE;
+			if (!q && (*tmp)[i] == '"' &&
+			(*tmp)[(i - 1 > 0) ? i - 1 : 0] != Q_ESCAPE
+			&& (*tmp)[(i - 1 > 0) ? i - 1 : 0] != UQ_ESCAPE)
+			{
+				dq = !dq;
+				(*tmp)[i] = D_QUOTE;
+			}
+			else if (!dq && (*tmp)[i] == '\'' &&
+			(*tmp)[(i - 1 > 0) ? i - 1 : 0] != Q_ESCAPE &&
+			(*tmp)[(i - 1 > 0) ? i - 1 : 0] != UQ_ESCAPE)
+			{
+				q = !q;
+				(*tmp)[i] = QUOTE;
+			}
 		}
 		i++;
 	}
