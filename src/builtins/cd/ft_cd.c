@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:08:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/14 11:05:44 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/14 17:58:37 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		errors_container(int err, t_recipes *recipes)
 	{
 		ft_putstr_fd("42sh: ", 2);
 		ft_putstr_fd(recipes->curpath, 2);
-		ft_putstr_fd("not a directory\n", 2);
+		ft_putstr_fd(" not a directory\n", 2);
 	}
 	if (err == 4)
 	{
@@ -179,7 +179,7 @@ int		ft_cd(char **cmd)
 		else if (cmd[0][0] == '-' && cmd[0][1] == '\0')
 		{
 			if (!recipes.oldpwd)
-				ft_putstr_fd("42sh: HOME not set\n", 2);
+				ft_putstr_fd("42sh: OLDPWD not set\n", 2);
 			else
 				recipes.curpath = recipes.oldpwd;		
 		}
@@ -191,13 +191,12 @@ int		ft_cd(char **cmd)
 		if (!(recipes.options = check_param_for_cd(cmd[0])))
 		{
 			ft_putstr_fd("42sh: ", 2);
-			ft_putstr_fd(cmd[1], 2);
-			ft_putstr_fd("is not an option\n", 2);
+			ft_putstr_fd(cmd[0], 2);
+			ft_putstr_fd(" is not an option\n", 2);
 		}
 		else
 			recipes.curpath = get_dir(cmd[1], &recipes);	
 	}
-	printf("CURPATH == %s, OPTION == %d\n", recipes.curpath, recipes.options);
 	if (recipes.curpath)
 	{
 		if (chdir_operations(&recipes) == -1)
