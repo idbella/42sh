@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:53:56 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/10 15:09:30 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 17:04:12 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,25 @@ void		mark_bg_op(char *line)
 	int		i;
 	char	q;
 	char	dq;
+	int		b_p;
 
 	i = -1;
 	q = 0;
 	dq = 0;
+	b_p = 0;
 	while (line[++i])
 	{
-		if (!q && line[i] == '"' && NEQ_ESCAPE(i))
+		if (!b_p && !q && line[i] == '"' && NEQ_ESCAPE(i))
 			dq = !dq;
-		else if (!dq && line[i] == '\'' && NEQ_ESCAPE(i))
+		else if (!b_p && !dq && line[i] == '\'' && NEQ_ESCAPE(i))
 			q = !q;
-		if (!q && !dq && NEQ_ESCAPE(i) && line[i + 1] != OUT_RED_OP &&
+		else if ((line[i] == '{' || line[i] == '(') && NEQ_ESCAPE(i))
+			b_p++;
+		else if ((line[i] == '}' || line[i] == ')') && NEQ_ESCAPE(i))
+			b_p--;
+		if (line[i] == '{' || line[i] == '(')
+			b_p++;
+		if (!b_p && !q && !dq && NEQ_ESCAPE(i) && line[i + 1] != OUT_RED_OP &&
 			line[(i - 1 > 0) ? i - 1 : 0] != OUT_RED_OP &&
 			line[(i - 1 > 0) ? i - 1 : 0] != IN_RED_OP &&
 			line[i] == '&')
