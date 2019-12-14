@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 11:58:05 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/14 13:06:24 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/14 15:40:28 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	ft_move__r(t_init *init, char *str)
 	// printf("\nstr=|%s|		nbr=|%d|\n",init->out_put,init->s_cursor);	
 	if (init->out_put[(init->s_cursor - 1)] == '\t')
 	{	
-		dprintf(open("/dev/ttys005",O_RDWR),"------yas = %d,  col = %d 	tab = %d\n", 
+		//dprintf(open("/dev/ttys005",O_RDWR),"------yas = %d,  col = %d 	tab = %d\n", 
 			(get_strat(init, init->s_cursor - 1 )  ) , init->s_col, ft_tab_(init, init->s_cursor - 2));
 			 ft_printf("\033[%dC",ft_tab_(init, init->s_cursor - 2));
 	}
@@ -120,7 +120,7 @@ void		ft_move_mul_line(t_init *init, char *str)
 		(init->s_cursor)--;
 		if (init->out_put[(init->s_cursor)] == '\t')
 		{			
-			dprintf(open("/dev/ttys007",O_RDWR),"------yas = %d,  col = %d 	tab = %d\n", 
+			//dprintf(open("/dev/ttys007",O_RDWR),"------yas = %d,  col = %d 	tab = %d\n", 
 			(get_strat(init, init->s_cursor )  ) , init->s_col, ft_tab_(init, init->s_cursor - 1));
 			ft_printf("\033[%dD",ft_tab_(init, init->s_cursor - 1));
 		}
