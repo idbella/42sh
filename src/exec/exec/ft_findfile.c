@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 14:51:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 09:34:18 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/14 11:55:17 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,17 @@ char	*ft_findfile(char *name, char **error, char add)
 		ft_addtohashmap(name, file, COMMANDS)->hits = 1;
 	if (file && !stat(file, &state))
 	{
-		if (S_ISREG(state.st_mode) && !access(file, X_OK))
-			return (file);
-		else if (S_ISDIR(state.st_mode))
-			*error = "42sh: %s: is a directory\n";
-		else
-			*error = "42sh: %s: permission denied\n";
+		if (!access(file, X_OK))
+		{
+			if (S_ISREG(state.st_mode))
+				return (file);
+			else if (S_ISDIR(state.st_mode))
+			{
+				*error = "42sh: %s: is a directory\n";
+				return (NULL);
+			}
+		}
+		*error = "42sh: %s: permission denied\n";
 	}
 	return (NULL);
 }

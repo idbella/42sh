@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:03:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 09:22:21 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/14 09:29:13 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_wait(t_job *job)
 	if (!job->foreground)
 	{
 		ft_addjob(job, ft_getset(NULL));
-		if (get_shell_cfg(0)->interractive)
+		if (!get_shell_cfg(0)->subshell)
 			ft_printf("[%d] %d\n", job->id, job->pgid);
 	}
 	else

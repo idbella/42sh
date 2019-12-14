@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/06 14:41:50 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 13:07:14 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/14 11:06:18 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int		ft_run_fc_editor(char **args)
 		return (1);
 	p.pipe_stdin = -1;
 	p.tmpenv = NULL;
-	p.argv_index = 0;
 	job = ft_newjob(0, 0);
 	job->processes->arg = args;
 	job->command = ft_strdup(args[0]);

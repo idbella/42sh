@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 19:47:42 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/14 11:34:16 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # define UNARY 1
 
 typedef int		    t_function(char **args);
-typedef int		    t_testfunction();
 
 t_function			*ft_is_builtin(char *arg);
 void				ft_init_builtins(char **env);
@@ -51,14 +50,6 @@ int	    			ft_export(char **args);
 
 int	    			ft_set(void);
 int	    			ft_unset(char **args);
-/*
-** intern
-*/
-
-char				ft_isintern(char *cmd);
-int					ft_getinterns(t_params *params, t_process *process);
-void				ft_cpyenv(t_params *p);
-void				ft_add_to_tmp_map(t_params *p, char *key, char *value);
 
 /*
 ** HASHMAP
@@ -115,4 +106,14 @@ int		            ft_strtest(int id, char *l_oper, char *r_oper);
 int		            ft_sizetest(char *file);
 int		            ft_mathcmp(int id, char *n1, char *n2);
 int		            ft_expression(char *expr);
+
+/*
+** intern
+*/
+
+char				ft_isintern(char *cmd);
+int					ft_getinterns(t_params *params, t_process *process, char type);
+void				ft_cpyenv(t_params *p);
+void				ft_add_to_tmp_map(t_params *p, char *key, char *value);
+
 #endif

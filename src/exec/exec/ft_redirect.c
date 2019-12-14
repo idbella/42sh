@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:00:43 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 11:25:09 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/13 17:28:42 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_chmod(t_redir *redir)
 	}
 }
 
-int		ft_getfile(int fdout, t_redir *io)
+int		ft_getfile(t_redir *io)
 {
 	int	fd;
 
@@ -32,10 +32,10 @@ int		ft_getfile(int fdout, t_redir *io)
 	if ((fd = open(io->file, io->type, 0644)) < 0)
 	{
 		if (io->type == O_RDONLY)
-			ft_printf_fd(fdout, "42sh: no such file or directory: %s\n",
+			ft_printf_fd(2, "42sh: no such file or directory: %s\n",
 				io->file);
 		else
-			ft_printf_fd(fdout, "42sh: permission denied: %s\n",
+			ft_printf_fd(2, "42sh: permission denied: %s\n",
 			io->file);
 		return (0);
 	}
@@ -50,7 +50,7 @@ int		ft_getfile(int fdout, t_redir *io)
 	return (1);
 }
 
-int		ft_redirect(int fdout, t_redir *red)
+int		ft_redirect(t_redir *red)
 {
 	while (red)
 	{
@@ -61,14 +61,14 @@ int		ft_redirect(int fdout, t_redir *red)
 		}
 		if (red->file)
 		{
-			if (!ft_getfile(fdout, red))
+			if (!ft_getfile(red))
 				return (0);
 		}
 		else if (red->type == CLOSE_FD)
 			close(red->src_fd);
 		else if (dup2(red->dst_fd, red->src_fd) == -1)
 		{
-			ft_printf_fd(fdout, "42sh %d: bad file descriptor\n", red->dst_fd);
+			ft_printf_fd(2, "42sh %d: bad file descriptor\n", red->dst_fd);
 			return (0);
 		}
 		red = red->next;

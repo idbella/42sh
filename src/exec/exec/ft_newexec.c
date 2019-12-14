@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 21:25:26 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/14 11:49:53 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ int		ft_printheredoc(t_process *process)
 
 int		ft_init_run(t_params *params, t_process *process)
 {
-	t_function *func;
+	t_function	*func;
 	t_process	*p;
+	int			type;
 
 	p = params->job->processes;
 	if ((func = ft_is_builtin(process->arg[0])))
@@ -53,9 +54,28 @@ int		ft_init_run(t_params *params, t_process *process)
 		else
 			return (func(process->arg + 1));
 	}
-	else if (ft_isintern(process->arg[0]))
-		return (ft_getinterns(params, process));
+	if (process->ass)
+	{
+		type = process->arg[0] ? ENV_ENTRY : INTERN_ENTRY;
+		return (ft_getinterns(params, process, type));
+	}
 	return (ft_fork(params, process, NULL));
+}
+
+void	ft_readfile(t_params *params)
+{
+	char		*line;
+	t_process	*proc;
+
+	if (!params->job->processes->next)
+	{
+		proc = params->job->processes;
+		if (proc->redir->file && proc->redir->type == O_RDONLY)
+		{
+			while (get_next_line(0, '\n', &line) > 0)
+				ft_printf_fd(1, "%s\n", line);
+		}
+	}
 }
 
 char	ft_exec_job(t_params *params, t_process *process)
@@ -70,35 +90,18 @@ char	ft_exec_job(t_params *params, t_process *process)
 	status = 0;
 	while (process)
 	{
-		params->argv_index = 0;
 		ft_init_proc(process);
 		dup2(fds[0], 0);
 		close(fds[0]);
 		params->pipe_stdin = ft_pipe(fds, process, cpy);
-		if (process->heredoc || ft_redirect(params->fd, process->redir))
+		if (process->heredoc || ft_redirect(process->redir))
 		{
 			if (ft_printheredoc(process))
 				continue ;
-			if (process->arg && process->arg[0])
+			if (process->arg[0] || process->ass[0])
 				status = ft_init_run(params, process);
-			else if (!get_shell_cfg(0)->interractive)
-			{
-				
-				if (!params->job->processes->next)
-				{
-					char *line;
-					// if (process->redir->file && process->redir->type & O_RDONLY)
-					// {
-						
-						while (get_next_line(0, '\n', &line) > 0)
-						{
-							ft_printf_fd(1, "%s\n", line);
-						}
-					// }
-					// else
-					// 	ft_printf("false\n");
-				}
-			}
+			else if (get_shell_cfg(0)->subshell)
+				ft_readfile(params);
 		}
 		else
 			status = 1;

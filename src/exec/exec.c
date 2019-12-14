@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/07 19:42:45 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/13 17:30:32 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int		exec(t_job *job)
 	uint8_t		status;
 	int			flag;
 
-	p.fd = 1;
 	status = 0;
 	ft_getset(0)->params = &p;
 	ft_getset(0)->last_aliases = NULL;

@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/08 11:33:10 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/14 11:33:50 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,12 +23,12 @@ hashmap/ft_hash.o\
 hashmap/ft_init_map.o\
 hashmap/ft_mapdelete_one.o\
 hashmap/ft_print_hashmap.o\
-env/ft_getenv.o\
-env/ft_export.o\
-env/ft_set.o\
 interns/ft_getinters.o\
 interns/ft_isintern.o\
 interns/ft_cpyenv.o\
+env/ft_getenv.o\
+env/ft_export.o\
+env/ft_set.o\
 cd/ft_cd.o\
 echo/ft_echo.o\
 alias/ft_alias.o         alias/ft_free_aliases.o   alias/ft_showaliases.o  alias/ft_unalias.o\

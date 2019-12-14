@@ -6,41 +6,22 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 01:04:33 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 09:39:24 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/14 11:49:19 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-#define ENV_ENTRY 1
-#define INTEREN_ENTRY 2
-
-char	ft_kv_type(char **argv)
-{
-	int		i;
-
-	i = 0;
-	while (argv[i])
-	{
-		if (!ft_isintern(argv[i]))
-			return (ENV_ENTRY);
-		i++;
-	}
-	return (INTEREN_ENTRY);
-}
-
 int		ft_run(t_params *params, t_process *cmd)
 {
 	t_function	*func;
-	int			index;
 
-	index = params->argv_index;
-	if ((func = ft_is_builtin(cmd->arg[index])))
+	if ((func = ft_is_builtin(cmd->arg[0])))
 	{
 		if (params->forkbuiltins)
 			return (ft_fork(params, cmd, func));
 		else
-			return (func(cmd->arg + index + 1));
+			return (func(cmd->arg + 1));
 	}
 	else
 		return (ft_fork(params, cmd, NULL));
@@ -75,33 +56,26 @@ void	ft_free_tmp_env(t_list *lst)
 	}
 }
 
-int		ft_getinterns(t_params *params, t_process *cmd)
+int		ft_getinterns(t_params *params, t_process *cmd, char type)
 {
-	char	**argv;
+	char	**assign;
 	int		i;
-	char	type;
 	int		status;
 
-	type = ft_kv_type(cmd->arg);
-	argv = cmd->arg;
+	assign = cmd->ass;
 	i = 0;
 	params->tmpenv = NULL;
 	if (type == ENV_ENTRY)
 		ft_cpyenv(params);
-	while (argv[i])
+	while (assign[i])
 	{
-		if (ft_isintern(argv[i]))
-		{
-			ft_addintern(params, argv[i], type);
-		}
-		else
-		{
-			params->argv_index = i;
-			status = ft_run(params, cmd);
-			ft_free_tmp_env(params->tmpenv);
-			params->tmpenv = NULL;
-		}
+		ft_addintern(params, assign[i], type);
 		i++;
 	}
-	return (0);
+	status = 0;
+	if (type == ENV_ENTRY)
+		status = ft_run(params, cmd);
+	ft_free_tmp_env(params->tmpenv);
+	params->tmpenv = NULL;
+	return (status);
 }
