@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 20:15:42 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/14 09:12:58 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/14 19:12:46 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char *ft_herd_qout_normal(t_init *init, char *buffer, char **t)
 		if ((line = move_cursor_and_mangemant_fonction(*t, init)))
 			return (line);
 	}
+	else if ((buffer[0] == 4 && buffer[1] == '\0'))
+		return (ft_strdup(buffer));
 	ft_strdel(t);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:49:44 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 13:34:43 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/14 19:31:59 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ int			sc_operator(char *line, int i)
 	else if (line[i] == '>' && line[i + 1] != '>')
 		return ((line[i] = OUT_RED_OP));
 	else if (line[i] == '<' && line[i + 1] != '<')
-	{
-		dprintf(2, "WHY THO ??? \n");
 		return ((line[i] = IN_RED_OP));
-	}
 	return (0);
 }
 
