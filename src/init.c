@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:12:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 19:27:31 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 20:56:55 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*ft_getprompt()
 		clr = "\e[32m";
 		if (status)
 			clr = "\e[31m";
-		return (ft_join("[\e[90m%s\e[0m][\e[90m%03d\e[0m] \e[36m%s %s$> \e[0m", tmp, get_shell_cfg(0)->id++, path, clr));
+		return (ft_join("[\e[90m%s\e[0m][%s%03d\e[0m] \e[36m%s $> \e[0m", tmp, clr,get_shell_cfg(0)->id++, path));
 	}
 	return ft_strdup("\e[32m 42sh\e[33m $> \e[0m");
 }
