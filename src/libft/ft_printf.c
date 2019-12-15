@@ -6,19 +6,21 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 02:28:02 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 10:27:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 14:29:32 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void			ft_printf_fd(int fd, char *format, ...)
+int			ft_printf_fd(int fd, char *format, ...)
 {
 	va_list	lst;
+	int		status;
 
 	va_start(lst, format);
-	ft_vprintf(fd, &lst, format);
+	status = ft_vprintf(fd, &lst, format);
 	va_end(lst);
+	return (status);
 }
 
 t_printf_params	*ft_init_printf(char *format)
@@ -45,9 +47,10 @@ void			ft_append(t_printf_params *param)
 	free(str);
 }
 
-void			ft_vprintf(int fd, va_list *list, char *format)
+int			ft_vprintf(int fd, va_list *list, char *format)
 {
 	t_printf_params	*param;
+	int				status;
 
 	param = ft_init_printf((char *)format);
 	param->list = list;
@@ -66,17 +69,20 @@ void			ft_vprintf(int fd, va_list *list, char *format)
 			ft_append(param);
 		param->format++;
 	}
-	ft_putstr_fd(param->str, fd);
+	status = ft_putstr_fd(param->str, fd);
 	va_end(*param->list);
 	free(param->str);
 	free(param);
+	return (status);
 }
 
-void			ft_printf(char *format, ...)
+int			ft_printf(char *format, ...)
 {
 	va_list	lst;
+	int		status;
 
 	va_start(lst, format);
-	ft_vprintf(1, &lst, format);
+	status = ft_vprintf(1, &lst, format);
 	va_end(lst);
+	return (status);
 }

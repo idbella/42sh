@@ -6,32 +6,40 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 23:53:01 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 08:55:20 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 18:09:23 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void		ft_print_hash_list(void)
+int		ft_print_hash_list(void)
 {
 	int		i;
 	t_list	*l;
-	t_list	**lst;
 	t_map	*map;
+	char	first;
 
-	i = 0;
-	lst = get_shell_cfg(0)->hashmap;
-	ft_printf("hits\t command\n");
-	while (i < COUNT)
+	i = -1;
+	first = 1;
+	while (++i < COUNT)
 	{
-		l = lst[i];
+		l = get_shell_cfg(0)->hashmap[i];
 		while (l)
 		{
 			map = l->content;
 			if (map->type == COMMANDS)
+			{
+				if (first)
+				{
+					first = 0;
+					ft_printf("hits\t command\n");
+				}
 				ft_printf("%3d\t %s\n", map->hits, map->value);
+			}
 			l = l->next;
 		}
-		i++;
 	}
+	if (first)
+		ft_printf("42sh: hash table empty\n");
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 09:54:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 18:07:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,27 @@ void	ft_freemap(void)
 	free(get_shell_cfg(0)->hashmap);
 }
 
+size_t	ft_arraylen(char **ptr)
+{
+	size_t	size;
+
+	size = 0;
+	while (ptr[size])
+		size++;
+	return (size);
+}
+
 int		ft_exit(char **argv)
 {
 	t_container		*container;
-	uint8_t	r;
+	uint8_t			r;
 
-	if (get_shell_cfg(0)->interractive)
-		ft_printf("exit\n");
 	container = ft_getset(NULL);
+	if (ft_arraylen(argv) > 1)
+	{
+		ft_printf("42sh: exit: too many arguments\n");
+		return (1);
+	}
 	if (!ft_status(container->list) && container->time_to_exit)
 	{
 		ft_printf("There are stopped jobs\n");
@@ -63,7 +76,6 @@ int		ft_exit(char **argv)
 	}
 	else
 	{
-		tcsetattr(0, TCSANOW, ft_getset(0)->term);
 		ft_freemap();
 		r = 0;
 		if (argv[0] && !ft_isnumber(argv[0]) && (r = 255))

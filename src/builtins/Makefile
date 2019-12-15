@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+         #
+#    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/14 14:16:40 by yelazrak         ###   ########.fr        #
+#    Updated: 2019/12/15 18:12:48 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,17 +15,16 @@ NAME=libbuiltins.a
 OBJ=ft_getopt.o type/ft_type.o\
 exit/ft_exit.o\
 builtins.o\
-hashmap/ft_addtomap.o\
-hashmap/ft_empty.o\
-hashmap/ft_get_hash.o\
-hashmap/ft_getbykey.o\
-hashmap/ft_hash.o\
-hashmap/ft_init_map.o\
-hashmap/ft_mapdelete_one.o\
-hashmap/ft_print_hashmap.o\
+hashtable/ft_addtomap.o\
+hashtable/ft_empty.o\
+hashtable/ft_get_hash.o\
+hashtable/ft_getbykey.o\
+hashtable/ft_hash.o\
+hashtable/ft_init_map.o\
+hashtable/ft_mapdelete_one.o\
+hashtable/ft_printtable.o\
 interns/ft_getinters.o\
 interns/ft_isintern.o\
-interns/ft_cpyenv.o\
 env/ft_getenv.o\
 env/ft_export.o\
 env/ft_set.o\

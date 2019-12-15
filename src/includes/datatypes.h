@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   datatypes.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/14 14:34:19 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/15 18:38:29 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,20 +146,20 @@ typedef struct		s_map
 
 typedef struct	s_shell
 {
-	char			interractive;
-	char			subshell;
-	t_map			builtins[BUILTINS_COUNT];
-	t_list			**hashmap;
-	t_job			*jobs;
-	t_init			*init;
-	int				last_exit;
+	char				interractive;
+	char				subshell;
+	t_map				builtins[BUILTINS_COUNT];
+	t_list				**hashmap;
+	t_job				*jobs;
+	t_init				*init;
+	unsigned long long	id;
+	int					last_exit;
 }				t_shell;
 
 typedef struct			s_params
 {
 	int				forkbuiltins;
 	int				pipe_stdin;
-	t_list			*tmpenv;
 	t_job			*job;
 }						t_params;
 

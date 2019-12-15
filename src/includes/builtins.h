@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/14 11:34:16 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 13:59:27 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void				ft_empty(char freeall);
 void				ft_init_hash(void);
 void				ft_hashdelete_one(char *key, char type);
 int	    			ft_hash(char **args);
-void				ft_print_hash_list(void);
+int	    			ft_print_hash_list(void);
 t_map				*ft_addtohashmap(char *key, char *value, char type);
 t_map				*ft_getbykey(char *key, char type);
 char				*ft_getvlaue_bykey(char *key, char type);
@@ -112,7 +112,7 @@ int		            ft_expression(char *expr);
 */
 
 char				ft_isintern(char *cmd);
-int					ft_getinterns(t_params *params, t_process *process, char type);
+void				ft_getinterns(t_process *process, char type);
 void				ft_cpyenv(t_params *p);
 void				ft_add_to_tmp_map(t_params *p, char *key, char *value);
 

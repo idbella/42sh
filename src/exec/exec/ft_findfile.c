@@ -6,33 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 14:51:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/14 11:55:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 09:25:53 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-char	*ft_getpath(void)
-{
-	t_list		*list;
-	t_map		*map;
-	t_params	*params;
-
-	params = ft_getset(0)->params;
-	map = NULL;
-	list = params ? params->tmpenv : NULL;
-	while (list)
-	{
-		map = list->content;
-		if (ft_strequ(map->key, "PATH"))
-			break ;
-		map = NULL;
-		list = list->next;
-	}
-	if (!map)
-		return (ft_getenv("PATH"));
-	return (map->value);
-}
 
 char	*getfullpath(char *name)
 {
@@ -42,7 +20,7 @@ char	*getfullpath(char *name)
 	char	*fullname;
 
 	fullname = NULL;
-	if ((path = ft_getpath()))
+	if ((path = ft_getenv("PATH")))
 	{
 		if ((entrys = ft_strsplit(path, ':')))
 		{
@@ -69,7 +47,7 @@ char	*ft_findfile(char *name, char **error, char add)
 
 	p = ft_getset(0)->params;
 	file = NULL;
-	if (!p->tmpenv && (file = ft_getvlaue_bykey(name, COMMANDS)))
+	if ((file = ft_getvlaue_bykey(name, COMMANDS)))
 	{
 		if (access(file, F_OK))
 			file = NULL;

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/14 11:49:53 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 16:10:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,19 @@ int		ft_init_run(t_params *params, t_process *process)
 		if ((p && p->next) || params->forkbuiltins)
 			return (ft_fork(params, process, func));
 		else
+		{
+			ft_redirect(process->redir);
 			return (func(process->arg + 1));
+		}
 	}
-	if (process->ass)
+	if (process->ass[0])
 	{
 		type = process->arg[0] ? ENV_ENTRY : INTERN_ENTRY;
-		return (ft_getinterns(params, process, type));
+		if (type == INTERN_ENTRY && !params->forkbuiltins && params->job->foreground)
+		{
+			ft_getinterns(process, INTERN_ENTRY);
+			return (0);
+		}
 	}
 	return (ft_fork(params, process, NULL));
 }
@@ -94,17 +101,15 @@ char	ft_exec_job(t_params *params, t_process *process)
 		dup2(fds[0], 0);
 		close(fds[0]);
 		params->pipe_stdin = ft_pipe(fds, process, cpy);
-		if (process->heredoc || ft_redirect(process->redir))
+		if (process->heredoc)
 		{
-			if (ft_printheredoc(process))
-				continue ;
-			if (process->arg[0] || process->ass[0])
-				status = ft_init_run(params, process);
-			else if (get_shell_cfg(0)->subshell)
-				ft_readfile(params);
+			ft_printheredoc(process);
+			continue ;
 		}
-		else
-			status = 1;
+		if (process->arg[0] || process->ass[0])
+			status = ft_init_run(params, process);
+		else if (get_shell_cfg(0)->subshell)
+			ft_readfile(params);
 		process = process->next;
 	}
 	close(cpy[0]);

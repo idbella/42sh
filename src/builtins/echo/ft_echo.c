@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 22:53:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 21:57:08 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 18:03:40 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,27 @@ int		ft_echo(char **args)
 {
 	int		i;
 	char	endl;
+	int		status;
 
 	endl = 1;
 	i = 0;
+	status = 0;
 	if (ft_strequ(args[0], "-n"))
 	{
 		endl = 0;
 		i++;
 	}
-	while (args[i])
+	while (!status && args[i])
 	{
 		if (args[i + 1])
-			ft_printf("%s ", args[i]);
+			status += ft_printf("%s ", args[i]);
 		else
-			ft_printf("%s", args[i]);
+			status += ft_putstr(args[i]);
 		i++;
 	}
-	if (endl)
+	if (status)
+		ft_printf_fd(2, "42sh: echo: write error: Bad file descriptor\n");
+	else if (endl)
 		ft_putchar('\n');
-	return (0);
+	return (status);
 }
