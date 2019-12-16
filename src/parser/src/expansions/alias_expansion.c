@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 09:47:49 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/16 16:05:39 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/16 16:07:49 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ t_token	*get_tokens(t_token **head, char *cmd_chain)
 		append(head, &tail, &token);
 	return (*head);
 }
-//alias l=ls c=cat e=echo lce='l | c -e && e DONE | c -e'
 
 int		match(t_alias *h, t_alias *t)
 {
@@ -167,10 +166,7 @@ int		match(t_alias *h, t_alias *t)
 		if (!iter->next)
 			break ;
 		if (ft_strequ(iter->key, t->key))
-		{
-			// printf("match : %s h->key: %s\n", iter->key, h->key);
 			return (1);
-		}
 		iter = iter->next;
 	}
 	return (0);
@@ -237,10 +233,6 @@ char	*expand_alias(t_token *token, char *alias, t_alias *h, t_alias **t)
 			arg = tokens->list[++i];
 		if (arg)
 		{
-			if (ft_strequ("c", arg))
-			{
-				printf("here\n");
-			}
 			if ((tmp = ft_getvlaue_bykey(arg, ALIAS))
 			&& !circular(h, t, arg))
 			{
