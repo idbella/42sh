@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 19:34:13 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/16 15:07:37 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 **			- flag quoted arg[0] -DONE
 **			- add <() >()
 **			- fix alias expansion. -DONE.
+**			- fix circular. - DONE.
+**			- fix D_QUOTES.
 **			- fix ${?} -partially
-**			- heredoc. 
+**			- heredoc. -partially
 **			- search for errors.
 **			- norminette and leaks.
 **			- more tests.
@@ -300,7 +302,7 @@ t_job		*parse(char *input)
 	if (!(line = pre_parse(input)))
 		return (NULL);
 	// printf("+++line: %s\n", line);
-	tokens = alias_expansion(&line);
+	tokens = alias_expansion(line);
 	free(line);
 	line = gather_tokens(tokens);
 	highlight_ops(line);
