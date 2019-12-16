@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/02 23:45:07 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 11:49:29 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/16 18:26:04 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		ft_unalias(char **cmd)
 	char	buffer[127];
 
 	rval = 0;
-	if ((i = ft_getopt(cmd, buffer, "-a")) < 0)
+	if ((i = ft_getopt(cmd, buffer, "a")) < 0)
 	{
 		ft_printf_fd(2, "42sh: unalias: -%c: invalid option\n", -i);
 		ft_printf_fd(2,
