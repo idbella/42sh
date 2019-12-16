@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/16 13:56:25 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/16 15:08:06 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ typedef	struct s_arg
 typedef	struct	s_alias
 {
 	char			*key;
-	char			*value;
-	// struct s_alias	*prev;
 	struct s_alias	*next;
 }				t_alias;
 

@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 09:47:49 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/16 14:46:16 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/16 16:05:39 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,32 +155,7 @@ t_token	*get_tokens(t_token **head, char *cmd_chain)
 		append(head, &tail, &token);
 	return (*head);
 }
-
-// int		circular(t_alias *h, char *arg, char *alias)
-// {
-// 	t_alias	*c;
-
-// 	c = NULL;
-// 	if (!(h->next = malloc(sizeof(t_alias))))
-// 		exit(EXIT_FAILURE);
-// 	// h->next->prev = h;
-// 	h->next->next = NULL;
-// 	h->next->key = ft_strdup(arg);
-// 	c = h->next;
-// 	printf("*arg : %s alias:  %s\n", arg, alias);
-// 	return (1);
-// 	while (c)
-// 	{
-// 		if (c->prev && ft_strequ(c->key, alias))
-// 		{
-// 			// printf("c->key: %s alias: %s\n", c->key, alias);
-// 			return (1);
-// 		}
-// 		c = c->prev;
-// 	}
-// 	return (0);
-// }
-// l=ls ls=l q=l a=l a->l->ls->l l->ls->l
+//alias l=ls c=cat e=echo lce='l | c -e && e DONE | c -e'
 
 int		match(t_alias *h, t_alias *t)
 {
@@ -193,7 +168,7 @@ int		match(t_alias *h, t_alias *t)
 			break ;
 		if (ft_strequ(iter->key, t->key))
 		{
-			// printf("match : %s\n", iter->key)
+			// printf("match : %s h->key: %s\n", iter->key, h->key);
 			return (1);
 		}
 		iter = iter->next;
@@ -204,16 +179,12 @@ int		match(t_alias *h, t_alias *t)
 int		circular(t_alias *h, t_alias **t, char *alias)
 {
 	t_alias	*c;
-	// char	*arg;
 
 	c = NULL;
-	// arg = alias;
-	// while ((alias = ft_getvlaue_bykey(arg, ALIAS)))
-	// {
-	c = malloc(sizeof(t_alias));
+	if (!(c = malloc(sizeof(t_alias))))
+		exit(EXIT_FAILURE);
 	c->key = ft_strdup(alias);
 	c->next = NULL;
-	// printf("<<c->key : %s\n", c->key);
 	if (!h->next)
 		h->next = c;
 	else
@@ -221,8 +192,6 @@ int		circular(t_alias *h, t_alias **t, char *alias)
 	*t = c;
 	if (match(h, *t))
 		return (1);
-	// arg = c->key;
-	// }
 	return (0);
 }
 
@@ -251,13 +220,13 @@ void	combine(t_token *tokens, char **str)
 	join_char(str, tokens->type);
 }
 
-char	*expand_alias(t_token *token, char *alias, t_alias *h, char op, t_alias **t)
+char	*expand_alias(t_token *token, char *alias, t_alias *h, t_alias **t)
 {
 	int		i;
 	char	*arg;
 	t_token *tokens;
 	char	*str;
-	// t_alias	*t;
+	char	*tmp;
 
 	tokens = get_sub_token(token, alias, &str);
 	while (tokens)
@@ -268,22 +237,39 @@ char	*expand_alias(t_token *token, char *alias, t_alias *h, char op, t_alias **t
 			arg = tokens->list[++i];
 		if (arg)
 		{
-			if ((alias = ft_getvlaue_bykey(arg, ALIAS))
+			if (ft_strequ("c", arg))
+			{
+				printf("here\n");
+			}
+			if ((tmp = ft_getvlaue_bykey(arg, ALIAS))
 			&& !circular(h, t, arg))
 			{
-				arg = DUPL(expand_alias(tokens, DUPL(alias), h, 1, t));
+				arg = DUPL(expand_alias(tokens, DUPL(tmp), h, t));
 				free(tokens->list[i]);
 				tokens->list[i] = arg;
-				(void)op;
-				// if (op)
-				// 	free(alias);
 			}
-			else if (alias)
+			else if (tmp)
+			{
+				free(tokens->list[i]);
 				tokens->list[i] = ft_strdup((*t)->key);
+			}
 		}
 		combine(tokens, &str);
+		t_alias	*iter = h->next;
+		t_alias	*next;
+		while (iter)
+		{
+			next = iter->next;
+			free(iter->key);
+			iter->key = NULL;
+			free(iter);
+			iter = NULL;
+			iter = next;
+		}
+		h->next = NULL;
 		tokens = tokens->next;
 	}
+	free(alias);
 	return (str);
 }
 
@@ -295,9 +281,8 @@ void	update_token(t_token *tokens, char *alias, char **arg, int i)
 	if (!(h = (t_alias *)malloc(sizeof(t_alias))))
 		exit(EXIT_FAILURE);
 	h->key = ft_strdup(*arg);
-	// printf(">> %s\n", h->key);
 	h->next = NULL;
-	*arg = expand_alias(tokens, alias, h, 0, &t);
+	*arg = expand_alias(tokens, DUPL(alias), h, &t);
 	free(tokens->list[i]);
 	tokens->list[i] = *arg;
 	free(alias);

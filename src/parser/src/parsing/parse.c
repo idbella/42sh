@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/16 09:14:50 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/16 15:07:37 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 **			- flag quoted arg[0] -DONE
 **			- add <() >()
 **			- fix alias expansion. -DONE.
-**			- fix circular.
+**			- fix circular. - DONE.
 **			- fix D_QUOTES.
 **			- fix ${?} -partially
 **			- heredoc. -partially
