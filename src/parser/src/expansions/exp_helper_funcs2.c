@@ -6,22 +6,22 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 16:08:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 13:35:22 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/16 20:14:49 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static int	isspace(int c)
-{
-	unsigned char s;
+// static int	isspace(int c)
+// {
+// 	unsigned char s;
 
-	s = c;
-	if (s == ' ' || s == '\t'
-		|| s == '\v' || s == '\r' || s == '\f')
-		return (1);
-	return (0);
-}
+// 	s = c;
+// 	if (s == ' ' || s == '\t'
+// 		|| s == '\v' || s == '\r' || s == '\f')
+// 		return (1);
+// 	return (0);
+// }
 
 void		quotes_delimiter(char **tmp)
 {
@@ -56,8 +56,8 @@ void		quotes_delimiter(char **tmp)
 				q = !q;
 				(*tmp)[i] = QUOTE;
 			}
-			else if (dq && isspace((*tmp)[i]))
-				(*tmp)[i] = BLANK;
+			// else if (dq && isspace((*tmp)[i]))
+			// 	(*tmp)[i] = BLANK;
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/16 15:08:06 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/16 18:43:22 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,14 @@ void			quoted_escape(char **arg);
 void			remove_quotes(char **args);
 void			remove_escapes(char **str, char escape);
 char			*tild_expan(char *tild_str);
+void			join_char(char **str, char c);
+void			update_string(char **str, int *j);
+void			add_spaces(char **str);
+void			combine(t_token *tokens, char **str);
+int				match(t_alias *h, t_alias *t);
+void			free_list(t_alias *h, t_alias **t);
+char			*extact_arg(t_token *tokens, int *i);
+void			replace(t_token *tokens, t_alias *t, int i);
+t_token			*get_tokens(t_token **head, char *cmd_chain);
 
 #endif
