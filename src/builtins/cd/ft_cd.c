@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:08:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/17 14:04:54 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/17 14:13:24 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int		chdir_operations(t_recipes *recipes)
 			{
 				ft_addtohashmap("OLDPWD", ft_getenv("PWD"), INTERN);
 				recipes->curpath = curpath_handling(recipes->curpath);
-				printf("TMP == %s\n", recipes->curpath);
 				if (chdir(recipes->curpath) != -1)
 				{
 					if (recipes->mute == 1)
