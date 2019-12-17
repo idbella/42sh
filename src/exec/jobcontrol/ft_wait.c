@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:03:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/14 09:29:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 19:32:50 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,16 @@ void	ft_get_term(t_job *job)
 	}
 }
 
-void	ft_wait(t_job *job)
+void	ft_wait(t_job *job, int status)
 {
-	int			status;
 	pid_t		pid;
 
 	job->suspended = 0;
 	if (!job->pgid)
+	{
+		ft_set_last_rvalue(status);
 		return ;
+	}
 	if (!job->foreground)
 	{
 		ft_addjob(job, ft_getset(NULL));

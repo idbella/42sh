@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 16:04:53 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/16 18:04:31 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,15 @@ int		ft_fork(t_params *params, t_process *process, t_function *func)
 
 	rval = 0;
 	file = NULL;
-	if (!params->forkbuiltins && params->job->foreground && !ft_path_changed(process))
+	if (!params->forkbuiltins && params->job->foreground && !ft_path_changed(process) && process->arg[0])
 		ft_getexecutable(process, 0);
 	if (!(process->pid = fork()))
 	{
 		ft_setup_child(params, params->job);
 		ft_redirect(process->redir);
 		ft_getinterns(process, ENV_ENTRY);
+		if (!process->arg[0])
+			exit(0);
 		(!func) ? file = ft_getexecutable(process, 1) : 0;
 		if (func)
 			exit(func(process->arg + 1));

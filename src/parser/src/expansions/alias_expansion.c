@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 09:47:49 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/13 14:35:23 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/16 16:07:49 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char	*gather_tokens(t_token *tokens)
 	while (tokens)
 	{
 		j = 0;
-		// printf("n : %d\n", n++);
 		while (tokens->list[j])
 		{
 			if (!str)
@@ -53,26 +52,90 @@ char	*gather_tokens(t_token *tokens)
 		}
 		if (tokens->type == AND || tokens->type == OR)
 			join_char(&str, tokens->type);
-		if (tokens->type != SEMI_COL)
-			join_char(&str, tokens->type);
+		// if (tokens->type != SEMI_COL)
+		join_char(&str, tokens->type);
 		tokens = tokens->next;
 	}
 	return (str);
 }
 
-t_token	*get_tokens(t_token **head, char *line)
+static void	append(t_token **head, t_token **tail, t_token **token)
 {
-	char	*cmd_chain;
+	if (!*head)
+		*head = *token;
+	else
+		(*tail)->next = *token;
+	*tail = *token;
+	*token = NULL;
+}
+
+void			add_spaces(char **str)
+{
+	int		j;
+	int		i;
+	char	*s[3];
+
+	s[0] = NULL;
+	s[1] = NULL;
+	s[2] = NULL;
+	j = 0;
+	while ((*str)[j])
+	{
+		if ((*str)[j] == OUT_RED_OP || (*str)[j] == IN_RED_OP
+		|| (*str)[j] == APP_OUT_RED_OP || (*str)[j] == HEREDOC_OP)
+		{
+			i = (j > 0) ? j - 1 : 0;
+			if (!ft_isdigit((*str)[i]) && (*str)[i] != '&')
+			{
+				s[0] = ft_strsub(*str, 0, j);
+				join_char(&s[0], BLANK);
+				s[1] = ft_strdup((*str) + j);
+				s[2] = ft_fstrjoin(s[0], s[1]);
+				j = (*str)[j] == ((*str)[j] == OUT_RED_OP || (*str)[j] == IN_RED_OP) ?
+					j + 2 : j + 3;
+				free(*str);
+				*str = s[2];
+			}
+			else
+			{
+				j++;
+				continue;
+			}
+		}
+		else
+			j++;
+	}
+}
+
+static t_token	*get_node(char *cmd_chain, int *old_i, int *i)
+{
+	t_token	*token;
+	char	*str;
+
+	if (!(token = (t_token *)malloc(sizeof(t_token))))
+		exit(EXIT_FAILURE);
+	token->type = 0;
+	token->list = NULL;
+	token->sub = NULL;
+	token->next = NULL;
+	if ((str = skip_operators(4, cmd_chain, old_i, i)))
+	{
+		add_spaces(&str);
+		token->list = ft_strsplit(str, BLANK);
+		free(str);
+	}
+	return (token);
+}
+
+t_token	*get_tokens(t_token **head, char *cmd_chain)
+{
 	int		i;
 	int		old_i;
 	t_token	*token;
 	t_token	*tail;
-	char	*str;
 
-	*head = NULL;
 	tail = NULL;
 	token = NULL;
-	cmd_chain = line;
 	i = 0;
 	old_i = 0;
 	while (cmd_chain[i])
@@ -83,78 +146,85 @@ t_token	*get_tokens(t_token **head, char *line)
 			old_i += i - old_i;
 			token->type = cmd_chain[i];
 			i = (cmd_chain[i] == AND || cmd_chain[i] == OR) ? i + 2 : i + 1;
-			if (!*head)
-				*head = token;
-			else
-				tail->next = token;
-			tail = token;
-			token = NULL;
+			append(head, &tail, &token);
 		}
 		else
-		{
-			str = skip_operators(4, cmd_chain, &old_i, &i);
-			token = NULL;
-			token = (t_token *)malloc(sizeof(t_token));
-			token->type = 0;
-			token->list = NULL;
-			token->sub = NULL;
-			token->next = NULL;
-			token->list = ft_strsplit(str, BLANK);
-		}
+			token = get_node(cmd_chain, &old_i, &i);
 	}
 	if (token)
-	{
-		if (!*head)
-			*head = token;
-		else
-			tail->next = token;
-		tail = token;
-		token = NULL;
-	}
+		append(head, &tail, &token);
 	return (*head);
 }
 
-char	*extract_arg(char *token, int offset)
+int		match(t_alias *h, t_alias *t)
 {
-	int	i;
-	int	start;
+	t_alias	*iter;
 
-	i = offset;
-	start = 0;
-	while (token[i])
+	iter = h;
+	while (iter)
 	{
-		if (token[i] == BLANK)
-		{
-			while (token[i] && token[i] == BLANK)
-				i++;
-			start = i;
-		}
-		else
-		{
-			while (token[i] && token[i] != BLANK)
-				i++;
-			return (ft_strsub(token, start, i - start));
-		}
+		if (!iter->next)
+			break ;
+		if (ft_strequ(iter->key, t->key))
+			return (1);
+		iter = iter->next;
 	}
-	return (NULL);
+	return (0);
 }
 
-char	*expand_alias(t_token *token, char *alias, t_alias *h)
+int		circular(t_alias *h, t_alias **t, char *alias)
+{
+	t_alias	*c;
+
+	c = NULL;
+	if (!(c = malloc(sizeof(t_alias))))
+		exit(EXIT_FAILURE);
+	c->key = ft_strdup(alias);
+	c->next = NULL;
+	if (!h->next)
+		h->next = c;
+	else
+		(*t)->next = c;
+	*t = c;
+	if (match(h, *t))
+		return (1);
+	return (0);
+}
+
+static t_token	*get_sub_token(t_token *token, char *alias, char **str)
+{
+	mark_operators(alias);
+	mark_bg_op(alias);
+	token->sub = get_tokens(&token->sub, alias);
+	*str = ft_strnew(0);
+	return (token->sub);
+}
+
+void	combine(t_token *tokens, char **str)
+{
+	int	j;
+
+	j = 0;
+	while (tokens->list[j])
+	{
+		*str = ft_fstrjoin(*str, ft_strdup(" "));
+		*str = ft_fstrjoin(*str, tokens->list[j]);
+		j++;
+	}
+	if (tokens->type == AND || tokens->type == OR)
+		join_char(str, tokens->type);
+	join_char(str, tokens->type);
+}
+
+char	*expand_alias(t_token *token, char *alias, t_alias *h, t_alias **t)
 {
 	int		i;
 	char	*arg;
 	t_token *tokens;
 	char	*str;
-	t_alias	*c;
-	char	match;
+	char	*tmp;
 
-	mark_operators(alias);
-	mark_bg_op(alias);
-	token->sub = get_tokens(&token->sub, alias);
-	tokens = token->sub;
-	str = ft_strnew(0);
-	c = NULL;
-	match = 0;
+	tokens = get_sub_token(token, alias, &str);
 	while (tokens)
 	{
 		arg = tokens->list[0];
@@ -163,53 +233,64 @@ char	*expand_alias(t_token *token, char *alias, t_alias *h)
 			arg = tokens->list[++i];
 		if (arg)
 		{
-			if ((alias = ft_getvlaue_bykey(arg, ALIAS)))
+			if ((tmp = ft_getvlaue_bykey(arg, ALIAS))
+			&& !circular(h, t, arg))
 			{
-				h->next = malloc(sizeof(t_alias));
-				h->next->prev = h;
-				h->next->next = NULL;
-				h->next->key = ft_strdup(arg);
-				c = h->next;
-				while (c)
-				{
-					if (c->prev && ft_strequ(c->key, alias))
-					{
-						match = 1;
-						break ;
-					}
-					c = c->prev;
-				}
-				if (!match)
-					tokens->list[0] = ft_strdup(expand_alias(tokens, ft_strdup(alias), h->next));
+				arg = DUPL(expand_alias(tokens, DUPL(tmp), h, t));
+				free(tokens->list[i]);
+				tokens->list[i] = arg;
+			}
+			else if (tmp)
+			{
+				free(tokens->list[i]);
+				tokens->list[i] = ft_strdup((*t)->key);
 			}
 		}
-		int	j;
-		j = 0;
-		while (tokens->list[j])
+		combine(tokens, &str);
+		t_alias	*iter = h->next;
+		t_alias	*next;
+		while (iter)
 		{
-			str = ft_join("%s %s", str, tokens->list[j]);
-			j++;
+			next = iter->next;
+			free(iter->key);
+			iter->key = NULL;
+			free(iter);
+			iter = NULL;
+			iter = next;
 		}
-		if (tokens->type == AND || tokens->type == OR)
-			join_char(&str, tokens->type);
-		join_char(&str, tokens->type);
+		h->next = NULL;
 		tokens = tokens->next;
 	}
+	free(alias);
 	return (str);
 }
 
-t_token	*alias_expansion(char **line)
+void	update_token(t_token *tokens, char *alias, char **arg, int i)
+{
+	t_alias			*h = NULL;
+	t_alias			*t = NULL;
+
+	if (!(h = (t_alias *)malloc(sizeof(t_alias))))
+		exit(EXIT_FAILURE);
+	h->key = ft_strdup(*arg);
+	h->next = NULL;
+	*arg = expand_alias(tokens, DUPL(alias), h, &t);
+	free(tokens->list[i]);
+	tokens->list[i] = *arg;
+	free(alias);
+}
+
+t_token	*alias_expansion(char *line)
 {
 	t_token			*tokens;
 	char			*arg;
 	char			*alias;
 	int				i;
 	t_token			*tmp;
-	t_alias			*h;
 
 	tokens = NULL;
 	arg = NULL;
-	tokens = get_tokens(&tokens, *line);
+	tokens = get_tokens(&tokens, line);
 	tmp = tokens;
 	while (tokens)
 	{
@@ -220,14 +301,7 @@ t_token	*alias_expansion(char **line)
 		if (arg)
 		{
 			if ((alias = ft_getvlaue_bykey(arg, ALIAS)))
-			{
-				h = malloc(sizeof(t_alias));
-				h->key = ft_strdup(arg);
-				h->next = NULL;
-				h->prev = NULL;
-				tokens->list[0] = expand_alias(tokens, ft_strdup(alias), h);
-			}
-			// printf("tokens->list[0]: %s\n", tokens->list[0]);
+				update_token(tokens, ft_strdup(alias), &arg, i);
 		}
 		tokens = tokens->next;
 	}

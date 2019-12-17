@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 10:31:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 13:25:14 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 20:12:09 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		ft_getopt(char **args, char *buffer, char *valid)
 			i1 = 0;
 			while (args[i0][++i1])
 			{
-				;
 				if (!ft_strchr(valid, args[i0][i1]))
 					return (-args[i0][i1]);
 				if ((option = (int)args[i0][i1]) > 0)

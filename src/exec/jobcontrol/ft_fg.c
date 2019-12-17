@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:01:02 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:06:59 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 19:56:53 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		ft_fg(char **arg)
 			ft_printf("can't setpgrp :-(\n");
 			return (1);
 		}
-		ft_wait(job);
+		ft_wait(job, 0);
 	}
 	else
 	{

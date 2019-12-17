@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 16:49:44 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 19:46:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 19:32:28 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void					ft_init_jobcontrol();
 void					ft_resetsignals();
 void					ft_deljob(t_job *job, t_container *container);
 void					ft_addprocess(t_process *process, pid_t pid);
-void					ft_wait(t_job *job);
+void					ft_wait(t_job *job, int status);
 void					ft_jobs_in_child(t_job *job);
 void					ft_init_job(t_job *job);
 t_job					*ft_getjob_byindex(int index);

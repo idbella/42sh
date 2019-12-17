@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 09:24:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/15 19:31:59 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int		exec(t_job *job)
 			p.forkbuiltins = job->flag == BG || job->processes->next;
 			signal(SIGCHLD, SIG_DFL);
 			status = ft_exec_job(&p, job->processes);
-			ft_wait(job);
+			ft_wait(job, status);
 			signal(SIGCHLD, ft_sigchld);
 			status = !status ? ft_getjobstatus(job->processes) : status;
 			if (job->flag == OR || job->flag == AND)

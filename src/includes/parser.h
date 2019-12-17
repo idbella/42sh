@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/13 13:47:45 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/16 15:08:06 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@
 # define PARAMS (void *)head, (void *)&curr, (void *)tail
 # define APPEND(type) append_lst(PARAMS, type)
 # define SETFLAG(type) set_flag(curr, token[j], type)
-
+# define DUPL(str) ft_strdup(str)
 /* 
 ** 
 */
@@ -87,8 +87,6 @@ typedef	struct s_arg
 typedef	struct	s_alias
 {
 	char			*key;
-	char			*value;
-	struct s_alias	*prev;
 	struct s_alias	*next;
 }				t_alias;
 
@@ -121,7 +119,7 @@ char			*get_heredoc(char *str, int *i, int *hd_fd);
 int				is_not_blank(char *line, int j, int i);
 void			apply_expansions(t_process *process);
 char			*get_dollar_var(char *tmp, int *i, char op);
-t_token			*alias_expansion(char **line);
+t_token			*alias_expansion(char *line);
 char			*gather_tokens(t_token *tokens);
 char			*rc(t_token *tokens);
 char			*control_subtitution(char *token, char type);

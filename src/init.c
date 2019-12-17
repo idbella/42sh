@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:12:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 19:01:47 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/16 18:50:11 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,28 @@ t_shell	*get_shell_cfg(t_shell *new)
 	if (new)
 		sh = new;
 	return (sh);
+}
+
+size_t	ft_promptlen(char *prompt)
+{
+	size_t len;
+	size_t	i;
+
+	i = 0;
+	len = 0;
+	while (prompt[i])
+	{
+		if (prompt[i] == '\e')
+		{
+			while (prompt[i] != 'm')
+				i++;
+			i++;
+			continue;
+		}
+		len++;
+		i++;
+	}
+	return (len);
 }
 
 char	*ft_getusername(void)
@@ -79,7 +101,7 @@ char	*ft_getprompt()
 		clr = "\e[32m";
 		if (status)
 			clr = "\e[31m";
-		return (ft_join("[\e[90m%s\e[0m][\e[90m%03d\e[0m] \e[36m%s %s$> \e[0m", tmp, get_shell_cfg(0)->id++, path, clr));
+		return (ft_join("[\e[90m%s\e[0m][%s%03d\e[0m] \e[36m%s $> \e[0m", tmp, clr,get_shell_cfg(0)->id++, path));
 	}
 	return ft_strdup("\e[32m 42sh\e[33m $> \e[0m");
 }
@@ -97,5 +119,6 @@ void	init_(t_shell *shell, char **env, t_init *init)
 	shell->init = init;
 	shell->last_exit = 0;
 	shell->subshell = 0;
-	shell->id = 1;
+	shell->id = 0;
+	ft_getset(0)->term = &init->term_copy;
 }
