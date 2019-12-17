@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:46:25 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/15 19:21:21 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/17 14:15:32 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_param_expan(char *param_expan)
 	if (check_param(param_expan) < 0)
 		return (NULL);
 	split_param_expan(param_expan, &param_word);
-	printf("PARAM == %s\nWORD == %s\n TYPE == %c\nOP_TYPE == %c\n", param_word.param, param_word.word, param_word.type, param_word.operation_type);
+//	printf("PARAM == %s\nWORD == %s\n TYPE == %c\nOP_TYPE == %c\n", param_word.param, param_word.word, param_word.type, param_word.operation_type);
 	if (!ft_strlen(param_word.param))
 	{
 		ft_strdel(&param_word.param);

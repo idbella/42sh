@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:59:34 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/15 15:07:22 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/17 14:16:21 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 				}
 				else if (suffix[i_suffix + 1])
 				{
-					printf("WODI DONG\n");
+				//	printf("WODI DONG\n");
 					return (0);
 				}
 			}
@@ -113,10 +113,10 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 	}
 	if (i_suffix)
 	{
-		printf("ERROR\n");
+	//	printf("ERROR\n");
 		return (-1);
 	}
-	printf("ISRC == %d %c ISUF == %d %c\n", i_src, src[i_src], i_suffix,suffix[i_suffix]);
+//	printf("ISRC == %d %c ISUF == %d %c\n", i_src, src[i_src], i_suffix,suffix[i_suffix]);
 	return (i_src);
 }
 
