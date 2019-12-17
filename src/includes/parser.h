@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/16 18:43:22 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/17 15:12:32 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@
 # define APPEND(type) append_lst(PARAMS, type)
 # define SETFLAG(type) set_flag(curr, token[j], type)
 # define DUPL(str) ft_strdup(str)
+# define _PARAM(x) get_dollar_var(tmp, &i, x)
 /* 
 ** 
 */
@@ -90,11 +91,6 @@ typedef	struct	s_alias
 	struct s_alias	*next;
 }				t_alias;
 
-
-// t_shell			*init_shell(void);
-// t_shell			*get_shell_cfg(t_shell *new);
-void			ft_sigint_handler();
-void			ft_sigcunt();
 char			*pre_parse(char *line);
 void			mark_operators(char *line);
 int				get_bg_jobs(char *line);
@@ -105,6 +101,9 @@ void			check_wildcard_c(char **line);
 int				dquotes_checker(char **line, char *dq, int *i, int *j);
 int				squotes_checker(char **line, char *q, int *i);
 int				check_syntax_errors(char *line);
+int				correct_syntax(char *param);
+int				valid_parameter(char *param, char type);
+int				subst_syntax(char *line);
 t_job			*get_jobs(char **cmd_chain, int	bg);
 t_process		*get_process_list(char *cmd_chain, char type);
 void			append_lst(void **h, void **c, void **t, char type);
