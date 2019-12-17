@@ -6,13 +6,24 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 15:11:06 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/17 15:11:18 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/17 15:41:26 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int			correct_syntax(char *param)
+int	param_valid(char *param, int i)
+{
+	while (ft_isalnum(param[i]) || param[i] == '_')
+		i++;
+	if (param[i] && param[i] != ':' && param[i] != '#'
+	&& param[i] != '-' && param[i] != '?' && param[i] != '+'
+	&& param[i] != '=' && param[i] != '%')
+		return (0);
+	return (1);
+}
+
+int	correct_syntax(char *param)
 {
 	int		pos;
 	int		i;
@@ -34,18 +45,8 @@ int			correct_syntax(char *param)
 		while (param[i])
 		{
 			if (ft_isalnum(param[i]) || param[i] == '_' || param[i] == '?')
-			{
-				while (ft_isalnum(param[i]) || param[i] == '_')
-					i++;
-				if (param[i] && param[i] != ':' && param[i] != '#'
-				&& param[i] != '-' && param[i] != '?' && param[i] != '+'
-				&& param[i] != '=' && param[i] != '%')
-					return (0);
-				else
-					return (1);
-			}
-			else
-				return (0);
+				return (!param_valid(param, i) ? 0 : 1);
+			return (0);
 		}
 	}
 	return (1);
