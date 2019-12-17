@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 16:10:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/17 13:11:51 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,14 @@ char	ft_exec_job(t_params *params, t_process *process)
 			ft_readfile(params);
 		process = process->next;
 	}
+	if (!isatty(cpy[0]) && get_shell_cfg(0)->subshell)
+	{
+		dup2(cpy[0], 1);
+		ft_restorestd(1, 0, 1);
+	}
+	else
+		ft_restorestd(1, 1, 1);
 	close(cpy[0]);
 	close(cpy[1]);
-	ft_restorestd(1, 1, 1);
 	return (status);
 }
