@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 17:11:08 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/14 11:18:14 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/18 11:44:03 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,12 @@ char	*plus_func(t_param_expan_st *p_w)
 		if (p_w->map && ft_strlen(p_w->map->value))
 			return (ft_strdup(p_w->word));
 		else if ((p_w->map && !ft_strlen(p_w->map->value)) || !p_w->map)
-			return (NULL);
+			return ("");
 	}
-	else
-	{
-		p_w->map = ft_getbykey(p_w->param, INTERN);
-		if (p_w->map)
-			return (ft_strdup(p_w->word));
-		else
-			return (NULL);
-	}
-	return (NULL);
+	p_w->map = ft_getbykey(p_w->param, INTERN);
+	if (p_w->map)
+		return (ft_strdup(p_w->word));
+	return ("");
 }
 
 char	*min_func(t_param_expan_st *p_w)
@@ -43,17 +38,12 @@ char	*min_func(t_param_expan_st *p_w)
 		if ((p_w->map && !ft_strlen(p_w->map->value)) || !p_w->map)
 			return (ft_strdup(p_w->word));
 	}
-	else
-	{
-		p_w->map = ft_getbykey(p_w->param, INTERN);
-		if (!p_w->map)
-			return (ft_strdup(p_w->word));
-		if (p_w->map && ft_strlen(p_w->map->value))
-			return (ft_strdup(p_w->map->value));
-		if (p_w->map && !ft_strlen(p_w->map->value)) 
-			return (NULL);
-	}
-	return (NULL);
+	p_w->map = ft_getbykey(p_w->param, INTERN);
+	if (!p_w->map)
+		return (ft_strdup(p_w->word));
+	if (p_w->map && ft_strlen(p_w->map->value))
+		return (ft_strdup(p_w->map->value));
+	return ("");
 }
 
 char	*assign_func(t_param_expan_st *p_w)
@@ -69,20 +59,13 @@ char	*assign_func(t_param_expan_st *p_w)
 			return (ft_strdup(p_w->word));
 		}
 	}
-	else
-	{
-		p_w->map = ft_getbykey(p_w->param, INTERN);
-		if (p_w->map && ft_strlen(p_w->map->value))
-			return (ft_strdup(p_w->map->value));
-		if ((p_w->map && !ft_strlen(p_w->map->value)))
-			return (NULL);
-		else
-		{
-			ft_addtohashmap(p_w->param, p_w->word, INTERN);
-			return (ft_strdup(p_w->word));
-		}
-	}
-	return (NULL);
+	p_w->map = ft_getbykey(p_w->param, INTERN);
+	if (p_w->map && ft_strlen(p_w->map->value))
+		return (ft_strdup(p_w->map->value));
+	if ((p_w->map && !ft_strlen(p_w->map->value)))
+		return ("");
+	ft_addtohashmap(p_w->param, p_w->word, INTERN);
+	return (ft_strdup(p_w->word));
 }
 
 char	*error_func(t_param_expan_st *p_w)
@@ -95,24 +78,21 @@ char	*error_func(t_param_expan_st *p_w)
 		if ((p_w->map && !ft_strlen(p_w->map->value)) || !p_w->map)
 		{
 			ft_putstr_fd("42sh: ", 2);
+			ft_putstr_fd(p_w->param, 2);
+			ft_putstr_fd(": ", 2);
 			ft_putstr_fd(p_w->word, 2);
 			return (NULL);
 		}
 	}
-	else
-	{
-		p_w->map = ft_getbykey(p_w->param, INTERN);
-		if (p_w->map && ft_strlen(p_w->map->value))
-			return (ft_strdup(p_w->map->value));
-		if ((p_w->map && !ft_strlen(p_w->map->value)))
-			return (NULL);
-		else
-		{
-			ft_putstr_fd("42sh: ", 2);
-			ft_putstr_fd(p_w->word, 2);
-			return (NULL);
-		}
-	}
+	p_w->map = ft_getbykey(p_w->param, INTERN);
+	if (p_w->map && ft_strlen(p_w->map->value))
+		return (ft_strdup(p_w->map->value));
+	if ((p_w->map && !ft_strlen(p_w->map->value)))
+		return ("");
+	ft_putstr_fd("42sh: ", 2);
+	ft_putstr_fd(p_w->param, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(p_w->word, 2);
 	return (NULL);
 }
 
@@ -142,5 +122,5 @@ char	*operators_manager(t_param_expan_st *p_w)
 	}
 	if (p_w->type == 'F')
 		return (rm_ffixers(p_w));
-	return ((p_w->map = ft_getbykey(p_w->param, INTERN)) ? p_w->map->value : NULL);
+	return ((p_w->map = ft_getbykey(p_w->param, 1)) ? p_w->map->value : "");
 }

@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:59:34 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/18 11:03:47 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/18 14:38:09 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 		i_src--;
 		i_suffix--;
 	}
-	if (i_suffix >= 0)
+	if (i_suffix > 0)
 		return (-1);
 	return (i_src);
 }
