@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:59:34 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/17 14:16:21 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/18 11:03:47 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,9 @@ int		find_preffix(char *src, char *preffix, char preffix_size)
 				}
 				else if (preffix[i_preffix - 1])
 				{
-					i_preffix--;
 					if (preffix_size == 'B')
 						return (ft_strlen(src));
-					else
-						return (i_src);
+					return (i_src);
 				}
 			}
 			else
@@ -74,14 +72,14 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 
 	i_src = ft_strlen(src);
 	i_suffix = ft_strlen(suffix);
-	while (i_src > 0 && i_suffix > 0)
+	while (i_src >= 0 && i_suffix >= 0)
 	{
 		if (suffix[i_suffix] == '*')
 		{
 			if ((i_suffix - 1 >= 0 && suffix[i_suffix - 1] != '\\') ||
 				i_suffix == 0)
 			{
-				if (suffix[i_suffix - 1])
+				if (suffix[i_suffix - 1] && suffix[i_suffix - 1] != -1)
 				{
 					i_suffix--;
 					if (suffix_size == 'S')
@@ -99,8 +97,9 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 				}
 				else if (suffix[i_suffix + 1])
 				{
-				//	printf("WODI DONG\n");
-					return (0);
+					if (suffix_size == 'S')
+						return (0);
+					return (i_src + 1);
 				}
 			}
 			else
@@ -111,12 +110,8 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 		i_src--;
 		i_suffix--;
 	}
-	if (i_suffix)
-	{
-	//	printf("ERROR\n");
+	if (i_suffix >= 0)
 		return (-1);
-	}
-//	printf("ISRC == %d %c ISUF == %d %c\n", i_src, src[i_src], i_suffix,suffix[i_suffix]);
 	return (i_src);
 }
 
@@ -154,10 +149,10 @@ char	*rm_preffix(t_param_expan_st *p_w)
 char	*rm_ffixers(t_param_expan_st *param_word)
 {
 	if (param_word->operation_type == 's' ||
-		param_word->operation_type == 'S')
+			param_word->operation_type == 'S')
 		return (rm_suffix(param_word));
 	if (param_word->operation_type == 'B' ||
-		param_word->operation_type == 'b')
+			param_word->operation_type == 'b')
 		return (rm_preffix(param_word));
 	if (param_word->operation_type == 'l')
 		return (ft_itoa((int)ft_strlen(ft_getvlaue_bykey(param_word->param, INTERN)), 10));
