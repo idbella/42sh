@@ -6,11 +6,15 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 17:00:25 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/18 13:05:43 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+/*
+**	- to expand or not to.
+*/
 
 char		*get_dollar_var(char *tmp, int *i, char op)
 {
@@ -55,7 +59,7 @@ char		*get_dollar_var(char *tmp, int *i, char op)
 	// 	dollar = *i == 1 ? ft_strdup("?") : ft_strdup("{?}");
 	return (dollar);
 }
-
+void		ctl_subst(char *s, char *tmp, char **str, char type);
 void		expand_param(char **s, char type)
 {
 	char	*tmp;
@@ -66,6 +70,7 @@ void		expand_param(char **s, char type)
 	char	*str[2] = {NULL, NULL};
 	char	*exp;
 
+	printf("*s: %s\n", *s);
 	tmp = NULL;
 	j = 0;
 	i = 0;
@@ -76,13 +81,7 @@ void		expand_param(char **s, char type)
 		if (k > 0)
 			str[0] = ft_strsub(*s, 0, k);
 		if ((*s)[k + 1] == '(')
-		{
-			param = get_dollar_var(tmp, &i, 0);
-			if ((*s)[ft_strlen(param) + k + 1])
-				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
-			if ((exp = control_subtitution(param, type)))
-				str[0] = str[0] ? ft_strjoin(str[0], exp) : ft_strdup(exp);
-		}
+			ctl_subst((*s) + k, tmp, &str[1], type);
 		else
 		{
 			param = get_dollar_var(tmp, &i, 1);
@@ -103,6 +102,31 @@ void		expand_param(char **s, char type)
 	}
 }
 
+void		ctl_subst(char *s, char *tmp, char **str, char type)
+{
+	char	*param;
+	char	*exp;
+	int		i;
+
+	i = 0;
+	param = NULL;
+	exp = NULL;
+	param = get_dollar_var(tmp, &i, 0);
+	if (s[ft_strlen(param) + 1])
+		*str = ft_strdup(s + ft_strlen(param) + 1);
+	if ((exp = control_subtitution(param, type)) && ft_strlen(exp))
+	{
+		if (*str)
+			*str = ft_fstrjoin(exp, *str);
+		else
+		{
+			*str = ft_strdup(exp);
+			free(exp);
+		}
+	}
+	free(param);
+}
+
 void		search_and_expand(char **s, char type)
 {
 	char	*tmp;
@@ -113,11 +137,14 @@ void		search_and_expand(char **s, char type)
 	int		len;
 	char	*exp = NULL;
 	char	*str[2] = {NULL, NULL};
+	char	dq;
+	int		pos;
 
 	tmp = NULL;
 	j = 0;
 	i = 0;
 	len = 0;
+	dq = 0;
 	while ((tmp = ft_strchr((*s) + j, DOLLAR)))
 	{
 		k = ft_strlen(*s) - ft_strlen(tmp);
@@ -127,14 +154,14 @@ void		search_and_expand(char **s, char type)
 			str[0] = ft_strsub(*s, 0, k);
 		if ((*s)[k + 1] == '(')
 		{
-			param = get_dollar_var(tmp, &i, 0);
-			// dprintf(2, "s: %s \nparam: %s\n", *s, param);
-			if ((*s)[ft_strlen(param) + k + 1])
-				str[1] = ft_strdup((*s) + ft_strlen(param) + k + 1);
-			// dprintf(2, "s: %s\nstr[1]: %s\n", *s, str[1]);
-			if ((exp = control_subtitution(param, type)) && ft_strlen(exp))
-				str[0] = str[0] ? ft_strjoin(str[0], exp) : ft_strdup(exp);
-			// dprintf(2, "exp: %s\n", exp);
+			pos = 0;
+			while (pos < k)
+			{
+				if ((*s)[pos] == D_QUOTE)
+					dq = !dq;
+				pos++;
+			}
+			ctl_subst((*s) + k, tmp, &str[1], dq ? 1 : 0);
 		}
 		else
 		{
@@ -160,30 +187,12 @@ void		search_and_expand(char **s, char type)
 			str[0][0] = BLANK;
 		if (str[1] && !ft_strlen(str[1]))
 			str[1][0] = BLANK;
-		// dprintf(2, "str[0]: %s\nstr[1]: %s\nexp: %s\n", str[0], str[1], exp);
-		*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0), str[1] ? str[1] : ft_strnew(0));
+		// free(*s);
+		*s = ft_strjoin(str[0] ? str[0] : ft_strnew(0),
+		str[1] ? str[1] : ft_strnew(0));
 		if ((size_t)j < ft_strlen(*s))
 			j += 1;
 	}
-}
-
-void		update_arg(char *arg, char **tmp, int *k, char type)
-{
-	char	*s;
-
-	if (!type || type == 1)
-	{
-		s = get_substring(arg, k, type);
-		search_and_expand(&s, type);
-		quoted_escape(&s);
-	}
-	else
-	{
-		(*k)++;
-		s = get_substring(arg, k, 1);
-		(*k)++;
-	}
-	*tmp = ft_fstrjoin(*tmp, s);
 }
 
 /*
@@ -202,7 +211,6 @@ char		**convert_args(t_arg *h, int size)
 		exit(EXIT_FAILURE);
 	i = 0;
 	j = 0;
-	// dprintf(2, "size: %d\n", size);
 	while (h)
 	{
 		i = 0;
@@ -214,7 +222,6 @@ char		**convert_args(t_arg *h, int size)
 				continue ;
 			}
 			new[j] = ft_strdup(h->arg[i]);
-			// dprintf(2, "new: %s\n", new[j]);
 			i++;
 			j++;
 		}
@@ -232,16 +239,9 @@ int			expand(char **args, t_arg *c)
 
 	k = 0;
 	size = 0;
-	tmp = ft_strnew(0);
-	while ((*args)[k])
-	{
-		if ((*args)[k] != QUOTE && (*args)[k] != D_QUOTE)
-			update_arg(*args, &tmp, &k, 0);
-		else if ((*args)[k] != QUOTE)
-			update_arg(*args, &tmp, &k, 1);
-		else if ((*args)[k])
-			update_arg(*args, &tmp, &k, 2);
-	}
+	tmp = ft_strdup(*args);
+	search_and_expand(&tmp, 0);
+	quoted_escape(&tmp);
 	expand_tilde(&tmp);
 	free(*args);
 	*args = tmp;
@@ -314,11 +314,7 @@ char		**get_assignments(char ***args)
 			break ;
 		(*args)++;
 	}
-	// if (size)
 	return (convert_args(h, size));
-	// char **tmp = malloc(sizeof(char *));
-	// tmp[0] = NULL;
-	// return (tmp);
 }
 
 void		apply_expansions(t_process *process)
@@ -337,7 +333,6 @@ void		apply_expansions(t_process *process)
 		quotes_delimiter(args);
 		c = malloc(sizeof(t_arg));
 		c->next = NULL;
-		// dprintf(2, "*args: %s\n", *args);
 		size += expand(args, c);
 		if (!h)
 			h = c;

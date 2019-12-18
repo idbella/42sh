@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:49:44 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 19:31:59 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/18 10:52:11 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ void		mark_operators(char *line)
 	b_p = 0;
 	while (line[++i])
 	{
-		if (!b_p && !q && line[i] == '"' && NEQ_ESCAPE(i))
+		if (!q && line[i] == '"' && NEQ_ESCAPE(i))
 			dq = !dq;
-		else if (!b_p && !dq && line[i] == '\'' && NEQ_ESCAPE(i))
+		else if (!dq && line[i] == '\'' && NEQ_ESCAPE(i))
 			q = !q;
 		else if ((line[i] == '{' || line[i] == '(') && NEQ_ESCAPE(i))
 			b_p++;

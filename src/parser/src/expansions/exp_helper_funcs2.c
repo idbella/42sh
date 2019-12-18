@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 16:08:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/16 20:14:49 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/18 11:02:09 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void		quotes_delimiter(char **tmp)
 			b_p++;
 		else if ((*tmp)[i] == ')' || (*tmp)[i] == '}')
 			b_p--;
+		b_p = 0;
 		if (!b_p)
 		{
 			if (!q && (*tmp)[i] == '"' &&
