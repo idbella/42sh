@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 06:05:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/10/27 16:30:31 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 10:44:56 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		ft_csd(t_printf_params *param)
 {
 	if (*param->format == 's')
 	{
-		ft_getstr(param);
+		ft_getstr(param, 0);
 		return (1);
 	}
 	else if (*param->format == 'c')
@@ -32,6 +32,11 @@ int		ft_csd(t_printf_params *param)
 	else if (*param->format == 'x')
 	{
 		ft_gethex(param);
+		return (1);
+	}
+	else if (*param->format == 'f')
+	{
+		ft_getstr(param, 1);
 		return (1);
 	}
 	return (0);
@@ -63,16 +68,22 @@ void	ft_padding(int padding, char **str, char leading)
 	}
 }
 
-void	ft_getstr(t_printf_params *param)
+void	ft_getstr(t_printf_params *param, char fr)
 {
 	char	*str;
 	char	*tmp;
 
+	tmp = NULL;
 	str = va_arg(*param->list, char *);
 	if (!str)
 		str = ft_strdup("(null)");
 	else
+	{
+		if (fr)
+			tmp = str;
 		str = ft_strdup(str);
+		free(tmp);
+	}
 	ft_padding(param->padding, &str, param->leading);
 	tmp = param->str;
 	param->str = ft_strjoin(param->str, str);

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 14:35:42 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 10:45:43 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char					*ft_strndup(const char *s1, size_t n);
 void					*ft_memcpy(void *dst, const void *src, size_t n);		
 int						get_next_line(int fd, char c, char **line);
 int						ft_printf_fd(int fd, char *format, ...);
-void					ft_getstr(t_printf_params *param);
+void					ft_getstr(t_printf_params *param, char fr);
 void					ft_gethex(t_printf_params *param);
 void					ft_getchar(t_printf_params *param);
 void					ft_getint(t_printf_params *param);

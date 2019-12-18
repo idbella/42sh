@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/16 18:04:31 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 10:42:30 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,14 @@ int		ft_fork(t_params *params, t_process *process, t_function *func)
 	rval = 0;
 	file = NULL;
 	if (!params->forkbuiltins && params->job->foreground && !ft_path_changed(process) && process->arg[0])
-		ft_getexecutable(process, 0);
+		free(ft_getexecutable(process, 0));
 	if (!(process->pid = fork()))
 	{
+		close(params->fdscopy[0]);
+		close(params->fdscopy[1]);
 		ft_setup_child(params, params->job);
-		ft_redirect(process->redir);
+		if (!ft_redirect(process->redir))
+			exit(1);
 		ft_getinterns(process, ENV_ENTRY);
 		if (!process->arg[0])
 			exit(0);
@@ -98,6 +101,7 @@ int		ft_fork(t_params *params, t_process *process, t_function *func)
 		{
 			env = ft_serialize_env(EXPORTED_ONLY);
 			execve(file, process->arg, env);
+			free(file);
 			ft_printf_fd(2, "Wrong exec format\n");
 		}
 		exit(127);

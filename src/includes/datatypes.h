@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 18:38:29 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/17 20:41:16 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ typedef struct			s_params
 {
 	int				forkbuiltins;
 	int				pipe_stdin;
+	int				fdscopy[2];
 	t_job			*job;
 }						t_params;
 

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:06:16 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/02 11:49:45 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 10:03:12 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,44 @@ void	ft_free_array(char **args)
 	free(args);
 }
 
+void	ft_freered(t_redir *red)
+{
+	t_redir *next;
+
+	while (red)
+	{
+		free(red->file);
+		next = red->next;
+		free(red);
+		red = next;
+	}
+}
+
+void	ft_freeprocs(t_process *proc)
+{
+	t_process *next;
+
+	while (proc)
+	{
+		ft_free_array(proc->arg);
+		ft_free_array(proc->ass);
+		free(proc->heredoc);
+		next = proc->next;
+		free(proc);
+		proc = next;
+	}
+}
+
 void	ft_free_job(t_job *job)
 {
-	job = NULL;
+	t_job	*next;
+
+
+	while (job)
+	{
+		next = job->next;
+		ft_memdel((void *)&job->command);
+		free(job);
+		job = next;
+	}
 }

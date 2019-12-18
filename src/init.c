@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:12:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/16 18:50:11 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 10:06:15 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 void	ft_sigint_handler(int sig)
 {
 	sig = 0;
-	ft_putstr("\n$> ");
+	char	*prompt;
+
+	prompt = ft_getprompt();
+	ft_printf("%s", prompt);
+	free(prompt);
 }
 
 t_shell	*get_shell_cfg(t_shell *new)
@@ -25,28 +29,6 @@ t_shell	*get_shell_cfg(t_shell *new)
 	if (new)
 		sh = new;
 	return (sh);
-}
-
-size_t	ft_promptlen(char *prompt)
-{
-	size_t len;
-	size_t	i;
-
-	i = 0;
-	len = 0;
-	while (prompt[i])
-	{
-		if (prompt[i] == '\e')
-		{
-			while (prompt[i] != 'm')
-				i++;
-			i++;
-			continue;
-		}
-		len++;
-		i++;
-	}
-	return (len);
 }
 
 char	*ft_getusername(void)
@@ -69,41 +51,6 @@ char	*ft_getusername(void)
 		i += 628;
 	}
 	return (NULL);
-}
-
-char	*ft_getprompt()
-{
-	char	*path;
-	char	*home;
-	int		len;
-	char	*tmp;
-	time_t	t;
-	int		status;
-	char	*clr;
-
-	time(&t);
-	tmp = ctime(&t);
-	tmp = ft_strsub(tmp, 11, 8);
-	if ((path = ft_getenv("PWD")))
-	{
-		if ((home = ft_getenv("HOME")))
-		{
-			len = ft_strlen(home);
-			if (ft_strnequ(home, path, len))
-			{
-				if (*(path + len) == '/')
-					path = ft_join("~%s", path + len);
-				else
-					path = ft_join("~/%s", path + len);
-			}
-		}
-		status = ft_get_last_rvalue();
-		clr = "\e[32m";
-		if (status)
-			clr = "\e[31m";
-		return (ft_join("[\e[90m%s\e[0m][%s%03d\e[0m] \e[36m%s $> \e[0m", tmp, clr,get_shell_cfg(0)->id++, path));
-	}
-	return ft_strdup("\e[32m 42sh\e[33m $> \e[0m");
 }
 
 void	init_(t_shell *shell, char **env, t_init *init)

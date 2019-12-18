@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:03:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 19:32:50 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 09:39:32 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	ft_get_term(t_job *job)
 void	ft_wait(t_job *job, int status)
 {
 	pid_t		pid;
+	t_job		*cpy;
 
 	job->suspended = 0;
 	if (!job->pgid)
@@ -41,7 +42,8 @@ void	ft_wait(t_job *job, int status)
 	}
 	if (!job->foreground)
 	{
-		ft_addjob(job, ft_getset(NULL));
+		cpy = ft_cpyjob(job);
+		ft_addjob(cpy, ft_getset(NULL));
 		if (!get_shell_cfg(0)->subshell)
 			ft_printf("[%d] %d\n", job->id, job->pgid);
 	}

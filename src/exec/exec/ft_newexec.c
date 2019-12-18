@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/17 13:11:51 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/17 20:44:09 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,20 @@ char	ft_exec_job(t_params *params, t_process *process)
 {
 	int			fds[2];
 	char		status;
-	int			cpy[2];
 
-	fds[0] = dup(0);
-	cpy[0] = dup(1);
-	cpy[1] = dup(2);
+	fds[0] = -1;
+	params->fdscopy[0] = dup(1);
+	params->fdscopy[1] = dup(2);
 	status = 0;
 	while (process)
 	{
 		ft_init_proc(process);
-		dup2(fds[0], 0);
-		close(fds[0]);
-		params->pipe_stdin = ft_pipe(fds, process, cpy);
+		if (fds[0] > 0)
+		{
+			dup2(fds[0], 0);
+			close(fds[0]);
+		}
+		params->pipe_stdin = ft_pipe(fds, process, params->fdscopy);
 		if (process->heredoc)
 		{
 			ft_printheredoc(process);
@@ -112,14 +114,16 @@ char	ft_exec_job(t_params *params, t_process *process)
 			ft_readfile(params);
 		process = process->next;
 	}
-	if (!isatty(cpy[0]) && get_shell_cfg(0)->subshell)
+	if (!isatty(params->fdscopy[0]) && get_shell_cfg(0)->subshell)
 	{
-		dup2(cpy[0], 1);
+		dup2(params->fdscopy[0], 1);
 		ft_restorestd(1, 0, 1);
 	}
 	else
 		ft_restorestd(1, 1, 1);
-	close(cpy[0]);
-	close(cpy[1]);
+	if (params->fdscopy[0] > 2)
+		close(params->fdscopy[0]);
+	if (params->fdscopy[0] > 2)
+		close(params->fdscopy[1]);
 	return (status);
 }

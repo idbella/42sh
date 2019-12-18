@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 21:15:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:04:19 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 10:48:04 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		ft_type(char **args)
 		else if ((file = ft_getvlaue_bykey(args[i], COMMANDS)))
 			ft_printf("%s is hashed (%s)\n", args[i], file);
 		else if ((file = ft_findfile(args[i], &err, 0)))
-			ft_printf("%s is %s\n", args[i], file);
+			ft_printf("%s is %f\n", args[i], file);
 		else
 		{
 			rval = 1;
