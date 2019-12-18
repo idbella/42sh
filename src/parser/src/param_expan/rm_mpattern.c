@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:59:34 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/18 09:51:03 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/18 11:03:47 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 			if ((i_suffix - 1 >= 0 && suffix[i_suffix - 1] != '\\') ||
 				i_suffix == 0)
 			{
-				printf("SUFF %d %c  SRC %d %c\n", i_suffix, suffix[i_suffix], i_src, src[i_src]);
 				if (suffix[i_suffix - 1] && suffix[i_suffix - 1] != -1)
 				{
 					i_suffix--;
@@ -112,10 +111,7 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 		i_suffix--;
 	}
 	if (i_suffix >= 0)
-	{
-		printf("ERROR\n");
 		return (-1);
-	}
 	return (i_src);
 }
 
