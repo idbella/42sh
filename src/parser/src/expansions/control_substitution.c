@@ -6,13 +6,38 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/18 13:02:14 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:46:56 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-char	*control_subtitution(char *token, char type)
+void		ctl_subst(char *s, char *tmp, char **str, char type)
+{
+	char	*param;
+	char	*exp;
+	int		i;
+
+	i = 0;
+	param = NULL;
+	exp = NULL;
+	param = get_dollar_var(tmp, &i, 0);
+	if (s[ft_strlen(param) + 1])
+		*str = ft_strdup(s + ft_strlen(param) + 1);
+	if ((exp = control_subtitution(param, type)) && ft_strlen(exp))
+	{
+		if (*str)
+			*str = ft_fstrjoin(exp, *str);
+		else
+		{
+			*str = ft_strdup(exp);
+			free(exp);
+		}
+	}
+	free(param);
+}
+
+char		*control_subtitution(char *token, char type)
 {
 	char	*line;
 	char	*buffer;
