@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/17 20:44:09 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 11:21:32 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,30 @@ int		ft_init_run(t_params *params, t_process *process)
 	return (ft_fork(params, process, NULL));
 }
 
-void	ft_readfile(t_params *params)
+int		ft_readfile(t_params *params)
 {
 	char		*line;
 	t_process	*proc;
+	int			fd;
+	char		*file;
 
 	if (!params->job->processes->next)
 	{
 		proc = params->job->processes;
-		if (proc->redir->file && proc->redir->type == O_RDONLY)
+		if (proc->redir->file && proc->redir->type == O_RDONLY
+			&& !proc->redir->next)
 		{
-			while (get_next_line(0, '\n', &line) > 0)
+			file = proc->redir->file;
+			if ((fd = open(file, O_RDONLY)) < 0)
+			{
+				ft_printf_fd(2, "42sh: no such file or directory: %s\n", file);
+				return (1);
+			}
+			while (get_next_line(fd, '\n', &line) > 0)
 				ft_printf_fd(1, "%s\n", line);
 		}
 	}
+	return (0);
 }
 
 char	ft_exec_job(t_params *params, t_process *process)
@@ -94,6 +104,7 @@ char	ft_exec_job(t_params *params, t_process *process)
 	params->fdscopy[0] = dup(1);
 	params->fdscopy[1] = dup(2);
 	status = 0;
+
 	while (process)
 	{
 		ft_init_proc(process);
@@ -111,7 +122,7 @@ char	ft_exec_job(t_params *params, t_process *process)
 		if (process->arg[0] || process->ass[0])
 			status = ft_init_run(params, process);
 		else if (get_shell_cfg(0)->subshell)
-			ft_readfile(params);
+			status = ft_readfile(params);
 		process = process->next;
 	}
 	if (!isatty(params->fdscopy[0]) && get_shell_cfg(0)->subshell)

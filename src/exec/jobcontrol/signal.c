@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 23:03:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 09:42:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 11:33:38 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_stopped_action(t_job *job, t_job *current)
 
 	container = ft_getset(0);
 	st = ft_join("[%d] + Stopped \t%s\n", job->id, job->command);
+	if (!ft_getjob_byindex(job->id))
+		job = ft_cpyjob(job);
 	ft_addjob(job, container);
 	(job == current) ? container->current = job : 0;
 	return (st);
