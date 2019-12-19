@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:08:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/17 14:13:24 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/19 10:08:31 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,20 @@ int		errors_container(int err, t_recipes *recipes)
 	return (-1);
 }
 
-char	*curpath_handling(char *curpath)
+char	*curpath_handling(t_recipes *recipes)
 {
 	int		i;
 	int		lengh;
 	char	**paths;
 
-	if (curpath[0] != '/')
-			curpath = ft_join("%s/%s", getcwd(NULL, 4097), curpath);
-	paths = ft_strsplit(curpath, '/');
+	if (recipes->curpath[0] != '/')
+	{
+		if (recipes->options == 'P')
+			recipes->curpath = ft_join("%s/%s", getcwd(NULL, 4097), recipes->curpath);
+		else
+			recipes->curpath = ft_join("%s/%s", ft_getenv("PWD"), recipes->curpath);
+	}
+	paths = ft_strsplit(recipes->curpath, '/');
 	i = 0;
 	lengh = 0;
 	while (paths[i])
@@ -79,17 +84,17 @@ char	*curpath_handling(char *curpath)
 			paths[i][0] = -1;
 		i++;
 	}
-	curpath = ft_strdup("/");
+	recipes->curpath = ft_strdup("/");
 	i = 0;
 	while (paths[i])
 	{
 		if (paths[i][0] != -1 && i == 0)
-			curpath = ft_join("%s%s", curpath, paths[i]);
+			recipes->curpath = ft_join("%s%s", recipes->curpath, paths[i]);
 		if (paths[i][0] != -1 && i != 0)
-			curpath = ft_join("%s/%s", curpath, paths[i]);
+			recipes->curpath = ft_join("%s/%s", recipes->curpath, paths[i]);
 		i++;
 	}
-	return (curpath);
+	return (recipes->curpath);
 }
 
 int		chdir_operations(t_recipes *recipes)
@@ -101,22 +106,13 @@ int		chdir_operations(t_recipes *recipes)
 			if (!access(recipes->curpath, X_OK))
 			{
 				ft_addtohashmap("OLDPWD", ft_getenv("PWD"), INTERN);
-				recipes->curpath = curpath_handling(recipes->curpath);
+				recipes->curpath = curpath_handling(recipes);
 				if (chdir(recipes->curpath) != -1)
 				{
 					if (recipes->mute == 1)
 						ft_putendl(recipes->curpath);
-					lstat(recipes->curpath, &recipes->buf);
-					if (recipes->options == 'P' && S_ISLNK(recipes->buf.st_mode))
-					{
-						ft_addtohashmap("PWD", getcwd(NULL, 4097),
-								INTERN)->exported = 1;
-					}
-					else
-					{
-						ft_addtohashmap("PWD", recipes->curpath,
-								INTERN)->exported = 1;
-					}
+					ft_addtohashmap("PWD", recipes->curpath, 
+							INTERN)->exported = 1;
 				}
 				else
 					return (errors_container(1, recipes));
