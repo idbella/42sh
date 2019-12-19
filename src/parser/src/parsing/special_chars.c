@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:49:44 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/18 10:52:11 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 19:15:25 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,50 @@ int			sc_operator(char *line, int i)
 	return (0);
 }
 
+int			is_dollar(char *line, int i, char dq)
+{
+	if (!dq)
+	{
+		if (L[i] == '$' && L[i + 1] && (ft_isalnum(L[i + 1]) || L[i + 1] == '{'
+			|| L[i + 1] == '(' || L[i + 1] == '_' || L[i + 1] == '?'))
+			return ((L[i] = DOLLAR));
+	}
+	else
+	{
+		if (NEQ_ESCAPE(i) && L[i] == '$' && L[i + 1] && (ft_isalnum(L[i + 1])
+		|| L[i + 1] == '{' || L[i + 1] == '(' || L[i + 1] == '_'
+		|| L[i + 1] == '?'))
+			return (1);
+	}
+	return (0);
+}
+
+void		operator_check(char *line, int i, char dq, char b_p)
+{
+	if (IS_DOLLAR(dq))
+		return ;
+	if (!b_p && (dc_operator(L, i) || sc_operator(L, i)))
+		return ;
+	else if (!b_p && isspace(L[i]))
+		L[i] = BLANK;
+	return ;
+}
+
+int			quote(char *line, int i, char *dq, char *q)
+{
+	if (!*q && L[i] == '"' && NEQ_ESCAPE(i))
+	{
+		*dq = !*dq;
+		return (1);
+	}
+	else if (!*dq && L[i] == '\'' && NEQ_ESCAPE(i))
+	{
+		*q = !*q;
+		return (1);
+	}
+	return (0);
+}
+
 void		mark_operators(char *line)
 {
 	int		i;
@@ -74,36 +118,19 @@ void		mark_operators(char *line)
 	dq = 0;
 	i = -1;
 	b_p = 0;
-	while (line[++i])
+	while (L[++i])
 	{
-		if (!q && line[i] == '"' && NEQ_ESCAPE(i))
-			dq = !dq;
-		else if (!dq && line[i] == '\'' && NEQ_ESCAPE(i))
-			q = !q;
-		else if ((line[i] == '{' || line[i] == '(') && NEQ_ESCAPE(i))
+		if (quote(L, i, &dq, &q))
+			continue ;
+		else if ((L[i] == '{' || L[i] == '(') && NEQ_ESCAPE(i))
 			b_p++;
-		else if ((line[i] == '}' || line[i] == ')') && NEQ_ESCAPE(i))
+		else if ((L[i] == '}' || L[i] == ')') && NEQ_ESCAPE(i))
 			b_p--;
 		if (!q && !dq && NEQ_ESCAPE(i))
-		{
-			if (line[i] == '$' && line[i + 1] && (ft_isalnum(line[i + 1])
-			|| line[i + 1] == '{' || line[i + 1] == '(' || line[i + 1] == '_'
-			|| line[i + 1] == '?'))
-			{
-				line[i] = DOLLAR;
-				continue ;
-			}
-			if (!b_p && (dc_operator(line, i) || sc_operator(line, i)))
-				continue ;
-			else if (!b_p && isspace(line[i]))
-				line[i] = BLANK;
-		}
-		else if (dq && line[(i - 1 > 0) ? i - 1 : 0] != Q_ESCAPE &&
-		line[i] == 92)
-			line[i] = Q_ESCAPE;
-		else if (dq && NEQ_ESCAPE(i) && line[i] == '$' && line[i + 1] && (ft_isalnum(line[i + 1])
-		|| line[i + 1] == '{' || line[i + 1] == '(' || line[i + 1] == '_'
-		|| line[i + 1] == '?'))
-			line[i] = DOLLAR;
+			operator_check(L, i, dq, b_p);
+		else if (dq && L[(i - 1 > 0) ? i - 1 : 0] != Q_ESCAPE && L[i] == 92)
+			L[i] = Q_ESCAPE;
+		else if (IS_DOLLAR(dq))
+			L[i] = DOLLAR;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 21:33:24 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 19:20:29 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 17:51:43 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ char	*get_heredoc(char *str, int *i, int *hd_fd)
 	while (ft_isprint(str[*i]) || str[*i] == UQ_ESCAPE || str[*i] == Q_ESCAPE)
 		(*i)++;
 	eof = ft_strsub(str, old_i, *i - old_i);
-	// quotes_delimiter(&eof);
-	// remove_quotes(&eof);
-	// remove_escapes(&eof, UQ_ESCAPE);
-	// remove_escapes(&eof, Q_ESCAPE);
+	quotes_delimiter(&eof);
+	remove_quotes(&eof);
+	remove_escapes(&eof, UQ_ESCAPE);
+	remove_escapes(&eof, Q_ESCAPE);
 	ft_memset(str + old_i, BLANK, *i - old_i);
 	return (get_heredoc_string(eof));
 }

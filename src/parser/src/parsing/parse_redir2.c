@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/06 00:55:29 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/11/23 14:04:48 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 18:13:40 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int		get_filename_len(char *str, int *i, int *old_i)
 		(*old_i)++;
 		(*i)++;
 	}
-	while (ft_isprint(str[*i]) || str[*i] == UQ_ESCAPE || str[*i] == Q_ESCAPE)
+	while (ft_isprint(str[*i]) || str[*i] == UQ_ESCAPE || str[*i] == Q_ESCAPE
+	|| str[*i] == DOLLAR)
 	{
 		length++;
 		(*i)++;
@@ -84,7 +85,13 @@ void	get_redir_file(t_redir *curr, char *str, int *i)
 	if (length)
 	{
 		curr->file = ft_strsub(str, old_i, length);
-		// apply_expansions(&curr->file);
+		quotes_delimiter(&curr->file);
+		search_and_expand(&curr->file);
+		quoted_escape(&curr->file);
+		expand_tilde(&curr->file);
+		remove_escapes(&curr->file, UQ_ESCAPE);
+		remove_escapes(&curr->file, Q_ESCAPE);
+		remove_quotes(&curr->file);
 	}
 	ft_memset(str + old_i, BLANK, length);
 }

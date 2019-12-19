@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:46:41 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/11/22 18:04:06 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 15:35:46 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ t_job		*build_jobs_lst(void **head, void **tail, char *cmd, int bg)
 	return (curr);
 }
 
+/*
+** // free_jobs(head);
+*/
+
 t_job		*get_jobs(char **cmd_chain, int bg)
 {
 	t_job	*head;
@@ -76,7 +80,6 @@ t_job		*get_jobs(char **cmd_chain, int bg)
 			if ((curr = build_jobs_lst((void *)&head,
 			(void *)&tail, *cmd_chain, bg)) == (t_job *)-1)
 			{
-				// free_jobs(head);
 				return (NULL);
 			}
 			append_lst((void *)&head, (void *)&curr, (void *)&tail, 1);

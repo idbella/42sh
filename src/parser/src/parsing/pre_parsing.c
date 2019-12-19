@@ -6,61 +6,11 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:53:56 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/14 17:04:12 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 18:03:47 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-// int			quotes_checker(char **line, char *quote, int *i, int *j)
-// {
-// 	if (!j)
-// 	{
-// 		if (!(squotes_checker(line, quote, i)))
-// 		{
-// 			free(*line);
-// 			return (0);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		if (!(dquotes_checker(line, quote, i, j)))
-// 		{
-// 			free(*line);
-// 			return (0);
-// 		}
-// 	}
-// 	return (1);
-// }
-
-// char		*pre_parse(char *line)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	q;
-// 	char	dq;
-
-// 	q = 0;
-// 	dq = 0;
-// 	i = 0;
-// 	while (line[i])
-// 	{
-// 		if (!q && line[i] == '"' && NOT_ESCAPED(i))
-// 		{
-// 			if (!quotes_checker(&line, &dq, &i, &j))
-// 				return (NULL);
-// 		}
-// 		else if (!dq && line[i] == '\'' && NOT_ESCAPED(i))
-// 		{
-// 			if (!quotes_checker(&line, &q, &i, NULL))
-// 				return (NULL);
-// 		}
-// 		else if (!q && !dq && line[i] == 92 && NOT_ESCAPED(i))
-// 			line[i] = UQ_ESCAPE;
-// 		i++;
-// 	}
-// 	return (line);
-// }
 
 int			get_bg_jobs(char *line)
 {
@@ -89,22 +39,50 @@ void		mark_bg_op(char *line)
 	q = 0;
 	dq = 0;
 	b_p = 0;
-	while (line[++i])
+	while (L[++i])
 	{
-		if (!b_p && !q && line[i] == '"' && NEQ_ESCAPE(i))
+		if (!b_p && !q && L[i] == '"' && NEQ_ESCAPE(i))
 			dq = !dq;
-		else if (!b_p && !dq && line[i] == '\'' && NEQ_ESCAPE(i))
+		else if (!b_p && !dq && L[i] == '\'' && NEQ_ESCAPE(i))
 			q = !q;
-		else if ((line[i] == '{' || line[i] == '(') && NEQ_ESCAPE(i))
+		else if ((L[i] == '{' || L[i] == '(') && NEQ_ESCAPE(i))
 			b_p++;
-		else if ((line[i] == '}' || line[i] == ')') && NEQ_ESCAPE(i))
+		else if ((L[i] == '}' || L[i] == ')') && NEQ_ESCAPE(i))
 			b_p--;
-		if (line[i] == '{' || line[i] == '(')
+		if (L[i] == '{' || L[i] == '(')
 			b_p++;
-		if (!b_p && !q && !dq && NEQ_ESCAPE(i) && line[i + 1] != OUT_RED_OP &&
-			line[(i - 1 > 0) ? i - 1 : 0] != OUT_RED_OP &&
-			line[(i - 1 > 0) ? i - 1 : 0] != IN_RED_OP &&
-			line[i] == '&')
-			line[i] = BG;
+		if (!b_p && !q && !dq && NEQ_ESCAPE(i) && L[i + 1] != OUT_RED_OP &&
+		L[INDEX(i)] != OUT_RED_OP && L[INDEX(i)] != IN_RED_OP && line[i] == '&')
+			L[i] = BG;
 	}
+}
+
+int			syntax_error(char **line)
+{
+	if (check_syntax_errors(*line) || subst_syntax(*line))
+	{
+		free(*line);
+		return (1);
+	}
+	return (0);
+}
+
+void		highlight_ops(char *line)
+{
+	mark_operators(line);
+	mark_bg_op(line);
+}
+
+char		*pre_parse(char *input)
+{
+	char	*line;
+
+	line = NULL;
+	if (!input || !ft_strlen(input))
+		return (NULL);
+	line = ft_strdup(input);
+	highlight_ops(line);
+	if (syntax_error(&line))
+		return (NULL);
+	return (line);
 }

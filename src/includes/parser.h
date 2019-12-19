@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/19 15:30:18 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 18:28:11 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@
 # define SETFLAG(type) set_flag(curr, token[j], type)
 # define DUPL(str) ft_strdup(str)
 # define _PARAM(x) get_dollar_var(tmp, &i, x)
+# define INDEX(i) (i - 1 > 0) ? i - 1 : 0
+# define IS_DOLLAR(dq) is_dollar(L, i, dq)
 /* 
 ** 
 */
@@ -92,6 +94,8 @@ typedef	struct	s_alias
 }				t_alias;
 
 char			*pre_parse(char *line);
+void			highlight_ops(char *line);
+int				syntax_error(char **line);
 void			mark_operators(char *line);
 int				get_bg_jobs(char *line);
 void			mark_bg_op(char *line);
