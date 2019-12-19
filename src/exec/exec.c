@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 19:31:59 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 12:59:39 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,12 @@ int		exec(t_job *job)
 	status = 0;
 	ft_getset(0)->params = &p;
 	ft_getset(0)->last_aliases = NULL;
+	ft_getset(0)->jobs = job;
 	while (job)
 	{
 		p.pipe_stdin = -1;
 		p.job = job;
+		
 		ft_init_job(job);
 		if (job->flag == BG && ft_run_in_sub(job->processes))
 			ft_execbg(job);

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:37:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 10:35:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 09:49:34 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ int		main(int argc, char **argv, char **env)
 	while (1)
 	{
 		prompt = ft_getprompt();
-		if ((line = readline(&init, prompt)) && ft_strlen(line) > 0)
+		line = readline(&init, prompt);
+		free(prompt);
+		if (line && ft_strlen(line))
 		{
-			free(prompt);
+			get_shell_cfg(0)->id++;
 			if ((jobs = parse(line)))
 			{
 				exec(jobs);

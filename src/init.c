@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:12:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 10:06:15 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 15:55:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,4 @@ void	init_(t_shell *shell, char **env, t_init *init)
 	shell->last_exit = 0;
 	shell->subshell = 0;
 	shell->id = 0;
-	ft_getset(0)->term = &init->term_copy;
 }

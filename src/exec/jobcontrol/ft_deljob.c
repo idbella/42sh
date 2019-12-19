@@ -6,21 +6,34 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 02:57:49 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 10:00:18 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 11:02:26 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "jobcontrol.h"
 
-void	ft_del(/*t_list *prev, t_list *list,*/ t_container *container)
+void	ft_del(t_list *prev, t_list *list, t_container *container)
 {
-	// if (list->next)
-	// 	container->current = list->next->content;
-	// else if (prev)
-	// 	container->current = prev->content;
-	// else
-	// 	container->current = NULL;
+	t_list	*l;
+
+	container->current = NULL;
+	if (!prev && !list->next)
+	{
+		container->prev = NULL;
+		return ;
+	}
 	container->current = container->prev;
+	container->prev = NULL;
+	l = ft_getset(0)->list;
+	while (l)
+	{
+		if (l != list && l->content != container->current)
+		{
+			container->prev = l->content;
+			return ;
+		}
+		l = l->next;
+	}
 }
 
 void	ft_deljob(t_job *job, t_container *container)
@@ -37,7 +50,7 @@ void	ft_deljob(t_job *job, t_container *container)
 		if (jb->pgid == job->pgid)
 		{
 			if (container->current && container->current->pgid == jb->pgid)
-				ft_del(/*prev, list,*/ container);
+				ft_del(prev, list, container);
 			if (prev)
 				prev->next = list->next;
 			else

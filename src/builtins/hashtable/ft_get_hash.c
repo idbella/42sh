@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 23:51:04 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/07 11:33:51 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 13:26:44 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_get_kv(char *str, char **key, char **val)
 		}
 		i++;
 	}
-	*key = str;
+	*key = ft_strdup(str);
 	*val = NULL;
 	return ;
 }

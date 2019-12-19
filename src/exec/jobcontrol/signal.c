@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 23:03:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 11:33:38 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 10:42:07 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "jobcontrol.h"
 
-char	*ft_stopped_action(t_job *job, t_job *current)
+char	*ft_stopped_action(t_job *job)
 {
 	t_container *container;
 	char		*st;
@@ -22,7 +22,6 @@ char	*ft_stopped_action(t_job *job, t_job *current)
 	if (!ft_getjob_byindex(job->id))
 		job = ft_cpyjob(job);
 	ft_addjob(job, container);
-	(job == current) ? container->current = job : 0;
 	return (st);
 }
 
@@ -53,7 +52,7 @@ void	ft_check_job(t_job *job, t_job *current, t_container *container)
 		}
 	}
 	else if (!job->killed && ft_stoped(job))
-		st = ft_stopped_action(job, current);
+		st = ft_stopped_action(job);
 	if (st)
 		ft_lstadd(&container->notify, ft_lstnew(st, 0));
 	job->notified = 1;
@@ -66,6 +65,7 @@ void	ft_check_jobs_status(t_job *current)
 	t_list		*list;
 	t_job		*job;
 	t_container	*container;
+	t_list		*next;
 
 	container = ft_getset(NULL);
 	if (current)
@@ -73,10 +73,11 @@ void	ft_check_jobs_status(t_job *current)
 	list = container->list;
 	while (list)
 	{
+		next = list->next;
 		job = list->content;
 		if (job)
 			ft_check_job(job, current, container);
-		list = list->next;
+		list = next;
 	}
 }
 

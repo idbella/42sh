@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 09:34:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/17 15:13:02 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/18 20:04:36 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 char			*ft_getenv(char *key)
 {
-	t_map	*map;
-
-	map = ft_getbykey(key, INTERN);
-	return (map && map->exported ? map->value : NULL);
+	return (ft_getvlaue_bykey(key, INTERN));
 }
 
 static size_t	ft_envcount(char exported)

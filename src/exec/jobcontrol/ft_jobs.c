@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:02:19 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/06 21:33:31 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 09:44:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_printjob(t_job *job, char flag)
 	else if (flag == 'p')
 		ft_printf("%d\n", job->pgid);
 	else
-		ft_printf("[%d] %c %s %s\n",
+		ft_printf("[%d] %c %s\t\t%s\n",
 				job->id,
 				sign,
 				job->suspended ? "Stoped" : "Running",

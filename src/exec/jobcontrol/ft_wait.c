@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:03:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 09:39:32 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 11:04:47 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_get_term(t_job *job)
 	ft_check_jobs_status(job);
 	if (container->interractive)
 	{
-		tcsetattr(0, TCSANOW, ft_getset(0)->term);
+		tcsetattr(0, TCSANOW, &get_shell_cfg(0)->init->term_copy);
 		if (tcsetpgrp(0, getpgrp()) == -1)
 		{
 			ft_printf_fd(2, "42sh : fatal error");
@@ -32,7 +32,6 @@ void	ft_get_term(t_job *job)
 void	ft_wait(t_job *job, int status)
 {
 	pid_t		pid;
-	t_job		*cpy;
 
 	job->suspended = 0;
 	if (!job->pgid)
@@ -42,8 +41,9 @@ void	ft_wait(t_job *job, int status)
 	}
 	if (!job->foreground)
 	{
-		cpy = ft_cpyjob(job);
-		ft_addjob(cpy, ft_getset(NULL));
+		if (job->processes->arg[0] || job->processes->ass[0])
+			job = ft_cpyjob(job);
+		ft_addjob(job, ft_getset(NULL));
 		if (!get_shell_cfg(0)->subshell)
 			ft_printf("[%d] %d\n", job->id, job->pgid);
 	}
