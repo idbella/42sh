@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 13:59:27 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 16:08:39 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,25 @@ char				*ft_getvlaue_bykey(char *key, char type);
 void				ft_get_kv(char *str, char **key, char **val);
 
 
+typedef struct 		s_recipes
+{
+	char			*oldpwd;
+	char			*pwd;
+	char			*home;
+	char			*cdpath;
+	char			*curpath;
+	char			options;
+	int				mute;
+	int				helper;
+	struct stat		buf;
+}					t_recipes;
+
+char    			*cdpath_concatenation(char *cdpath, char *directory);
+int					cd_wheels(t_recipes *recipes);
+void				recipes_preparations(t_recipes *recipes);
+char				check_param_for_cd(char *param);
+int					errors_container(int err, t_recipes *recipes);
+int					chdir_operations(t_recipes *recipes);
 int	    			ft_cd(char **args);
 
 int	    			ft_exit(char **argv);
@@ -75,8 +94,8 @@ int		            ft_run_fc_editor(char **args);
 int                 ft_fc(char **args);
 int		            ft_test(char **args);
 /*
-** ALIAS 
-*/
+ ** ALIAS 
+ */
 
 void	            ft_show_aliases(char *key);
 int	                ft_alias(char **args);
@@ -90,15 +109,15 @@ int 				ft_jobs(char **args);
 char	            ft_isnumber(char *str);
 
 /*
-** TEST
-*/
+ ** TEST
+ */
 
 int	    			ft_type(char **args);;
 int		            ft_usergroup(int id, char *file);
 int		            ft_rwx(int id, char *file);
 int		            ft_getoperator_id(char *oper, char type);
 int		            ft_getoprators(char **args,
-                        char **l_oper, char **oper, char **r_oper);
+		char **l_oper, char **oper, char **r_oper);
 char	            *ft_isnbr(char *str);
 int		            ft_eval(int id, char *file, int *test);
 void	            ft_setoprations(int *test);
@@ -108,8 +127,8 @@ int		            ft_mathcmp(int id, char *n1, char *n2);
 int		            ft_expression(char *expr);
 
 /*
-** intern
-*/
+ ** intern
+ */
 
 char				ft_isintern(char *cmd);
 void				ft_getinterns(t_process *process, char type);
