@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:36:33 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/17 19:01:21 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 10:51:02 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,20 @@ void	combine(t_token *tokens, char **str)
 	if (tokens->type == AND || tokens->type == OR)
 		join_char(str, tokens->type);
 	join_char(str, tokens->type);
+}
+
+int		is_quoted(char *s, int len)
+{
+	int		i;
+	char	dq;
+
+	i = 0;
+	dq = 0;
+	while (i < len)
+	{
+		if (s[i] == D_QUOTE)
+			dq = !dq;
+		i++;
+	}
+	return (dq);
 }

@@ -6,12 +6,12 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 15:08:57 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/17 15:10:01 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 10:28:20 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
+// echo ss${??dfvdf}v
 int			valid_token(char **token, char *param, char closed)
 {
 	*token = ft_strsub(param, 1, ft_strlen(param) - 2);

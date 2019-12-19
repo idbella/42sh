@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 19:30:27 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/19 11:45:00 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/19 13:15:07 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*tild_expan(char *tild_str)
 {
-	struct	passwd	*pw;
+	struct passwd	*pw;
 	char			*home_dir;
 	char			*user_name;
 

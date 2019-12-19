@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/18 19:46:56 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 10:43:58 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,14 @@ void		ctl_subst(char *s, char *tmp, char **str, char type)
 	free(param);
 }
 
-char		*control_subtitution(char *token, char type)
+int			exec_(char *line)
 {
-	char	*line;
-	char	*buffer;
 	t_job	*head;
-	int		p[2];
-	char	*str;
 	pid_t	pid;
-	int		i;
+	int		p[2];
 
-	line = ft_strsub(token, 1, ft_strlen(token) - 2);
-	pipe(p);
+	if (pipe(p) != 0)
+		exit(EXIT_FAILURE);
 	if (!(pid = fork()))
 	{
 		get_shell_cfg(0)->subshell = 1;
@@ -60,34 +56,48 @@ char		*control_subtitution(char *token, char type)
 		exit(0);
 	}
 	waitpid(pid, 0, 0);
-	str = NULL;
 	close(p[1]);
-	while (get_next_line(p[0], '\n', &buffer))
+	return (p[0]);
+}
+
+void		get_buffer(char **str, int pipe_fd, char type)
+{
+	char	*buffer;
+	int		i;
+
+	*str = NULL;
+	while (get_next_line(pipe_fd, '\n', &buffer))
 	{
 		if (buffer && ft_strlen(buffer))
 		{
-			// dprintf(2, "\ntype: %d buffer : %s \n", type, buffer);
-			if (!str)
+			*str = !(*str) ? ft_strdup(buffer) : *str;
+			if (type)
+				*str = ft_join("%f%c%f", *str, '\n', buffer);
+			else
 			{
-				str = ft_strdup(buffer);
+				*str = ft_join("%f%c%f", *str, BLANK, buffer);
 				i = 0;
-				while (str[i])
+				while ((*str)[i])
 				{
-					if (str[i] == ' ')
-						str[i] = BLANK;
+					if ((*str)[i] == ' ')
+						(*str)[i] = BLANK;
 					i++;
 				}
 			}
-			else
-			{
-				if (type)
-					str = ft_join("%s%c%s", str, '\n', buffer);
-				else
-					str = ft_join("%s%c%s", str, BLANK, buffer);
-			}
 		}
 	}
-	close(p[0]);
-	// printf("str: %s\n", str);
+}
+
+char		*control_subtitution(char *token, char type)
+{
+	char	*line;
+	char	*str;
+	int		pipe_fd;
+
+	str = NULL;
+	line = ft_strsub(token, 1, ft_strlen(token) - 2);
+	pipe_fd = exec_(line);
+	get_buffer(&str, pipe_fd, type);
+	close(pipe_fd);
 	return (str);
 }

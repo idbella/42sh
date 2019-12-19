@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/18 20:14:50 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 15:29:58 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,114 +18,64 @@
 ** - No expansions if argument is single quoted.
 */
 
-char		**convert_args(t_arg *h, int size)
+static t_arg	*get_node(void)
 {
-	char	**new;
-	int 	i;
-	int		j;
+	t_arg	*c;
 
-	if (!(new = (char **)malloc(sizeof(char *) * (size + 1))))
+	c = NULL;
+	if (!(c = malloc(sizeof(t_arg))))
 		exit(EXIT_FAILURE);
-	i = 0;
-	j = 0;
-	while (h)
-	{
-		i = 0;
-		while (h->arg[i])
-		{
-			if (!ft_strlen(h->arg[i]))
-			{
-				i++;
-				continue ;
-			}
-			new[j] = ft_strdup(h->arg[i]);
-			i++;
-			j++;
-		}
-		h = h->next;
-	}
-	new[j] = NULL;
-	return (new);
+	c->next = NULL;
+	c->arg = NULL;
+	return (c);
 }
 
-int			expand(char **args, t_arg *c)
+static void		append(t_arg **h, t_arg **c, t_arg **t)
 {
-	int		k;
-	char	*tmp;
-	int		size;
-
-	k = 0;
-	size = 0;
-	tmp = ft_strdup(*args);
-	search_and_expand(&tmp);
-	quoted_escape(&tmp);
-	expand_tilde(&tmp);
-	free(*args);
-	*args = tmp;
-	remove_escapes(args, UQ_ESCAPE);
-	remove_escapes(args, Q_ESCAPE);
-	remove_quotes(args);
-	if (ft_strchr(*args, BLANK))
-	{
-		c->arg = ft_strsplit(*args, BLANK);
-		int	j = 0;
-		while (c->arg[j])
-		{
-			if (ft_strlen(c->arg[j]))
-				size++;
-			j++;
-		}
-	}
+	if (!*h)
+		*h = *c;
 	else
-	{
-		c->arg = (char **)malloc(sizeof(char *) * 2);
-		c->arg[0] = ft_strdup(*args);
-		c->arg[1] = NULL;
-		if (ft_strlen(*args))
-			size++;
-	}
+		(*t)->next = *c;
+	*t = *c;
+}
+
+int				expand_and_append(t_arg **h, t_arg **t, char ***args)
+{
+	int		size;
+	t_arg	*c;
+
+	size = 0;
+	c = get_node();
+	size = expand(*args, c);
+	if (!*h)
+		*h = c;
+	else
+		(*t)->next = c;
+	*t = c;
 	return (size);
 }
 
-char		**get_assignments(char ***args)
+char			**get_assignments(char ***args)
 {
 	int		pos;
 	char	flag;
-	int		size = 0;
-	t_arg	*h = NULL;
-	t_arg	*c = NULL;
-	t_arg	*t = NULL;
+	int		size;
+	t_arg	*h;
+	t_arg	*t;
 
 	pos = 0;
+	h = NULL;
+	t = NULL;
+	size = 0;
 	while (**args)
 	{
 		quotes_delimiter(*args);
 		flag = 1;
 		if ((pos = ft_strpos(**args, "=")) != -1)
 		{
-			flag = 0;
-			while (pos >= 0 && (**args)[pos])
-			{
-				if ((**args)[pos] != QUOTE && (**args)[pos] != D_QUOTE
-				&& (**args)[pos] != Q_ESCAPE && (**args)[pos] != UQ_ESCAPE)
-					pos--;
-				else
-				{
-					flag = 1;
-					break ;
-				}
-			}
+			valid_assignment(**args, &flag, pos);
 			if (!flag)
-			{
-				c = malloc(sizeof(t_arg));
-				c->next = NULL;
-				size += expand(*args, c);
-				if (!h)
-					h = c;
-				else
-					t->next = c;
-				t = c;
-			}
+				size += expand_and_append(&h, &t, args);
 		}
 		if (flag)
 			break ;
@@ -134,29 +84,28 @@ char		**get_assignments(char ***args)
 	return (convert_args(h, size));
 }
 
-void		apply_expansions(t_process *process)
+void			apply_expansions(t_process *process)
 {
 	int		size;
-	t_arg	*h = NULL;
-	t_arg	*c = NULL;
-	t_arg	*t = NULL;
+	t_arg	*h;
+	t_arg	*c;
+	t_arg	*t;
 	char	**args;
 
 	size = 0;
-	args = process->arg;
+	h = NULL;
+	c = NULL;
+	t = NULL;
+	args = process->holder;
 	process->ass = get_assignments(&args);
 	while (*args)
 	{
 		quotes_delimiter(args);
-		c = malloc(sizeof(t_arg));
-		c->next = NULL;
+		c = get_node();
 		size += expand(args, c);
-		if (!h)
-			h = c;
-		else
-			t->next = c;
-		t = c;
+		append(&h, &c, &t);
 		args++;
 	}
+	free_array(process->holder);
 	process->arg = convert_args(h, size);
 }

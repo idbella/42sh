@@ -6,13 +6,13 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 09:47:49 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/16 18:40:58 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 10:16:48 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		circular(t_alias *h, t_alias **t, char *alias)
+int				circular(t_alias *h, t_alias **t, char *alias)
 {
 	t_alias	*c;
 
@@ -40,7 +40,8 @@ static t_token	*get_sub_token(t_token *token, char *alias, char **str)
 	return (token->sub);
 }
 
-char	*expand_alias(t_token *token, char *alias, t_alias *h, t_alias **t)
+char			*expand_alias(t_token *token, char *alias,
+t_alias *h, t_alias **t)
 {
 	char	*arg;
 	t_token *tokens;
@@ -68,7 +69,7 @@ char	*expand_alias(t_token *token, char *alias, t_alias *h, t_alias **t)
 	return (str);
 }
 
-void	update_token(t_token *tokens, char *alias, char **arg, int i)
+void			update_token(t_token *tokens, char *alias, char **arg, int i)
 {
 	t_alias			*h;
 	t_alias			*t;
@@ -87,7 +88,7 @@ void	update_token(t_token *tokens, char *alias, char **arg, int i)
 	free(h);
 }
 
-t_token	*alias_expansion(char *line)
+t_token			*alias_expansion(char *line)
 {
 	t_token			*tokens;
 	char			*arg;

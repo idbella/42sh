@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 20:16:43 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/19 15:30:18 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,12 @@ void			get_redir_file(t_redir *curr, char *str, int *i);
 char			*get_heredoc(char *str, int *i, int *hd_fd);
 int				is_not_blank(char *line, int j, int i);
 void			apply_expansions(t_process *process);
+void			valid_assignment(char *args, char *flag, int pos);
+void			store_args(t_arg *c, char **args, int *size);
+char			**convert_args(t_arg *h, int size);
+int				expand(char **args, t_arg *c);
 void			search_and_expand(char **s);
+char			*get_param(char **param, char op);
 char			*get_dollar_var(char *tmp, int *i, char op);
 t_token			*alias_expansion(char *line);
 char			*gather_tokens(t_token *tokens);
@@ -141,6 +146,7 @@ void			join_char(char **str, char c);
 void			update_string(char **str, int *j);
 void			add_spaces(char **str);
 void			combine(t_token *tokens, char **str);
+int				is_quoted(char *s, int len);
 int				match(t_alias *h, t_alias *t);
 void			free_list(t_alias *h, t_alias **t);
 char			*extact_arg(t_token *tokens, int *i);

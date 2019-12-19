@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   datatypes.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 12:58:22 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 14:00:12 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct	s_process
 {
 	char				**arg;
 	char				**ass;
+	char				**holder;
 	pid_t				pid;
 	int					status;
 	int					p0;
