@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:06:16 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 14:55:57 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 18:08:16 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	ft_free_job(t_job *job)
 	{
 		next = job->next;
 		ft_memdel((void *)&job->command);
+		ft_freeprocs(job->processes);
 		free(job);
 		job = next;
 	}
