@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:50:04 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/20 09:23:38 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 09:27:56 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,6 @@ int		get_list_node(char type, void **curr, char *str)
 			((t_process *)*curr)->holder = ft_strsplit(str, BLANK);
 		else
 			str = NULL;
-		if (((t_process *)*curr)->holder)
-			apply_expansions(((t_process *)*curr));
 	}
 	return (1);
 }
