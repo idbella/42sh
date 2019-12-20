@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:03:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/19 11:04:47 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 18:23:04 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_wait(t_job *job, int status)
 	}
 	if (!job->foreground)
 	{
-		if (job->processes->arg[0] || job->processes->ass[0])
+		if (job->processes->arg || job->processes->ass)
 			job = ft_cpyjob(job);
 		ft_addjob(job, ft_getset(NULL));
 		if (!get_shell_cfg(0)->subshell)
@@ -62,5 +62,7 @@ void	ft_wait(t_job *job, int status)
 		}
 		ft_set_last_rvalue(ft_getjobstatus(job->processes));
 		ft_get_term(job);
+		if (job->killed)
+			ft_deljob(job, ft_getset(0));
 	}
 }

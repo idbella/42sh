@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   datatypes.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/19 14:00:12 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 09:19:40 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DATATYPES_H
 # define DATATYPES_H
 # include "libft.h"
-#include <termios.h>
+# include <termios.h>
 # define BUILTINS_COUNT 15
 # define TESTFUNCTIONS_COUNT 20
-
+# include <sys/stat.h>
 
 /*
 **
@@ -182,5 +182,18 @@ typedef struct			s_container
 	t_map			testfunctions[20];	
 	struct termios	*term;
 }						t_container;
+
+typedef struct 		s_recipes
+{
+	char			*oldpwd;
+	char			*pwd;
+	char			*home;
+	char			*cdpath;
+	char			*curpath;
+	char			options;
+	int				mute;
+	int				helper;
+	struct stat		buf;
+}					t_recipes;
 
 #endif

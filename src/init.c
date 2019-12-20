@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:12:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 15:55:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 09:22:55 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	init_(t_shell *shell, char **env, t_init *init)
 	ft_init_readline(init);
 	ft_read_file_(init);
 	ft_addtohashmap("FCEDIT", "vim", INTERN);
+	ft_addtohashmap("?", "0", INTERN);
 	shell->init = init;
 	shell->last_exit = 0;
 	shell->subshell = 0;

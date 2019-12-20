@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 17:44:55 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/30 16:12:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 18:07:20 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,10 @@ t_job	*ft_getjob(char *arg, char *caller)
 	jobid = -1;
 	if (arg)
 	{
-		if (*arg != '%')
-		{
-			ft_printf_fd(2, "%s: job not found: %s\n", caller, arg);
-			return (NULL);
-		}
-		if (*arg + 1)
-			jobid = ft_atoi(arg + 1);
+		if (*arg == '%')
+			arg++;
+		if (*arg)
+			jobid = ft_atoi(arg);
 	}
 	container = ft_getset(NULL);
 	if (jobid == -1)

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 16:03:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/04 10:48:18 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 09:22:31 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_set_last_rvalue(uint8_t rvalue)
 {
 	t_container *container;
 
+	ft_addtohashmap("?", ft_itoa(rvalue, 10), INTERN);
 	container = ft_getset(NULL);
 	container->last_status = rvalue;
 }
