@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 20:14:38 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/19 15:30:41 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:36:59 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void		param_subst(char *s, char *tmp, char **str)
 		else
 			*str = ft_strdup(exp);
 	}
+	else
+		get_shell_cfg(0)->abort = 1;
 	free(param);
 }
 
@@ -55,6 +57,8 @@ void		get_expansion(char *s, char *tmp, char **str)
 		else
 			*str = ft_strdup(exp);
 	}
+	else
+		get_shell_cfg(0)->abort = 1;
 	free(param);
 }
 

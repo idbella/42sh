@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   datatypes.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 09:19:40 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:35:14 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ typedef struct	s_shell
 	t_init				*init;
 	unsigned long long	id;
 	int					last_exit;
+	char				abort;
 }				t_shell;
 
 typedef struct			s_params
