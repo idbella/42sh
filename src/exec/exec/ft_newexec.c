@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 11:21:32 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 09:44:46 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ char	ft_exec_job(t_params *params, t_process *process)
 
 	while (process)
 	{
+		apply_expansions(process);
 		ft_init_proc(process);
 		if (fds[0] > 0)
 		{

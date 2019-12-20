@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:01:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:07:54 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 17:52:11 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		ft_bg(char **arg)
 		return (1);
 	job->suspended = 0;
 	job->foreground = 0;
+	ft_printf("[%d]+ %s\n", job->id, job->command);
 	ft_resetstatus(job);
 	if (killpg(job->pgid, SIGCONT))
 	{

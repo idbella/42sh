@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:01:02 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 19:56:53 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 15:45:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@ void	ft_resetstatus(t_job *job)
 	proc = job->processes;
 	while (proc)
 	{
-		proc->stoped = 0;
-		proc->signaled = 0;
-		proc->status = 0;
+		if (!proc->exited)
+		{
+			proc->stoped = 0;
+			proc->signaled = 0;
+			proc->status = 0;
+		}
 		proc = proc->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:25:59 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 09:38:54 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 15:40:15 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ t_process	*ft_cpyproc(t_process *proc)
 	t_process	*new;
 
 	new = ft_memalloc(sizeof(t_process));
-	new->exited = 0;
+	new->exited = proc->exited;
 	new->flag = proc->flag;
 	new->next = NULL;
 	new->pid = proc->pid;
 	new->status = proc->status;
-	new->stoped = 0;
-	new->exited = 0;
+	new->stoped = proc->stoped;
+	new->ass = NULL;
+	new->arg = NULL;
 	return (new);
 }
 
@@ -65,6 +66,7 @@ t_job	*ft_cpyjob(t_job *job)
 	new->killed = job->killed;
 	new->id = job->id;
 	new->pgid = job->pgid;
+	new->notified = job->notified;
 	new->next = NULL;
 	new->return_val = job->return_val;
 	new->suspended = job->suspended;

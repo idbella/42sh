@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 23:03:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/19 10:42:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/19 18:22:26 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_check_job(t_job *job, t_job *current, t_container *container)
 	if (st)
 		ft_lstadd(&container->notify, ft_lstnew(st, 0));
 	job->notified = 1;
-	if (job->killed)
+	if (job->killed && job != current)
 		ft_deljob(job, container);
 }
 
@@ -69,7 +69,7 @@ void	ft_check_jobs_status(t_job *current)
 
 	container = ft_getset(NULL);
 	if (current)
-		ft_check_job(current, current, container);
+		return (ft_check_job(current, current, container));
 	list = container->list;
 	while (list)
 	{
