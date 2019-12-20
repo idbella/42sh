@@ -6,24 +6,24 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 12:49:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:52:37 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	ft_init_exec()
+void	ft_init_exec(void)
 {
 	ft_init_jobcontrol();
 }
 
 char	ft_run_in_sub(t_process *p)
 {
-	while(p)
+	while (p)
 	{
 		if (p->flag == OR || p->flag == AND)
 			return (1);
-			p = p->next;
+		p = p->next;
 	}
 	return (0);
 }
@@ -40,7 +40,9 @@ t_job	*ft_list(t_process *pr)
 	{
 		new = ft_newjob(0, 0);
 		new->flag = pr->flag;
-		new->processes->arg = pr->arg;
+		new->processes->arg = NULL;
+		new->processes->ass = NULL;
+		new->processes->holder = pr->holder;
 		new->command = pr->arg ? ft_strdup(pr->arg[0]) : NULL;
 		if (job)
 			job->next = new;
@@ -70,12 +72,10 @@ void	ft_execbg(t_job *job)
 	setpgid(pid, pid);
 	jb = ft_newjob(pid, 0);
 	jb->pgid = pid;
-	ft_printf("[%d] %d\n", jb->id, jb->pgid); 
-	jb->command = job->command;
+	ft_printf("[%d] %d\n", jb->id, jb->pgid);
+	jb->command = ft_strdup(job->command);
 	ft_addjob(jb, ft_getset(0));
 }
-
-
 
 int		exec(t_job *job)
 {
@@ -105,7 +105,8 @@ int		exec(t_job *job)
 			if (job->flag == OR || job->flag == AND)
 			{
 				flag = job->flag;
-				while (job && ((job->flag == AND && status) || (job->flag == OR && !status)))
+				while (job && ((job->flag == AND && status)
+					|| (job->flag == OR && !status)))
 					job = job->next;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:06:16 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 10:03:12 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:55:57 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	ft_freeprocs(t_process *proc)
 void	ft_free_job(t_job *job)
 {
 	t_job	*next;
-
 
 	while (job)
 	{

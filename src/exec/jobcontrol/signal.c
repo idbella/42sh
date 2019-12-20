@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 23:03:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/19 18:22:26 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:57:38 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@ void	ft_check_job(t_job *job, t_job *current, t_container *container)
 		if (job != current || (proc->signaled && WTERMSIG(proc->status) != 2))
 		{
 			if (WIFEXITED(status) && WEXITSTATUS(status))
-				st = ft_join("[%d] + Exit %d\t\t %s\n", job->id, WEXITSTATUS(status), job->command);
+				st = ft_join("[%d] + Exit %d\t\t %s\n", job->id,
+					WEXITSTATUS(status), job->command);
 			else if (WIFEXITED(status))
 				st = ft_join("[%d]+ Done\t\t%s\n", job->id, job->command);
 			else
 				st = ft_join("[%d]+ %s:\t\t%d %s\n", job->id,
-					ft_strsignal(WTERMSIG(status)),WTERMSIG(status), job->command);
+					ft_strsignal(WTERMSIG(status)), WTERMSIG(status), job->command);
 		}
 	}
 	else if (!job->killed && ft_stoped(job))

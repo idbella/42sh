@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 10:45:43 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 15:07:00 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,12 @@ typedef struct			s_printf_params
 	char	leading;
 }						t_printf_params;
 
-
-typedef struct		s_line
+typedef struct			s_line
 {
 	int				fd;
 	char			*str1;
 	struct s_line	*next;
-}					t_line;
+}						t_line;
 
 char					ft_isalphanum(char *str);
 char					*ft_join(char *f, ...);
@@ -124,7 +123,7 @@ char					*ft_strcpy(char *dst, const char *src);
 size_t					ft_strlen(char const *s);
 char					*ft_strdup(const char *s1);
 char					*ft_strndup(const char *s1, size_t n);
-void					*ft_memcpy(void *dst, const void *src, size_t n);		
+void					*ft_memcpy(void *dst, const void *src, size_t n);
 int						get_next_line(int fd, char c, char **line);
 int						ft_printf_fd(int fd, char *format, ...);
 void					ft_getstr(t_printf_params *param, char fr);

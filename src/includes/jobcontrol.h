@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 16:49:44 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 10:00:23 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 15:05:25 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ void					ft_resetstatus(t_job *job);
 void					ft_check_jobs_status(t_job *current);
 void					ft_set_last_rvalue(uint8_t rvalue);
 uint8_t					ft_get_last_rvalue(void);
-void	                ft_init_proc(t_process *proc);
+void					ft_init_proc(t_process *proc);
 uint8_t					ft_getjobstatus(t_process *pr);
 void					ft_ignore_signlas(void);
 t_job					*ft_pid_lookup(pid_t pid, t_process **procc);
-void	                ft_free_array(char **args);
+void					ft_free_array(char **args);
 t_job					*ft_newjob(pid_t pid, int flag);
-t_job	                *ft_cpyjob(t_job *job);
+t_job					*ft_cpyjob(t_job *job);
 #endif

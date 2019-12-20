@@ -6,40 +6,48 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 10:31:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 20:12:09 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:43:04 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+int		ft_check(char *arg, char *valid, char *buffer)
+{
+	int i;
+	int option;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (!ft_strchr(valid, arg[i]))
+			return (-arg[i]);
+		if ((option = (int)arg[i]) > 0)
+			buffer[option] = 1;
+		i++;
+	}
+	return (0);
+}
+
 int		ft_getopt(char **args, char *buffer, char *valid)
 {
-	int		i0;
-	int		i1;
-	int		found;
-	int		option;
+	int		i;
+	int		c;
 
-	found = 0;
-	i0 = -1;
+	i = 0;
 	ft_bzero(buffer, 127);
-	while (args[++i0])
+	while (args[i])
 	{
-		if (ft_strequ(args[i0], "--"))
-			return (i0 + 1);
-		if (args[i0][0] == '-')
+		if (ft_strequ(args[i], "--"))
+			return (i + 1);
+		if (args[i][0] == '-')
 		{
-			i1 = 0;
-			while (args[i0][++i1])
-			{
-				if (!ft_strchr(valid, args[i0][i1]))
-					return (-args[i0][i1]);
-				if ((option = (int)args[i0][i1]) > 0)
-					buffer[option] = 1;
-				found = 1;
-			}
+			if ((c = ft_check(args[i], valid, buffer)) < 0)
+				return (c);
 		}
 		else
-			return (i0);
+			return (i);
+		i++;
 	}
-	return (i0);
+	return (i);
 }

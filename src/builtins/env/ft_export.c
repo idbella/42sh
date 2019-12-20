@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 20:43:27 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/19 15:56:44 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:34:58 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		ft_printenv(void)
+int			ft_printenv(void)
 {
 	char	**env;
 
@@ -25,10 +25,21 @@ int		ft_printenv(void)
 	return (0);
 }
 
-void	ft_free_kv(char *key, char *val)
+int			ft_free_kv(char *key, char *val)
 {
 	free(val);
 	free(key);
+	return (1);
+}
+
+static int	ft_check(char *key, char *value)
+{
+	if (ft_isdigit(key[0]) || !ft_isalphanum(key))
+	{
+		ft_printf("42sh: export: '%s': not a valid identifier\n", key);
+		return (ft_free_kv(key, value));
+	}
+	return (0);
 }
 
 static int	ft__export__(int export, char *arg)
@@ -38,12 +49,8 @@ static int	ft__export__(int export, char *arg)
 	char	*value;
 
 	ft_get_kv(arg, &key, &value);
-	if (ft_isdigit(key[0]) || !ft_isalphanum(key))
-	{
-		ft_printf("42sh: export: '%s': not a valid identifier\n", key);
-		ft_free_kv(key, value);
+	if (ft_check(key, value))
 		return (1);
-	}
 	else
 	{
 		if (!export)
@@ -62,7 +69,7 @@ static int	ft__export__(int export, char *arg)
 	return (0);
 }
 
-int		ft_export(char **args)
+int			ft_export(char **args)
 {
 	int		i;
 	char	export;

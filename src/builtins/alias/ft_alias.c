@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 18:38:24 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 19:46:46 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:35:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-t_list	*ft_getlist(void)
+t_list		*ft_getlist(void)
 {
 	int		i;
 	t_list	*l;
@@ -38,7 +38,7 @@ t_list	*ft_getlist(void)
 	return (keys);
 }
 
-char	**ft_getaliaskeys(void)
+char		**ft_getaliaskeys(void)
 {
 	t_list	*keys;
 	int		len;

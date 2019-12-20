@@ -6,13 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:25:59 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/19 15:40:15 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:57:03 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-
 
 t_process	*ft_cpyproc(t_process *proc)
 {
@@ -30,7 +28,7 @@ t_process	*ft_cpyproc(t_process *proc)
 	return (new);
 }
 
-void	ft_getprocs(t_job *job, t_job *new)
+void		ft_getprocs(t_job *job, t_job *new)
 {
 	t_process	*oldproc;
 	t_process	*newproc;
@@ -54,7 +52,7 @@ void	ft_getprocs(t_job *job, t_job *new)
 	new->processes = head;
 }
 
-t_job	*ft_cpyjob(t_job *job)
+t_job		*ft_cpyjob(t_job *job)
 {
 	t_job		*new;
 
