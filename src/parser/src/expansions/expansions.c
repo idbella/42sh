@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/19 15:29:58 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 09:34:44 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void			apply_expansions(t_process *process)
 	c = NULL;
 	t = NULL;
 	args = process->holder;
-	process->ass = get_assignments(&args);
+	// process->ass = get_assignments(&args);
 	while (*args)
 	{
 		quotes_delimiter(args);
