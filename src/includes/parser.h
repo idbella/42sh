@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/19 18:28:11 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 09:25:40 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ char			*pre_parse(char *line);
 void			highlight_ops(char *line);
 int				syntax_error(char **line);
 void			mark_operators(char *line);
+int				dc_operator(char *line, int i);
+int				sc_operator(char *line, int i);
 int				get_bg_jobs(char *line);
 void			mark_bg_op(char *line);
 t_job			*parse(char *input);

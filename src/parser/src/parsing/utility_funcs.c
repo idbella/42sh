@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:50:04 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/19 19:50:57 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 09:23:38 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,16 @@ char	*get_cmd_string(char *s)
 	return (str);
 }
 
+/*
+** if (((t_process *)*curr)->holder)
+**			apply_expansions(((t_process *)*curr));
+*/
+
 int		get_list_node(char type, void **curr, char *str)
 {
 	if (type)
 	{
-		*curr = (t_job *)malloc(sizeof(t_job));
+		*curr = (t_job *)ft_memalloc(sizeof(t_job));
 		if (!(((t_job *)*curr)->processes = get_process_list(str, type)))
 			return (0);
 		((t_job *)*curr)->command = get_cmd_string(str);
@@ -113,12 +118,9 @@ int		get_list_node(char type, void **curr, char *str)
 	}
 	else
 	{
-		*curr = (t_process *)malloc(sizeof(t_process));
+		*curr = (t_process *)ft_memalloc(sizeof(t_process));
 		((t_process *)*curr)->p0 = -1;
-		((t_process *)*curr)->status = 0;
-		((t_process *)*curr)->heredoc = NULL;
 		((t_process *)*curr)->heredoc_fd = -1;
-		((t_process *)*curr)->arg = NULL;
 		if ((check_redirections(str, ((t_process *)*curr))) == (char *)-1)
 			return (0);
 		if (str && str != (char *)-1)
@@ -127,8 +129,6 @@ int		get_list_node(char type, void **curr, char *str)
 			str = NULL;
 		if (((t_process *)*curr)->holder)
 			apply_expansions(((t_process *)*curr));
-		((t_process *)*curr)->flag = 0;
-		((t_process *)*curr)->next = NULL;
 	}
 	return (1);
 }
