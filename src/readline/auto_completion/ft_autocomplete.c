@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 18:31:52 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/20 15:14:09 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/20 21:59:04 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,15 +207,15 @@ void	ft_string_cmd(int flg, t_init *init)
 		if (init->out_put[init->s_cursor] == ' ')
 			ft_move_cursor_left(init);
 		while (init->s_cursor > (int)ft_promptlen(init->promt) && 
-			init->out_put[init->s_cursor] != ' ')
+			init->out_put[init->s_cursor] != ' ' && init->out_put[init->s_cursor] != '|')
 			ft_move_cursor_left(init);
 	}
 	else if (flg == 4)
 	{
-		if (init->out_put[init->s_cursor] == ' ')
+		if (init->out_put[init->s_cursor] == ' ' || init->out_put[init->s_cursor] == '|')
 			ft_move_cursor_right(init);
 		while (init->s_cursor < init->s_l &&
-				init->out_put[init->s_cursor] != ' ')
+				init->out_put[init->s_cursor] != ' ' && init->out_put[init->s_cursor] != '|')
 			ft_move_cursor_right(init);
 	}
 }
@@ -822,6 +822,7 @@ void	ft_get_completion_dir_42(char *to_complete, t_init *init)
 	int		n;
 	int		i;
 	char 	*tilda;
+	char	*tmp;
 
 	path = NULL;
 	new_completion = NULL;
@@ -829,7 +830,17 @@ void	ft_get_completion_dir_42(char *to_complete, t_init *init)
 	i = 0;
 	n = ft_if_is_dir(to_complete,&path, &new_completion, &tilda);
 	if (n == 2)
+	{
+		i = ft_strlen(to_complete);
+		if (to_complete[i - 1] != '/')
+		{
+			tmp = ft_strjoin(to_complete,ft_strdup("/"));
+			init->completion_lst = add_to_auto_42(init->completion_lst, tmp);
+			ft_strdel(&tmp);
+		}
+		else
 		init->completion_lst = ft_search_complete_dir_42("", path);
+	}
 	else if (n == 1)
 	{
 		init->completion_lst = ft_search_complete_dir_42(new_completion, path);
