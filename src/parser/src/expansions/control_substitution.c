@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/19 10:43:58 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:31:11 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,26 @@ void		get_buffer(char **str, int pipe_fd, char type)
 	char	*buffer;
 	int		i;
 
-	*str = NULL;
 	while (get_next_line(pipe_fd, '\n', &buffer))
 	{
 		if (buffer && ft_strlen(buffer))
 		{
-			*str = !(*str) ? ft_strdup(buffer) : *str;
-			if (type)
-				*str = ft_join("%f%c%f", *str, '\n', buffer);
+			if (!*str)
+				*str = ft_strdup(buffer);
 			else
 			{
-				*str = ft_join("%f%c%f", *str, BLANK, buffer);
-				i = 0;
-				while ((*str)[i])
+				if (type)
+					*str = ft_join("%f%c%f", *str, '\n', buffer);
+				else
 				{
-					if ((*str)[i] == ' ')
-						(*str)[i] = BLANK;
-					i++;
+					*str = ft_join("%f%c%f", *str, BLANK, buffer);
+					i = 0;
+					while ((*str)[i])
+					{
+						if ((*str)[i] == ' ')
+							(*str)[i] = BLANK;
+						i++;
+					}
 				}
 			}
 		}

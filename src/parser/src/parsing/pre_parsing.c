@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:53:56 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/19 18:03:47 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 12:51:08 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int			syntax_error(char **line)
 	if (check_syntax_errors(*line) || subst_syntax(*line))
 	{
 		free(*line);
+		ft_set_last_rvalue(255);
 		return (1);
 	}
 	return (0);
