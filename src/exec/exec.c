@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 12:59:39 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 12:49:06 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_job	*ft_list(t_process *pr)
 		new = ft_newjob(0, 0);
 		new->flag = pr->flag;
 		new->processes->arg = pr->arg;
-		new->command = pr->arg[0];
+		new->command = pr->arg ? ft_strdup(pr->arg[0]) : NULL;
 		if (job)
 			job->next = new;
 		else
@@ -91,7 +91,6 @@ int		exec(t_job *job)
 	{
 		p.pipe_stdin = -1;
 		p.job = job;
-		
 		ft_init_job(job);
 		if (job->flag == BG && ft_run_in_sub(job->processes))
 			ft_execbg(job);

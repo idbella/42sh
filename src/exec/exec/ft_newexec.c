@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 09:44:46 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 12:53:17 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		ft_init_run(t_params *params, t_process *process)
 	int			type;
 
 	p = params->job->processes;
-	if ((func = ft_is_builtin(process->arg[0])))
+	if (process->arg && (func = ft_is_builtin(process->arg[0])))
 	{
 		if ((p && p->next) || params->forkbuiltins)
 			return (ft_fork(params, process, func));
@@ -57,9 +57,9 @@ int		ft_init_run(t_params *params, t_process *process)
 			return (func(process->arg + 1));
 		}
 	}
-	if (process->ass[0])
+	if (process->ass)
 	{
-		type = process->arg[0] ? ENV_ENTRY : INTERN_ENTRY;
+		type = process->arg ? ENV_ENTRY : INTERN_ENTRY;
 		if (type == INTERN_ENTRY && !params->forkbuiltins && params->job->foreground)
 		{
 			ft_getinterns(process, INTERN_ENTRY);
@@ -120,7 +120,7 @@ char	ft_exec_job(t_params *params, t_process *process)
 			ft_printheredoc(process);
 			continue ;
 		}
-		if (process->arg[0] || process->ass[0])
+		if (process->arg || process->ass)
 			status = ft_init_run(params, process);
 		else if (get_shell_cfg(0)->subshell)
 			status = ft_readfile(params);

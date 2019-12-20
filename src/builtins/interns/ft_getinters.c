@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 01:04:33 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 10:33:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 12:46:33 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_getinterns(t_process *cmd, char type)
 
 	assign = cmd->ass;
 	i = 0;
-	while (assign[i])
+	while (assign && assign[i])
 	{
 		ft_addintern(assign[i], type);
 		i++;

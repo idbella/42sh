@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 09:37:58 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 12:52:34 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		ft_path_changed(t_process *process)
 	char	*key;
 	char	*val;
 
-	if (process->ass[0])
+	if (process->ass)
 	{
 		i = 0;
 		while (process->ass[i])
@@ -82,7 +82,7 @@ int		ft_fork(t_params *params, t_process *process, t_function *func)
 
 	rval = 0;
 	file = NULL;
-	if (!params->forkbuiltins && params->job->foreground && !ft_path_changed(process) && process->arg[0])
+	if (process->arg && !params->forkbuiltins && params->job->foreground && !ft_path_changed(process))
 		free(ft_getexecutable(process, 0));
 	if (!(process->pid = fork()))
 	{
@@ -92,7 +92,7 @@ int		ft_fork(t_params *params, t_process *process, t_function *func)
 		if (!ft_redirect(process->redir))
 			exit(1);
 		ft_getinterns(process, ENV_ENTRY);
-		if (!process->arg[0])
+		if (!process->arg)
 			exit(0);
 		(!func) ? file = ft_getexecutable(process, 1) : 0;
 		if (func)
