@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 18:31:52 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/16 10:20:23 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/20 15:14:09 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_take_new_line(char *input, t_init *init, int *cursor, char *line)
 	}
 	if (i == 1)
 	{
-		len = init->s_cursor - *cursor - 5;
+		len = init->s_cursor - *cursor - (int)ft_promptlen(init->promt);
 		str = ft_strsub(input, *cursor + 1, len);
 	}
 	(*cursor)++;
@@ -81,7 +81,7 @@ int		ft_if_empty_first_word(char *line, t_init *init , int cursor)
 	int		new_cursor;
 	
 	i = 0;
-	new_cursor = init->s_cursor - cursor - 5;
+	new_cursor = init->s_cursor - cursor - (int)ft_promptlen(init->promt);
 	if (new_cursor == 0 && line[new_cursor] == '\0')
 		return (1);
 	while(new_cursor > 0)
@@ -111,7 +111,6 @@ int		ft_cursor_position(char *s, int cursor)
 		end++;
 		s++;
 	}
-	//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\nstart = --%d-- end --%d-- cursor --%d--\n", start, end, cursor);
 	if (cursor >= start && cursor <= end)
 		return (1);
 	return (0);
@@ -124,7 +123,7 @@ int		ft_is_cursor_in_first_word(t_init *init, char *line, int cursor)
 	new_cursor = 0;
 	if (ft_if_empty_first_word(line, init, cursor + 1) == 1)	
 		return (1);
-	new_cursor = init->s_cursor - cursor - 5 - 1;
+	new_cursor = init->s_cursor - cursor - (int)ft_promptlen(init->promt) - 1;
 	if (ft_cursor_position(line, new_cursor) == 1)
 		return (1);
 	return(0);		
@@ -132,12 +131,12 @@ int		ft_is_cursor_in_first_word(t_init *init, char *line, int cursor)
 
 int		ft_is_first_cmd(char *input, t_init *init)
 {
-	char *line;
+	char	*line;
 	int		cursor;
 	char	*new_line;
 
 	new_line = NULL;
-	cursor = init->s_cursor - 5;
+	cursor = init->s_cursor - (int)ft_promptlen(init->promt);
 	line = ft_strdup(input);
 	mark_operators(line);
 	mark_bg_op(line);
@@ -164,8 +163,8 @@ int		ft_is_first_word_42(char *line, t_init *init)
 	int		j;
 
 	j = 0;
-	i = init->s_cursor - (int)ft_strlen(init->promt);
-	if (init->out_put[init->s_cursor] == '\0' && init->s_cursor == (int)ft_strlen(init->promt))
+	i = init->s_cursor - ft_promptlen(init->promt);
+	if (init->out_put[init->s_cursor] == '\0' && init->s_cursor == (int)ft_promptlen(init->promt))
 		return (0);
 	i--;
 	while(i > 0)
@@ -176,7 +175,7 @@ int		ft_is_first_word_42(char *line, t_init *init)
 	}
 	if (j == 0)
 		return (2);
-	if (ft_cursor_position(line, init->s_cursor - (int)ft_strlen(init->promt)) == 1)
+	if (ft_cursor_position(line, init->s_cursor - (int)ft_promptlen(init->promt)) == 1)
 		return (0);
 	if (ft_is_first_cmd(line, init) == 1)
 		return (0);
@@ -194,7 +193,7 @@ void	ft_move_cursor_right(t_init *init)
 
 void	ft_move_cursor_left(t_init *init)
 {
-	if (init->s_cursor > (int)ft_strlen(init->promt))
+	if (init->s_cursor > (int)ft_promptlen(init->promt))
 	{
 		init->s_cursor--;
 		tputs(tgetstr("le", NULL), 0, my_putchar);
@@ -207,7 +206,7 @@ void	ft_string_cmd(int flg, t_init *init)
 	{
 		if (init->out_put[init->s_cursor] == ' ')
 			ft_move_cursor_left(init);
-		while (init->s_cursor > (int)ft_strlen(init->promt) && 
+		while (init->s_cursor > (int)ft_promptlen(init->promt) && 
 			init->out_put[init->s_cursor] != ' ')
 			ft_move_cursor_left(init);
 	}
@@ -232,7 +231,7 @@ char	*ft_take_to_complte_42(t_init *init)
 	start = init->s_cursor;
 	ft_string_cmd(4, init);
 	end = init->s_cursor;
-	if (start != (int)ft_strlen(init->promt))
+	if (start != (int)ft_promptlen(init->promt))
 	{
 		start += 1;
 		str = ft_strsub(init->out_put, start, end - start);
@@ -288,11 +287,8 @@ char	**ft_catpath(void)
 	char *path;
 	
 	array = NULL;
-	if ((path = ft_getenv("PATH")))
-	{
-		////////
-	}
-	else
+	path = ft_getenv("PATH");
+	if (!path)
 		return (NULL);
 	array = ft_strsplit(path, ':');
 	return (array);
@@ -304,10 +300,11 @@ t_auto	*ft_get_completion_path_42(char *to_complete)
 	char 			**str;
 	DIR				*dir;
 	struct dirent	*drt;
-	int				len;
+	char 			**tmp;
 
 	lst = NULL;
 	str = ft_catpath();
+	tmp = str;
 	if (str == NULL)
 		return(NULL);
 	while (*str)
@@ -316,13 +313,13 @@ t_auto	*ft_get_completion_path_42(char *to_complete)
 			return (NULL);
 		while ((drt = readdir(dir)))
 		{
-			len = ft_strlen(to_complete);
-			if (ft_strncmp(drt->d_name, to_complete, len) == 0)
+			if (!ft_strncmp(drt->d_name, to_complete, ft_strlen(to_complete)))
 				lst = add_to_auto_42(lst, drt->d_name);
 		}
 		closedir(dir);
 		str++;
 	}
+	ft_free_array(tmp);
 	return(lst);
 }
 
@@ -363,7 +360,6 @@ int		ft_is_var(char *to_complete)
 	tmp = ft_strdup(to_complete);
 	mark_operators(tmp);
 	mark_bg_op(tmp);
-	//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\nadsfdsfjbds --%s---\n", tmp);
 	if (ft_strlen(to_complete) == 1 && to_complete[0] == '$')
 		return (1);
 	while (tmp[i])
@@ -372,6 +368,7 @@ int		ft_is_var(char *to_complete)
 			n++;
 		i++;
 	}
+	ft_strdel(&tmp);
 	return (n);
 }
 
@@ -532,11 +529,11 @@ void	replace_the_auto_comlete_42(t_init *init, char *completion)
 
 	j = 0;
 	i = init->s_cursor - 1;
-	while ((i > (int)ft_strlen(init->promt)  && init->out_put[i] != ' ' ))
+	while ((i > (int)ft_promptlen(init->promt)  && init->out_put[i] != ' ' ))
 		i--;
-	if (i != (int)ft_strlen(init->promt))
+	if (i != (int)ft_promptlen(init->promt))
 		i += 1;
-	if (init->s_cursor > (int)ft_strlen(init->promt))
+	if (init->s_cursor > (int)ft_promptlen(init->promt))
 	{
 		j = init->s_cursor;
 		while (j > i)
@@ -596,23 +593,62 @@ void	ft_print_one_completion(t_init *init, char *to_complete)
 	ft_strdel(&completion);
 }
 
-int		ft_is_dir(char *to_complete, char **path, char **new_to_complete)
+
+int		ft_path_dir(char **to_complete, char **old_to_complete, char **path)
 {
-	struct stat st;
-	int		i;
 	char 	*home_dir;
-	
-	if (to_complete[0] == '~')
+	struct stat st;
+
+	if ((*to_complete)[0] == '~')
 	{
 		if ((home_dir = ft_getenv("HOME")))
 		{
-			to_complete = ft_strjoin(home_dir,&(to_complete[1]));
+			*(old_to_complete) = ft_strdup(*to_complete);
+			*to_complete = ft_strjoin(home_dir,&((*to_complete)[1]));
 		}
 	}
-	i = 0;
-	if (!stat(to_complete, &st))
-		if (S_ISDIR(st.st_mode))
+	if ((!stat(*to_complete, &st) && (S_ISDIR(st.st_mode))))
+	{
+		*path = *to_complete;
+		ft_strdel(old_to_complete);
 			return(2);
+	}
+	return(0);
+}
+
+int		ft_check_if_is_dir(char **path,char	**old_to_complete, char **new_to_complete, char **tilda)
+{
+	struct stat st;
+	int			i;
+
+	i = 0;
+	if (!stat(*path, &st))
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\nzozo ---%s---\n", *path);
+			if (*old_to_complete)
+			{
+				dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\n koko ---%s---\n", *path);
+				i = ft_strlen(*old_to_complete) - ft_strlen(*new_to_complete);
+				*tilda = ft_strsub(*old_to_complete, 0, i);
+				ft_strdel(&(*old_to_complete));
+			}
+			return(1);
+		}
+	}
+	return (0);
+}
+
+int		ft_if_is_dir(char *to_complete, char **path, char **new_to_complete, char **tilda)
+{
+	int		i;
+	char	*old_to_complete;
+	
+	old_to_complete = NULL;
+	i = 0;
+	if (ft_path_dir(&to_complete, &old_to_complete, path) == 2)
+		return (2);
 	*new_to_complete = ft_strrchr(to_complete, '/');
 	if (*new_to_complete == NULL)
 		return (0);
@@ -622,11 +658,9 @@ int		ft_is_dir(char *to_complete, char **path, char **new_to_complete)
 		i = ft_strlen(to_complete) - ft_strlen(*new_to_complete);
 		*path = ft_strsub(to_complete, 0, i);
 	}
-	stat(*path, &st);
-	if (S_ISDIR(st.st_mode))
-		return(1);
-	return (0);
+	return (ft_check_if_is_dir(path, &old_to_complete, new_to_complete, tilda));
 }
+
 
 void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completion)
 {
@@ -634,10 +668,12 @@ void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completi
 	char	*completion;
 	char	*str;
 	char	*path;
+	char 	*tilda;
 
 	i = 0;
 	completion = NULL;
 	str = NULL;
+	tilda = NULL;
 	if(ft_is_var(to_complete) == 1)
 	{
 		while (to_complete[i] && to_complete[i] != '$')
@@ -646,14 +682,19 @@ void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completi
 		completion = ft_strjoin(str, (max_completion));
 		ft_strdel(&str);
 	}
-	else if (ft_is_dir(to_complete, &path, &str) == 1)
+	else if (ft_if_is_dir(to_complete, &path, &str, &tilda) == 1)
 	{
-		completion = ft_strjoin(path, max_completion);
+		if (tilda)
+			completion = ft_strjoin(tilda, max_completion);
+		else
+			completion = ft_strjoin(path, max_completion);
 		ft_strdel(&path);
+		ft_strdel(&tilda);
 	}
 	else
 		completion = ft_strdup(max_completion);
 	replace_the_auto_comlete_42(init, completion);
+	ft_strdel(&completion);
 }
 
 char	*ft_min_completion(t_auto *lst)
@@ -697,7 +738,6 @@ char	*ft_max_completion(t_auto *lst)
 
 	i = 0;
 	min_cplt = ft_min_completion(lst);
-	//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\nmin_completion = --%s---\n", min_cplt);
 	while (min_cplt && min_cplt[i])
 	{
 		if (ft_char_exist(lst, i, min_cplt))
@@ -708,7 +748,6 @@ char	*ft_max_completion(t_auto *lst)
 	if (i)
 	{
 		str = ft_strsub(min_cplt, 0, i);
-		//ft_strdel(&min_cplt);
 		return (str);
 	}
 	return (NULL);
@@ -742,7 +781,6 @@ void	ft_print_completion_42(t_init *init, char *to_complete)
 	char		*min_completion;
 	char		*old_to_complete;
 	
-	init->completion_lst_position = init->completion_lst;
 	if (init->completion_lst == NULL)
 		return ;
 	max_len = ft_max_len_lst_42(init->completion_lst, &lst_len);
@@ -750,60 +788,59 @@ void	ft_print_completion_42(t_init *init, char *to_complete)
 		ft_print_one_completion(init, to_complete);
 	else if (lst_len > 1)
 	{
-		init->auto_comlpetion = 1;
+		// init->auto_comlpetion = 1;
 		min_completion = ft_max_completion(init->completion_lst);
 		if (min_completion)
 		{
 			old_to_complete = ft_take_to_complte_42(init);
 			ft_print_max_completion(init, old_to_complete, min_completion);
+			ft_strdel(&min_completion);
+			ft_strdel(&old_to_complete);
 		}
 		ft_print_completion_posibilities(init, lst_len, max_len);
 	}
 }
 
 
+void	ft_one_dir_completion( t_init *init,char *path, char *tilda)
+{
+	char 	*tmp;
+
+	tmp = NULL;
+	tmp = init->completion_lst->str;
+	if (tilda)
+		init->completion_lst->str = ft_strjoin(tilda, init->completion_lst->str);
+	else
+		init->completion_lst->str = ft_strjoin(path, init->completion_lst->str);
+	free(tmp);
+}
 
 void	ft_get_completion_dir_42(char *to_complete, t_init *init)
 {
 	char	*path;
 	char	*new_completion;
 	int		n;
-	char 	*tmp;
 	int		i;
-	t_auto	*tmpo;
-	//char 	*home_dir;
-	// char 	*old_to_complete;
+	char 	*tilda;
 
 	path = NULL;
 	new_completion = NULL;
-	tmp = NULL;
+	tilda = NULL;
 	i = 0;
-	// if (to_complete[i] == '~')
-	// {
-	// 	if ((home_dir = ft_getenv("HOME")))
-	// 	{
-	// 		to_complete = ft_strjoin(home_dir,&(to_complete[1]));
-	// 	}
-	// }
-	n = ft_is_dir(to_complete,&path, &new_completion);
+	n = ft_if_is_dir(to_complete,&path, &new_completion, &tilda);
 	if (n == 2)
-		init->completion_lst = ft_search_complete_dir_42("", to_complete);
+		init->completion_lst = ft_search_complete_dir_42("", path);
 	else if (n == 1)
 	{
 		init->completion_lst = ft_search_complete_dir_42(new_completion, path);
-		tmpo = init->completion_lst;
-		while (tmpo)
-			tmpo = tmpo->next;
 		ft_max_len_lst_42(init->completion_lst, &i);
 		if (i == 1)
-		{
-			tmp = init->completion_lst->str;
-			init->completion_lst->str = ft_strjoin(path, init->completion_lst->str);
-			free(tmp);
-		}
+			ft_one_dir_completion(init, path, tilda);
 	}
 	else
 		init->completion_lst = NULL;
+	ft_strdel(&tilda);
+	ft_strdel(&path);
 }
 
 void	ft_get_completion_42(char *to_complete, t_init *init, char from)
@@ -872,12 +909,9 @@ void	ft_autocomplete_42(t_init *init)
 	init->completion_lst = NULL;
 	line = &(init->out_put[(int)ft_strlen(init->promt)]);
 	to_complete = ft_take_to_complte_42(init);
-	ft_get_completion_from_x(to_complete, init, line);
+	ft_get_completion_from_x(ft_strdup(to_complete), init, line);
 	ft_print_completion_42(init, to_complete);
-	//ft_strdel(&to_complete);
+	ft_strdel(&to_complete);
 	ft_free_auto_lst(&(init->completion_lst));
 	init->completion_lst = NULL;
 }
-
-//did the autocomplete output is sorted
-////the initialisation of the init->auto_completion in the read_line
