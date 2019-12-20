@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 06:05:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 10:44:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 18:49:45 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,9 @@ void	ft_getchar(t_printf_params *param)
 
 	str = (char *)ft_strnew(1);
 	str[0] = (char)va_arg(*param->list, int);
-	str[1] = '\0';
 	ft_padding(param->padding, &str, param->leading);
 	tmp = param->str;
 	param->str = ft_strjoin(param->str, str);
 	free(tmp);
+	free(str);
 }

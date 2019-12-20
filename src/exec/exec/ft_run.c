@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 14:54:22 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 18:44:13 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,13 @@ int		ft_path_changed(t_process *process)
 		while (process->ass[i])
 		{
 			ft_get_kv(process->ass[i], &key, &val);
+			free(val);
 			if (key && ft_strequ(key, "PATH"))
+			{
+				free(key);
 				return (1);
+			}
+			free(key);
 			i++;
 		}
 	}

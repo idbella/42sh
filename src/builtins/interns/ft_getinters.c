@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 01:04:33 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 12:46:33 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 18:41:46 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	ft_addintern(char *str, int type)
 	map = ft_addtohashmap(key, value, INTERN);
 	if (type == ENV_ENTRY && map)
 		map->exported = 1;
+	free(key);
+	free(value);
 }
 
 void	ft_getinterns(t_process *cmd, char type)
