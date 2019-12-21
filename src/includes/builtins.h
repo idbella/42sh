@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 09:18:47 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 15:07:34 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define KEYS_ONLY 4
 # define BINARY 0
 # define UNARY 1
+# define MAXNBR "9223372036854775807"
 
 typedef int			t_function(char **args);
 

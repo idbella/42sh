@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 13:39:28 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 19:03:04 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:50:38 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,18 @@
 
 int		ft_limit(char *nb, int sign)
 {
-	int		len;
-	char	*max;
 	int		i;
 	int		n1;
 	int		n2;
 
-	max = "9223372036854775807";
-	len = ft_strlen(nb);
-	if (len > 19)
+	if (ft_strlen(nb) > 19)
 		return (2);
-	else if (len == 19)
+	else if (ft_strlen(nb) == 19)
 	{
-		i = 0;
-		while (i < 19)
+		i = -1;
+		while (++i < 19)
 		{
-			n1 = max[i] - '0';
+			n1 = MAXNBR[i] - '0';
 			n2 = nb[i] - '0';
 			if (n2 > n1)
 			{
@@ -40,7 +36,6 @@ int		ft_limit(char *nb, int sign)
 			}
 			else if (n1 > n2)
 				return (0);
-			i++;
 		}
 	}
 	return (0);

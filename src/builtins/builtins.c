@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:19:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/08 10:54:00 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:47:43 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_function	*ft_is_builtin(char *arg)
 	return (NULL);
 }
 
-void	ft_addbuiltin(char *name, void *ptr)
+void		ft_addbuiltin(char *name, void *ptr)
 {
 	int		i;
 	t_map	*blt;
@@ -47,7 +47,7 @@ void	ft_addbuiltin(char *name, void *ptr)
 	}
 }
 
-void	ft_addblt()
+void		ft_addblt(void)
 {
 	ft_addbuiltin("echo", ft_echo);
 	ft_addbuiltin("cd", ft_cd);
@@ -66,7 +66,7 @@ void	ft_addblt()
 	ft_addbuiltin("fc", ft_fc);
 }
 
-void	ft_init_builtins(char **env)
+void		ft_init_builtins(char **env)
 {
 	char	*key;
 	char	*value;

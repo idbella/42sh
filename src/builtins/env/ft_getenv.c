@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 09:34:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 20:04:36 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:39:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 char			*ft_getenv(char *key)
 {
 	return (ft_getvlaue_bykey(key, INTERN));
+}
+
+static int		ft_condition(t_map *map, int exported)
+{
+	return (map->type == INTERN &&
+		(exported & INCLUDE_UNEXPORTED ||
+		(exported & EXPORTED_ONLY && map->exported)));
 }
 
 static size_t	ft_envcount(char exported)
@@ -32,9 +39,7 @@ static size_t	ft_envcount(char exported)
 		while (lst)
 		{
 			map = lst->content;
-			if (map->type == INTERN &&
-				(exported & INCLUDE_UNEXPORTED ||
-				(exported & EXPORTED_ONLY && map->exported)))
+			if (ft_condition(map, exported))
 				count++;
 			lst = lst->next;
 		}
@@ -51,27 +56,22 @@ char			**ft_serialize_env(char exported)
 	char	**env;
 	int		index;
 
-	i = 0;
+	i = -1;
 	env = ft_memalloc(sizeof(char *) * (ft_envcount(exported) + 1));
 	index = 0;
-	while (i < COUNT)
+	while (++i < COUNT)
 	{
 		lst = get_shell_cfg(0)->hashmap[i];
 		while (lst)
 		{
 			map = lst->content;
-			if (map->type == INTERN &&
-				(exported & INCLUDE_UNEXPORTED ||
-				(exported & EXPORTED_ONLY && map->exported)))
+			if (ft_condition(map, exported))
 			{
-				if (exported & KEYS_ONLY)
-					env[index++] = ft_join("%s", map->key);
-				else
-					env[index++] = ft_join("%s=%s", map->key, map->value);
+				env[index++] = ft_join(exported & KEYS_ONLY ? "%s" : "%s=%s",
+					map->key, map->value);
 			}
 			lst = lst->next;
 		}
-		i++;
 	}
 	env[index] = NULL;
 	return (env);

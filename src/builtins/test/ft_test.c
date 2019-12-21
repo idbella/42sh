@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 12:09:56 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 19:00:03 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:47:28 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int		ft_test(char **args)
 	}
 	if (!(id = ft_getoperator_id(oper, (l_oper && r_oper) ? BINARY : UNARY)))
 		return (2);
-	//ft_printf("%s %d %s\n", l_oper, id, r_oper);
 	if (id < 8)
 		return (ft_eval(id, r_oper, test));
 	if (id == 10 || id == 9)

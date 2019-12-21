@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_hashmap.c                                 :+:      :+:    :+:   */
+/*   ft_printtable.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 23:53:01 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 18:09:23 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:02:43 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+void	ft_printtable(t_map *map, char *first)
+{
+	if (map->type == COMMANDS)
+	{
+		if (*first)
+		{
+			*first = 0;
+			ft_printf("hits\t command\n");
+		}
+		ft_printf("%3d\t %s\n", map->hits, map->value);
+	}
+}
 
 int		ft_print_hash_list(void)
 {
@@ -27,15 +40,7 @@ int		ft_print_hash_list(void)
 		while (l)
 		{
 			map = l->content;
-			if (map->type == COMMANDS)
-			{
-				if (first)
-				{
-					first = 0;
-					ft_printf("hits\t command\n");
-				}
-				ft_printf("%3d\t %s\n", map->hits, map->value);
-			}
+			ft_printtable(map, &first);
 			l = l->next;
 		}
 	}

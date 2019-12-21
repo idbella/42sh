@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 10:05:39 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 11:24:45 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:46:47 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	ft_promptlen(char *prompt)
 {
-	size_t len;
+	size_t	len;
 	size_t	i;
 
 	i = 0;
@@ -34,7 +34,7 @@ size_t	ft_promptlen(char *prompt)
 	return (len);
 }
 
-char    *ft_getpwd()
+char	*ft_getpwd(void)
 {
 	char	*path;
 	char	*home;
@@ -61,18 +61,7 @@ char    *ft_getpwd()
 	return (path);
 }
 
-char	*ft_gettime()
-{
-	time_t	t;
-	char	*tmp;
-
-	time(&t);
-	tmp = ctime(&t);
-	tmp = ft_strsub(tmp, 11, 8);
-	return (tmp);
-}
-
-char	*ft_getprompt()
+char	*ft_getprompt(void)
 {
 	char	*path;
 	char	*clr;
@@ -82,7 +71,8 @@ char	*ft_getprompt()
 	if (ft_get_last_rvalue())
 		clr = "\e[31m";
 	if ((path = ft_getpwd()))
-		prompt = ft_join("[%s%d\e[0m] \e[36m%f $> \e[0m", clr,get_shell_cfg(0)->id, path);
+		prompt = ft_join("[%s%d\e[0m] \e[36m%f $> \e[0m",
+			clr, get_shell_cfg(0)->id, path);
 	else
 		prompt = ft_join("[%s%d\e[0m] $> \e[0m", clr, get_shell_cfg(0)->id);
 	return (prompt);

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 15:39:54 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 15:02:02 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,9 @@ size_t	ft_arraylen(char **ptr)
 	return (size);
 }
 
-int		ft_exit(char **argv)
+int		ft_init_exit(char **argv)
 {
 	t_container		*container;
-	uint8_t			r;
 
 	container = ft_getset(NULL);
 	if (ft_arraylen(argv) > 1)
@@ -74,6 +73,15 @@ int		ft_exit(char **argv)
 		container->time_to_exit = 0;
 		return (1);
 	}
+	return (0);
+}
+
+int		ft_exit(char **argv)
+{
+	uint8_t			r;
+
+	if (ft_init_exit(argv))
+		return (1);
 	else
 	{
 		ft_free_array(ft_getset(0)->test_operators);

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 12:53:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 14:55:17 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		ft_pipe(int *pipefd, t_process *process, int *fd)
 {
 	pipefd[0] = -1;
 	pipefd[1] = -1;
-
 	dup2(fd[0], 1);
 	dup2(fd[1], 2);
 	if ((process->flag == PIPE && process->next) || process->heredoc)
@@ -60,7 +59,8 @@ int		ft_init_run(t_params *params, t_process *process)
 	if (process->ass)
 	{
 		type = process->arg ? ENV_ENTRY : INTERN_ENTRY;
-		if (type == INTERN_ENTRY && !params->forkbuiltins && params->job->foreground)
+		if (type == INTERN_ENTRY &&
+			!params->forkbuiltins && params->job->foreground)
 		{
 			ft_getinterns(process, INTERN_ENTRY);
 			return (0);
@@ -104,7 +104,6 @@ char	ft_exec_job(t_params *params, t_process *process)
 	params->fdscopy[0] = dup(1);
 	params->fdscopy[1] = dup(2);
 	status = 0;
-
 	while (process)
 	{
 		apply_expansions(process);

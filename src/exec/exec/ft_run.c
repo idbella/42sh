@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 12:52:34 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 18:44:13 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_setup_child(t_params *params, t_job *job)
 {
 	ft_getset(0)->list = NULL;
-
 	if (params->pipe_stdin >= 0)
 		close(params->pipe_stdin);
 	ft_jobs_in_child(job);
@@ -66,8 +65,13 @@ int		ft_path_changed(t_process *process)
 		while (process->ass[i])
 		{
 			ft_get_kv(process->ass[i], &key, &val);
+			free(val);
 			if (key && ft_strequ(key, "PATH"))
+			{
+				free(key);
 				return (1);
+			}
+			free(key);
 			i++;
 		}
 	}
@@ -82,7 +86,8 @@ int		ft_fork(t_params *params, t_process *process, t_function *func)
 
 	rval = 0;
 	file = NULL;
-	if (process->arg && !params->forkbuiltins && params->job->foreground && !ft_path_changed(process))
+	if (process->arg && !params->forkbuiltins &&
+		params->job->foreground && !ft_path_changed(process))
 		free(ft_getexecutable(process, 0));
 	if (!(process->pid = fork()))
 	{

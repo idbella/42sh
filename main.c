@@ -1,40 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isnbr.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/05 13:32:23 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 14:45:20 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/12/20 13:23:21 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/12/20 13:24:22 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include <unistd.h>
+#include <stdio.h>
 
-char	*ft_isnbr(char *str)
+
+int main()
 {
-	int		num;
-	int		sign;
-	char	*ptr;
-
-	num = 0;
-	str = ft_strtrim(str);
-	ptr = str;
-	sign = 0;
-	if (*str == '+' && (sign = 1))
-		str++;
-	if (!sign && *str == '-')
-		str++;
-	while (*str)
-	{
-		num = 1;
-		if (!ft_isdigit(*str))
-		{
-			free(ptr);
-			return (NULL);
-		}
-		str++;
-	}
-	return (ptr);
+    printf("%s\n", isatty(0) ? "tty" : "not tty");
 }

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 23:51:04 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 13:26:44 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:54:57 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			ft_hash_calc(char *key)
 	return (hash % COUNT);
 }
 
-void	ft_get_kv(char *str, char **key, char **val)
+void		ft_get_kv(char *str, char **key, char **val)
 {
 	int		len;
 	int		i;
