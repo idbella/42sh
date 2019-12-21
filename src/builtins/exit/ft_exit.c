@@ -6,26 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 15:02:02 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/21 14:32:47 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-char	ft_isnumber(char *str)
-{
-	int num;
-
-	num = 0;
-	while (*str)
-	{
-		num = 1;
-		if (!ft_isdigit(*str))
-			return (0);
-		str++;
-	}
-	return (num);
-}
 
 static char	ft_status(t_list *lst)
 {
@@ -41,13 +26,13 @@ static char	ft_status(t_list *lst)
 	return (1);
 }
 
-void	ft_freemap(void)
+void		ft_freemap(void)
 {
 	ft_empty(ANYHASH);
 	free(get_shell_cfg(0)->hashmap);
 }
 
-size_t	ft_arraylen(char **ptr)
+size_t		ft_arraylen(char **ptr)
 {
 	size_t	size;
 
@@ -57,7 +42,7 @@ size_t	ft_arraylen(char **ptr)
 	return (size);
 }
 
-int		ft_init_exit(char **argv)
+int			ft_init_exit(char **argv)
 {
 	t_container		*container;
 
@@ -76,7 +61,7 @@ int		ft_init_exit(char **argv)
 	return (0);
 }
 
-int		ft_exit(char **argv)
+int			ft_exit(char **argv)
 {
 	uint8_t			r;
 
@@ -92,6 +77,7 @@ int		ft_exit(char **argv)
 		else if (argv[0])
 			r = ft_atoi(argv[0]);
 		ft_free_job(ft_getset(0)->jobs);
+		free(ft_getset(0));
 		exit(r);
 	}
 	return (0);

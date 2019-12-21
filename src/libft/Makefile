@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oherba <oherba@student.42.fr>              +#+  +:+       +#+         #
+#    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/06 16:23:12 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/06 11:28:01 by oherba           ###   ########.fr        #
+#    Updated: 2019/12/21 14:28:54 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ ft_striter.o ft_striteri.o ft_strjoin.o ft_strlen.o ft_strmap.o ft_gethex.o ft_g
 ft_strmapi.o ft_strncat.o ft_strncmp.o ft_strncpy.o ft_strndup.o ft_strnequ.o ft_strnew.o\
 ft_strnstr.o ft_strpos.o ft_strrchr.o ft_strrepeat.o ft_strreplace.o ft_strrev.o ft_strsplit.o\
 ft_strstr.o ft_strsub.o ft_strtrim.o ft_tolower.o ft_toupper.o get_next_line.o ft_free_array.o \
-ft_fstrjoin.o ft_fstrsub.o ft_join.o ft_isalphanum.o
+ft_fstrjoin.o ft_fstrsub.o ft_join.o ft_isalphanum.o ft_isnumber.o
 
 CFLAGS = -g -Wall -Wextra -Werror -I../includes
 

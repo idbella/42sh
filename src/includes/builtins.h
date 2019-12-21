@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 15:07:34 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/21 14:45:45 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,6 @@ int					ft_fg(char **arg);
 int					ft_bg(char **arg);
 int					ft_jobs(char **args);
 
-char				ft_isnumber(char *str);
-
 /*
 ** TEST
 */
@@ -126,8 +124,8 @@ int					ft_getoperator_id(char *oper, char type);
 int					ft_getoprators(char **args,
 						char **l_oper, char **oper, char **r_oper);
 char				*ft_isnbr(char *str);
-int					ft_eval(int id, char *file, int *test);
-void				ft_setoprations(int *test);
+int					ft_eval(int id, char *file);
+void				ft_setoprations(void);
 int					ft_strtest(int id, char *l_oper, char *r_oper);
 int					ft_sizetest(char *file);
 int					ft_mathcmp(int id, char *n1, char *n2);

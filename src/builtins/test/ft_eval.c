@@ -6,17 +6,19 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 13:33:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 13:33:40 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/21 15:16:59 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		ft_eval(int id, char *file, int *test)
+int		ft_eval(int id, char *file)
 {
 	struct stat	st;
 	int			i;
+	int			*test;
 
+	test = ft_getset(0)->test;
 	i = 0;
 	if (!file)
 		return (0);
@@ -29,11 +31,14 @@ int		ft_eval(int id, char *file, int *test)
 		}
 		return (0);
 	}
-	return (12);
+	return (1);
 }
 
-void	ft_setoprations(int *test)
+void	ft_setoprations(void)
 {
+	int		*test;
+
+	test = ft_getset(0)->test;
 	test[0] = S_IFBLK;
 	test[1] = S_IFCHR;
 	test[2] = S_IFDIR;

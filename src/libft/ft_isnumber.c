@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isnumber.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/20 13:23:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 13:24:22 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/12/21 14:28:15 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/12/21 14:28:30 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
+#include "libft.h"
 
-
-int main()
+char	ft_isnumber(char *str)
 {
-    printf("%s\n", isatty(0) ? "tty" : "not tty");
+	int num;
+
+	num = 0;
+	while (*str)
+	{
+		num = 1;
+		if (!ft_isdigit(*str))
+			return (0);
+		str++;
+	}
+	return (num);
 }
