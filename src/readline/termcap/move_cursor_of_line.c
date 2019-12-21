@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:20:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/14 15:05:47 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/20 19:53:12 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ void ft_search_init(t_init *init)
 	home_cursor(init);
 	ft_printf("\033[%dD", init->s_col);
 	tputs(tgetstr("cd", NULL), 0, my_putchar);
-	init->promt = ft_strdup("$> ");
-	init->out_put = ft_strjoin("$> ", init->str_search);
+	init->promt = ft_getprompt();
+	init->out_put = ft_strjoin(ft_getprompt(), init->str_search);
 	init->s_cursor = ft_strlen(init->out_put);
 	init->s_l = ft_strlen(init->out_put);
 	ft_putstr(init->out_put);
@@ -197,7 +197,7 @@ char *move_cursor_and_mangemant_fonction(char *str,
 {
 	int i;
 	char *line;
-
+//ft_printf("\033[%dS",1);
 	i = 0;
 	if (!(ft_check_key(init, str)))
 		return (NULL);
@@ -217,8 +217,8 @@ char *move_cursor_and_mangemant_fonction(char *str,
 	}
 	else if (str[0] == 10 && ft_strlen(str) == 1)
 	{
-		end_cursor(init);
-		ft_printf("\033[%dC", init->s_col);
+		// end_cursor(init);
+		// ft_printf("\033[%dC", init->s_col);
 		ft_putchar('\n');
 
 		line = ft_cmd_mangement__(str, init);
@@ -238,11 +238,13 @@ char *move_cursor_and_mangemant_fonction(char *str,
 		}
 		else
 		{
-			//dprintf(open("/dev/ttys007",O_RDWR),"str = |%s|   asli = |%s|  line = |%s|\n", init->kote,init->out_put, line);
+		//dprintf(open("/dev/ttys003",O_RDWR),"str = |%d|   asli = |%s|  line = |%s|   promt= |%s| llen|%d|  dubg|%s| \n", init->s_cursor,init->out_put, line,init->promt,(int)ft_strlen(init->promt),&init->out_put[(int)ft_strlen(init->promt)]);
 			if (line && ft_strncmp(line, "fc", 2) != 0)
 				ft_add_history_(init, line, 1);
 			return (ft_check_qout(line, init));
 		}
+		//tputs(tgetstr("SF", NULL), 1, my_putchar);
+		
 		return (line);
 	}
 	else

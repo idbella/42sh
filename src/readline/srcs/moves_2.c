@@ -6,12 +6,31 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:38:01 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/14 14:22:32 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/20 11:24:38 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+// void	ft_move_left(t_init *init)
+// {
+// 	int i;
+
+// 	if (init->s_cursor > (int)ft_strlen(init->promt))
+// 	{
+// 		i = init->s_cursor;
+// 		while (i > (int)ft_strlen(init->promt))
+// 		{
+// 			i--;
+// 			if (init->out_put[i] == ' ' &&
+// 					init->out_put[i - 1] != ' ')
+// 			{
+// 				ft_move(init, "-", init->s_cursor - i);
+// 				break ;
+// 			}
+// 		}
+// 	}
+// }
 void	ft_move_left(t_init *init)
 {
 	int i;
@@ -22,8 +41,8 @@ void	ft_move_left(t_init *init)
 		while (i > (int)ft_strlen(init->promt))
 		{
 			i--;
-			if (init->out_put[i] == ' ' &&
-					init->out_put[i - 1] != ' ')
+			if ((init->out_put[i] == ' ' || init->out_put[i] == '\t' || init->out_put[i] == '\n') &&
+					(init->out_put[i - 1] != ' ' && init->out_put[i - 1] != '\n' && init->out_put[i - 1] != '\t'))
 			{
 				ft_move(init, "-", init->s_cursor - i);
 				break ;
@@ -31,6 +50,7 @@ void	ft_move_left(t_init *init)
 		}
 	}
 }
+
 
 void	ft_move_right(t_init *init)
 {
@@ -40,16 +60,17 @@ void	ft_move_right(t_init *init)
 	{
 		i = init->s_cursor;
 		if (init->out_put[i] &&
-				init->out_put[i] != ' ' && i < init->s_l)
+				(init->out_put[i] != ' ' || init->out_put[i] != '\t' || init->out_put[i] != '\n' ) && i < init->s_l)
 			i++;
 		while (init->out_put[i] &&
-				init->out_put[i] == ' ' && i < init->s_l)
+				(init->out_put[i] == ' ' ||  init->out_put[i] == '\t' || init->out_put[i] == '\n' ) && i < init->s_l)
 			i++;
-		while (init->out_put[i] != ' ' && i < init->s_l)
+		while ((init->out_put[i] != ' ' && init->out_put[i] != '\t'  && init->out_put[i] != '\n' ) && i < init->s_l)
 			i++;
 		ft_move(init, "+", i - init->s_cursor);
 	}
 }
+
 
 int		ft_take_move_2(int x, int a, char buffer[5], t_init *init)
 {

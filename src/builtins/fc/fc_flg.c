@@ -50,6 +50,7 @@ int get_start_end(int *s, int *e, char **args)
         *s = *e;
         *e = a;
     }
+   // printf("start = %d          end = %d\n",*s,*e);
     return (0);
 }
 
@@ -87,6 +88,7 @@ int ft_print___(char *options, char **args, int fd)
     t_history *lst;
     int s;
     int e;
+    // ft_putendl("45454545");
     if (options['r'])
         return (ft_print_r(options, args, fd));
     lst = get_shell_cfg(0)->init->last_history;
@@ -104,9 +106,13 @@ int ft_print___(char *options, char **args, int fd)
         if (options['e'])
             ft_putendl_fd(lst->str, fd);
         else if (!options['n'])
+        {
             ft_printf("%d\t%s\n", lst->index, lst->str);
+        }
         else
+        {
             ft_printf("\t%s\n", lst->str);
+        }
         if (lst->index == e)
             return (0);
         lst = lst->next;
