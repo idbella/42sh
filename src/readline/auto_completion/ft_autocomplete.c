@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 18:31:52 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/21 16:21:10 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/21 19:00:31 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -512,7 +512,11 @@ void	ft_ls_print_42(t_auto *lst, int print_len, int lst_len)
 	if (!(table = ft_convert_lst_to_tab(lst, lst_len)))
 		return ;
 	ioctl(0, TIOCGWINSZ, &info);
+	if (!print_len)
+		return;
 	a = info.ws_col / print_len;
+	if (!a)
+		return;
 	b = lst_len / a;
 	if ((lst_len % a) != 0)
 		b++;
@@ -629,7 +633,7 @@ int		ft_path_dir(char **to_complete, char **old_to_complete, char **path)
 	{
 		if ((home_dir = ft_getenv("HOME")))
 		{
-			//   tmp = *to_complete;
+			//tmp = *to_complete;
 			*(old_to_complete) = ft_strdup(*to_complete);
 			*to_complete = ft_strjoin(home_dir, &((*to_complete)[1]));
 			//ft_strdel(&(tmp));
@@ -638,6 +642,7 @@ int		ft_path_dir(char **to_complete, char **old_to_complete, char **path)
 	if ((!stat(*to_complete, &st) && (S_ISDIR(st.st_mode))))
 	{
 		*path = *to_complete;
+		dprintf(open("/dev/ttys005",O_WRONLY|O_RDONLY),"\ndddddd ---%s---\n", *path);
 		ft_strdel(old_to_complete);
 			return(2);
 	}
