@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:13:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/21 13:09:28 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/21 14:32:16 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 {
 	(void)str;
 
-	if (init->x0 + get_end(init, init->s_cursor) % init->s_col == init->s_col\
-	 && init->y0 + get_end(init, init->s_cursor) / init->s_col  == init->s_line)
+	if (init->x0 +  (get_strat(init, init->s_l) - get_strat(init, init->s_cursor)) % init->s_col == init->s_col\
+	 && init->y0 +  (get_strat(init, init->s_l) - get_strat(init, init->s_cursor)) / init->s_col  == init->s_line)
 	 {
 		ft_printf("\033[%dS",1);
 			ft_printf("\033[%dA",1);

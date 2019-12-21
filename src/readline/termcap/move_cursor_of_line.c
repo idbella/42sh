@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:20:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/20 19:53:12 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/21 15:18:27 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,8 +217,6 @@ char *move_cursor_and_mangemant_fonction(char *str,
 	}
 	else if (str[0] == 10 && ft_strlen(str) == 1)
 	{
-		// end_cursor(init);
-		// ft_printf("\033[%dC", init->s_col);
 		ft_putchar('\n');
 
 		line = ft_cmd_mangement__(str, init);
@@ -227,8 +225,11 @@ char *move_cursor_and_mangemant_fonction(char *str,
 		{
 			if ((line = ft_expansion(init, line)))
 			{
+				if (line && ft_strncmp(line, "fc", 2) != 0)
+				ft_add_history_(init, line, 1);
 				ft_init_output(init);
-				ft_str_line(line, init);
+				ft_str_line(line, init);//ft_putchar('\n');
+				return (NULL);
 			}
 			else
 			{
@@ -243,8 +244,7 @@ char *move_cursor_and_mangemant_fonction(char *str,
 				ft_add_history_(init, line, 1);
 			return (ft_check_qout(line, init));
 		}
-		//tputs(tgetstr("SF", NULL), 1, my_putchar);
-		
+		//tputs(tgetstr("SF", NULL), 1, my_putchar);		
 		return (line);
 	}
 	else

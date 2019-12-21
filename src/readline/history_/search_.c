@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 17:55:42 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/16 20:26:08 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/21 14:53:19 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ char *ft_expansion(t_init *init, char *str)
     i = 0;
     while (str[i])
     {
-        if (str[i] == '!' && str[i + 1])
+        if (str[i] == '!' && str[i + 1] && str[i + 1] != ' ' && str[i + 1] != '\t')
         {
             j = get_(&str[i + 1]);
             tmp = ft_strsub(str, i + 1, j);
@@ -162,8 +162,8 @@ char *ft_expansion(t_init *init, char *str)
             ft_strdel(&tmp_2);
             ft_strdel(&tmp);
         }
-        else if (str[i] == '!' && str[i + 1] == '\0')
-            return (NULL);
+        // else if (str[i] == '!' && str[i + 1] == '\0')
+        //     return (NULL);
         i++;
     }
     return (str);
