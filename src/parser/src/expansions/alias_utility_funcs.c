@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:40:07 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/16 18:41:02 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 18:51:44 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ char	*gather_tokens(t_token *tokens)
 		while (tokens->list[j])
 		{
 			if (!str)
-				str = ft_strdup(tokens->list[j]);
+				str = tokens->list[j];
 			else
-				str = ft_join("%s %s", str, tokens->list[j]);
+				str = ft_join("%f %f", str, tokens->list[j]);
 			j++;
 		}
 		if (tokens->type == AND || tokens->type == OR)

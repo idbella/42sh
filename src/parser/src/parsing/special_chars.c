@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 13:49:44 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/20 09:25:09 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 18:46:43 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			is_dollar(char *line, int i, char dq)
 	if (!dq)
 	{
 		if (L[i] == '$' && L[i + 1] && (ft_isalnum(L[i + 1]) || L[i + 1] == '{'
-			|| L[i + 1] == '(' || L[i + 1] == '_' || L[i + 1] == '?'))
+		|| L[i + 1] == '(' || L[i + 1] == '_' || L[i + 1] == '?'))
 			return ((L[i] = DOLLAR));
 	}
 	else
@@ -41,9 +41,9 @@ int			is_dollar(char *line, int i, char dq)
 	return (0);
 }
 
-void		operator_check(char *line, int i, char dq, char b_p)
+void		operator_check(char *line, int i, char b_p)
 {
-	if (IS_DOLLAR(dq))
+	if (IS_DOLLAR(0))
 		return ;
 	if (!b_p && (dc_operator(L, i) || sc_operator(L, i)))
 		return ;
@@ -87,10 +87,10 @@ void		mark_operators(char *line)
 		else if ((L[i] == '}' || L[i] == ')') && NEQ_ESCAPE(i))
 			b_p--;
 		if (!q && !dq && NEQ_ESCAPE(i))
-			operator_check(L, i, dq, b_p);
+			operator_check(L, i, b_p);
 		else if (dq && L[(i - 1 > 0) ? i - 1 : 0] != Q_ESCAPE && L[i] == 92)
 			L[i] = Q_ESCAPE;
-		else if (IS_DOLLAR(dq))
+		else if (IS_DOLLAR(1))
 			L[i] = DOLLAR;
 	}
 }

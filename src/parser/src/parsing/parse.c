@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/19 17:59:38 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 15:37:45 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@
 **	-Check if line is properly quoted.
 **	-Mark the operators '|' '||' '&&' '>' ... + spaces.
 **	-Syntax checking.
-**  -TO DO: - revise syntax checking + add support for ${} and $(). -DONE.
-**			- fix alias expansion. -DONE.
-**			- fix circular. - DONE.
-**			- fix D_QUOTES. -Done.
-**			- fix ${?} -partially
-**			- heredoc. -partially ctrl+c
-**			- search for errors.
-**			- norminette and leaks.
-**			- more tests.
 */
 
 int			is_not_blank(char *line, int j, int i)
@@ -52,6 +43,16 @@ int			is_word(char *word)
 	return (1);
 }
 
+void		free_tokens(t_token *tokens)
+{
+	if (tokens->sub)
+		free_tokens(tokens->sub);
+	else if (tokens->next)
+		free_tokens(tokens->next);
+	free(tokens->list);
+	free(tokens);
+}
+
 t_job		*parse(char *input)
 {
 	char		**cmd_chain;
@@ -65,6 +66,7 @@ t_job		*parse(char *input)
 	tokens = alias_expansion(line);
 	free(line);
 	line = gather_tokens(tokens);
+	free_tokens(tokens);
 	highlight_ops(line);
 	if (syntax_error(&line))
 		return (NULL);
