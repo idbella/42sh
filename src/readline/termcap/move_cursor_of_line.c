@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:20:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/21 15:18:27 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/21 15:38:57 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,19 @@ char *ft_check_qout(char *str, t_init *init)
 	return (str);
 }
 
+int 	ft_searh_(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '!' &&  str[i + 1] != ' ' && str[i + 1] != '\t' && str[i+ 1] != '\0')
+		return (1);
+		i++;
+	}
+	return (0);	
+}
 char *move_cursor_and_mangemant_fonction(char *str,
 										 t_init *init)
 {
@@ -221,21 +234,21 @@ char *move_cursor_and_mangemant_fonction(char *str,
 
 		line = ft_cmd_mangement__(str, init);
 
-		if (line && ft_strchr(line, '!'))
+		if (line && ft_searh_(line))
 		{
 			if ((line = ft_expansion(init, line)))
 			{
-				if (line && ft_strncmp(line, "fc", 2) != 0)
-				ft_add_history_(init, line, 1);
+				// if (line && ft_strncmp(line, "fc", 2) != 0)
+				// ft_add_history_(init, line, 1);
 				ft_init_output(init);
 				ft_str_line(line, init);//ft_putchar('\n');
 				return (NULL);
-			}
-			else
-			{
-				ft_putendl_fd("42sh: !: event not found", 2);
-				ft_init_output(init);
-			}
+			// }
+			// else
+			// {
+			// 	ft_putendl_fd("42sh: !: event not found", 2);
+			// 	ft_init_output(init);
+			 }
 		}
 		else
 		{
