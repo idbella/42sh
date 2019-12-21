@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 18:31:52 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/21 13:37:01 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/21 16:21:10 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -622,13 +622,17 @@ int		ft_path_dir(char **to_complete, char **old_to_complete, char **path)
 {
 	char 	*home_dir;
 	struct stat st;
+	char 		*tmp;
 
+	tmp = NULL;
 	if ((*to_complete)[0] == '~')
 	{
 		if ((home_dir = ft_getenv("HOME")))
 		{
+			//   tmp = *to_complete;
 			*(old_to_complete) = ft_strdup(*to_complete);
-			*to_complete = ft_strjoin(home_dir,&((*to_complete)[1]));
+			*to_complete = ft_strjoin(home_dir, &((*to_complete)[1]));
+			//ft_strdel(&(tmp));
 		}
 	}
 	if ((!stat(*to_complete, &st) && (S_ISDIR(st.st_mode))))
@@ -917,12 +921,16 @@ void	ft_get_completion_from_x(char	*to_complete, t_init *init, char *line)
 	char	*tmp;
 	int		ret;
 
-	tmp = to_complete;
+	// tmp = to_complete;
 	ret = ft_is_first_word_42(line, init);
 	if (ret != 1)
 	{
 		if (ret == 2)
+		{
+			tmp = to_complete;
 			to_complete = ft_strtrim(to_complete);
+			ft_strdel(&tmp);
+		}
 		ft_get_completion_as_cmd(to_complete, init);
 		dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\ni am the fucking first word   tototo = --%s---\n", to_complete);
 	}
