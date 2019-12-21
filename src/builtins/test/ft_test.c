@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 12:09:56 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/21 15:30:38 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/21 15:50:11 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		ft_test(char **args)
 	ft_inittest(&l_oper, &r_oper, &oper);
 	if (!args[0] || !args[1])
 		return (args[0] ? 0 : 1);
-	if (ft_strequ(args[0], "+"))
+	if (ft_strequ(args[0], "!"))
 	{
 		id = ft_test(args + 1);
 		return (!id);
