@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 18:44:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/21 15:57:17 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ int		ft_fork(t_params *params, t_process *process, t_function *func)
 		free(ft_getexecutable(process, 0));
 	if (!(process->pid = fork()))
 	{
+		ft_getset(0)->list = NULL;
+		ft_getset(0)->current = NULL;
+		ft_getset(0)->prev = NULL;
 		close(params->fdscopy[0]);
 		close(params->fdscopy[1]);
 		ft_setup_child(params, params->job);

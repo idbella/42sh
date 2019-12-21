@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/21 14:32:47 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/21 16:00:49 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ size_t		ft_arraylen(char **ptr)
 int			ft_init_exit(char **argv)
 {
 	t_container		*container;
+	t_list			*lst;
+	t_list			*next;
 
 	container = ft_getset(NULL);
 	if (ft_arraylen(argv) > 1)
@@ -57,6 +59,14 @@ int			ft_init_exit(char **argv)
 		ft_printf("There are stopped jobs\n");
 		container->time_to_exit = 0;
 		return (1);
+	}
+	lst = container->list;
+	while (lst)
+	{
+		next = lst->next;
+		ft_free_job(lst->content);
+		free(lst);
+		lst = next;
 	}
 	return (0);
 }

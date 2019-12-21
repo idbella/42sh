@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/21 15:02:48 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/21 15:57:09 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	ft_execbg(t_job *job)
 		setpgid(pid, pid);
 		get_shell_cfg(0)->interractive = 0;
 		ft_getset(0)->list = NULL;
+		ft_getset(0)->current = NULL;
+		ft_getset(0)->prev = NULL;
 		job = ft_list(job->processes);
 		exit(exec(job));
 	}
