@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 11:43:16 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/20 12:40:39 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/21 09:52:12 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char		**convert_args(t_arg *h, int size)
 			}
 			new[j++] = h->arg[i];
 		}
+		free(h->arg);
 		free(h);
 		h = next;
 	}
