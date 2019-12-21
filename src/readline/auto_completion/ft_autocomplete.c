@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 18:31:52 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/20 21:59:04 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/21 13:37:01 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,22 +202,39 @@ void	ft_move_cursor_left(t_init *init)
 
 void	ft_string_cmd(int flg, t_init *init)
 {
+	char 	*tmp;
+	char	c;
+
+
+	tmp = ft_strdup(init->out_put);
+	mark_operators(tmp);
+	mark_bg_op(tmp);
 	if (flg == 1)
 	{
-		if (init->out_put[init->s_cursor] == ' ')
+		if (tmp[init->s_cursor] == BLANK)
 			ft_move_cursor_left(init);
+		c = tmp[init->s_cursor];
 		while (init->s_cursor > (int)ft_promptlen(init->promt) && 
-			init->out_put[init->s_cursor] != ' ' && init->out_put[init->s_cursor] != '|')
+			c != BLANK && c != PIPE && c != OR && c != AND && c != SEMI_COL && c != BG)
+		{
 			ft_move_cursor_left(init);
+			c = tmp[init->s_cursor];
+		}
 	}
 	else if (flg == 4)
 	{
-		if (init->out_put[init->s_cursor] == ' ' || init->out_put[init->s_cursor] == '|')
+		c = tmp[init->s_cursor];
+		if (c == BLANK || c == PIPE || c == OR || c == AND || c == SEMI_COL || c == BG)
 			ft_move_cursor_right(init);
+		c = tmp[init->s_cursor];
 		while (init->s_cursor < init->s_l &&
-				init->out_put[init->s_cursor] != ' ' && init->out_put[init->s_cursor] != '|')
+				c != BLANK && c != PIPE && c != OR && c != AND && c != SEMI_COL && c != BG)
+		{
 			ft_move_cursor_right(init);
+			c = tmp[init->s_cursor];
+		}
 	}
+	ft_strdel(&tmp);
 }
 
 char	*ft_take_to_complte_42(t_init *init)
@@ -526,11 +543,18 @@ void	replace_the_auto_comlete_42(t_init *init, char *completion)
 {
 	int i;
 	int j;
+	char	*tmp;
 
 	j = 0;
 	i = init->s_cursor - 1;
-	while ((i > (int)ft_promptlen(init->promt)  && init->out_put[i] != ' ' ))
+	tmp =  ft_strdup(init->out_put);
+	mark_operators(tmp);
+	mark_bg_op(tmp);
+	while (i > (int)ft_promptlen(init->promt)  && tmp[i] != BLANK &&
+	 tmp[i] != PIPE && tmp[i] != OR && tmp[i] != AND && 
+	 tmp[i] != SEMI_COL && tmp[i] != BG)
 		i--;
+	ft_strdel(&tmp);
 	if (i != (int)ft_promptlen(init->promt))
 		i += 1;
 	if (init->s_cursor > (int)ft_promptlen(init->promt))
@@ -815,6 +839,25 @@ void	ft_one_dir_completion( t_init *init,char *path, char *tilda)
 	free(tmp);
 }
 
+
+
+void	ft_is_direct_path_dir(char *to_complete, t_init *init, char	*path)
+{
+	char	*tmp;
+	int		i;
+
+	tmp = NULL;
+	i = ft_strlen(to_complete);
+	if (to_complete[i - 1] != '/')
+	{
+		tmp = ft_strjoin(to_complete,ft_strdup("/"));
+		init->completion_lst = add_to_auto_42(init->completion_lst, tmp);
+		ft_strdel(&tmp);
+	}
+	else
+	init->completion_lst = ft_search_complete_dir_42("", path);
+}
+
 void	ft_get_completion_dir_42(char *to_complete, t_init *init)
 {
 	char	*path;
@@ -822,7 +865,6 @@ void	ft_get_completion_dir_42(char *to_complete, t_init *init)
 	int		n;
 	int		i;
 	char 	*tilda;
-	char	*tmp;
 
 	path = NULL;
 	new_completion = NULL;
@@ -830,17 +872,7 @@ void	ft_get_completion_dir_42(char *to_complete, t_init *init)
 	i = 0;
 	n = ft_if_is_dir(to_complete,&path, &new_completion, &tilda);
 	if (n == 2)
-	{
-		i = ft_strlen(to_complete);
-		if (to_complete[i - 1] != '/')
-		{
-			tmp = ft_strjoin(to_complete,ft_strdup("/"));
-			init->completion_lst = add_to_auto_42(init->completion_lst, tmp);
-			ft_strdel(&tmp);
-		}
-		else
-		init->completion_lst = ft_search_complete_dir_42("", path);
-	}
+		ft_is_direct_path_dir(to_complete, init, path);
 	else if (n == 1)
 	{
 		init->completion_lst = ft_search_complete_dir_42(new_completion, path);
