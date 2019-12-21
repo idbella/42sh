@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:12:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 13:35:34 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/21 14:47:01 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	ft_sigint_handler(int sig)
 {
-	sig = 0;
 	char	*prompt;
 
+	sig = 0;
 	prompt = ft_getprompt();
 	ft_printf("%s", prompt);
 	free(prompt);
@@ -45,7 +45,7 @@ char	*ft_getusername(void)
 	i = 0;
 	while (i < st.st_size)
 	{
-		ut = ptr+i;
+		ut = ptr + i;
 		if (ut->ut_type == USER_PROCESS)
 			return (ut->ut_user);
 		i += 628;

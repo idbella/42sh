@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 14:52:37 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/21 15:02:48 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,19 @@ void	ft_execbg(t_job *job)
 	ft_addjob(jb, ft_getset(0));
 }
 
+int		ft_exec_wait(t_params *p, t_job *job)
+{
+	uint8_t	status;
+
+	p->forkbuiltins = job->flag == BG || job->processes->next;
+	signal(SIGCHLD, SIG_DFL);
+	status = ft_exec_job(p, job->processes);
+	ft_wait(job, status);
+	signal(SIGCHLD, ft_sigchld);
+	status = !status ? ft_getjobstatus(job->processes) : status;
+	return (status);
+}
+
 int		exec(t_job *job)
 {
 	t_params	p;
@@ -85,7 +98,6 @@ int		exec(t_job *job)
 
 	status = 0;
 	ft_getset(0)->params = &p;
-	ft_getset(0)->last_aliases = NULL;
 	ft_getset(0)->jobs = job;
 	while (job)
 	{
@@ -96,17 +108,11 @@ int		exec(t_job *job)
 			ft_execbg(job);
 		else
 		{
-			p.forkbuiltins = job->flag == BG || job->processes->next;
-			signal(SIGCHLD, SIG_DFL);
-			status = ft_exec_job(&p, job->processes);
-			ft_wait(job, status);
-			signal(SIGCHLD, ft_sigchld);
-			status = !status ? ft_getjobstatus(job->processes) : status;
+			status = ft_exec_wait(&p, job);
 			if (job->flag == OR || job->flag == AND)
 			{
 				flag = job->flag;
-				while (job && ((job->flag == AND && status)
-					|| (job->flag == OR && !status)))
+				while (job && ((job->flag == AND && status) || (job->flag == OR && !status)))
 					job = job->next;
 			}
 		}

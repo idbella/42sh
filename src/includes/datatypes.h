@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   datatypes.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/21 13:23:07 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/21 14:52:54 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,8 @@ typedef struct			s_container
 	t_list			*env;
 	t_job			*jobs;
 	char			**test_operators;
-	t_map			testfunctions[20];	
+	t_map			testfunctions[20];
+	int				test[8];
 	struct termios	*term;
 }						t_container;
 
