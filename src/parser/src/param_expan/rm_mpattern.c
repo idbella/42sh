@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:59:34 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/21 10:52:39 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/21 11:00:25 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ int		find_preffix(char *src, char *preffix, char preffix_size)
 		tools.i_preffix++;
 	}
 	if (preffix[tools.i_preffix])
-	{
 		return (-1);
-	}
+	printf("ALLO\n");
 	return (tools.i_src);
 
 }
@@ -127,7 +126,8 @@ char	*rm_suffix(t_param_expan_st *p_w)
 	value = ft_getvlaue_bykey(p_w->param, INTERN);
 	if (p_w->operation_type == 's')
 	{
-		i_src = find_suffix(value, p_w->word, 's');
+		if ((i_src = find_suffix(value, p_w->word, 's')) < 0)
+			return (value);
 		return (ft_strsub(value, 0, i_src));
 	}
 	if ((i_src = find_suffix(value, p_w->word, 'S')) < 0)
@@ -143,7 +143,8 @@ char	*rm_preffix(t_param_expan_st *p_w)
 	value = ft_getvlaue_bykey(p_w->param, INTERN);
 	if (p_w->operation_type == 'b')
 	{
-		i_src = find_preffix(value, p_w->word, 'b');
+		if ((i_src = find_preffix(value, p_w->word, 'b')) < 0)
+			return (value);
 		return (ft_strsub(value, i_src, ft_strlen(value) - i_src));
 	}
 	if ((i_src = find_preffix(value, p_w->word, 'B')) < 0)
