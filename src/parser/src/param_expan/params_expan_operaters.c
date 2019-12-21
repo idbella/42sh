@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 17:11:08 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/18 11:44:03 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/21 10:00:33 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ char	*plus_func(t_param_expan_st *p_w)
 		if (p_w->map && ft_strlen(p_w->map->value))
 			return (ft_strdup(p_w->word));
 		else if ((p_w->map && !ft_strlen(p_w->map->value)) || !p_w->map)
-			return ("");
+			return (ft_strdup(""));
 	}
 	p_w->map = ft_getbykey(p_w->param, INTERN);
 	if (p_w->map)
 		return (ft_strdup(p_w->word));
-	return ("");
+	return (ft_strdup(""));
 }
 
 char	*min_func(t_param_expan_st *p_w)
@@ -43,7 +43,7 @@ char	*min_func(t_param_expan_st *p_w)
 		return (ft_strdup(p_w->word));
 	if (p_w->map && ft_strlen(p_w->map->value))
 		return (ft_strdup(p_w->map->value));
-	return ("");
+	return (ft_strdup(""));
 }
 
 char	*assign_func(t_param_expan_st *p_w)
@@ -63,7 +63,7 @@ char	*assign_func(t_param_expan_st *p_w)
 	if (p_w->map && ft_strlen(p_w->map->value))
 		return (ft_strdup(p_w->map->value));
 	if ((p_w->map && !ft_strlen(p_w->map->value)))
-		return ("");
+		return (ft_strdup(""));
 	ft_addtohashmap(p_w->param, p_w->word, INTERN);
 	return (ft_strdup(p_w->word));
 }
@@ -88,7 +88,7 @@ char	*error_func(t_param_expan_st *p_w)
 	if (p_w->map && ft_strlen(p_w->map->value))
 		return (ft_strdup(p_w->map->value));
 	if ((p_w->map && !ft_strlen(p_w->map->value)))
-		return ("");
+		return (ft_strdup(""));
 	ft_putstr_fd("42sh: ", 2);
 	ft_putstr_fd(p_w->param, 2);
 	ft_putstr_fd(": ", 2);
@@ -98,18 +98,7 @@ char	*error_func(t_param_expan_st *p_w)
 
 char	*operators_manager(t_param_expan_st *p_w)
 {
-	if (p_w->type == 'P')
-	{
-		if (p_w->operation_type == '+')
-			return (plus_func(p_w));
-		if (p_w->operation_type == '-')
-			return (min_func(p_w));
-		if (p_w->operation_type == '=')
-			return (assign_func(p_w));
-		if (p_w->operation_type == '?')
-			return (error_func(p_w));
-	}
-	if (p_w->type == 'A')
+	if (p_w->type == 'P' || p_w->type == 'A')
 	{
 		if (p_w->operation_type == '+')
 			return (plus_func(p_w));
