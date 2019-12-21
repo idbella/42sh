@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 00:39:10 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/11 12:52:23 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/20 22:06:43 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void		ft_size_terminal(t_init *init)
 
 	ioctl(0, TIOCGWINSZ, &w);
 	init->s_col = w.ws_col;
+	init->s_line = w.ws_row;
+	// home_cursor(init);
+	// ft_printf("\033[%dD", init->s_col);
+	// tputs(tgetstr("cd", NULL), 0, my_putchar);
+	// ft_putstr_fd(&init->out_put[(int)ft_strlen(init->promt)],1);
 }
 
 void		ft_putstr_nbr(char *str, int s_t, int e_d)
@@ -51,6 +56,11 @@ void		ft_put_move(t_init *init, int i)
 			ft_printf("\033[%dA", 1);
 			if ((get_strat(init, i - 1)))
 				ft_printf("\033[%dC", (get_strat(init, i - 1)) % init->s_col);
+		}
+		else if (init->out_put[i] == '\t')
+		{
+			if (ft_tab_(init, i - 1) > 0)
+				ft_printf("\033[%dD", ft_tab_(init, i - 1));
 		}
 		else if ((get_strat(init, i + 1) - 1) % init->s_col == 0)
 			ft_printf("\033[%dA\033[%dC", 1, init->s_col);

@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 09:18:20 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/18 20:36:02 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/20 11:23:06 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,30 @@ int		skip_qout_escap(char *str, int i)
 	return (i);
 }
 
+void	specify_pattern_expan(t_param_expan_st *p_w, char *p_ex, int i)
+{
+	p_w->type = 'F';
+	if (p_ex[i] == '%')
+	{
+		p_ex[i] = -1;
+		if (p_ex[i + 1] == '%' && (p_w->operation_type = 'S'))
+			p_ex[i + 1] = -1;
+		else
+			p_w->operation_type = 's';
+		return ;
+	}
+	p_ex[i] = -1;
+	if (i == 0)
+		p_w->operation_type = 'l';
+	else
+	{
+		if (p_ex[i + 1] == '#' && (p_w->operation_type = 'B'))
+			p_ex[i + 1] = -1;
+		else
+			p_w->operation_type = 'b';
+	}
+}
+
 void	specify_expan_type(t_param_expan_st *p_w, char *p_ex, int i)
 {
 	if (p_ex[i] == ':')
@@ -45,30 +69,7 @@ void	specify_expan_type(t_param_expan_st *p_w, char *p_ex, int i)
 			p_ex[i + 1] = -1;
 	}
 	else if (p_ex[i] == '%' || p_ex[i] == '#')
-	{
-		p_w->type = 'F';
-		if (p_ex[i] == '%')
-		{
-			p_ex[i] = -1;
-			if (p_ex[i + 1] == '%' && (p_w->operation_type = 'S'))
-				p_ex[i + 1] = -1;
-			else
-				p_w->operation_type = 's';
-		}
-		else
-		{
-			p_ex[i] = -1;
-			if (i == 0)
-				p_w->operation_type = 'l';
-			else
-			{
-				if (p_ex[i + 1] == '#' && (p_w->operation_type = 'B'))
-					p_ex[i + 1] = -1;
-				else
-					p_w->operation_type = 'b';
-			}
-		}
-	}
+		specify_pattern_expan(p_w, p_ex, i);
 	else
 	{
 		p_w->type = 'A';
@@ -113,7 +114,7 @@ void	split_param_expan(char *param_expan, t_param_expan_st *param_word)
 			(param_expan[i] == '?' && i != 0) || param_expan[i] == '+' ||
 			param_expan[i] == '=' || param_expan[i] == '%' ||
 			param_expan[i] == '#') &&
-			((i - 1 >= 0 && param_expan[i - 1] != '\\') || i == 0))
+				((i - 1 >= 0 && param_expan[i - 1] != '\\') || i == 0))
 		{
 			specify_expan_type(param_word, param_expan, i);
 			specify_param_word(param_word, param_expan);

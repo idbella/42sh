@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 18:50:04 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/20 12:42:41 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 18:17:05 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,6 @@ char	*get_cmd_string(char *s)
 	}
 	return (str);
 }
-
-/*
-** if (((t_process *)*curr)->holder)
-**			apply_expansions(((t_process *)*curr));
-*/
 
 int		get_list_node(char type, void **curr, char *str)
 {

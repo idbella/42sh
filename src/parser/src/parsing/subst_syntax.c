@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 15:08:57 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/19 18:14:24 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 18:56:05 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int			subst_syntax(char *line)
 		if (!valid_parameter(param, line[k + 1]))
 		{
 			ft_putendl_fd("42sh: bad substitution", 2);
+			free(param);
 			return (1);
 		}
 		free(param);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:40:36 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/16 18:51:15 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/16 20:28:00 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ char	    *ft_getusername(void);
 t_shell		*get_shell_cfg(t_shell *new);
 void		init_(t_shell *shell, char **env, t_init *init);
 char	    *ft_getprompt();
-size_t      ft_promptlen(char *prompt);
+int      ft_promptlen(char *prompt);
 #endif

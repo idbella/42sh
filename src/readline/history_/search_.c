@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 17:55:42 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/10 21:56:52 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/16 20:26:08 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char *get_last_arg(t_init *init, char *str)
     }
     while (tmp)
     {
-        if (ft_strncmp(tmp->str, str, ft_strlen(str)) == 0)
+        if (ft_strncmp(tmp->str, str, ft_promptlen(str)) == 0)
             return (ft_strdup(tmp->str));
         tmp = tmp->prvet;
     }
@@ -36,7 +36,7 @@ static char *get_first_arg(t_init *init, char *str)
     tmp = init->history;
     while (tmp)
     {
-        if (ft_strncmp(tmp->str, str + 1, ft_strlen(str + 1)) == 0)
+        if (ft_strncmp(tmp->str, str + 1, ft_promptlen(str + 1)) == 0)
             return (ft_strdup(tmp->str));
         tmp = tmp->next;
     }

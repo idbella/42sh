@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/20 13:34:05 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/20 18:52:55 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void		get_buffer(char **str, int pipe_fd, char type)
 		if (buffer && ft_strlen(buffer))
 		{
 			if (!*str)
-				*str = ft_strdup(buffer);
+				*str = buffer;
 			else
 			{
 				*str = ft_join("%f%c%f", *str, type ? '\n' : BLANK, buffer);
@@ -100,5 +100,6 @@ char		*control_subtitution(char *token, char type)
 	pipe_fd = exec_(line);
 	get_buffer(&str, pipe_fd, type);
 	close(pipe_fd);
+	free(line);
 	return (str);
 }

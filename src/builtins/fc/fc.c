@@ -144,6 +144,7 @@ int ft_fc(char **args)
 {
     char options[127];
     int index;
+    ft_bzero(options, 127);
     if ((index = ft_getopt(args, options, "relns")) < 0)
         return (ft_printusage(index));
     return (ft_exec_(options, args + index));

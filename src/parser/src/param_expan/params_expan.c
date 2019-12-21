@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:46:25 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/18 14:28:57 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/21 12:50:21 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,20 @@ int		check_param(char *param)
 	return (0);
 }
 
+void	param_word_init(t_param_expan_st *param_word)
+{	
+	param_word->word = NULL;
+	param_word->param = NULL;
+	param_word->type = 0;
+	param_word->operation_type = 0;
+}
+
 char	*get_param_expan(char *param_expan)
 {
 	t_param_expan_st	param_word;
 	char				*res;
 
-	param_word.word = NULL;
-	param_word.param = NULL;
-	param_word.type = 0;
-	param_word.operation_type = 0;
+	param_word_init(&param_word);
 	if (!ft_strcmp("?", param_expan))
 		return (ft_itoa(ft_get_last_rvalue(), 10));
 	if (check_param(param_expan) < 0)
@@ -61,4 +66,3 @@ char	*get_param_expan(char *param_expan)
 	ft_strdel(&param_word.word);
 	return (res);
 }
-

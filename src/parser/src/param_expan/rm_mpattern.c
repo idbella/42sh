@@ -6,113 +6,115 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:59:34 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/18 14:38:09 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/21 12:53:26 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		find_preffix(char *src, char *preffix, char preffix_size)
+typedef struct s_mtools
 {
 	int		i_src;
 	int		globing;
 	int		i_preffix;
+	int		i_suffix;
+}				t_mtools;
 
-	i_src = 0;
-	i_preffix = 0;
-	while (src[i_src] && preffix[i_preffix])
+int		find_preffix(char *src, char *preffix, char preffix_size)
+{
+	t_mtools	tools;
+
+	tools.i_src = 0;
+	tools.i_preffix = 0;
+	while (src[tools.i_src] && preffix[tools.i_preffix])
 	{
-		if (preffix[i_preffix] == '*')
+		if (preffix[tools.i_preffix] == '*')
 		{
-			if ((i_preffix - 1 >= 0 && preffix[i_preffix - 1] != '\\') ||
-				i_preffix == 0)
+			if ((tools.i_preffix - 1 >= 0 && preffix[tools.i_preffix - 1] != '\\') ||
+				tools.i_preffix == 0)
 			{
-				if (preffix[i_preffix + 1])
+				if (preffix[tools.i_preffix + 1])
 				{
-					i_preffix++;
+					tools.i_preffix++;
 					if (preffix_size == 'B')
 					{
-						globing = ft_strlen(src);
-						while (src[globing] != preffix[i_preffix] && globing)
-							globing--;
-						i_src = globing;
+						tools.globing = ft_strlen(src);
+						while (src[tools.globing] != preffix[tools.i_preffix] && tools.globing)
+							tools.globing--;
+						tools.i_src = tools.globing;
 					}
 					else
-					{
-						while (src[i_src] != preffix[i_preffix] && src[i_src])
-							i_src++;
-					}
+						while (src[tools.i_src] != preffix[tools.i_preffix] && src[tools.i_src])
+							tools.i_src++;
 				}
-				else if (preffix[i_preffix - 1])
+				else if (preffix[tools.i_preffix - 1])
 				{
 					if (preffix_size == 'B')
 						return (ft_strlen(src));
-					return (i_src);
+					return (tools.i_src);
 				}
 			}
 			else
-				i_preffix += 1;
+				tools.i_preffix += 1;
 		}
-		if (src[i_src] != preffix[i_preffix] || !preffix[i_preffix])
+		if (src[tools.i_src] != preffix[tools.i_preffix] || !preffix[tools.i_preffix])
 			break;
-		i_src++;
-		i_preffix++;
+		tools.i_src++;
+		tools.i_preffix++;
 	}
-	if (preffix[i_preffix])
+	if (preffix[tools.i_preffix])
 		return (-1);
-	return (i_src);
+	return (tools.i_src);
 
 }
 
 int		find_suffix(char *src, char *suffix, char suffix_size)
 {
-	int		i_src;
-	int		globing;
-	int		i_suffix;
+	t_mtools	tools;
 
-	i_src = ft_strlen(src);
-	i_suffix = ft_strlen(suffix);
-	while (i_src >= 0 && i_suffix >= 0)
+	tools.i_src = ft_strlen(src);
+	tools.i_suffix = ft_strlen(suffix);
+	while (tools.i_src >= 0 && tools.i_suffix >= 0)
 	{
-		if (suffix[i_suffix] == '*')
+		if (suffix[tools.i_suffix] == '*')
 		{
-			if ((i_suffix - 1 >= 0 && suffix[i_suffix - 1] != '\\') ||
-				i_suffix == 0)
+			if ((tools.i_suffix - 1 >= 0 && suffix[tools.i_suffix - 1] != '\\') ||
+				tools.i_suffix == 0)
 			{
-				if (suffix[i_suffix - 1] && suffix[i_suffix - 1] != -1)
+				if (suffix[tools.i_suffix - 1] && (tools.i_suffix - 1) >= 0)
 				{
-					i_suffix--;
+					tools.i_suffix--;
 					if (suffix_size == 'S')
 					{
-						globing = 0;
-						while (src[globing] != suffix[i_suffix] && src[globing])
-							globing++;
-						i_src = globing;
+						tools.globing = 0;
+						while (src[tools.globing] != suffix[tools.i_suffix] && src[tools.globing])
+							tools.globing++;
+						if (!tools.globing)
+							return (0);
+						tools.i_src = tools.globing;
 					}
 					else
-					{
-						while (src[i_src] != suffix[i_suffix] && i_src)
-							i_src--;
-					}
+						while (src[tools.i_src] != suffix[tools.i_suffix] && tools.i_src)
+							tools.i_src--;
 				}
-				else if (suffix[i_suffix + 1])
+				else if (suffix[tools.i_suffix + 1])
 				{
 					if (suffix_size == 'S')
 						return (0);
-					return (i_src + 1);
+					return (tools.i_src + 1);
 				}
 			}
 			else
-				i_suffix -= 1;
+				tools.i_suffix -= 1;
 		}
-		if (src[i_src] != suffix[i_suffix] || !i_suffix)
+		if (src[tools.i_src] != suffix[tools.i_suffix] || !tools.i_suffix)
 			break;
-		i_src--;
-		i_suffix--;
+		tools.i_src--;
+		tools.i_suffix--;
 	}
-	if (i_suffix > 0)
+	if (tools.i_suffix >= 0 && src[tools.i_src] != suffix[tools.i_suffix])
 		return (-1);
-	return (i_src);
+	return (tools.i_src);
 }
 
 char	*rm_suffix(t_param_expan_st *p_w)
@@ -120,14 +122,16 @@ char	*rm_suffix(t_param_expan_st *p_w)
 	int		i_src;
 	char	*value;
 
-	value = ft_getvlaue_bykey(p_w->param, INTERN);
+	if (!(value = ft_getvlaue_bykey(p_w->param, INTERN)))
+		return (ft_strdup(""));
 	if (p_w->operation_type == 's')
 	{
-		i_src = find_suffix(value, p_w->word, 's');
+		if ((i_src = find_suffix(value, p_w->word, 's')) < 0)
+			return (ft_strdup(value));
 		return (ft_strsub(value, 0, i_src));
 	}
 	if ((i_src = find_suffix(value, p_w->word, 'S')) < 0)
-		return (value);
+		return (ft_strdup(value));
 	return (ft_strsub(value, 0, i_src));
 }
 
@@ -136,26 +140,26 @@ char	*rm_preffix(t_param_expan_st *p_w)
 	int		i_src;
 	char	*value;
 
-	value = ft_getvlaue_bykey(p_w->param, INTERN);
+	if (!(value = ft_getvlaue_bykey(p_w->param, INTERN)))
+		return (ft_strdup(""));
 	if (p_w->operation_type == 'b')
 	{
-		i_src = find_preffix(value, p_w->word, 'b');
+		if ((i_src = find_preffix(value, p_w->word, 'b')) < 0)
+			return (ft_strdup(value));
 		return (ft_strsub(value, i_src, ft_strlen(value) - i_src));
 	}
 	if ((i_src = find_preffix(value, p_w->word, 'B')) < 0)
-		return (value);
+		return (ft_strdup(value));
 	return (ft_strsub(value, i_src, ft_strlen(value) - i_src));
 }
 char	*rm_ffixers(t_param_expan_st *param_word)
 {
 	if (param_word->operation_type == 's' ||
-			param_word->operation_type == 'S')
+		param_word->operation_type == 'S')
 		return (rm_suffix(param_word));
 	if (param_word->operation_type == 'B' ||
-			param_word->operation_type == 'b')
+		param_word->operation_type == 'b')
 		return (rm_preffix(param_word));
-	if (param_word->operation_type == 'l')
-		return (ft_itoa((int)ft_strlen(ft_getvlaue_bykey(param_word->param, INTERN)), 10));
-
-	return (NULL);
+	return (ft_itoa((int)ft_strlen(ft_getvlaue_bykey(param_word->param,
+			INTERN)), 10));
 }
