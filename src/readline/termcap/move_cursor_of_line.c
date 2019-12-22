@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:20:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/22 19:39:04 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/22 21:17:54 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_init *init)
 		return (readline(init, "(reverse-i-search)> "));
 	}
 	else if (str[0] == 10 && ft_strlen(str) == 1 && init->heredoc_int == 1)
-		return (ft_return(str, init));
+		return (init->out_put[(int)ft_strlen(init->promt)]);
 	else if (str[0] == 10 && ft_strlen(str) == 1)
 		return (ft_return(str, init));
 	else
