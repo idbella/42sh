@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 04:41:44 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/16 20:13:21 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/21 19:53:20 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void ft_initial_main(t_init *init)
 	ft_putstr("\033[H\033[J");
 	init->out_put = ft_strnew(0);
 	init->promt = ft_strnew(0);
-	init->kote = ft_strnew(0);
+	init->kote = NULL;//ft_strnew(0);
 	init->str_search = ft_strnew(0);
 	ft_size_terminal(init);
 	init->auto_comlpetion = 0;

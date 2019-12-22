@@ -41,6 +41,7 @@ static void ft_intstrstr(char *str, char *to_search, int *start, int *end)
     second_half = ft_strsub(str, end, ft_strlen(str) - end);
     result = ft_join("%s%s%s", first_half, to_replace, second_half);
     ft_strdel(&second_half);
+    ft_strdel(&first_half);
     return (result);
 }
 
@@ -49,23 +50,25 @@ static void ft_intstrstr(char *str, char *to_search, int *start, int *end)
     char *t;
     char *s;
     char *split;
-    int i;
-
-    i = 0;
+    char *tmp;
+  
+    tmp = NULL;
     t = NULL;
     split = NULL;
     s = NULL;
-    if (str == NULL || !ft_strchr(str, '=') || dst == NULL /*|| ft_isdigit(str[0])*/)
+    if (str == NULL || !ft_strchr(str, '='))
         return (get_arg(str));
     split = ft_strchr(str, '=');
-   
-    s = ft_strsub(str, 0, ft_strchr(str, '=') - str); //printf("split = |%s|  |%s|\n", split, s);
-    if (!(t = sandr(get_arg(dst), s, &split[1])))
+    s = ft_strsub(str, 0, ft_strchr(str, '=') - str); 
+    tmp = get_arg(dst);
+    if (!(t = sandr(tmp, s, &split[1])))
     {
-        //ft_strdel(&s);
-        return (ft_strdup(dst));
-    }
-    //printf("split = |%s|  \n", t);
-     //ft_strdel(&s);
+        //ft_strdel(&tmp);
+        ft_strdel(&s);
+        return (tmp);
+    }ft_putendl(t);
+     ft_strdel(&s);
+      ft_strdel(&tmp);
+      
     return (t);
 }

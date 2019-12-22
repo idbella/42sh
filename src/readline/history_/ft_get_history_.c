@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 08:16:33 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/21 13:18:34 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/21 19:18:23 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ void ft_write_file(t_init *init)
 
     name = ft_join("/Users/%s/.history",ft_getusername());
     if (0 > (fd = open(name, O_CREAT | O_RDWR | O_APPEND, 0777)))
-    {ft_putnbr(fd);
-        ft_putendl_fd("error _of file", 2);
+    {
+        free(name);
         return;
     }
+    free(name);
     if ((init->last_history)->str && ft_strcmp((init->last_history)->str, ""))
     {
-        ft_putstr_fd(ft_itoa(init->index, 10), fd);
+        ft_printf_fd(fd, "%f", ft_itoa(init->index, 10));
         write(fd, &c, 1);
         write(fd, (init->last_history)->str, ft_promptlen((init->last_history)->str));
         c = -1;
@@ -127,10 +128,11 @@ void ft_read_file_(t_init *init)
     //     return;
         name = ft_join("/Users/%s/.history",ft_getusername());
     if (0 > (fd = open(name, O_CREAT | O_RDWR | O_APPEND, 0777)))
-    {ft_putnbr(fd);
-        ft_putendl_fd("545error _of file", 2);
+    {
+        free(name);
         return;
     }
+    free(name);
     while (get_next_line(fd, -1, &line))
     {
 

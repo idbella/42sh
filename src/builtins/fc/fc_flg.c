@@ -50,7 +50,6 @@ int get_start_end(int *s, int *e, char **args)
         *s = *e;
         *e = a;
     }
-   // printf("start = %d          end = %d\n",*s,*e);
     return (0);
 }
 
@@ -88,7 +87,6 @@ int ft_print___(char *options, char **args, int fd)
     t_history *lst;
     int s;
     int e;
-    // ft_putendl("45454545");
     if (options['r'])
         return (ft_print_r(options, args, fd));
     lst = get_shell_cfg(0)->init->last_history;
@@ -103,7 +101,7 @@ int ft_print___(char *options, char **args, int fd)
     }
     while (lst && lst->next)
     {
-        if (options['e'])
+        if (options['e'] && !options['l'])
             ft_putendl_fd(lst->str, fd);
         else if (!options['n'])
         {
@@ -137,7 +135,16 @@ static char *get_index(int i)
 char *get_arg(char *key)
 {
     t_history *lst;
+    char *cmd;
 
+    cmd = NULL;
+    if (ft_isdigit(key[0]))
+    {
+        if ((cmd = get_index(ft_atoi((const char *)key))))
+            return (cmd);
+        else
+            return (ft_strdup(get_shell_cfg(0)->init->last_history->str));
+    }
     lst = get_shell_cfg(0)->init->last_history;
     if (key == NULL)
         return (ft_strdup(lst->str));
@@ -149,6 +156,5 @@ char *get_arg(char *key)
             return (ft_strdup(lst->str));
         lst = lst->prvet;
     }
-    ft_printerror();
-    return (NULL);
+    return (ft_strdup(get_shell_cfg(0)->init->last_history->str));
 }

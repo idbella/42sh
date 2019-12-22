@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:38:01 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/20 11:24:38 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/21 21:27:12 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ char	*ft_take_move(t_init *init, char *buffer, int position)
 	else if (buffer[0] == 27 && buffer[1] == 27 &&
 			buffer[2] == 91 && buffer[3] == 67)
 		ft_move_right(init);
-	else if (buffer[0] == 4 && buffer[1] == '\0' &&
-			init->out_put[5] == '\0' && init->heredoc_int != 1)
+	else if (buffer[0] == 4 && buffer[1] == '\0' && 
+			ft_strcmp(init->promt, init->out_put) == 0 && init->heredoc_int != 1)
 		exit(1);
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 00:50:54 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/16 21:09:23 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/21 19:35:16 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		ft_init_qote(t_init *init)
 {
-	//ft_strdel(&init->out_put);
+	ft_strdel(&init->out_put);///f/f/f
 	init->s_cursor = (int)ft_strlen(init->promt);
 	init->s_l = (int)ft_strlen(init->promt);
 	init->s.selection = 0;
@@ -33,11 +33,7 @@ static char *ft_cmd_( t_init *init)
 	init->qt = '\0';
 	init->out_put = ft_strjoin(init->promt, init->kote);
 	ft_strdel(&(init->kote));
-	// end_cursor(init);
-	// ft_printf("\033[%dD", init->s_col);
 	return (cmd);
-	ft_strdel(&cmd);
-	ft_strdel(&init->out_put);
 }
 
  char *ft_qoute__fin( t_init *init)
@@ -51,12 +47,8 @@ static char *ft_cmd_( t_init *init)
 	tmp = init->kote;
 	init->kote = ft_strjoin(init->kote, &init->out_put[(int)ft_strlen(init->promt)]);
 	ft_strdel(&tmp);
-		// dprintf(open("/dev/ttys006",O_RDWR),"str = |%s|	\n", init->kote);
 	if (ft_strchr(&init->out_put[(int)ft_strlen(init->promt)], init->qt))
-	{	
 		return (ft_cmd_( init));
-	}
-		///readline_(init, init->promt);
 	return (NULL);
 }
 
