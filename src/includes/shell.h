@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:40:36 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/16 20:28:00 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/22 14:10:40 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
 # define EXIT_ON_EOT 0
 # define RETURN_ON_EOT 1
 
-char	    *ft_getusername(void);
+char		*ft_getusername(void);
 t_shell		*get_shell_cfg(t_shell *new);
 void		init_(t_shell *shell, char **env, t_init *init);
-char	    *ft_getprompt();
-int      ft_promptlen(char *prompt);
+char		*ft_getprompt();
+int			ft_promptlen(char *prompt);
 #endif

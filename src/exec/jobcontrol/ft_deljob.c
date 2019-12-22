@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 02:57:49 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 11:15:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 17:19:19 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ void	ft_deljob(t_job *job, t_container *container)
 
 	list = container->list;
 	prev = NULL;
+
 	while (list)
 	{
 		jb = list->content;
 		if (jb->pgid == job->pgid)
 		{
-			if (container->current && container->current->pgid == jb->pgid)
-				ft_del(prev, list, container);
+			ft_del(prev, list, container);
 			if (prev)
 				prev->next = list->next;
 			else
