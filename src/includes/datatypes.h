@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/21 14:52:54 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 17:48:32 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ typedef struct	s_shell
 {
 	char				interractive;
 	char				subshell;
+	char				*pwd;
 	t_map				builtins[BUILTINS_COUNT];
 	t_list				**hashmap;
 	t_job				*jobs;
