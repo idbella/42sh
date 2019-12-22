@@ -6,18 +6,26 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 12:30:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 13:53:42 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+void	ft_freeall(char *file, char **env, t_job *job, int status)
+{
+	free(file);
+	ft_free_array(env);
+	ft_free_job(job);
+	exit(status);
+}
+
 void	ft_setup_child(t_params *params, t_job *job, t_process *process)
 {
 	if (!ft_redirect(process->redir))
-		exit(1);
+		ft_freeall(NULL, NULL, job, 1);
 	if (!process->arg)
-		exit(0);
+		ft_freeall(NULL, NULL, job, 0);
 	ft_getinterns(process, ENV_ENTRY);
 	ft_getset(0)->list = NULL;
 	ft_getset(0)->current = NULL;
@@ -29,17 +37,6 @@ void	ft_setup_child(t_params *params, t_job *job, t_process *process)
 	if (params->pipe_stdin >= 0)
 		close(params->pipe_stdin);
 	ft_jobs_in_child(job);
-}
-
-void	ft_joingroup(t_params *params, t_process *process)
-{
-	pid_t pid;
-
-	pid = process->pid;
-	if (!params->job->pgid)
-		params->job->pgid = pid;
-	if (get_shell_cfg(0)->interractive)
-		setpgid(pid, params->job->pgid);
 }
 
 int		ft_path_changed(t_process *process)
@@ -73,10 +70,8 @@ void	ft_execute(char *file, t_process *process, t_params *p)
 
 	env = ft_serialize_env(EXPORTED_ONLY);
 	execve(file, process->arg, env);
-	free(file);
-	ft_free_array(env);
 	ft_printf_fd(2, "Wrong exec format\n");
-	ft_free_job(p->job);
+	ft_freeall(file, env, p->job, 1);
 }
 
 int		ft_fork(t_params *params, t_process *process, t_function *func)

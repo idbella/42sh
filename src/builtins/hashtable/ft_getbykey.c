@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 23:48:43 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/14 11:29:50 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 16:45:03 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ t_map		*ft_getbykey(char *key, char type)
 
 	if (!key)
 		return (NULL);
-	index = ft_hash_calc(key);
+	if ((index = ft_hash_calc(key)) < 0)
+		return (NULL);
 	l = get_shell_cfg(0)->hashmap;
 	nodelist = l[index];
 	while (nodelist)
