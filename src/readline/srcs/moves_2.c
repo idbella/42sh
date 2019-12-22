@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:38:01 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/22 19:56:14 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/22 22:22:11 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,9 @@ buffer[2] == 91 && buffer[3] == 65))
 		ft_alt_up(&x, &x1, &a, init);
 	else if (ft_mve_(init, buffer))
 		;
-// 	else if (buffer[0] == 4 && buffer[1] == '\0' &&
-// ft_strcmp(init->promt, init->out_put) == 0 && init->heredoc_int != 1)
-// 		exit(1);
+	else if (buffer[0] == 4 && buffer[1] == '\0' &&
+ft_strcmp(init->promt, init->out_put) == 0 && init->heredoc_int != 1)
+		exit(1);
 	else
 	{
 		if ((line = ft_read(buffer, position, init)))
