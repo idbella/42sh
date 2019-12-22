@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:09:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/14 15:21:47 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/22 19:41:59 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			ft_check_key(t_init *init, char *str)
 		ft_init_output(init);
 		g_sig = 0;
 	}
-	if ( ((str[0] == -30) || (str[0] == -61)) && key_slect(str, init) != 0)
+	if (((str[0] == -30) || (str[0] == -61)) && key_slect(str, init) != 0 && init->heredoc_int != 1)
 	{
 		ft_exec_ket_s(init);
 		return (0);

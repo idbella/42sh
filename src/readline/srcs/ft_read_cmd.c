@@ -6,15 +6,15 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 20:15:42 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/20 10:43:10 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/22 19:36:11 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void ft_read_more(char *buffer, t_init *init, char **t)
+void			ft_read_more(char *buffer, t_init *init, char **t)
 {
-	char *tmp;
+	char		*tmp;
 
 	init->skip_read = 1;
 	tmp = *t;
@@ -25,45 +25,38 @@ void ft_read_more(char *buffer, t_init *init, char **t)
 	free(tmp);
 }
 
-char *ft_herd_qout_normal(t_init *init, char *buffer, char **t)
+char			*ft_herd_qout_normal(t_init *init,
+char *buffer, char **t)
 {
-	char *line;
+	char		*line;
 
 	line = NULL;
 	if (!(buffer[0] == 4 && buffer[1] == '\0') && init->search == 1)
 	{
-		if ((line = ft_search_(*t, init)))
-		{
-			ft_strdel(t); //
-			return (line);
-		}
+		line = ft_search_(*t, init);
+		ft_strdel(t);
 	}
-	else 
-	if (!(buffer[0] == 4 && buffer[1] == '\0') && init->qoute == 1)
+	else if (!(buffer[0] == 4 && buffer[1] == '\0') && init->qoute == 1)
 	{
 		if ((line = ft_qoute(*t, init)))
 		{
-			ft_strdel(t); //
+			ft_strdel(t);
 			ft_add_history_(init, line, 1);
-			return (line);
 		}
 	}
-	else if (!(buffer[0] == 4 && buffer[1] == '\0'))
-	{
-		if ((line = move_cursor_and_mangemant_fonction(*t, init)))
-			return (line);
-	}
+	else if (!(buffer[0] == 4 && buffer[1] == '\0') || init->heredoc_int == 1)
+		line = move_cursor_and_mangemant_fonction(*t, init);
 	else if ((buffer[0] == 4 && buffer[1] == '\0'))
 		return (ft_strdup(buffer));
 	ft_strdel(t);
-	return (NULL);
+	return (line);
 }
 
-char *ft_read(char *buffer, int position, t_init *init)
+char			*ft_read(char *buffer, int position, t_init *init)
 {
-	static char *t;
-	char *tmp;
-	char *line;
+	static char	*t;
+	char		*tmp;
+	char		*line;
 
 	line = NULL;
 	if (t == NULL)
@@ -77,13 +70,9 @@ char *ft_read(char *buffer, int position, t_init *init)
 		t = ft_strjoin(t, buffer);
 		ft_strdel(&tmp);
 		if ((line = ft_herd_qout_normal(init, buffer, &t)))
-		{
 			return (line);
-		}
 	}
 	else
 		ft_read_more(buffer, init, &t);
 	return (NULL);
 }
-
-

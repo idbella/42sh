@@ -6,20 +6,21 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 15:21:04 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/16 21:09:19 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/22 19:42:43 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void del_char_of_line(char **line, t_init *init)
+void			del_char_of_line(char **line, t_init *init)
 {
-	char *t_line;
-	char *t_2_line;
+	char			*t_line;
+	char			*t_2_line;
 
 	t_line = *line;
-	if (!(init->s_l > (int)ft_strlen(init->promt) && init->s_cursor > (int)ft_strlen(init->promt))) //5
-		return;
+	if (!(init->s_l > (int)ft_strlen(init->promt) &&\
+	init->s_cursor > (int)ft_strlen(init->promt)))
+		return ;
 	ft_move(init, "-", 1);
 	(init->s_cursor)++;
 	t_2_line = ft_strsub(t_line, 0, init->s_cursor - 1);
@@ -34,7 +35,7 @@ void del_char_of_line(char **line, t_init *init)
 	ft_strdel(&t_line);
 }
 
-void ft_init_output(t_init *init)
+void			ft_init_output(t_init *init)
 {
 	ft_strdel(&init->out_put);
 	init->s_cursor = ft_strlen(init->promt);
@@ -50,62 +51,45 @@ void ft_init_output(t_init *init)
 		init->out_put = ft_strdup("(42)>");
 	if (!g_sig)
 		ft_putstr_fd(init->out_put, 1);
-	
 }
 
-static void ft_key__65(char *str, t_init *init)
+static void		ft_key__65(char *str, t_init *init)
 {
 	(void)str;
-	(void)init; 
+	(void)init;
 	if (init->history_postoin != NULL)
 		init->history_postoin = init->history_postoin->prvet;
 	else
 		init->history_postoin = init->last_history;
-	
 	if (init->history_postoin)
 	{
 		home_cursor(init);
 		ft_printf("\033[%dD", (int)ft_strlen(init->promt));
-		// if (init->heredoc_int)
-		// 	ft_init_heredoc(init);
-		// else if (init->qoute == 1)
-		// 	ft_init_qote(init);
-		// else
-			ft_init_output(init);//ft_putendl("jdjdj");
-		//ft_putendl("ppp");
+		ft_init_output(init);
 		tputs(tgetstr("cd", NULL), 0, my_putchar);
 		ft_str_line(init->history_postoin->str, init);
 	}
 }
 
-static void ft_key__66(char *str, t_init *init)
+static void		ft_key__66(char *str, t_init *init)
 {
 	(void)str;
-	(void)init;
-
 	if (init->history_postoin != NULL && init->history_postoin->next)
 		init->history_postoin = init->history_postoin->next;
 	else if (init->last_history->next == NULL)
 		init->history_postoin = init->last_history->next;
 	home_cursor(init);
 	ft_printf("\033[%dD", (int)ft_strlen(init->promt));
-	// if (init->heredoc_int)
-	// 	ft_init_heredoc(init);
-	// else if (init->qoute == 1)
-	// 	ft_init_qote(init);
-	// else
-		ft_init_output(init);
+	ft_init_output(init);
 	tputs(tgetstr("cd", NULL), 0, my_putchar);
 	if (init->history_postoin)
 		ft_str_line(init->history_postoin->str, init);
 }
 
-int key_4_of_cursor(char *str, t_init *init)
+int				key_4_of_cursor(char *str, t_init *init)
 {
-
-	if ( str[2] == 65)
+	if (str[2] == 65 && init->heredoc_int != 1)
 	{
-
 		ft_key__65(str, init);
 		return (1);
 	}
@@ -115,7 +99,7 @@ int key_4_of_cursor(char *str, t_init *init)
 			ft_move_mul_line(init, "+");
 		return (1);
 	}
-	if (str[2] == 66)
+	if (str[2] == 66 && init->heredoc_int != 1)
 	{
 		ft_key__66(str, init);
 		return (1);

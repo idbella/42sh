@@ -6,25 +6,24 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 23:04:20 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/20 18:21:19 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/22 17:22:43 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int get_strat2(t_init *init, int e_d)
+int		get_strat2(t_init *init, int e_d)
 {
 	int i;
 	int j;
-	
+
 	i = 0;
 	j = e_d;
-	while (0 < j && init->out_put[j - 1] != '\n') //=
+	while (0 < j && init->out_put[j - 1] != '\n')
 		j--;
-	while (j <= e_d) //=
+	while (j <= e_d)
 	{
-			i++;
-
+		i++;
 		j++;
 	}
 	return (i);
@@ -98,7 +97,7 @@ void	ft_alt_up(int *x, int *x1, int *a, t_init *init)
 			*x += *a;
 		*a = 0;
 		while (init->out_put[init->s_cursor] != '\n' &&
-				init->s_cursor >= (int)ft_strlen(init->promt)&& *x > 1 && *x != 0)
+init->s_cursor >= (int)ft_strlen(init->promt) && *x > 1 && *x != 0)
 		{
 			(*x)--;
 			ft_move(init, "+", 1);

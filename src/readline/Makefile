@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oherba <oherba@student.42.fr>              +#+  +:+       +#+         #
+#    By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/06 11:23:55 by oherba           ###   ########.fr        #
+#    Updated: 2019/12/22 18:25:02 by yelazrak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ srcs/moves_3.o                termcap/move_cursor_of_line.o\
 srcs/read_line_.o             termcap/print_line.o\
 termcap/cursor_moves.o        termcap/take_line.o\
 history_/ft_get_history_.o 	   history_/search_.o\
-auto_completion/ft_autocomplete.o
+auto_completion/ft_autocomplete.o termcap/help_string.o\
+termcap/help_string_2.o       history_/history.o
 CFLAGS=-g -Wall -Wextra -Werror -I../includes
 
 all:$(NAME)
