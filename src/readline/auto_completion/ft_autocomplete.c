@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 18:31:52 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/21 19:00:31 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/22 21:23:43 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,7 +311,7 @@ char	**ft_catpath(void)
 	return (array);
 }
 
-t_auto	*ft_get_completion_path_42(char *to_complete)
+t_auto	*ft_get_completion_path_42(t_init *init)
 {
 	t_auto			*lst;
 	char 			**str;
@@ -330,7 +330,7 @@ t_auto	*ft_get_completion_path_42(char *to_complete)
 			return (NULL);
 		while ((drt = readdir(dir)))
 		{
-			if (!ft_strncmp(drt->d_name, to_complete, ft_strlen(to_complete)))
+			if (!ft_strncmp(drt->d_name, init->to_complete, ft_strlen(init->to_complete)))
 				lst = add_to_auto_42(lst, drt->d_name);
 		}
 		closedir(dir);
@@ -340,17 +340,17 @@ t_auto	*ft_get_completion_path_42(char *to_complete)
 	return(lst);
 }
 
-t_auto		*ft_get_completion_built_42(char *to_complete, t_auto **lst)
+t_auto		*ft_get_completion_built_42(t_init *init, t_auto **lst)
 {
 	int		len;
 	int		i;
 	char	**alias;
 
 	i = 0;
-	len = ft_strlen(to_complete);
+	len = ft_strlen(init->to_complete);
 	while (i < BUILTINS_COUNT)
 	{
-		if (ft_strncmp(get_shell_cfg(0)->builtins[i].key, to_complete, len) == 0)
+		if (ft_strncmp(get_shell_cfg(0)->builtins[i].key, init->to_complete, len) == 0)
 			*lst = add_to_auto_42(*lst, get_shell_cfg(0)->builtins[i].key);
 		i++;
 	}
@@ -358,7 +358,7 @@ t_auto		*ft_get_completion_built_42(char *to_complete, t_auto **lst)
 	i = 0;
 	while (alias && alias[i])
 	{
-		if (ft_strncmp(alias[i], to_complete, len) == 0)
+		if (ft_strncmp(alias[i], init->to_complete, len) == 0)
 			*lst = add_to_auto_42(*lst, alias[i]);
 		i++;
 	}
@@ -378,7 +378,10 @@ int		ft_is_var(char *to_complete)
 	mark_operators(tmp);
 	mark_bg_op(tmp);
 	if (ft_strlen(to_complete) == 1 && to_complete[0] == '$')
+	{
+		free(tmp);
 		return (1);
+	}
 	while (tmp[i])
 	{
 		if (tmp[i] == DOLLAR)
@@ -389,14 +392,16 @@ int		ft_is_var(char *to_complete)
 	return (n);
 }
 
-t_auto	*ft_get_completion_env_var_42(char *to_complete)
+t_auto	*ft_get_completion_env_var_42(t_init *init)
 {
 	t_auto	*lst;
 	char	**env;
 	int		len;
 	int		i;
 	int		n;
+	char	*to_complete;
 
+	to_complete = init->to_complete;
 	n = ft_is_var(to_complete);
 	i = 0;
 	lst = NULL;
@@ -641,7 +646,7 @@ int		ft_path_dir(char **to_complete, char **old_to_complete, char **path)
 	}
 	if ((!stat(*to_complete, &st) && (S_ISDIR(st.st_mode))))
 	{
-		*path = *to_complete;
+		*path = ft_strdup(*to_complete);
 		dprintf(open("/dev/ttys005",O_WRONLY|O_RDONLY),"\ndddddd ---%s---\n", *path);
 		ft_strdel(old_to_complete);
 			return(2);
@@ -665,7 +670,7 @@ int		ft_check_if_is_dir(char **path,char	**old_to_complete, char **new_to_comple
 				dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\n koko ---%s---\n", *path);
 				i = ft_strlen(*old_to_complete) - ft_strlen(*new_to_complete);
 				*tilda = ft_strsub(*old_to_complete, 0, i);
-				ft_strdel(&(*old_to_complete));
+				ft_strdel(old_to_complete);
 			}
 			return(1);
 		}
@@ -677,23 +682,69 @@ int		ft_if_is_dir(char *to_complete, char **path, char **new_to_complete, char *
 {
 	int		i;
 	char	*old_to_complete;
+	int		n;
 	
 	old_to_complete = NULL;
 	i = 0;
 	if (ft_path_dir(&to_complete, &old_to_complete, path) == 2)
+	{
+		if (get_shell_cfg(0)->init->to_complete != to_complete)
+			free(to_complete);
 		return (2);
+	}
 	*new_to_complete = ft_strrchr(to_complete, '/');
 	if (*new_to_complete == NULL)
+	{
+		if (get_shell_cfg(0)->init->to_complete != to_complete)
+			free(to_complete);
 		return (0);
+	}
 	else
 	{
 		(*new_to_complete)++;
 		i = ft_strlen(to_complete) - ft_strlen(*new_to_complete);
 		*path = ft_strsub(to_complete, 0, i);
 	}
-	return (ft_check_if_is_dir(path, &old_to_complete, new_to_complete, tilda));
+	n = ft_check_if_is_dir(path, &old_to_complete, new_to_complete, tilda);
+	if (get_shell_cfg(0)->init->to_complete != to_complete)
+		free(to_complete);
+	return (n);
 }
 
+int		ft_if_is_dir_2(char **to_complete, char **path, char **new_to_complete, char **tilda)
+{
+	int		i;
+	char	*old_to_complete;
+	char	*tmp;
+	int		n;
+	
+	tmp = *to_complete;
+	old_to_complete = NULL;
+	i = 0;
+	if (ft_path_dir(to_complete, &old_to_complete, path) == 2)
+	{
+		if (tmp != *to_complete)
+			free(tmp);
+		return (2);
+	}
+	*new_to_complete = ft_strrchr(*to_complete, '/');
+	if (*new_to_complete == NULL)
+	{
+		if (tmp != *to_complete)
+			free(tmp);
+		return (0);
+	}
+	else
+	{
+		(*new_to_complete)++;
+		i = ft_strlen(*to_complete) - ft_strlen(*new_to_complete);
+		*path = ft_strsub(*to_complete, 0, i);
+	}
+	n = ft_check_if_is_dir(path, &old_to_complete, new_to_complete, tilda);
+	if (tmp != *to_complete)
+		free(tmp);
+	return (n);
+}
 
 void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completion)
 {
@@ -714,8 +765,9 @@ void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completi
 		str = ft_strsub(to_complete, 0, i + 1);
 		completion = ft_strjoin(str, (max_completion));
 		ft_strdel(&str);
+		ft_strdel(&to_complete);
 	}
-	else if (ft_if_is_dir(to_complete, &path, &str, &tilda) == 1)
+	else if (ft_if_is_dir_2(&to_complete, &path, &str, &tilda) == 1)
 	{
 		if (tilda)
 			completion = ft_strjoin(tilda, max_completion);
@@ -723,9 +775,13 @@ void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completi
 			completion = ft_strjoin(path, max_completion);
 		ft_strdel(&path);
 		ft_strdel(&tilda);
+		ft_strdel(&to_complete);
 	}
 	else
+	{
 		completion = ft_strdup(max_completion);
+		ft_strdel(&to_complete);
+	}
 	replace_the_auto_comlete_42(init, completion);
 	ft_strdel(&completion);
 }
@@ -807,7 +863,7 @@ void	ft_print_completion_posibilities(t_init *init, int lst_len, int max_len)
 	}
 }
 
-void	ft_print_completion_42(t_init *init, char *to_complete)
+void	ft_print_completion_42(t_init *init)
 {
 	int			max_len;
 	int			lst_len;
@@ -818,7 +874,7 @@ void	ft_print_completion_42(t_init *init, char *to_complete)
 		return ;
 	max_len = ft_max_len_lst_42(init->completion_lst, &lst_len);
 	if (lst_len == 1)
-		ft_print_one_completion(init, to_complete);
+		ft_print_one_completion(init, init->to_complete);
 	else if (lst_len > 1)
 	{
 		// init->auto_comlpetion = 1;
@@ -828,7 +884,6 @@ void	ft_print_completion_42(t_init *init, char *to_complete)
 			old_to_complete = ft_take_to_complte_42(init);
 			ft_print_max_completion(init, old_to_complete, min_completion);
 			ft_strdel(&min_completion);
-			ft_strdel(&old_to_complete);
 		}
 		ft_print_completion_posibilities(init, lst_len, max_len);
 	}
@@ -859,7 +914,7 @@ void	ft_is_direct_path_dir(char *to_complete, t_init *init, char	*path)
 	i = ft_strlen(to_complete);
 	if (to_complete[i - 1] != '/')
 	{
-		tmp = ft_strjoin(to_complete,ft_strdup("/"));
+		tmp = ft_strjoin(to_complete, "/");
 		init->completion_lst = add_to_auto_42(init->completion_lst, tmp);
 		ft_strdel(&tmp);
 	}
@@ -867,7 +922,7 @@ void	ft_is_direct_path_dir(char *to_complete, t_init *init, char	*path)
 	init->completion_lst = ft_search_complete_dir_42("", path);
 }
 
-void	ft_get_completion_dir_42(char *to_complete, t_init *init)
+void	ft_get_completion_dir_42(t_init *init)
 {
 	char	*path;
 	char	*new_completion;
@@ -879,9 +934,9 @@ void	ft_get_completion_dir_42(char *to_complete, t_init *init)
 	new_completion = NULL;
 	tilda = NULL;
 	i = 0;
-	n = ft_if_is_dir(to_complete,&path, &new_completion, &tilda);
+	n = ft_if_is_dir(init->to_complete,&path, &new_completion, &tilda);
 	if (n == 2)
-		ft_is_direct_path_dir(to_complete, init, path);
+		ft_is_direct_path_dir(init->to_complete, init, path);
 	else if (n == 1)
 	{
 		init->completion_lst = ft_search_complete_dir_42(new_completion, path);
@@ -895,60 +950,60 @@ void	ft_get_completion_dir_42(char *to_complete, t_init *init)
 	ft_strdel(&path);
 }
 
-void	ft_get_completion_42(char *to_complete, t_init *init, char from)
+void	ft_get_completion_42(t_init *init, char from)
 {
 	if (from == 'C')
 	{
-		init->completion_lst = ft_get_completion_path_42(to_complete);
-		init->completion_lst = ft_get_completion_built_42(to_complete, &(init->completion_lst));
+		init->completion_lst = ft_get_completion_path_42(init);
+		init->completion_lst = ft_get_completion_built_42(init, &(init->completion_lst));
 	}
 	else if (from == 'V')
-		init->completion_lst = ft_get_completion_env_var_42(to_complete);
+		init->completion_lst = ft_get_completion_env_var_42(init);
 	else if (from == 'D')
-		ft_get_completion_dir_42(to_complete, init);
+		ft_get_completion_dir_42(init);
 }
 
 
-void	ft_get_completion_as_cmd(char	*to_complete, t_init *init)
+void	ft_get_completion_as_cmd(t_init *init)
 {
-	ft_get_completion_42(to_complete, init, 'D');
+	ft_get_completion_42(init, 'D');
 	if (init->completion_lst == NULL)
 	{
-		ft_get_completion_42(to_complete, init, 'V'); 
+		ft_get_completion_42(init, 'V'); 
 		if (init->completion_lst == NULL)
-			if (to_complete != NULL)
-				ft_get_completion_42(to_complete, init, 'C');
+			if (init->to_complete != NULL)
+				ft_get_completion_42(init, 'C');
 	}
 }
 
-void	ft_get_completion_from_x(char	*to_complete, t_init *init, char *line)
+void	ft_get_completion_from_x(t_init *init, char *line)
 {
 	char	*tmp;
 	int		ret;
 
-	// tmp = to_complete;
+	//tmp = to_complete;
 	ret = ft_is_first_word_42(line, init);
 	if (ret != 1)
 	{
 		if (ret == 2)
 		{
-			tmp = to_complete;
-			to_complete = ft_strtrim(to_complete);
+			tmp = init->to_complete;
+			init->to_complete = ft_strtrim(init->to_complete);
 			ft_strdel(&tmp);
 		}
-		ft_get_completion_as_cmd(to_complete, init);
-		dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\ni am the fucking first word   tototo = --%s---\n", to_complete);
+		ft_get_completion_as_cmd(init);
+		//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\ni am the fucking first word   tototo = --%s---\n", to_complete);
 	}
 	else
 	{
-		dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\nlast  word   tototo = --%s---\n", to_complete);
-		ft_get_completion_42(to_complete, init, 'D');
+		//dprintf(open("/dev/ttys003",O_WRONLY|O_RDONLY),"\nlast  word   tototo = ---%s--- \n", to_complete);
+		ft_get_completion_42(init, 'D');
 		if (init->completion_lst == NULL)
 		{
-			ft_get_completion_42(to_complete, init, 'V');
+			ft_get_completion_42(init, 'V');
 			if (init->completion_lst == NULL)
 			{
-				init->completion_lst = ft_search_complete_dir_42(to_complete, ".");
+				init->completion_lst = ft_search_complete_dir_42(init->to_complete, ".");
 				if (init->completion_lst == NULL)
 					return ;
 			}
@@ -958,16 +1013,15 @@ void	ft_get_completion_from_x(char	*to_complete, t_init *init, char *line)
 
 void	ft_autocomplete_42(t_init *init)
 {
-	char	*to_complete;
 	char	*line;
 
-	to_complete = NULL;
 	init->completion_lst = NULL;
-	line = &(init->out_put[(int)ft_strlen(init->promt)]);
-	to_complete = ft_take_to_complte_42(init);
-	ft_get_completion_from_x(ft_strdup(to_complete), init, line);
-	ft_print_completion_42(init, to_complete);
-	ft_strdel(&to_complete);
+	int len = ft_strlen(init->promt);
+	line = &(init->out_put[len]);
+	init->to_complete = ft_take_to_complte_42(init);
+	ft_get_completion_from_x(init, line);
+	ft_print_completion_42(init);
+	ft_strdel(&init->to_complete);
 	ft_free_auto_lst(&(init->completion_lst));
 	init->completion_lst = NULL;
 }
