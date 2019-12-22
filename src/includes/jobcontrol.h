@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 16:49:44 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 12:49:40 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 13:54:14 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,5 @@ t_job					*ft_pid_lookup(pid_t pid, t_process **procc);
 void					ft_free_array(char **args);
 t_job					*ft_newjob(pid_t pid, int flag);
 t_job					*ft_cpyjob(t_job *job);
+void	                ft_joingroup(t_params *params, t_process *process);
 #endif

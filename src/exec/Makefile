@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/22 12:36:59 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/22 13:54:39 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ jobcontrol/ft_addjob.o          jobcontrol/ft_deljob.o          jobcontrol/ft_rv
 jobcontrol/ft_fg.o              jobcontrol/ft_signals.o         jobcontrol/ft_getjobstatus.o    jobcontrol/init.o\
 jobcontrol/ft_bg.o              jobcontrol/ft_free.o            jobcontrol/ft_notify.o          jobcontrol/ft_strsignal.o\
 jobcontrol/job_builtins.o		jobcontrol/ft_changestate.o     jobcontrol/ft_jobs.o            jobcontrol/ft_proccess.o\
-jobcontrol/ft_tools.o			jobcontrol/signal.o				jobcontrol/ft_cpyjob.o
+jobcontrol/ft_tools.o			jobcontrol/signal.o				jobcontrol/ft_cpyjob.o			jobcontrol/ft_joingroup.o
 
 CFLAGS=-g -Wall -Wextra -Werror -I../includes
 
