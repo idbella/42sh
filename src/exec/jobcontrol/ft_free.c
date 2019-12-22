@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:06:16 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 18:08:16 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 09:58:57 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ void	ft_freeprocs(t_process *proc)
 		ft_free_array(proc->arg);
 		ft_free_array(proc->ass);
 		free(proc->heredoc);
+		ft_freered(proc->redir);
+		ft_free_array(proc->holder);
+		proc->holder = NULL;
 		next = proc->next;
 		free(proc);
 		proc = next;
