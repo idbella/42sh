@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:46:25 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/21 12:50:21 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/22 11:55:01 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ int		check_param(char *param)
 
 	i = 0;
 	if (param[ft_strlen(param) - 1] == ':')
+	{
+		ft_putstr_fd("42 : bad substitution\n", 2);
 		return (-1);
+	}
 	while (param[i])
 	{
 		if (param[i] == ':' &&
 			(param[i + 1] != '-' && param[i + 1] != '+' &&
-			 param[i + 1] != '=' && param[i + 1] != '?'))
+			param[i + 1] != '=' && param[i + 1] != '?'))
 			return (-1);
 		i++;
 	}
@@ -31,7 +34,7 @@ int		check_param(char *param)
 }
 
 void	param_word_init(t_param_expan_st *param_word)
-{	
+{
 	param_word->word = NULL;
 	param_word->param = NULL;
 	param_word->type = 0;
@@ -49,12 +52,6 @@ char	*get_param_expan(char *param_expan)
 	if (check_param(param_expan) < 0)
 		return (NULL);
 	split_param_expan(param_expan, &param_word);
-	if (!ft_strlen(param_word.param))
-	{
-		ft_strdel(&param_word.param);
-		ft_strdel(&param_word.word);
-		return (NULL);
-	}
 	if (ft_isdigit(param_word.param[0]) && ft_isalphanum(param_word.param))
 	{
 		ft_strdel(&param_word.param);

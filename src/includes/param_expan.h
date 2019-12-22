@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 21:15:28 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/06 11:30:48 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/22 11:48:53 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ typedef struct s_param_expan_st
 	char	operation_type;
 }				t_param_expan_st;
 
+typedef struct s_mtools
+{
+	char	pattern_size;
+	int		i_src;
+	int		i_preffix;
+	int		i_suffix;
+	int		ret;
+	char	*src;
+	char	*preffix;
+	char	*suffix;
+}				t_mtools;
+
+char    *delet_adds_stars(char *str, char c);
+char    *rm_suffix(t_param_expan_st *p_w);
+char    *rm_preffix(t_param_expan_st *p_w);
 char    *rm_ffixers(t_param_expan_st *param_word);
 char    *operators_manager(t_param_expan_st *param_word);
 void    split_param_expan(char *param_expan, t_param_expan_st *param_word);

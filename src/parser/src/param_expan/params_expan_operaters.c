@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 17:11:08 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/21 10:40:30 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/22 13:06:13 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ char	*operators_manager(t_param_expan_st *p_w)
 	}
 	if (p_w->type == 'F')
 		return (rm_ffixers(p_w));
-	return ((p_w->map = ft_getbykey(p_w->param, 1)) ? ft_strdup(p_w->map->value) : ft_strdup(""));
+	return ((p_w->map = ft_getbykey(p_w->param, 1)) ?
+	ft_strdup(p_w->map->value) : ft_strdup(""));
 }
