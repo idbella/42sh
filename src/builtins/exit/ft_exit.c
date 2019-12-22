@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 17:11:08 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 21:42:37 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,6 @@ void		ft_freemap(void)
 {
 	ft_empty(ANYHASH);
 	free(get_shell_cfg(0)->hashmap);
-}
-
-size_t		ft_arraylen(char **ptr)
-{
-	size_t	size;
-
-	size = 0;
-	while (ptr[size])
-		size++;
-	return (size);
 }
 
 int			ft_init_exit(char **argv)
@@ -88,7 +78,7 @@ int			ft_exit(char **argv)
 			r = ft_atoi(argv[0]);
 		ft_free_job(ft_getset(0)->jobs);
 		free(ft_getset(0));
-		//free(get_shell_cfg(0)->pwd);
+		free(get_shell_cfg(0)->pwd);
 		exit(r);
 	}
 	return (0);
