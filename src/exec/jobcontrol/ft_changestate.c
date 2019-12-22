@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/16 21:51:22 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 10:34:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 12:53:26 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	ft_getstat(t_process *proc, int status)
 
 void	ft_change_state(t_job *job, pid_t pid, int status)
 {
-	pid_t		pgid;
 	t_process	*proc;
 
 	if (job && (proc = ft_getproc_byjob(job, pid)))
@@ -70,14 +69,7 @@ void	ft_change_state(t_job *job, pid_t pid, int status)
 	else
 	{
 		proc = NULL;
-		pgid = getpgid(pid);
-		if (pgid == -1)
-			job = ft_pid_lookup(pid, &proc);
-		else
-		{
-			job = ft_getbypgid(ft_getset(NULL)->list, pgid);
-			proc = ft_getproc_byjob(job, pid);
-		}
+		job = ft_pid_lookup(pid, &proc);
 		if (proc)
 			ft_getstat(proc, status);
 	}

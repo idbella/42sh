@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 14:51:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 09:25:53 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 12:23:07 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,26 @@ char	*getfullpath(char *name)
 	return (fullname);
 }
 
+int		ft_isexec(char *file, char **error, t_stat *state)
+{
+	if (!access(file, X_OK))
+	{
+		if (S_ISREG(state->st_mode))
+			return (1);
+		else if (S_ISDIR(state->st_mode))
+		{
+			*error = "42sh: %s: is a directory\n";
+			return (0);
+		}
+	}
+	return (0);
+}
+
 char	*ft_findfile(char *name, char **error, char add)
 {
 	char		*file;
-	t_stat		state;
 	t_params	*p;
+	t_stat		state;
 
 	p = ft_getset(0)->params;
 	file = NULL;
@@ -60,17 +75,31 @@ char	*ft_findfile(char *name, char **error, char add)
 		ft_addtohashmap(name, file, COMMANDS)->hits = 1;
 	if (file && !stat(file, &state))
 	{
-		if (!access(file, X_OK))
-		{
-			if (S_ISREG(state.st_mode))
-				return (file);
-			else if (S_ISDIR(state.st_mode))
-			{
-				*error = "42sh: %s: is a directory\n";
-				return (NULL);
-			}
-		}
+		if (ft_isexec(file, error, &state))
+			return (file);
 		*error = "42sh: %s: permission denied\n";
 	}
+	return (NULL);
+}
+
+int		ft_error(char *error, char *name)
+{
+	ft_set_last_rvalue(127);
+	ft_printf_fd(2, error, name);
+	return (0);
+}
+
+char	*ft_getexecutable(t_process *process, int report)
+{
+	char	*file;
+	char	*error;
+
+	error = NULL;
+	if ((file = ft_findfile(process->arg[0], &error, 1)))
+		return (file);
+	else if (!error)
+		error = "42sh: %s: command not found\n";
+	if (error && report)
+		ft_error(error, process->arg[0]);
 	return (NULL);
 }

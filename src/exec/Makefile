@@ -6,13 +6,17 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/18 09:26:51 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/22 12:36:59 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=libexec.a
 
-OBJ=exec.o\
+OBJ=\
+ft_exec.o\
+ft_execbg.o\
+exec/ft_readfile.o\
+exec/ft_pipe.o\
 exec/ft_findfile.o\
 exec/ft_newexec.o\
 exec/ft_redirect.o\

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 16:49:44 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 15:05:25 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 12:49:40 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_process				*ft_findjob(int pid);
 t_process				*ft_getproc_byjob(t_job *job, pid_t pid);
 char					*ft_strsignal(int sig);
 char					ft_print_termsig(int status);
-void					ft_change_state(t_job *job, pid_t pid, int status);
+void    				ft_change_state(t_job *job, pid_t pid, int status);
 int						ft_stoped(t_job *job);
 int						ft_terminated(t_job *job);
 void					ft_resetstatus(t_job *job);

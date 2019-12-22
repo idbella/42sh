@@ -6,40 +6,29 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/21 15:57:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 12:30:07 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	ft_setup_child(t_params *params, t_job *job)
+void	ft_setup_child(t_params *params, t_job *job, t_process *process)
 {
+	if (!ft_redirect(process->redir))
+		exit(1);
+	if (!process->arg)
+		exit(0);
+	ft_getinterns(process, ENV_ENTRY);
 	ft_getset(0)->list = NULL;
+	ft_getset(0)->current = NULL;
+	ft_getset(0)->prev = NULL;
+	if (params->fdscopy[0] > 2)
+		close(params->fdscopy[0]);
+	if (params->fdscopy[1] > 2)
+		close(params->fdscopy[1]);
 	if (params->pipe_stdin >= 0)
 		close(params->pipe_stdin);
 	ft_jobs_in_child(job);
-}
-
-int		ft_error(char *error, char *name)
-{
-	ft_set_last_rvalue(127);
-	ft_printf_fd(2, error, name);
-	return (0);
-}
-
-char	*ft_getexecutable(t_process *process, int report)
-{
-	char	*file;
-	char	*error;
-
-	error = NULL;
-	if ((file = ft_findfile(process->arg[0], &error, 1)))
-		return (file);
-	else if (!error)
-		error = "42sh: %s: command not found\n";
-	if (error && report)
-		ft_error(error, process->arg[0]);
-	return (NULL);
 }
 
 void	ft_joingroup(t_params *params, t_process *process)
@@ -78,9 +67,20 @@ int		ft_path_changed(t_process *process)
 	return (0);
 }
 
+void	ft_execute(char *file, t_process *process, t_params *p)
+{
+	char **env;
+
+	env = ft_serialize_env(EXPORTED_ONLY);
+	execve(file, process->arg, env);
+	free(file);
+	ft_free_array(env);
+	ft_printf_fd(2, "Wrong exec format\n");
+	ft_free_job(p->job);
+}
+
 int		ft_fork(t_params *params, t_process *process, t_function *func)
 {
-	char	**env;
 	char	*file;
 	int		rval;
 
@@ -91,27 +91,12 @@ int		ft_fork(t_params *params, t_process *process, t_function *func)
 		free(ft_getexecutable(process, 0));
 	if (!(process->pid = fork()))
 	{
-		ft_getset(0)->list = NULL;
-		ft_getset(0)->current = NULL;
-		ft_getset(0)->prev = NULL;
-		close(params->fdscopy[0]);
-		close(params->fdscopy[1]);
-		ft_setup_child(params, params->job);
-		if (!ft_redirect(process->redir))
-			exit(1);
-		ft_getinterns(process, ENV_ENTRY);
-		if (!process->arg)
-			exit(0);
+		ft_setup_child(params, params->job, process);
 		(!func) ? file = ft_getexecutable(process, 1) : 0;
 		if (func)
 			exit(func(process->arg + 1));
 		else if (file)
-		{
-			env = ft_serialize_env(EXPORTED_ONLY);
-			execve(file, process->arg, env);
-			free(file);
-			ft_printf_fd(2, "Wrong exec format\n");
-		}
+			ft_execute(file, process, params);
 		exit(127);
 	}
 	else if (process->pid < 0)

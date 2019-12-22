@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:44:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 15:06:16 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 12:33:38 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,15 @@ int		ft_fork(t_params *params,
 				t_process *process, t_function *func);
 void	ft_restorestd(char stdin, char stdout, char stderr);
 int		ft_redirect(t_redir *red);
+void	ft_restore(t_params *params);
 char	*ft_findfile(char *name, char **error, char add);
 char	ft_exec_job(t_params *params, t_process *lst);
 char	*getfullpath(char *name);
-
+int		ft_pipe(int *pipefd, t_process *process, int *fd);
+int		ft_printheredoc(t_process *process);
+int		ft_readfile(t_params *params);
+char	*ft_getexecutable(t_process *process, int report);
+char	ft_run_in_sub(t_process *p);
+t_job	*ft_list(t_process *pr);
+void	ft_execbg(t_job *job);
 #endif

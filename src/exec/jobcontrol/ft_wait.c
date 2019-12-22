@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:03:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/19 18:23:04 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 12:59:59 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_get_term(t_job *job)
 {
 	t_shell	*container;
 
+	ft_set_last_rvalue(ft_getjobstatus(job->processes));
 	container = get_shell_cfg(0);
 	ft_check_jobs_status(job);
 	if (container->interractive)
@@ -27,6 +28,17 @@ void	ft_get_term(t_job *job)
 			exit(1);
 		}
 	}
+	if (job->killed)
+		ft_deljob(job, ft_getset(0));
+}
+
+void	ft_background(t_job *job)
+{
+	if (job->processes->arg || job->processes->ass)
+		job = ft_cpyjob(job);
+	ft_addjob(job, ft_getset(NULL));
+	if (!get_shell_cfg(0)->subshell)
+		ft_printf("[%d] %d\n", job->id, job->pgid);
 }
 
 void	ft_wait(t_job *job, int status)
@@ -35,18 +47,9 @@ void	ft_wait(t_job *job, int status)
 
 	job->suspended = 0;
 	if (!job->pgid)
-	{
-		ft_set_last_rvalue(status);
-		return ;
-	}
+		return (ft_set_last_rvalue(status));
 	if (!job->foreground)
-	{
-		if (job->processes->arg || job->processes->ass)
-			job = ft_cpyjob(job);
-		ft_addjob(job, ft_getset(NULL));
-		if (!get_shell_cfg(0)->subshell)
-			ft_printf("[%d] %d\n", job->id, job->pgid);
-	}
+		ft_background(job);
 	else
 	{
 		if (get_shell_cfg(0)->interractive)
@@ -60,9 +63,6 @@ void	ft_wait(t_job *job, int status)
 					break ;
 			}
 		}
-		ft_set_last_rvalue(ft_getjobstatus(job->processes));
 		ft_get_term(job);
-		if (job->killed)
-			ft_deljob(job, ft_getset(0));
 	}
 }

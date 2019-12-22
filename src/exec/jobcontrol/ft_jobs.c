@@ -6,46 +6,20 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 03:02:19 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 14:57:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 12:52:10 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "jobcontrol.h"
 
-static int	ft_get_flags(char **cmd, char *flag)
+static int	ft_printerr(char c)
 {
-	int		i;
-	int		index;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i][0] == '-' && cmd[i][1])
-		{
-			index = 1;
-			while (cmd[i][index])
-			{
-				if (cmd[i][index] == 'p')
-					*flag = 'p';
-				else if (cmd[i][index] == 'l')
-					*flag = 'l';
-				else
-				{
-					ft_printf_fd(2,
-						"42sh: jobs: -%c: invalid option\n", cmd[i][index]);
-					return (-1);
-				}
-				index++;
-			}
-		}
-		else
-			return (i);
-		i++;
-	}
-	return (i);
+	ft_printf_fd(2, "42sh: jobs: -%c: invalid option\n", -c);
+	ft_printf_fd(2, "42sh: usage: export [-pl]\n", -c);
+	return (1);
 }
 
-void		ft_printjob(t_job *job, char flag)
+void		ft_printjob(t_job *job, char *options)
 {
 	char		sign;
 	t_container	*container;
@@ -54,14 +28,14 @@ void		ft_printjob(t_job *job, char flag)
 	sign = ' ';
 	sign = job == container->current ? '+' : ' ';
 	sign = job == container->prev ? '-' : sign;
-	if (flag == 'l')
+	if (options['l'])
 		ft_printf("[%d] %c %d %s %s\n",
 				job->id,
 				sign,
 				job->pgid,
 				job->suspended ? "Stoped" : "Running",
 				job->command);
-	else if (flag == 'p')
+	else if (options['p'])
 		ft_printf("%d\n", job->pgid);
 	else
 		ft_printf("[%d] %c %s\t\t%s\n",
@@ -71,7 +45,7 @@ void		ft_printjob(t_job *job, char flag)
 				job->command);
 }
 
-void		ft_printall(char flag)
+void		ft_printall(char *options)
 {
 	t_container	*container;
 	t_list		*list;
@@ -82,34 +56,33 @@ void		ft_printall(char flag)
 	while (list)
 	{
 		job = list->content;
-		ft_printjob(job, flag);
+		ft_printjob(job, options);
 		list = list->next;
 	}
 }
 
 int			ft_jobs(char **args)
 {
-	char	flag;
+	char	options[127];
 	int		i;
 	t_job	*job;
 	int		rval;
 
 	rval = 0;
-	flag = 0;
-	if ((i = ft_get_flags(args, &flag)) < 0)
-		return (1);
+	if ((i = ft_getopt(args, options, "pl")) < 0)
+		return (ft_printerr(i));
 	if (args[i])
 	{
 		while (args[i])
 		{
 			if ((job = ft_getjob(args[i], "jobs")))
-				ft_printjob(job, flag);
+				ft_printjob(job, options);
 			else
 				rval = 1;
 			i++;
 		}
 	}
 	else
-		ft_printall(flag);
+		ft_printall(options);
 	return (rval);
 }
