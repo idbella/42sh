@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/21 14:30:08 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 21:42:06 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct			s_line
 	struct s_line	*next;
 }						t_line;
 
+size_t					ft_arraylen(char **ptr);
 char					ft_isalphanum(char *str);
 char					*ft_join(char *f, ...);
 size_t					ft_nbrlen(long long int n, int base);
