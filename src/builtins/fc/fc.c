@@ -79,13 +79,13 @@ int read_file_(char *fille)
 }
 int ft_open_(char **str, char *options, char **args)
 {
-     int fd;
+    int fd;
     char *fille;
-     char *cmd;
+    char *cmd;
 
-     cmd = NULL; 
-     (*str) = get_name_randm();
-     fille = (*str);
+    cmd = NULL;
+    (*str) = get_name_randm();
+    fille = (*str);
     if ((fd = open(fille, O_WRONLY | O_RDONLY | O_CREAT | O_TRUNC, 0777)) < 0)
         return (-1);
     if (args[0] && args[1])
@@ -93,7 +93,7 @@ int ft_open_(char **str, char *options, char **args)
     else
     {
         if ((cmd = get_arg(args[0])))
-            ft_printf_fd(fd,"%f",cmd); //ft_strdel(&cmd);
+            ft_printf_fd(fd, "%f", cmd); //ft_strdel(&cmd);
         else
         {
             close(fd);
@@ -103,17 +103,17 @@ int ft_open_(char **str, char *options, char **args)
     return (fd);
 }
 int ft_creat_cmd(char *edit, char *options, char **args)
-{  
+{
     char *cmd;
     char *fille;
     int fd;
     t_job *tokens;
 
-    cmd =NULL;
+    cmd = NULL;
     if ((fd = ft_open_(&fille, options, args)) < 0)
-    return (1);
-    if (!edit && (edit = ft_getvlaue_bykey("FCEDIT",INTERN)))
-            edit = ft_strdup(edit);
+        return (1);
+    if (!edit && (edit = ft_getvlaue_bykey("FCEDIT", INTERN)))
+        edit = ft_strdup(edit);
     cmd = ft_join("%s%s%s", edit, "  ", fille);
     ft_strdel(&edit);
     if ((tokens = parse(cmd)))
@@ -124,33 +124,38 @@ int ft_creat_cmd(char *edit, char *options, char **args)
     close(fd);
     read_file_(fille);
     ft_strdel(&cmd);
-    ft_strdel(&fille);//
+    ft_strdel(&fille); //
     return 0;
 }
-static void ft__ex(int i,char **args)
+static void ft__ex(int i, char **args, char *options)
 {
-    char *cmd; 
+    char *cmd;
+    char *edit;
     t_job *tokens;
-    
+
     cmd = NULL;
-     if (args[i])
-     {
-            cmd = ft_rep_lace(args[i], args[i + 1]);
-     }
-        else
-            cmd = get_arg(args[i]);
-        if ((tokens = parse(cmd)))
-        {
-            exec(tokens);
-            ft_free_job(tokens);
-        }
-        ft_strdel(&cmd);
+    edit = NULL;
+    if (args[i])
+        cmd = ft_rep_lace(args[i], args[i + 1]);
+    else if (!options['s'])
+    {
+        ft_creat_cmd(edit, options, args + i);
+        return ;
+    }
+    else
+        cmd = get_arg(args[i]);
+    if ((tokens = parse(cmd)))
+    {
+        exec(tokens);
+        ft_free_job(tokens);
+    }
+    ft_strdel(&cmd);
 }
 static int ft_exec_(char *options, char **args)
-{  
+{
     char *edit;
     int i;
-   
+
     i = 0;
     edit = NULL;
     if (options['e'])
@@ -162,7 +167,7 @@ static int ft_exec_(char *options, char **args)
         i++;
     }
     if (options['s'] || (!options['e'] && !options['l']))
-       ft__ex(i, args);
+        ft__ex(i, args, options);
     else if (options['l'])
         return (ft_print___(options, args + i, 1));
     else if (options['e'])

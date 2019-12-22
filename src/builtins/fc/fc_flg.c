@@ -19,10 +19,20 @@ static int get_index_nm(char *key)
     }
     return (-1);
 }
+
+void        ft_sawap(int *s, int *e)
+{
+     int a;
+
+    if (*s > *e)
+    {
+        a = *s;
+        *s = *e;
+        *e = a;
+    }
+}
 int get_start_end(int *s, int *e, char **args)
 {
-    int a;
-
     if (args[0] && ft_isdigit(args[0][0]))
         *s = ft_atoi(args[0]);
     else if (args[0])
@@ -44,13 +54,17 @@ int get_start_end(int *s, int *e, char **args)
         *e = get_shell_cfg(0)->init->last_history->index;
     if (*e < 0)
         return (ft_printerror());
-    if (*s > *e)
-    {
-        a = *s;
-        *s = *e;
-        *e = a;
-    }
+    ft_sawap(s, e);
     return (0);
+}
+static void    ft_put_str(char *options,int index, char *str, int fd)
+{
+      if (options['e'] && !options['l'])
+            ft_putendl_fd(str, fd);
+        else if (!options['n'])
+            ft_printf("%d\t%s\n", index, str);
+        else
+            ft_printf("\t%s\n", str);
 }
 
 static int ft_print_r(char *options, char **args, int fd)
@@ -70,18 +84,15 @@ static int ft_print_r(char *options, char **args, int fd)
     }
     while (lst && lst->next)
     {
-        if (options['e'])
-            ft_putendl_fd(lst->str, fd);
-        else if (!options['n'])
-            ft_printf("%d\t%s\n", lst->index, lst->str);
-        else
-            ft_printf("\t%s\n", lst->str);
+        ft_put_str(options,lst->index, lst->str, fd);
         if (lst->index == s)
             return (0);
         lst = lst->prvet;
     }
     return 0;
 }
+
+
 int ft_print___(char *options, char **args, int fd)
 {
     t_history *lst;
@@ -92,7 +103,6 @@ int ft_print___(char *options, char **args, int fd)
     lst = get_shell_cfg(0)->init->last_history;
     if (get_start_end(&s, &e, args) < 0)
         return (1);
-
     while (lst)
     {
         if (lst->index == s)
@@ -101,16 +111,7 @@ int ft_print___(char *options, char **args, int fd)
     }
     while (lst && lst->next)
     {
-        if (options['e'] && !options['l'])
-            ft_putendl_fd(lst->str, fd);
-        else if (!options['n'])
-        {
-            ft_printf("%d\t%s\n", lst->index, lst->str);
-        }
-        else
-        {
-            ft_printf("\t%s\n", lst->str);
-        }
+      ft_put_str(options,lst->index, lst->str, fd);
         if (lst->index == e)
             return (0);
         lst = lst->next;
@@ -138,7 +139,7 @@ char *get_arg(char *key)
     char *cmd;
 
     cmd = NULL;
-    if (ft_isdigit(key[0]))
+    if (key && ft_isdigit(key[0]))
     {
         if ((cmd = get_index(ft_atoi((const char *)key))))
             return (cmd);
