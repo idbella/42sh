@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/20 18:52:55 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/22 09:35:31 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int			exec_(char *line)
 		close(p[0]);
 		if ((head = parse(line)))
 			exec(head);
+		ft_free_job(head);
 		exit(0);
 	}
 	waitpid(pid, 0, 0);
@@ -70,21 +71,19 @@ void		get_buffer(char **str, int pipe_fd, char type)
 		if (buffer && ft_strlen(buffer))
 		{
 			if (!*str)
-				*str = buffer;
-			else
 			{
-				*str = ft_join("%f%c%f", *str, type ? '\n' : BLANK, buffer);
+				*str = ft_strdup(buffer);
 				if (!type)
 				{
-					i = 0;
-					while ((*str)[i])
-					{
+					i = -1;
+					while ((*str)[++i])
 						if ((*str)[i] == ' ')
 							(*str)[i] = BLANK;
-						i++;
-					}
 				}
+				free(buffer);
 			}
+			else
+				*str = ft_join("%f%c%f", *str, type ? '\n' : BLANK, buffer);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/21 10:00:57 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/22 10:00:10 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void			apply_expansions(t_process *process)
 		args++;
 	}
 	free_array(process->holder);
+	process->holder = NULL;
 	if (size)
 		process->arg = convert_args(h, size);
 }
