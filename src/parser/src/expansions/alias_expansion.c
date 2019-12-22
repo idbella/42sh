@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 09:47:49 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/19 10:16:48 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/22 10:32:55 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_alias *h, t_alias **t)
 		if ((tmp = ft_getvlaue_bykey(
 		(arg = extact_arg(tokens, &i)), ALIAS)) && !circular(h, t, arg))
 		{
-			arg = DUPL(expand_alias(tokens, DUPL(tmp), h, t));
+			arg = expand_alias(tokens, DUPL(tmp), h, t);
 			free(tokens->list[i]);
 			tokens->list[i] = arg;
 		}
@@ -66,6 +66,7 @@ t_alias *h, t_alias **t)
 		tokens = tokens->next;
 	}
 	free(alias);
+	free_tokens(token->sub);
 	return (str);
 }
 

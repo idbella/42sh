@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/22 10:00:10 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/22 11:26:06 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char			**get_assignments(char ***args)
 	h = NULL;
 	t = NULL;
 	size = 0;
-	while (**args)
+	while (*args && **args)
 	{
 		quotes_delimiter(*args);
 		flag = 1;
@@ -98,7 +98,7 @@ void			apply_expansions(t_process *process)
 	t = NULL;
 	args = process->holder;
 	process->ass = get_assignments(&args);
-	while (*args)
+	while (args && *args)
 	{
 		quotes_delimiter(args);
 		c = get_node();
@@ -106,7 +106,7 @@ void			apply_expansions(t_process *process)
 		append(&h, &c, &t);
 		args++;
 	}
-	free_array(process->holder);
+	ft_free_array(process->holder);
 	process->holder = NULL;
 	if (size)
 		process->arg = convert_args(h, size);

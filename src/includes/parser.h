@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 09:25:40 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/22 10:27:10 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ void			combine(t_token *tokens, char **str);
 int				is_quoted(char *s, int len);
 int				match(t_alias *h, t_alias *t);
 void			free_list(t_alias *h, t_alias **t);
+void			free_tokens(t_token *tokens);
 char			*extact_arg(t_token *tokens, int *i);
 void			replace(t_token *tokens, t_alias *t, int i);
 t_token			*get_tokens(t_token **head, char *cmd_chain);

@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:25:14 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/22 09:55:32 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/22 10:26:54 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,15 @@ int			is_word(char *word)
 
 void		free_tokens(t_token *tokens)
 {
-	if (tokens->sub)
+	t_token	*next;
+
+	while (tokens)
 	{
-		free_tokens(tokens->sub);
+		next = tokens->next;
+		free(tokens->list);
+		free(tokens);
+		tokens = next;
 	}
-	else if (tokens->next)
-	{
-		free_tokens(tokens->next);
-	}
-	free(tokens->list);
-	free(tokens);
 }
 
 t_job		*parse(char *input)
