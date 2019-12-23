@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 21:33:24 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/23 18:45:42 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 20:27:35 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void	store_heredoc(char **heredoc, char **buf)
 	while ((*buf)[++i])
 		if ((*buf)[i] == BLANK)
 			(*buf)[i] = '\n';
-	if (!*heredoc)
+	if (!ft_strlen(*heredoc))
 	{
+		free(*heredoc);
 		*heredoc = ft_strdup(*buf);
 		free(*buf);
 	}
@@ -39,36 +40,47 @@ void	store_heredoc(char **heredoc, char **buf)
 		*heredoc = ft_fstrjoin(ft_fstrjoin(*heredoc, ft_strdup("\n")), *buf);
 }
 
-char	*get_heredoc_string(char *eof)
+void	get_input(t_init *in, char **heredoc, char *eof, char *sig_int)
 {
 	char	*buf;
 	char	eol[2];
-	t_init	*in;
-	char	*heredoc;
 
 	buf = NULL;
 	eol[0] = 4;
 	eol[1] = 0;
-	in = get_shell_cfg(0)->init;
-	in->heredoc_int = 1;
-	heredoc = NULL;
 	while (1)
 	{
 		buf = readline(in, "heredoc> ");
 		if (!buf)
 		{
-			in->heredoc_int = 0;
-			return ((char *)-1);
+			*sig_int = 1;
+			break ;
 		}
 		ft_putchar('\n');
 		if (ft_strequ(buf, eof) || ft_strequ(buf, eol))
 			break ;
-		store_heredoc(&heredoc, &buf);
+		store_heredoc(heredoc, &buf);
 	}
-	free(eof);
-	free(buf);
+	if (buf)
+		free(buf);
+}
+
+char	*get_heredoc_string(char *eof)
+{
+	t_init	*in;
+	char	*heredoc;
+	char	sig_int;
+
+	sig_int = 0;
+	in = get_shell_cfg(0)->init;
+	in->heredoc_int = 1;
+	heredoc = ft_strnew(0);
+	get_input(in, &heredoc, eof, &sig_int);
 	in->heredoc_int = 0;
-	return (heredoc);
+	free(eof);
+	if (sig_int)
+		free(heredoc);
+	return (!sig_int ? heredoc : (char *)-1);
 }
 
 int		get_heredoc_fd(char *str, int *i)
@@ -84,6 +96,7 @@ char	*get_heredoc(char *str, int *i, int *hd_fd)
 {
 	char	*eof;
 	int		old_i;
+	int		j;
 
 	old_i = *i;
 	*hd_fd = (!(*i) || str[*i - 1] == BLANK || ft_isalpha(str[*i - 1])) ?
@@ -96,13 +109,14 @@ char	*get_heredoc(char *str, int *i, int *hd_fd)
 		old_i++;
 		(*i)++;
 	}
-	while (ft_isprint(str[*i]) || str[*i] == UQ_ESCAPE || str[*i] == Q_ESCAPE)
+	while (ft_isprint(str[*i]) || str[*i] == UQ_ESCAPE || str[*i] == Q_ESCAPE
+	|| str[*i] == DOLLAR)
 		(*i)++;
 	eof = ft_strsub(str, old_i, *i - old_i);
-	quotes_delimiter(&eof);
-	remove_quotes(&eof);
-	remove_escapes(&eof, UQ_ESCAPE);
-	remove_escapes(&eof, Q_ESCAPE);
-	ft_memset(str + old_i, BLANK, *i - old_i);
+	j = -1;
+	while (eof && eof[++j])
+		if (eof[j] == DOLLAR)
+			eof[j] = '$';
+	remove_unwanted_chars(&eof, str, old_i, *i);
 	return (get_heredoc_string(eof));
 }

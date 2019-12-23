@@ -6,13 +6,13 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 15:11:06 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/20 10:28:11 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 20:28:17 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int	param_valid(char *param, int i, char op)
+int		param_valid(char *param, int i, char op)
 {
 	if (!op)
 		while (ft_isalnum(param[i]) || param[i] == '_')
@@ -24,7 +24,7 @@ int	param_valid(char *param, int i, char op)
 	return (1);
 }
 
-int	correct_syntax(char *param)
+int		correct_syntax(char *param)
 {
 	int		pos;
 	int		i;
@@ -51,4 +51,17 @@ int	correct_syntax(char *param)
 			return (0);
 		}
 	return (1);
+}
+
+/*
+** Not really part of this file.
+*/
+
+void	remove_unwanted_chars(char **eof, char *str, int old_i, int i)
+{
+	quotes_delimiter(eof);
+	remove_quotes(eof);
+	remove_escapes(eof, UQ_ESCAPE);
+	remove_escapes(eof, Q_ESCAPE);
+	ft_memset(str + old_i, BLANK, i - old_i);
 }

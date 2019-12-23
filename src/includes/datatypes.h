@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 15:43:58 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/23 19:33:42 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,94 +18,76 @@
 # define TESTFUNCTIONS_COUNT 20
 # include <sys/stat.h>
 
-/*
-**
-*/
-
-// typedef struct s_cmd
-// {
-// 	char *str;
-// 	struct s_cmd *next;
-// } t_cmd;
-// typedef struct s_fc
-// {
-// 	int flg;
-// 	char *edit;
-// 	char *start;
-// 	char *end;
-// 	char *cmd;
-
-// } t_fc;
 typedef struct			s_auto
 {
 	char				*str;
 	struct s_auto		*next;
 	struct s_auto		*prev;
 }						t_auto;
-typedef struct s_sle_c
-{
-	int cp;
-	int cpd;
-	int s_t;
-	int e_d;
-	int pass;
-	int cp_end;
-	int cp_st;
-	int selection;
 
-} t_sle_c;
-
-typedef struct s_history
+typedef struct			s_sle_c
 {
-	char *str;
-	int index;
-	struct s_history *next;
-	struct s_history *prvet;
-} t_history;
+	int		cp;
+	int		cpd;
+	int		s_t;
+	int		e_d;
+	int		pass;
+	int		cp_end;
+	int		cp_st;
+	int		selection;
+}						t_sle_c;
 
-typedef struct s_init
+typedef struct			s_history
 {
-	char	*to_complete;
-	int skip_read;
-	int s_col;
-	int s_l;
-	int s_line;
-	int x0;
-	int y0;
-	int qoute;
-	char *kote;
-	char qt;
-	int search;
-	char *str_search;
-	int esq;
-	char *key;
-	int s_cursor;
-	char *out_put;
-	t_sle_c s;
-	char *tmp;
-	struct termios term_copy;
-	int heredoc_int;
-	char *heredoc_str;
-	t_history *history;
-	t_history *history_postoin;
-	t_history *last_history;
-	int index;
-	int auto_comlpetion;
-	t_auto *completion_lst;
-	t_auto *completion_lst_position;
-	char *promt;
-} t_init;
-/*********/
-typedef struct	s_redir
+	char				*str;
+	int					index;
+	struct s_history	*next;
+	struct s_history	*prvet;
+}						t_history;
+
+typedef struct			s_init
+{
+	char			*to_complete;
+	int				skip_read;
+	int				s_col;
+	int				s_l;
+	int				s_line;
+	int				x0;
+	int				y0;
+	int				qoute;
+	char			*kote;
+	char			qt;
+	int				search;
+	char			*str_search;
+	int				esq;
+	char			*key;
+	int				s_cursor;
+	char			*out_put;
+	t_sle_c			s;
+	char			*tmp;
+	struct termios	term_copy;
+	int				heredoc_int;
+	char			*heredoc_str;
+	t_history		*history;
+	t_history		*history_postoin;
+	t_history		*last_history;
+	int				index;
+	int				auto_comlpetion;
+	t_auto			*completion_lst;
+	t_auto			*completion_lst_position;
+	char			*promt;
+}						t_init;
+
+typedef struct			s_redir
 {
 	int				type;
 	int				src_fd;
 	int				dst_fd;
 	char			*file;
 	struct s_redir	*next;
-}				t_redir;
+}						t_redir;
 
-typedef struct	s_process
+typedef struct			s_process
 {
 	char				**arg;
 	char				**ass;
@@ -122,9 +104,9 @@ typedef struct	s_process
 	char				*name;
 	char				signaled;
 	struct s_process	*next;
-}				t_process;
+}						t_process;
 
-typedef struct	s_job
+typedef struct			s_job
 {
 	t_process		*processes;
 	pid_t			pgid;
@@ -138,18 +120,18 @@ typedef struct	s_job
 	char			notified;
 	char			sub;
 	struct s_job	*next;
-}				t_job;
+}						t_job;
 
-typedef struct		s_map
+typedef struct			s_map
 {
 	void	*key;
 	void	*value;
 	int		hits;
 	char	type;
 	char	exported;
-}					t_map;
+}						t_map;
 
-typedef struct	s_shell
+typedef struct			s_shell
 {
 	char				interractive;
 	char				subshell;
@@ -158,10 +140,9 @@ typedef struct	s_shell
 	t_list				**hashmap;
 	t_job				*jobs;
 	t_init				*init;
-	unsigned long long	id;
 	int					last_exit;
 	char				abort;
-}				t_shell;
+}						t_shell;
 
 typedef struct			s_params
 {
@@ -190,7 +171,7 @@ typedef struct			s_container
 	struct termios	*term;
 }						t_container;
 
-typedef struct 		s_recipes
+typedef struct			s_recipes
 {
 	char			*oldpwd;
 	char			*pwd;
@@ -203,6 +184,6 @@ typedef struct 		s_recipes
 	int				mute;
 	int				helper;
 	struct stat		buf;
-}					t_recipes;
+}						t_recipes;
 
 #endif

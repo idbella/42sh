@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/23 15:19:26 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 20:28:37 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void		ft_abort(int pipe_fd)
 {
 	ft_printf_fd(2, "42sh: fork: Resource temporarily unavailable.\n");
 	close(pipe_fd);
-	// kill(0, 2);
 	exit(EXIT_FAILURE);
 }
 
