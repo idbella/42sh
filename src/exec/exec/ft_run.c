@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 13:53:42 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/22 22:45:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,13 @@ int		ft_fork(t_params *params, t_process *process, t_function *func)
 			exit(func(process->arg + 1));
 		else if (file)
 			ft_execute(file, process, params);
+		ft_empty(ANYHASH);
+		free(get_shell_cfg(0)->hashmap);
 		exit(127);
 	}
 	else if (process->pid < 0)
 		rval = 1;
 	else
 		ft_joingroup(params, process);
-	free(file);
 	return (rval);
 }

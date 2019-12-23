@@ -6,17 +6,16 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 10:27:10 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/22 21:53:02 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/wait.h>
-#include <stdio.h>
 #include <sys/types.h>
 #include <pwd.h>
 #include <uuid/uuid.h>
-# include "datatypes.h"
-# include "param_expan.h"
+#include "datatypes.h"
+#include "param_expan.h"
 #ifndef PARSER_H
 # define PARSER_H
 
@@ -69,11 +68,8 @@
 # define _PARAM(x) get_dollar_var(tmp, &i, x)
 # define INDEX(i) (i - 1 > 0) ? i - 1 : 0
 # define IS_DOLLAR(dq) is_dollar(L, i, dq)
-/* 
-** 
-*/
-# define STACK_SIZE 100
-typedef	struct s_token
+
+typedef	struct	s_token
 {
 	char			**list;
 	char			type;
@@ -81,7 +77,7 @@ typedef	struct s_token
 	struct s_token	*next;
 }				t_token;
 
-typedef	struct s_arg
+typedef	struct	s_arg
 {
 	char			**arg;
 	struct s_arg	*next;

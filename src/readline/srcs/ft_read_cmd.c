@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 20:15:42 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/22 20:00:47 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/22 21:53:21 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ char *buffer, char **t)
 			ft_add_history_(init, line, 1);
 		}
 	}
-	else if ((buffer[0] == 4 && buffer[1] == '\0' && init->heredoc_int == 1) ||
-(!(buffer[0] == 4 && buffer[1] == '\0') && init->heredoc_int != 1))
+	else if (!(buffer[0] == 4 && buffer[1] == '\0'))
 		line = move_cursor_and_mangemant_fonction(*t, init);
 	else if ((buffer[0] == 4 && buffer[1] == '\0'))
 		return (ft_strdup(buffer));
