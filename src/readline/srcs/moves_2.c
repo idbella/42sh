@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:38:01 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/22 22:22:11 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 18:38:06 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,20 +92,8 @@ buffer[2] == 91 && buffer[3] == 68)
 
 int				ft_mve_(t_init *init, char *buffer)
 {
-	if (buffer[0] == 27 && buffer[1] == 91 &&
-		buffer[2] == 53 && buffer[3] == 126)
-	{
-		ft_next_completion(init);
-		return (1);
-	}
-	else if (buffer[0] == 27 && buffer[1] == 91 &&
-buffer[2] == 54 && buffer[3] == 126)
-	{
-		ft_prev_completion(init);
-		return (1);
-	}
-	else if (buffer[0] == 27 && buffer[1] == 27 &&
-buffer[2] == 91 && buffer[3] == 67)
+	if (buffer[0] == 27 && buffer[1] == 27 &&
+		buffer[2] == 91 && buffer[3] == 67)
 	{
 		ft_move_right(init);
 		return (1);

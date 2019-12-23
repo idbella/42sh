@@ -6,13 +6,13 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:09:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/23 16:05:01 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 18:33:50 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int			ft_check_key(t_init *init, char *str)
+int					ft_check_key(t_init *init, char *str)
 {
 	if (g_sig)
 	{
@@ -28,4 +28,28 @@ int			ft_check_key(t_init *init, char *str)
 	if ((str[0] == 27) && (str[1] == 91) && key_4_of_cursor(str, init) != 0)
 		return (0);
 	return (1);
+}
+
+static void			ft_free_history(t_history *lst)
+{
+	t_history		*tmp;
+
+	tmp = NULL;
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+		ft_memdel((void **)&tmp);
+	}
+}
+
+void				ft_init_free(void)
+{
+	t_init			*init;
+
+	init = get_shell_cfg(0)->init;
+	ft_free_history(init->history);
+	ft_strdel(&init->out_put);
+	ft_strdel(&init->promt);
+	ft_strdel(&init->str_search);
 }

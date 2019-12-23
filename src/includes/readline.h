@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 19:33:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/22 19:33:49 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 18:35:10 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@
 # include <sys/stat.h>
 # include <unistd.h>
 # include <sys/ioctl.h>
+# include "datatypes.h"
 
 int g_sig;
 int g_sig_win;
+void			ft_init_free(void);
 char *ft_cmd_mangement__(char *str, t_init *init);
 char *call_esqp(char *str, t_init *init);
 int ft_cke_c_eskip(int i, char *str);
@@ -90,11 +92,11 @@ char *readline_(t_init *init, char *promt);
 char *ft_qoute__fin(t_init *init);
 char *ft_check_qout(char *str, t_init *init);
 char *ft_search_(char *str, t_init *init);
-void ft_autocomplete_42(t_init *init);
+// void ft_autocomplete_42(t_init *init);
 void ft_move_left(t_init *init);
 void ft_move_right(t_init *init);
-void ft_next_completion(t_init *init);
-void ft_prev_completion(t_init *init);
+// void ft_next_completion(t_init *init);
+// void ft_prev_completion(t_init *init);
 int get_(char *str);
 char *ft_get_data(t_init *init, char *str);
 void ft_new_history_(t_init *init, char *line);

@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 04:41:44 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/23 16:02:07 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 18:17:29 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,17 @@ char			*readline(t_init *init, char *promt)
 	while (1)
 	{
 		if (init->heredoc_int == -1)
-		{
-			init->heredoc_int = 0;
-			return (NULL);
-		}
+			break ;
 		if (!(position = read(0, buffer, 6)) && !init->skip_read)
 			continue;
 		if (g_sig_win)
 			ft_size_terminal(init);
 		buffer[position] = '\0';
 		if ((line = ft_take_move(init, buffer, position)))
-		{
-			tcsetattr(0, TCSANOW, &init->term_copy);
-			return (line);
-		}
+			break ;
 	}
-	return (NULL);
+	tcsetattr(0, TCSANOW, &init->term_copy);
+	return (line);
 }
 
 void			ft_catch_sig_window(int a)
