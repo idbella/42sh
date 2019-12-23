@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:44:09 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/23 16:30:05 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/23 16:50:38 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ static char	*operate_dots(char ***paths, char *curpath)
 
 	i = 0;
 
-	printf("PATH == %s\n", curpath);
 	paths[0] = ft_strsplit(curpath, '/');
-	printf("ADD == %p\n", paths[0]);
-	printf("VALUE == %s\n", paths[0][0]);
 	while (paths[0][i])
 	{
 		if (!ft_strcmp("..", paths[0][i]) && paths[0][i][0] != -1)
@@ -115,8 +112,8 @@ int			chdir_operations(t_recipes *recipes)
 		{
 			if (!access(recipes->curpath, X_OK))
 			{
-				ft_addtohashmap("OLDPWD", ft_getenv("PWD"), INTERN);
 				recipes->curpath = curpath_handling(recipes);
+				ft_addtohashmap("OLDPWD", ft_getenv("PWD"), INTERN);
 				if (chdir(recipes->curpath) != -1)
 				{
 					ft_addtohashmap("PWD", recipes->curpath, 1)->exported = 1;
