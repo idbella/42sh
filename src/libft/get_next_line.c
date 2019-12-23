@@ -3,57 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 14:49:37 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/03 19:11:25 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 22:37:06 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static t_line		*ft_alstnew(int fd)
-{
-	t_line *new;
-
-	new = (t_line *)malloc(sizeof(t_line));
-	new->fd = fd;
-	new->next = NULL;
-	new->str1 = ft_strnew(0);
-	return (new);
-}
-
-static t_line		*ft_search(t_line **alst, int fd)
-{
-	t_line *temp;
-	t_line *new;
-
-	temp = *alst;
-	if (*alst)
-	{
-		while (temp)
-		{
-			if (temp->fd == fd)
-				return (temp);
-			temp = temp->next;
-		}
-		new = ft_alstnew(fd);
-		new->next = *alst;
-		*alst = new;
-		return (*alst);
-	}
-	*alst = ft_alstnew(fd);
-	new = *alst;
-	return (*alst);
-}
-
-static int			ft_freeline(t_line **alst, char **line, char c)
+static int			ft_freeline(t_line *alst, char **line, char c)
 {
 	t_line	*lst;
 	int		k;
 	char	*tmp;
 
-	lst = *alst;
+	lst = alst;
 	k = 0;
 	while ((lst)->str1[k] != c && (lst)->str1[k] != '\0')
 		k++;
@@ -79,22 +44,22 @@ static int			ft_freeline(t_line **alst, char **line, char c)
 int					get_next_line(int fd, char c, char **line)
 {
 	
-	static t_line	*temp;
-	t_line			*alst;
+	static t_line	alst;
 	char			buff[BUFF_SIZE + 1];
 	int				j;
 	char			*tmp;
 
-	alst = ft_search(&temp, fd);
 	if (read(fd, buff, 0) < 0 || line == NULL)
 		return (-1);
+	if (!alst.str1)
+		alst.str1 = ft_strnew(0);;
 	while ((j = read(fd, buff, BUFF_SIZE)) > 0)
 	{
 		buff[j] = '\0';
-		tmp = alst->str1;
-		alst->str1 = ft_strjoin(alst->str1, buff);
+		tmp = alst.str1;
+		alst.str1 = ft_strjoin(alst.str1, buff);
 		ft_strdel(&tmp);
-		if (ft_strchr((alst)->str1, c ) != NULL)
+		if (ft_strchr(alst.str1, c ) != NULL)
 			break ;
 	}
 	return (ft_freeline(&alst, line, c));
