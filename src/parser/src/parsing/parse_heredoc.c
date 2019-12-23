@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 21:33:24 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/23 19:52:53 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 20:27:35 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,37 +40,44 @@ void	store_heredoc(char **heredoc, char **buf)
 		*heredoc = ft_fstrjoin(ft_fstrjoin(*heredoc, ft_strdup("\n")), *buf);
 }
 
-char	*get_heredoc_string(char *eof)
+void	get_input(t_init *in, char **heredoc, char *eof, char *sig_int)
 {
 	char	*buf;
 	char	eol[2];
-	t_init	*in;
-	char	*heredoc;
-	char	sig_int;
 
 	buf = NULL;
 	eol[0] = 4;
 	eol[1] = 0;
-	sig_int = 0;
-	in = get_shell_cfg(0)->init;
-	in->heredoc_int = 1;
-	heredoc = ft_strnew(0);
 	while (1)
 	{
 		buf = readline(in, "heredoc> ");
 		if (!buf)
 		{
-			sig_int = 1;
+			*sig_int = 1;
 			break ;
 		}
 		ft_putchar('\n');
 		if (ft_strequ(buf, eof) || ft_strequ(buf, eol))
 			break ;
-		store_heredoc(&heredoc, &buf);
+		store_heredoc(heredoc, &buf);
 	}
+	if (buf)
+		free(buf);
+}
+
+char	*get_heredoc_string(char *eof)
+{
+	t_init	*in;
+	char	*heredoc;
+	char	sig_int;
+
+	sig_int = 0;
+	in = get_shell_cfg(0)->init;
+	in->heredoc_int = 1;
+	heredoc = ft_strnew(0);
+	get_input(in, &heredoc, eof, &sig_int);
 	in->heredoc_int = 0;
 	free(eof);
-	free(buf);
 	if (sig_int)
 		free(heredoc);
 	return (!sig_int ? heredoc : (char *)-1);
@@ -110,10 +117,6 @@ char	*get_heredoc(char *str, int *i, int *hd_fd)
 	while (eof && eof[++j])
 		if (eof[j] == DOLLAR)
 			eof[j] = '$';
-	quotes_delimiter(&eof);
-	remove_quotes(&eof);
-	remove_escapes(&eof, UQ_ESCAPE);
-	remove_escapes(&eof, Q_ESCAPE);
-	ft_memset(str + old_i, BLANK, *i - old_i);
+	remove_unwanted_chars(&eof, str, old_i, *i);
 	return (get_heredoc_string(eof));
 }

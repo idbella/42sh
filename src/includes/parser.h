@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 10:01:08 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 20:27:05 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int				sc_operator(char *line, int i);
 int				get_bg_jobs(char *line);
 void			mark_bg_op(char *line);
 t_job			*parse(char *input);
-int				get_input(char **line, char *p, char *eof);
 void			check_wildcard_c(char **line);
 int				dquotes_checker(char **line, char *dq, int *i, int *j);
 int				squotes_checker(char **line, char *q, int *i);
@@ -115,6 +114,8 @@ char			escape_char(char c);
 int				get_redir_fds(t_redir *curr, char *str, int *i);
 void			get_redir_file(t_redir *curr, char *str, int *i);
 char			*get_heredoc(char *str, int *i, int *hd_fd);
+void			remove_unwanted_chars(char **eof,
+				char *str, int old_i, int i);
 int				is_not_blank(char *line, int j, int i);
 void			apply_expansions(t_process *process);
 void			valid_assignment(char *args, char *flag, int pos);

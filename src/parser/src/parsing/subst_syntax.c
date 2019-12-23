@@ -6,15 +6,11 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 15:08:57 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/20 18:56:05 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 20:24:19 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-/*
-** // echo ss${??dfvdf}v
-*/
 
 int			valid_token(char **token, char *param, char closed)
 {
