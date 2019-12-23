@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 21:42:37 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:01:43 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,21 @@ int			ft_init_exit(char **argv)
 	return (0);
 }
 
+void		ft_free_history(void)
+{
+	t_history	*his;
+	t_history	*next;
+
+	his = get_shell_cfg(0)->init->history;
+	while (his)
+	{
+		next = his->next;
+		free(his->str);
+		free(his);
+		his = next;
+	}
+}
+
 int			ft_exit(char **argv)
 {
 	uint8_t			r;
@@ -72,10 +87,9 @@ int			ft_exit(char **argv)
 		ft_free_array(ft_getset(0)->test_operators);
 		ft_freemap();
 		r = 0;
-		if (argv[0] && !ft_isnumber(argv[0]) && (r = 255))
+		if (argv[0] && ft_exitcode(argv[0], &r))
 			ft_printf_fd(2, "42sh: exit: numeric argument required\n");
-		else if (argv[0])
-			r = ft_atoi(argv[0]);
+		ft_free_history();
 		ft_free_job(ft_getset(0)->jobs);
 		free(ft_getset(0));
 		free(get_shell_cfg(0)->pwd);
