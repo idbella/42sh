@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 11:43:16 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/23 09:46:24 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:26:20 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@ char		**convert_args(t_arg *h, int size)
 	char	**new;
 	int		i;
 	int		j;
-	t_arg	*next;
 
 	new = (char **)ft_memalloc(sizeof(char *) * (size + 1));
 	j = 0;
 	while (h)
 	{
-		next = h->next;
 		i = -1;
 		while (h->arg[++i])
 		{
@@ -34,9 +32,7 @@ char		**convert_args(t_arg *h, int size)
 			}
 			new[j++] = h->arg[i];
 		}
-		free(h->arg);
-		free(h);
-		h = next;
+		h = h->next;
 	}
 	return (new);
 }
@@ -59,11 +55,13 @@ void		store_args(t_arg *c, char **args, int *size)
 	}
 	else
 	{
-		c->arg = (char **)malloc(sizeof(char *) * 2);
-		c->arg[0] = ft_strdup(*args);
-		c->arg[1] = NULL;
-		if (ft_strlen(*args))
+		if (ft_strlen(*args) &&
+		(c->arg = (char **)ft_memalloc(sizeof(char *) * 2)))
+		{
+			c->arg[0] = ft_strdup(*args);
+			c->arg[1] = NULL;
 			(*size)++;
+		}
 	}
 }
 

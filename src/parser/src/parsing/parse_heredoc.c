@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 21:33:24 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/23 09:45:40 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:25:24 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*get_heredoc_string(char *eof)
 	while (1)
 	{
 		buf = readline(in, "heredoc> ");
+		ft_putchar('\n');
 		if (!in->heredoc_int)
 		{
 			// break ;

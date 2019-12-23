@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/22 09:35:31 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:19:26 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ void		ctl_subst(char *s, char *tmp, char **str, char type)
 	free(param);
 }
 
+void		ft_abort(int pipe_fd)
+{
+	ft_printf_fd(2, "42sh: fork: Resource temporarily unavailable.\n");
+	close(pipe_fd);
+	// kill(0, 2);
+	exit(EXIT_FAILURE);
+}
+
 int			exec_(char *line)
 {
 	t_job	*head;
@@ -56,8 +64,11 @@ int			exec_(char *line)
 		ft_free_job(head);
 		exit(0);
 	}
-	waitpid(pid, 0, 0);
 	close(p[1]);
+	if (pid < 0)
+		ft_abort(p[0]);
+	if (pid > 0)
+		waitpid(pid, 0, 0);
 	return (p[0]);
 }
 
