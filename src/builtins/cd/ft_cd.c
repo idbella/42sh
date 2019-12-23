@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:08:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 20:01:20 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/23 20:21:31 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*cdpath_concatenation(char *cdpath, char *directory)
 char	*ft_home(t_recipes *recipes)
 {
 	if (recipes->home)
-		return (recipes->home);
+		return (ft_strdup(recipes->home));
 	ft_putstr_fd("42sh: HOME not set\n", 2);
 	return (NULL);
 }
@@ -53,11 +53,11 @@ char	*ft_treat_single_arg(t_recipes *recipes, char **cmd)
 	if (cmd[0][0] == '-' && cmd[0][1] == '\0')
 	{
 		if (recipes->oldpwd)
-			return (recipes->oldpwd);
+			return (ft_strdup(recipes->oldpwd));
 		ft_putstr_fd("42sh: OLDPWD not set\n", 2);
 		return (NULL);
 	}
-	return (cmd[0]);
+	return (ft_strdup(cmd[0]));
 }
 
 int		ft_cd(char **cmd)
