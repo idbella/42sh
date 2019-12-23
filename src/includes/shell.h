@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:40:36 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 18:12:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 18:23:47 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SHELL_H
 # include <fcntl.h>
 # include <stdint.h>
+# include "autocomplete.h"
 # include "datatypes.h"
 # include "readline.h"
 # include "parser.h"
