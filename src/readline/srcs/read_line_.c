@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 04:41:44 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/23 15:59:08 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 16:02:07 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ char			*readline(t_init *init, char *promt)
 	while (1)
 	{
 		if (init->heredoc_int == -1)
+		{
+			init->heredoc_int = 0;
 			return (NULL);
+		}
 		if (!(position = read(0, buffer, 6)) && !init->skip_read)
 			continue;
 		if (g_sig_win)
