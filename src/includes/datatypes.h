@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 21:57:15 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:43:58 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,8 @@ typedef struct 		s_recipes
 	char			*cdpath;
 	char			*curpath;
 	char			options;
+	char			*cwd;
+	char			**paths;
 	int				mute;
 	int				helper;
 	struct stat		buf;
