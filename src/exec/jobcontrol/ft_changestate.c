@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/16 21:51:22 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 20:23:26 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 21:28:01 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ft_change_state(t_job *job, pid_t pid, int status)
 	if (job && (proc = ft_getproc_byjob(job, pid)))
 	{
 		ft_getstat(proc, status);
-		if (proc->signaled && !proc->next)
+		if (proc->signaled && !proc->next && get_shell_cfg(0)->interractive)
 		{
 			if (WTERMSIG(proc->status) != 2 && ft_print_termsig(status))
 			{
