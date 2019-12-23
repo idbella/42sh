@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 00:50:54 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/22 17:32:59 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 16:50:12 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,22 @@ static char		*ft_cmd_(t_init *init)
 	return (cmd);
 }
 
+int				ft_ch_qout_(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c && ft_cke_c_eskip(i - 1, str))
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 char			*ft_qoute__fin(t_init *init)
 {
 	char		*tmp;
@@ -47,7 +63,7 @@ char			*ft_qoute__fin(t_init *init)
 	init->kote = ft_strjoin(init->kote,
 	&init->out_put[(int)ft_strlen(init->promt)]);
 	ft_strdel(&tmp);
-	if (ft_strchr(&init->out_put[(int)ft_strlen(init->promt)], init->qt))
+	if (ft_ch_qout_(&init->out_put[(int)ft_strlen(init->promt)], init->qt))
 		return (ft_cmd_(init));
 	return (NULL);
 }

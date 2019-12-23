@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 17:50:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/22 18:06:16 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 16:51:56 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int			get_end(t_init *init, int e_d)
 	return (i);
 }
 
-char	*ft_cmd_mangement__(char *str, t_init *init)
+char		*ft_cmd_mangement__(char *str, t_init *init)
 {
 	char	*cmd;
 
@@ -85,7 +85,7 @@ char		*call_qote(t_init *init, char c, char *str)
 
 char		*call_esqp(char *str, t_init *init)
 {
-	int i;
+	int		i;
 
 	i = ft_strlen(str) - 1;
 	if (str[i] == '\\' && str[i + 1] == '\0' && ft_cke_c_eskip(i - 1, str))

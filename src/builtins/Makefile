@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+         #
+#    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/22 19:24:14 by yelazrak         ###   ########.fr        #
+#    Updated: 2019/12/23 14:58:54 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME=libbuiltins.a
 
 OBJ=ft_getopt.o prompt.o type/ft_type.o\
 exit/ft_exit.o\
+exit/ft_getexitcode.o\
 builtins.o\
 hashtable/ft_addtomap.o\
 hashtable/ft_empty.o\

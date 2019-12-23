@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 15:21:04 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/22 21:18:06 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 18:14:20 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void			ft_init_output(t_init *init)
 	init->skip_read = 0;
 	init->qoute = 0;
 	init->qt = '\0';
-	///init->heredoc_int = 0;
 	init->s.selection = 0;
 	if (init->promt)
 		init->out_put = ft_strdup(init->promt);
@@ -88,7 +87,7 @@ static void		ft_key__66(char *str, t_init *init)
 
 int				key_4_of_cursor(char *str, t_init *init)
 {
-	if (str[2] == 65 && init->heredoc_int != 1)
+	if (str[2] == 65)
 	{
 		ft_key__65(str, init);
 		return (1);
@@ -99,7 +98,7 @@ int				key_4_of_cursor(char *str, t_init *init)
 			ft_move_mul_line(init, "+");
 		return (1);
 	}
-	if (str[2] == 66 && init->heredoc_int != 1)
+	if (str[2] == 66)
 	{
 		ft_key__66(str, init);
 		return (1);

@@ -6,20 +6,18 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 10:27:10 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 10:01:08 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/wait.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <pwd.h>
-#include <uuid/uuid.h>
-# include "datatypes.h"
-# include "param_expan.h"
 #ifndef PARSER_H
 # define PARSER_H
-
+# include <sys/wait.h>
+# include <sys/types.h>
+# include <pwd.h>
+# include <uuid/uuid.h>
+# include "datatypes.h"
+# include "param_expan.h"
 # define SEMI_COL -1
 # define BLANK -2
 # define PIPE -3
@@ -57,7 +55,6 @@
 # define OCO(i, _O, C) L[i] C S _O L[i] C P _O L[i] C O _O L[i] C R _O L[i] C B
 # define IS_OPERATOR(i, _O, C) TCO(i, _O, C) _O OCO(i, _O, C)
 # define IS_REDIR_OP(i, _O, C) L[i] C O _O L[i] C R _O L[i] C A _O L[i] C H
-# define NOT_ESCAPED(i)  L[(i - 1 > 0) ? i - 1 : 0] != UQ_ESCAPE
 # define AT(i) (i - 1 > 0) ? i - 1 : 0
 # define NEQ_ESCAPE(i) L[AT(i)] != -16 && L[AT(i)] != -17
 # define LEFT_OPR 0b00000001
@@ -69,11 +66,8 @@
 # define _PARAM(x) get_dollar_var(tmp, &i, x)
 # define INDEX(i) (i - 1 > 0) ? i - 1 : 0
 # define IS_DOLLAR(dq) is_dollar(L, i, dq)
-/* 
-** 
-*/
-# define STACK_SIZE 100
-typedef	struct s_token
+
+typedef	struct	s_token
 {
 	char			**list;
 	char			type;
@@ -81,7 +75,7 @@ typedef	struct s_token
 	struct s_token	*next;
 }				t_token;
 
-typedef	struct s_arg
+typedef	struct	s_arg
 {
 	char			**arg;
 	struct s_arg	*next;

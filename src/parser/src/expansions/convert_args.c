@@ -6,53 +6,28 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 11:43:16 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/21 09:52:12 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:34:36 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-char		**ft_newarray(int size)
-{
-	char	**new;
-	int		i;
-
-	new = NULL;
-	if (!(new = (char **)malloc(sizeof(char *) * (size + 1))))
-		exit(EXIT_FAILURE);
-	i = 0;
-	while (i < size)
-		new[i++] = NULL;
-	return (new);
-}
 
 char		**convert_args(t_arg *h, int size)
 {
 	char	**new;
 	int		i;
 	int		j;
-	t_arg	*next;
 
-	new = ft_newarray(size);
+	if (!(new = (char **)ft_memalloc(sizeof(char *) * (size + 1))))
+		exit(EXIT_FAILURE);
 	j = 0;
 	while (h)
 	{
-		next = h->next;
 		i = -1;
-		while (h->arg[++i])
-		{
-			if (!ft_strlen(h->arg[i]))
-			{
-				free(h->arg[i]);
-				continue ;
-			}
+		while (h->arg && h->arg[++i])
 			new[j++] = h->arg[i];
-		}
-		free(h->arg);
-		free(h);
-		h = next;
+		h = h->next;
 	}
-	new[j] = NULL;
 	return (new);
 }
 
@@ -74,11 +49,12 @@ void		store_args(t_arg *c, char **args, int *size)
 	}
 	else
 	{
-		c->arg = (char **)malloc(sizeof(char *) * 2);
-		c->arg[0] = ft_strdup(*args);
-		c->arg[1] = NULL;
-		if (ft_strlen(*args))
+		if ((c->arg = (char **)ft_memalloc(sizeof(char *) * 2)))
+		{
+			c->arg[0] = ft_strdup(*args);
+			c->arg[1] = NULL;
 			(*size)++;
+		}
 	}
 }
 

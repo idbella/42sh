@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/22 11:26:06 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 14:36:27 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@
 ** - Expand only environment variables if double quoted.
 ** - No expansions if argument is single quoted.
 */
+
+static void		free_arg_list(t_arg **h)
+{
+	t_arg	*next;
+
+	while (*h)
+	{
+		next = (*h)->next;
+		free((*h)->arg);
+		free(*h);
+		*h = NULL;
+		*h = next;
+	}
+}
 
 static t_arg	*get_node(void)
 {
@@ -110,4 +124,5 @@ void			apply_expansions(t_process *process)
 	process->holder = NULL;
 	if (size)
 		process->arg = convert_args(h, size);
+	free_arg_list(&h);
 }

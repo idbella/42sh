@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:44:09 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/22 18:16:16 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/23 16:50:38 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,38 +39,45 @@ int			errors_container(int err, t_recipes *recipes)
 	return (-1);
 }
 
-static char	*remove_dots(char **paths, t_recipes *recipes, int i)
+static char	*remove_dots(char **paths, t_recipes *recipes)
 {
+	int		i;
+
 	recipes->curpath = ft_strdup("/");
 	i = 0;
 	while (paths[i])
 	{
 		if (paths[i][0] != -1 && i == 0)
-			recipes->curpath = ft_join("%s%s", recipes->curpath, paths[i]);
+			recipes->curpath = ft_join("%f%s", recipes->curpath, paths[i]);
 		else if (paths[i][0] != -1 && i != 0)
-			recipes->curpath = ft_join("%s/%s", recipes->curpath, paths[i]);
+			recipes->curpath = ft_join("%f/%s", recipes->curpath, paths[i]);
 		i++;
 	}
 	ft_free_array(paths);
 	return (recipes->curpath);
 }
 
-static char	*operate_dots(char **paths, int i)
+static char	*operate_dots(char ***paths, char *curpath)
 {
-	while (paths[i])
+	int		i;
+
+	i = 0;
+
+	paths[0] = ft_strsplit(curpath, '/');
+	while (paths[0][i])
 	{
-		if (!ft_strcmp("..", paths[i]) && paths[i][0] != -1)
+		if (!ft_strcmp("..", paths[0][i]) && paths[0][i][0] != -1)
 		{
-			paths[i][0] = -1;
-			while (paths[i][0] == -1 && i)
+			paths[0][i][0] = -1;
+			while (paths[0][i][0] == -1 && i)
 				i--;
 			if (i == 0)
 				return (ft_strdup("/"));
 			else
-				paths[i][0] = -1;
+				paths[0][i][0] = -1;
 		}
-		if (!ft_strcmp(".", paths[i]) && paths[i][0] != -1)
-			paths[i][0] = -1;
+		if (!ft_strcmp(".", paths[0][i]) && paths[0][i][0] != -1)
+			paths[0][i][0] = -1;
 		i++;
 	}
 	return (NULL);
@@ -78,35 +85,23 @@ static char	*operate_dots(char **paths, int i)
 
 static char	*curpath_handling(t_recipes *recipes)
 {
-	int		i;
-	char	**paths;
-
 	if (recipes->curpath[0] != '/')
 	{
-
-		if (!ft_strcmp("/", getcwd(NULL, 4097)))
-		{	
-			recipes->curpath = ft_join("%s%s",
-					getcwd(NULL, 4097), recipes->curpath);
-		}
+		if (!ft_strcmp("/", recipes->curpath))
+			recipes->curpath = ft_join("%f%s", recipes->cwd, recipes->curpath);
 		else if (recipes->options == 'P')
-		{
-			recipes->curpath = ft_join("%s/%s",
-					getcwd(NULL, 4097), recipes->curpath);
-		}
+			recipes->curpath = ft_join("%f/%s", recipes->cwd, recipes->curpath);
 		else
 			recipes->curpath = ft_join("%s/%s",
 					get_shell_cfg(0)->pwd, recipes->curpath);
 	}
-	paths = ft_strsplit(recipes->curpath, '/');
-	i = 0;
-	recipes->curpath = operate_dots(paths, i);
+	recipes->curpath = operate_dots(&(recipes->paths), recipes->curpath);
 	if (recipes->curpath)
 	{
-		ft_free_array(paths);
+		ft_free_array(recipes->paths);
 		return (ft_strdup(recipes->curpath));
 	}
-	return (remove_dots(paths, recipes, i));
+	return (remove_dots(recipes->paths, recipes));
 }
 
 int			chdir_operations(t_recipes *recipes)
@@ -117,12 +112,10 @@ int			chdir_operations(t_recipes *recipes)
 		{
 			if (!access(recipes->curpath, X_OK))
 			{
-				ft_addtohashmap("OLDPWD", ft_getenv("PWD"), INTERN);
 				recipes->curpath = curpath_handling(recipes);
+				ft_addtohashmap("OLDPWD", ft_getenv("PWD"), INTERN);
 				if (chdir(recipes->curpath) != -1)
 				{
-					if (recipes->mute == 1)
-						ft_putendl(recipes->curpath);
 					ft_addtohashmap("PWD", recipes->curpath, 1)->exported = 1;
 					ft_strdel(&(get_shell_cfg(0)->pwd));
 					get_shell_cfg(0)->pwd = ft_strdup(recipes->curpath);
