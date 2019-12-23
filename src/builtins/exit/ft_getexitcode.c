@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/23 14:57:35 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 14:57:50 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:01:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	ft_sign(int *n1sign, char **n1)
 	}
 }
 
-char	ft_exitcode(char *arg, uint8_t *code)
+char		ft_exitcode(char *arg, uint8_t *code)
 {
 	char	*n1;
 	int		n1signed;

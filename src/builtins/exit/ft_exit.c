@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 14:58:30 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:01:43 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int			ft_init_exit(char **argv)
 	return (0);
 }
 
-void	ft_free_history(void)
+void		ft_free_history(void)
 {
 	t_history	*his;
 	t_history	*next;
