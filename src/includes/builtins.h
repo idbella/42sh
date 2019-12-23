@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 11:59:21 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 14:59:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,12 @@ int					errors_container(int err, t_recipes *recipes);
 int					chdir_operations(t_recipes *recipes);
 int					ft_cd(char **args);
 
+/*
+** EXIT
+*/
+
 int					ft_exit(char **argv);
+char				ft_exitcode(char *arg, uint8_t *code);
 
 /*
 ** FC
