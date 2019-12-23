@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 21:33:24 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/23 15:25:24 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 18:45:42 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 
 void	store_heredoc(char **heredoc, char **buf)
 {
+	int		i;
+
+	i = 0;
+	while ((*buf)[i])
+	{
+		if ((*buf)[i] == '$' && (*buf)[i + 1] && (ft_isalnum((*buf)[i + 1]) ||
+		(*buf)[i + 1] == '{' || (*buf)[i + 1] == '(' ||
+		(*buf)[i + 1] == '_' || (*buf)[i + 1] == '?'))
+			(*buf)[i] = DOLLAR;
+		i++;
+	}
+	search_and_expand(buf);
+	i = -1;
+	while ((*buf)[++i])
+		if ((*buf)[i] == BLANK)
+			(*buf)[i] = '\n';
 	if (!*heredoc)
 	{
 		*heredoc = ft_strdup(*buf);
@@ -39,16 +55,12 @@ char	*get_heredoc_string(char *eof)
 	while (1)
 	{
 		buf = readline(in, "heredoc> ");
-		ft_putchar('\n');
-		if (!in->heredoc_int)
-		{
-			// break ;
-			// dprintf(2," HERE : %d\n", in->heredoc_int);
-		}
 		if (!buf)
 		{
+			in->heredoc_int = 0;
 			return ((char *)-1);
 		}
+		ft_putchar('\n');
 		if (ft_strequ(buf, eof) || ft_strequ(buf, eol))
 			break ;
 		store_heredoc(&heredoc, &buf);

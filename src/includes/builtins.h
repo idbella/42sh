@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 14:59:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 19:03:12 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char				**ft_serialize_env(char exported);
 
 int					ft_export(char **args);
 
-void				ft_free_history(void);
+// void				ft_free_history(void);
 
 int					ft_set(void);
 int					ft_unset(char **args);

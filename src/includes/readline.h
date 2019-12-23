@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   readline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 19:33:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/23 18:35:10 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 19:04:30 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef READLINE_H
 # define READLINE_H
-
+# include "autocomplete.h"
 # include <stdio.h>
 # include "libft.h"
 # include <stdlib.h>
