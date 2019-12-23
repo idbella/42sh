@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:20:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/22 21:56:26 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:58:49 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ char			*ft_check_qout(char *str, t_init *init)
 
 	i = -1;
 	if (!str)
-		return (NULL);
+		return (NULL);///ft_putendl(str);
 	while (str[++i])
 	{
 		if ((str[i] == '"' && ft_cke_c_eskip(i - 1, str)) ||
 			(str[i] == '\'' && ft_cke_c_eskip(i - 1, str)))
 		{
 			c = str[i++];
-			while (str[i] != c && str[i])
+			while ((str[i] != c || (str[i] == c && ft_cke_c_eskip(i - 1, str))) && str[i])
 				i++;
 			if (str[i] != c)
 				return (call_qote(init, c, str));

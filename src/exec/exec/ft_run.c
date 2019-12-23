@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:05:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 22:45:08 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 16:01:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	ft_freeall(char *file, char **env, t_job *job, int status)
 
 void	ft_setup_child(t_params *params, t_job *job, t_process *process)
 {
+	if (params->fdscopy[0] > 2)
+		close(params->fdscopy[0]);
+	if (params->fdscopy[1] > 2)
+		close(params->fdscopy[1]);
+	if (params->pipe_stdin >= 0)
+		close(params->pipe_stdin);
 	if (!ft_redirect(process->redir))
 		ft_freeall(NULL, NULL, job, 1);
 	if (!process->arg)
@@ -30,12 +36,6 @@ void	ft_setup_child(t_params *params, t_job *job, t_process *process)
 	ft_getset(0)->list = NULL;
 	ft_getset(0)->current = NULL;
 	ft_getset(0)->prev = NULL;
-	if (params->fdscopy[0] > 2)
-		close(params->fdscopy[0]);
-	if (params->fdscopy[1] > 2)
-		close(params->fdscopy[1]);
-	if (params->pipe_stdin >= 0)
-		close(params->pipe_stdin);
 	ft_jobs_in_child(job);
 }
 

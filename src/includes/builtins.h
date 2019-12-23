@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/21 14:45:45 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 14:59:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char				**ft_serialize_env(char exported);
 
 int					ft_export(char **args);
 
+void				ft_free_history(void);
+
 int					ft_set(void);
 int					ft_unset(char **args);
 
@@ -80,7 +82,12 @@ int					errors_container(int err, t_recipes *recipes);
 int					chdir_operations(t_recipes *recipes);
 int					ft_cd(char **args);
 
+/*
+** EXIT
+*/
+
 int					ft_exit(char **argv);
+char				ft_exitcode(char *arg, uint8_t *code);
 
 /*
 ** FC
@@ -130,7 +137,7 @@ int					ft_strtest(int id, char *l_oper, char *r_oper);
 int					ft_sizetest(char *file);
 int					ft_mathcmp(int id, char *n1, char *n2);
 int					ft_expression(char *expr);
-
+int					ft_maxinteger(char *nb, int sign);
 /*
 ** intern
 */
