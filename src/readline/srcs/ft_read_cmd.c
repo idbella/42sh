@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 20:15:42 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/22 21:53:21 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 18:00:16 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,16 @@ char *buffer, char **t)
 
 	line = NULL;
 	if (!(buffer[0] == 4 && buffer[1] == '\0') && init->search == 1)
-	{
 		line = ft_search_(*t, init);
-		ft_strdel(t);
-	}
 	else if (!(buffer[0] == 4 && buffer[1] == '\0') && init->qoute == 1)
 	{
 		if ((line = ft_qoute(*t, init)))
-		{
-			ft_strdel(t);
 			ft_add_history_(init, line, 1);
-		}
 	}
 	else if (!(buffer[0] == 4 && buffer[1] == '\0'))
 		line = move_cursor_and_mangemant_fonction(*t, init);
-	else if ((buffer[0] == 4 && buffer[1] == '\0'))
+	else if ((buffer[0] == 4 && buffer[1] == '\0') &&
+	ft_strcmp(init->promt, init->out_put) == 0)
 		return (ft_strdup(buffer));
 	ft_strdel(t);
 	return (line);
