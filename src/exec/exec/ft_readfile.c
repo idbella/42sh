@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 12:11:18 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 12:11:26 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 14:51:06 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_readfile(t_params *params)
 	if (!params->job->processes->next)
 	{
 		proc = params->job->processes;
-		if (proc->redir->file && proc->redir->type == O_RDONLY
+		if (proc->redir && proc->redir->file && proc->redir->type == O_RDONLY
 			&& !proc->redir->next)
 		{
 			file = proc->redir->file;

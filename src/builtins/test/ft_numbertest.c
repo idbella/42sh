@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 13:39:28 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 14:50:38 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 10:48:44 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int		ft_limit(char *nb, int sign)
+int		ft_maxinteger(char *nb, int sign)
 {
 	int		i;
 	int		n1;
@@ -29,7 +29,7 @@ int		ft_limit(char *nb, int sign)
 			n2 = nb[i] - '0';
 			if (n2 > n1)
 			{
-				if (i == 19 && sign && n2 == 8)
+				if (i == 18 && sign && n2 == 8)
 					return (0);
 				ft_printf("42sh: test: %s: integer expression expected\n", nb);
 				return (2);
@@ -63,7 +63,7 @@ int		ft_cmp(int id, char *n1, char *n2)
 	return (0);
 }
 
-void	ft_sign(int *n1sign, int *n2sign, char **n1, char **n2)
+static void	ft_sign(int *n1sign, int *n2sign, char **n1, char **n2)
 {
 	char	*tmp;
 
@@ -102,8 +102,8 @@ int		ft_mathcmp(int id, char *n1, char *n2)
 	else
 	{
 		ft_sign(&n1signed, &n2signed, &n1, &n2);
-		r = ft_limit(n1, n1signed);
-		if (!r && ft_limit(n2, n2signed))
+		r = ft_maxinteger(n1, n1signed);
+		if (!r && ft_maxinteger(n2, n2signed))
 			r = 1;
 		else if (!r)
 			r = ft_cmp(id, n1, n2);

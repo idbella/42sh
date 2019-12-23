@@ -6,13 +6,14 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:40:36 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 14:10:40 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 09:08:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_H
 # define SHELL_H
 # include <fcntl.h>
+# include <stdint.h>
 # include "datatypes.h"
 # include "readline.h"
 # include "parser.h"

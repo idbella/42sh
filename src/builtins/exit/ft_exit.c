@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 15:28:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 21:42:37 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 14:44:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,59 @@ int			ft_init_exit(char **argv)
 	return (0);
 }
 
+static void	ft_sign(int *n1sign, char **n1)
+{
+	char	*tmp;
+
+	if (**n1 == '-' || **n1 == '+')
+	{
+		if (**n1 == '-')
+			*n1sign = 1;
+		tmp = ft_strdup(*n1 + 1);
+		free(*n1);
+		*n1 = tmp;
+	}
+}
+
+char	ft_exitcode(char *arg, uint8_t *code)
+{
+	char	*n1;
+	int		n1signed;
+	int		r;
+
+	r = 0;
+	n1 = ft_isnbr(arg);
+	if (!n1)
+	{
+		ft_printf("42: exit: integer expression expected\n");
+		r = 2;
+	}
+	else
+	{
+		ft_sign(&n1signed, &n1);
+		*code = 255;
+		if (!(r = ft_maxinteger(n1, n1signed)))
+			*code = ft_atoi(n1);
+	}
+	free(n1);
+	return (r);
+}
+
+void	ft_free_history(void)
+{
+	t_history	*his;
+	t_history	*next;
+
+	his = get_shell_cfg(0)->init->history;
+	while (his)
+	{
+		next = his->next;
+		free(his->str);
+		free(his);
+		his = next;
+	}
+}
+
 int			ft_exit(char **argv)
 {
 	uint8_t			r;
@@ -72,10 +125,9 @@ int			ft_exit(char **argv)
 		ft_free_array(ft_getset(0)->test_operators);
 		ft_freemap();
 		r = 0;
-		if (argv[0] && !ft_isnumber(argv[0]) && (r = 255))
+		if (argv[0] && ft_exitcode(argv[0], &r))
 			ft_printf_fd(2, "42sh: exit: numeric argument required\n");
-		else if (argv[0])
-			r = ft_atoi(argv[0]);
+		ft_free_history();
 		ft_free_job(ft_getset(0)->jobs);
 		free(ft_getset(0));
 		free(get_shell_cfg(0)->pwd);
