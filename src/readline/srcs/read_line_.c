@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 04:41:44 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/23 15:26:01 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:59:08 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void			ft_catch_sig(int a)
 {
 	a = 0;
 	g_sig = 1;
-	get_shell_cfg(0)->init->heredoc_int = -1;
+	if (get_shell_cfg(0)->init->heredoc_int == 1)
+		get_shell_cfg(0)->init->heredoc_int = -1;
 	ft_putchar('\n');
 	ft_strdel(&get_shell_cfg(0)->init->promt);
 	get_shell_cfg(0)->init->promt = ft_strdup("$> ");
