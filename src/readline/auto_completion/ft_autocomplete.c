@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 18:31:52 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/23 22:51:05 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/23 23:00:00 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -884,7 +884,7 @@ void	ft_one_dir_completion(t_init *init, char *path, char *tilda)
 	tmp = NULL;
 	tmp = init->completion_lst->str;
 	if (tilda)
-		init->completion_lst->str = ft_strjoin(tilda, init->completion_lst->str);
+		init->completion_lst->str =  ft_strjoin(tilda, init->completion_lst->str);
 	else
 		init->completion_lst->str = ft_strjoin(path, init->completion_lst->str);
 	free(tmp);
