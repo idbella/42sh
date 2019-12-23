@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:08:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 20:21:31 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/23 23:02:00 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,13 @@ char	*ft_treat_single_arg(t_recipes *recipes, char **cmd)
 	return (ft_strdup(cmd[0]));
 }
 
+int		print_error(t_recipes *recipes)
+{
+	ft_strdel(&(recipes->cwd));
+	ft_putstr_fd("42sh: too much argument\n", 2);
+	return (1);
+}
+
 int		ft_cd(char **cmd)
 {
 	int			i;
@@ -78,11 +85,7 @@ int		ft_cd(char **cmd)
 	else if (i - 1 >= 0)
 		recipes.options = cmd[i - 1][ft_strlen(cmd[i - 1]) - 1];
 	if ((len = ft_arraylen(cmd + i)) > 1)
-	{
-		ft_strdel(&recipes.cwd);
-		ft_putstr_fd("42sh: too much argument\n", 2);
-		return (1);
-	}
+		return (print_error(&recipes));
 	else if (len == 0)
 		recipes.curpath = ft_home(&recipes);
 	else if (len == 1)
