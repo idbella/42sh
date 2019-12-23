@@ -6,25 +6,11 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 11:43:16 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/21 09:52:12 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 09:46:24 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-char		**ft_newarray(int size)
-{
-	char	**new;
-	int		i;
-
-	new = NULL;
-	if (!(new = (char **)malloc(sizeof(char *) * (size + 1))))
-		exit(EXIT_FAILURE);
-	i = 0;
-	while (i < size)
-		new[i++] = NULL;
-	return (new);
-}
 
 char		**convert_args(t_arg *h, int size)
 {
@@ -33,7 +19,7 @@ char		**convert_args(t_arg *h, int size)
 	int		j;
 	t_arg	*next;
 
-	new = ft_newarray(size);
+	new = (char **)ft_memalloc(sizeof(char *) * (size + 1));
 	j = 0;
 	while (h)
 	{
@@ -52,7 +38,6 @@ char		**convert_args(t_arg *h, int size)
 		free(h);
 		h = next;
 	}
-	new[j] = NULL;
 	return (new);
 }
 

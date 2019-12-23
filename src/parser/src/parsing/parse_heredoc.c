@@ -6,11 +6,22 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 21:33:24 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/19 17:51:43 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 09:45:40 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+void	store_heredoc(char **heredoc, char **buf)
+{
+	if (!*heredoc)
+	{
+		*heredoc = ft_strdup(*buf);
+		free(*buf);
+	}
+	else
+		*heredoc = ft_fstrjoin(ft_fstrjoin(*heredoc, ft_strdup("\n")), *buf);
+}
 
 char	*get_heredoc_string(char *eof)
 {
@@ -28,16 +39,22 @@ char	*get_heredoc_string(char *eof)
 	while (1)
 	{
 		buf = readline(in, "heredoc> ");
+		if (!in->heredoc_int)
+		{
+			// break ;
+			// dprintf(2," HERE : %d\n", in->heredoc_int);
+		}
 		if (!buf)
+		{
 			return ((char *)-1);
+		}
 		if (ft_strequ(buf, eof) || ft_strequ(buf, eol))
 			break ;
-		if (!heredoc)
-			heredoc = ft_strdup(buf);
-		else
-			heredoc = ft_fstrjoin(ft_fstrjoin(heredoc, ft_strdup("\n")), buf);
+		store_heredoc(&heredoc, &buf);
 	}
 	free(eof);
+	free(buf);
+	in->heredoc_int = 0;
 	return (heredoc);
 }
 

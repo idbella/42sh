@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 16:12:10 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/19 10:50:39 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/23 09:12:09 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ void	expand_tilde(char **args)
 		while ((*args)[j] && (*args)[j] != '/')
 			j++;
 		tilde = ft_strsub(*args, 0, j);
-		expansion = ft_strdup(tild_expan(tilde));
+		expansion = tild_expan(tilde);
+		free(tilde);
 		len = ft_strlen(*args);
 		if (expansion)
 		{
 			s = ft_strsub(*args, j, (len - j <= 0) ? 1 : (len - j));
+			free(*args);
 			*args = ft_fstrjoin(expansion, s);
 		}
 	}
