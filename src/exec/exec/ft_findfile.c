@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 14:51:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 12:23:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 15:47:22 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	*ft_findfile(char *name, char **error, char add)
 			return (file);
 		*error = "42sh: %s: permission denied\n";
 	}
+	free(file);
 	return (NULL);
 }
 
@@ -95,6 +96,12 @@ char	*ft_getexecutable(t_process *process, int report)
 	char	*error;
 
 	error = NULL;
+	if (ft_strlen(process->arg[0]) == 0)
+	{
+		if (report)
+			ft_error("42sh: %s: command not found\n", "");
+		return (NULL);
+	}
 	if ((file = ft_findfile(process->arg[0], &error, 1)))
 		return (file);
 	else if (!error)
