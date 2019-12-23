@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:08:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 16:07:07 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/23 19:47:35 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int		ft_cd(char **cmd)
 		ft_putstr_fd("42sh: too much argument\n", 2);
 		return (1);
 	}
+	printf("ALLO\n");
 	else if (len == 0)
 		recipes.curpath = ft_home(&recipes);
 	else if (len == 1)
