@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:54:19 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/23 15:52:32 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/23 16:58:08 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,4 @@ void	recipes_preparations(t_recipes *recipes)
 	recipes->curpath = NULL;
 	recipes->options = 0;
 	recipes->mute = 0;
-}
-
-char	check_param_for_cd(char *param)
-{
-	int		i;
-
-	i = 0;
-	if (param[i] == '-')
-		i++;
-	while (param[i] == 'L' || param[i] == 'P')
-		i++;
-	if (param[i - 1] != 'P' && param[i - 1] != 'L')
-		return (0);
-	return (param[i - 1]);
 }
