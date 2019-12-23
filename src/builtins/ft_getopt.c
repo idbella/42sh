@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getopt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 10:31:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 19:24:23 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/22 22:04:21 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int		ft_getopt(char **args, char *buffer, char *valid)
 	{
 		if (ft_strequ(args[i], "--"))
 			return (i + 1);
-		if (args[i][0] == '-')
+		if (args[i][0] == '-' && args[i][1])
 		{
-			if ((c = ft_check(args[i], valid, buffer)) < 0)
+			if ((c = ft_check(args[i] + 1, valid, buffer)) < 0)
 				return (c);
 		}
 		else
