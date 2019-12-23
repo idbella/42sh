@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 10:05:39 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 21:18:01 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/23 21:21:58 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ char	*ft_getprompt(void)
 	if (ft_get_last_rvalue())
 		clr = "\e[31m";
 	if ((path = ft_getpwd()))
-		prompt = ft_join("[%d] %f $> ", ft_get_last_rvalue(), path);
+		prompt = ft_join("%f $> ", path);
 	else
-		prompt = ft_join("[%d] $> ", ft_get_last_rvalue());
+		prompt = ft_strdup("$> ");
 	return (prompt);
 }
