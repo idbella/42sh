@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 15:06:50 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/23 22:45:19 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/23 22:56:02 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	suffix_globing(t_mtools *t, char pattern_size)
 	if ((t->i_suffix - 1 >= 0 && t->suffix[t->i_suffix - 1] != UQ_ESCAPE &&
 				t->suffix[t->i_suffix - 1] != UQ_ESCAPE) || t->i_suffix == 0)
 	{
-		if (t->i_suffix - 1 >= 0 && t->suffix[t->i_suffix - 1] )
+		if (t->i_suffix - 1 >= 0 && t->suffix[t->i_suffix - 1])
 		{
 			t->i_suffix--;
 			if (pattern_size == 'S')
