@@ -12,6 +12,30 @@
 
 #include "shell.h"
 
+void	get_redir_type(t_redir *curr, char *str, int i)
+{
+	if (str[i + 1] != '&' && (str[i] == OUT_RED_OP || str[i] == IN_RED_OP))
+		curr->type = (str[i] == OUT_RED_OP) ? O_WRONLY : O_RDONLY;
+	else if (str[i] == APP_OUT_RED_OP)
+		curr->type = O_APPEND;
+	if (curr->type != O_APPEND)
+	{
+		if (str[i] == OUT_RED_OP && (str[(i - 1 > 0) ? i - 1 : 0] == '&' ||
+		(str[i + 1] == '&' && !ft_isdigit(str[i + 2])
+		&& !ft_isdigit(str[(i - 1 > 0) ? i - 1 : 0])
+		&& str[i + 2] != '-')))
+		{
+			curr->src_fd = BOTH_FDS;
+			curr->type = O_WRONLY;
+			if (i > 0)
+				str[i - 1] = (str[i - 1] == '&') ? BLANK : str[i - 1];
+			str[i + 1] = (str[i + 1] == '&') ? BLANK : str[i + 1];
+		}
+	}
+	if (curr->type != O_APPEND && str[i + 2] && str[i + 1] == '&')
+		curr->type = (str[i + 2] == '-') ? CLOSE_FD : FD_AGGR;
+}
+
 void	get_src_fd(t_redir *curr, char *str, int *i, int *j)
 {
 	if (!*i || str[*i - 1] == BLANK ||

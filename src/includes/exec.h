@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:44:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 12:33:38 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 14:34:41 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,6 @@ char	*ft_getexecutable(t_process *process, int report);
 char	ft_run_in_sub(t_process *p);
 t_job	*ft_list(t_process *pr);
 void	ft_execbg(t_job *job);
+t_list	**ft_cppyvars(void);
+int		ft_gettmpvars(t_process *process, t_function *func);
 #endif

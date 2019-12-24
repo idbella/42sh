@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 09:18:20 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/23 22:56:47 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/24 10:57:43 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	specify_expan_type(t_param_expan_st *p_w, char *p_ex, int i)
 			p_ex[i + 1] = -1;
 		return ;
 	}
-	p_ex[i] = -1;
 	p_w->type = 'A';
 	if (p_ex[i] == '-')
 		p_w->operation_type = p_ex[i];
@@ -79,6 +78,7 @@ void	specify_expan_type(t_param_expan_st *p_w, char *p_ex, int i)
 		p_w->operation_type = p_ex[i];
 	if (p_ex[i] == '?')
 		p_w->operation_type = p_ex[i];
+	p_ex[i] = -1;
 }
 
 void	specify_param_word(t_param_expan_st *p_w, char *p_ex)
@@ -117,7 +117,6 @@ void	split_param_expan(char *param_expan, t_param_expan_st *param_word)
 			else
 				specify_expan_type(param_word, param_expan, i);
 			specify_param_word(param_word, param_expan);
-			ft_strdel(&param_expan);
 			return ;
 		}
 		i++;

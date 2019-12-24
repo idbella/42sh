@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 20:27:05 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/24 10:01:37 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char			*skip_operators(char type, char *token, int *start, int *j);
 int				get_list_node(char type, void **curr, char *str);
 char			*check_redirections(char *str, t_process *cmd);
 char			escape_char(char c);
+void			get_redir_type(t_redir *curr, char *str, int i);
 int				get_redir_fds(t_redir *curr, char *str, int *i);
 void			get_redir_file(t_redir *curr, char *str, int *i);
 char			*get_heredoc(char *str, int *i, int *hd_fd);
@@ -118,7 +119,10 @@ void			remove_unwanted_chars(char **eof,
 				char *str, int old_i, int i);
 int				is_not_blank(char *line, int j, int i);
 void			apply_expansions(t_process *process);
+char			**get_assignments(char ***args);
+void			free_arg_list(t_arg **h);
 void			valid_assignment(char *args, char *flag, int pos);
+int				expand_and_append(t_arg **h, t_arg **t, char ***args);
 void			store_args(t_arg *c, char **args, int *size);
 char			**convert_args(t_arg *h, int size);
 int				expand(char **args, t_arg *c);

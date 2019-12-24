@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 15:21:04 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/23 18:14:20 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/24 14:30:08 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void			ft_init_output(t_init *init)
 	init->skip_read = 0;
 	init->qoute = 0;
 	init->qt = '\0';
+	init->z0 = 0;
 	init->s.selection = 0;
 	if (init->promt)
 		init->out_put = ft_strdup(init->promt);
@@ -56,9 +57,9 @@ static void		ft_key__65(char *str, t_init *init)
 {
 	(void)str;
 	(void)init;
-	if (init->history_postoin != NULL)
+	if (init->history_postoin != NULL && init->history_postoin->prvet)
 		init->history_postoin = init->history_postoin->prvet;
-	else
+	else if (init->z0 == 0)
 		init->history_postoin = init->last_history;
 	if (init->history_postoin)
 	{
@@ -67,6 +68,7 @@ static void		ft_key__65(char *str, t_init *init)
 		ft_init_output(init);
 		tputs(tgetstr("cd", NULL), 0, my_putchar);
 		ft_str_line(init->history_postoin->str, init);
+		init->z0 = 1;
 	}
 }
 
@@ -74,15 +76,15 @@ static void		ft_key__66(char *str, t_init *init)
 {
 	(void)str;
 	if (init->history_postoin != NULL && init->history_postoin->next)
+	{
 		init->history_postoin = init->history_postoin->next;
-	else if (init->last_history->next == NULL)
-		init->history_postoin = init->last_history->next;
-	home_cursor(init);
-	ft_printf("\033[%dD", (int)ft_strlen(init->promt));
-	ft_init_output(init);
-	tputs(tgetstr("cd", NULL), 0, my_putchar);
-	if (init->history_postoin)
-		ft_str_line(init->history_postoin->str, init);
+		home_cursor(init);
+		ft_printf("\033[%dD", (int)ft_strlen(init->promt));
+		ft_init_output(init);
+		tputs(tgetstr("cd", NULL), 0, my_putchar);
+		if (init->history_postoin)
+			ft_str_line(init->history_postoin->str, init);
+	}
 }
 
 int				key_4_of_cursor(char *str, t_init *init)

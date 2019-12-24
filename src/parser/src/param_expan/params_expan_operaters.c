@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 17:11:08 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/22 13:06:13 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/24 11:57:08 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*error_func(t_param_expan_st *p_w)
 			ft_putstr_fd("42sh: ", 2);
 			ft_putstr_fd(p_w->param, 2);
 			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(p_w->word, 2);
+			ft_putendl_fd(p_w->word, 2);
 			return (NULL);
 		}
 	}
@@ -92,7 +92,7 @@ char	*error_func(t_param_expan_st *p_w)
 	ft_putstr_fd("42sh: ", 2);
 	ft_putstr_fd(p_w->param, 2);
 	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(p_w->word, 2);
+	ft_putendl_fd(p_w->word, 2);
 	return (NULL);
 }
 

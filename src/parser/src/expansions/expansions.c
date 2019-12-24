@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:48:11 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/23 14:36:27 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/24 10:07:38 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** - No expansions if argument is single quoted.
 */
 
-static void		free_arg_list(t_arg **h)
+void			free_arg_list(t_arg **h)
 {
 	t_arg	*next;
 
@@ -69,35 +69,6 @@ int				expand_and_append(t_arg **h, t_arg **t, char ***args)
 	return (size);
 }
 
-char			**get_assignments(char ***args)
-{
-	int		pos;
-	char	flag;
-	int		size;
-	t_arg	*h;
-	t_arg	*t;
-
-	pos = 0;
-	h = NULL;
-	t = NULL;
-	size = 0;
-	while (*args && **args)
-	{
-		quotes_delimiter(*args);
-		flag = 1;
-		if ((pos = ft_strpos(**args, "=")) != -1)
-		{
-			valid_assignment(**args, &flag, pos);
-			if (!flag)
-				size += expand_and_append(&h, &t, args);
-		}
-		if (flag)
-			break ;
-		(*args)++;
-	}
-	return (size ? convert_args(h, size) : NULL);
-}
-
 void			apply_expansions(t_process *process)
 {
 	int		size;
@@ -124,5 +95,4 @@ void			apply_expansions(t_process *process)
 	process->holder = NULL;
 	if (size)
 		process->arg = convert_args(h, size);
-	free_arg_list(&h);
 }
