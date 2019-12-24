@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:44:09 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/24 19:25:48 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/24 20:25:48 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static char	*curpath_handling(t_recipes *recipes)
 
 int			chdir_operations(t_recipes *recipes)
 {
-	if ((recipes->helper = stat(recipes->curpath, &recipes->buf)) != -1)
+	if (stat(recipes->curpath, &recipes->buf))
 	{
 		if (S_ISDIR(recipes->buf.st_mode))
 		{
@@ -135,5 +135,5 @@ int			chdir_operations(t_recipes *recipes)
 		else
 			return (errors_container(3, recipes));
 	}
-	return (recipes->helper);
+	return (errors_container(4, recipes));
 }
