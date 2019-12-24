@@ -6,16 +6,16 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 15:09:44 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 15:25:46 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/24 19:28:54 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int ft_cursor_position(char *s, int cursor)
+int		ft_cursor_position(char *s, int cursor)
 {
-	int start;
-	int end;
+	int	start;
+	int	end;
 
 	start = 0;
 	end = 0;
@@ -35,10 +35,10 @@ int ft_cursor_position(char *s, int cursor)
 	return (0);
 }
 
-int ft_if_empty_first_word(char *line, t_init *init, int cursor)
+int		ft_if_empty_first_word(char *line, t_init *init, int cursor)
 {
-	int i;
-	int new_cursor;
+	int	i;
+	int	new_cursor;
 
 	i = 0;
 	new_cursor = init->s_cursor - cursor - (int)ft_promptlen(init->promt);
@@ -53,9 +53,9 @@ int ft_if_empty_first_word(char *line, t_init *init, int cursor)
 	return (1);
 }
 
-int ft_is_cursor_in_first_word(t_init *init, char *line, int cursor)
+int		ft_is_cursor_in_first_word(t_init *init, char *line, int cursor)
 {
-	int new_cursor;
+	int	new_cursor;
 
 	new_cursor = 0;
 	if (ft_if_empty_first_word(line, init, cursor + 1) == 1)
@@ -66,12 +66,12 @@ int ft_is_cursor_in_first_word(t_init *init, char *line, int cursor)
 	return (0);
 }
 
-char *ft_take_new_line(char *input, t_init *init, int *cursor, char *line)
+char	*ft_take_new_line(char *input, t_init *init, int *cursor, char *line)
 {
-	char *str;
-	char c;
-	int i;
-	int len;
+	char	*str;
+	char	c;
+	int		i;
+	int		len;
 
 	i = 0;
 	len = 0;
@@ -82,7 +82,7 @@ char *ft_take_new_line(char *input, t_init *init, int *cursor, char *line)
 		if (c == SEMI_COL || c == PIPE || c == OR || c == AND || c == BG)
 		{
 			i = 1;
-			break;
+			break ;
 		}
 		(*cursor)--;
 	}
@@ -95,11 +95,11 @@ char *ft_take_new_line(char *input, t_init *init, int *cursor, char *line)
 	return (str);
 }
 
-int ft_is_first_cmd(char *input, t_init *init)
+int		ft_is_first_cmd(char *input, t_init *init)
 {
-	char *line;
-	int cursor;
-	char *new_line;
+	char	*line;
+	int		cursor;
+	char	*new_line;
 
 	new_line = NULL;
 	cursor = init->s_cursor - (int)ft_promptlen(init->promt);
@@ -123,14 +123,14 @@ int ft_is_first_cmd(char *input, t_init *init)
 	return (0);
 }
 
-int ft_is_first_word_42(char *line, t_init *init)
+int		ft_is_first_word_42(char *line, t_init *init)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
 	i = init->s_cursor - ft_promptlen(init->promt);
-	if (init->out_put[init->s_cursor] == '\0' && 
+	if (init->out_put[init->s_cursor] == '\0' &&
 		init->s_cursor == (int)ft_promptlen(init->promt))
 		return (0);
 	i--;
@@ -142,7 +142,8 @@ int ft_is_first_word_42(char *line, t_init *init)
 	}
 	if (j == 0)
 		return (2);
-	if (ft_cursor_position(line, init->s_cursor - (int)ft_promptlen(init->promt)) == 1)
+	if (ft_cursor_position(line, init->s_cursor -
+	(int)ft_promptlen(init->promt)) == 1)
 		return (0);
 	if (ft_is_first_cmd(line, init) == 1)
 		return (0);
