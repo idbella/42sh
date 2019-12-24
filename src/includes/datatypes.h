@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   datatypes.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:38:46 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 19:33:42 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 14:21:21 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct			s_init
 	t_auto			*completion_lst;
 	t_auto			*completion_lst_position;
 	char			*promt;
+	int				z0;
 }						t_init;
 
 typedef struct			s_redir
