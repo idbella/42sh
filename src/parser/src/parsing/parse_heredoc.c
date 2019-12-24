@@ -104,13 +104,15 @@ char	*get_heredoc(char *str, int *i, int *hd_fd)
 	ft_memset(str + *i, BLANK, old_i - (*i) + 2);
 	*i = old_i + 2;
 	old_i = *i;
-	while (str[*i] == BLANK)
+	while (str[*i] && (str[*i] == BLANK || str[*i] == HEREDOC_OP))
 	{
+		if (str[*i] == HEREDOC_OP)
+			str[*i] = BLANK;
 		old_i++;
 		(*i)++;
 	}
-	while (ft_isprint(str[*i]) || str[*i] == UQ_ESCAPE || str[*i] == Q_ESCAPE
-	|| str[*i] == DOLLAR)
+	while (str[*i] && (ft_isprint(str[*i]) || str[*i] == UQ_ESCAPE
+	|| str[*i] == Q_ESCAPE || str[*i] == DOLLAR))
 		(*i)++;
 	eof = ft_strsub(str, old_i, *i - old_i);
 	j = -1;
