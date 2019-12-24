@@ -6,18 +6,16 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 16:23:15 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 16:25:41 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/24 19:31:20 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-
-
-char **ft_convert_lst_to_tab(t_auto *lst, int lst_len)
+char	**ft_convert_lst_to_tab(t_auto *lst, int lst_len)
 {
-	char **tabl;
-	int i;
+	char	**tabl;
+	int		i;
 
 	i = 0;
 	tabl = NULL;
@@ -34,7 +32,7 @@ char **ft_convert_lst_to_tab(t_auto *lst, int lst_len)
 
 void	ft_put_2(char *t, int i)
 {
-	int j;
+	int	j;
 
 	j = ft_strlen(t);
 	ft_putstr(t);
@@ -45,9 +43,9 @@ void	ft_put_2(char *t, int i)
 	}
 }
 
-int ft_8_multipl(int l)
+int		ft_8_multipl(int l)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i <= l)
@@ -57,8 +55,8 @@ int ft_8_multipl(int l)
 
 void	ft_print_tab(char **t, int b, int m, int n)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	ft_putchar('\n');
@@ -78,19 +76,19 @@ void	ft_print_tab(char **t, int b, int m, int n)
 
 void	ft_ls_print_42(t_auto *lst, int print_len, int lst_len)
 {
-	struct winsize info;
-	int a;
-	int b;
-	char **table;
+	struct winsize	info;
+	int				a;
+	int				b;
+	char			**table;
 
 	if (!(table = ft_convert_lst_to_tab(lst, lst_len)))
-		return;
+		return ;
 	ioctl(0, TIOCGWINSZ, &info);
 	if (!print_len)
-		return;
+		return ;
 	a = info.ws_col / print_len;
 	if (!a)
-		return;
+		return ;
 	b = lst_len / a;
 	if ((lst_len % a) != 0)
 		b++;

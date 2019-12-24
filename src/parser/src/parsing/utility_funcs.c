@@ -106,20 +106,22 @@ int		get_list_node(char type, void **curr, char *str)
 		if (!(*curr = (t_job *)ft_memalloc(sizeof(t_job))))
 			exit(EXIT_FAILURE);
 		if (!(((t_job *)*curr)->processes = get_process_list(str, type)))
+		{
+			free(*curr);
 			return (0);
+		}
 		((t_job *)*curr)->command = get_cmd_string(str);
-		((t_job *)*curr)->flag = 0;
-		((t_job *)*curr)->sub = 0;
-		((t_job *)*curr)->next = NULL;
 	}
 	else
 	{
 		if (!(*curr = (t_process *)ft_memalloc(sizeof(t_process))))
 			exit(EXIT_FAILURE);
-		((t_process *)*curr)->p0 = -1;
 		((t_process *)*curr)->heredoc_fd = -1;
 		if ((check_redirections(str, ((t_process *)*curr))) == (char *)-1)
+		{
+			free(*curr);
 			return (0);
+		}
 		if (str && str != (char *)-1)
 			((t_process *)*curr)->holder = ft_strsplit(str, BLANK);
 	}
