@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:09:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 14:59:26 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/24 19:36:21 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void				ft_init_free(void)
 	ft_strdel(&init->out_put);
 	ft_strdel(&init->promt);
 	ft_strdel(&init->str_search);
+	ft_memdel((void **)init);
 }
 
 void				ft_chang_size(void)
