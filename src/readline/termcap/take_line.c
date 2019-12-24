@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:13:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 13:07:21 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/24 16:01:48 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 void			ft_move__(t_init *init, char *str)
 {
 	(void)str;
-	if (init->x0 + (get_strat(init, init->s_l) - \
+	if (init->x0 + (get_strat(init, ft_strlen(init->out_put)) - \
 	get_strat(init, init->s_cursor)) \
-	% init->s_col == init->s_col && init->y0 + (get_strat(init, init->s_l) - \
-	get_strat(init, init->s_cursor)) / init->s_col == init->s_line)
+	% init->s_col >= init->s_col && init->y0 +
+	(get_strat(init, ft_strlen(init->out_put)) - \
+	get_strat(init, init->s_cursor)) / init->s_col >= init->s_line)
 	{
 		ft_printf("\033[%dS", 1);
 		ft_printf("\033[%dA", 1);
