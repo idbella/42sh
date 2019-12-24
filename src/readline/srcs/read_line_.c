@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 04:41:44 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/23 18:17:29 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/24 15:00:23 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,14 @@ char			*readline(t_init *init, char *promt)
 	ft_strdel(&init->promt);
 	init->promt = ft_strdup(promt);
 	ft_init_terminal();
-	ft_init_output(init);
 	while (1)
 	{
 		if (init->heredoc_int == -1)
 			break ;
+		if (g_sig_win == 1)
+			ft_chang_size();
 		if (!(position = read(0, buffer, 6)) && !init->skip_read)
 			continue;
-		if (g_sig_win)
-			ft_size_terminal(init);
 		buffer[position] = '\0';
 		if ((line = ft_take_move(init, buffer, position)))
 			break ;
@@ -53,15 +52,22 @@ char			*readline(t_init *init, char *promt)
 
 void			ft_catch_sig_window(int a)
 {
+	t_init *init;
+
 	a = 0;
 	g_sig_win = 1;
+	init = get_shell_cfg(0)->init;
+	ft_size_terminal(init);
+	home_cursor(init);
+	ft_printf("\033[%dD\033[%dC", init->s_col,
+	ft_strlen(init->promt));
+	tputs(tgetstr("cd", NULL), 0, my_putchar);
 }
 
 void			ft_initial_main(t_init *init)
 {
 	g_sig = 0;
 	tcgetattr(0, &init->term_copy);
-	ft_putstr("\033[H\033[J");
 	init->out_put = ft_strnew(0);
 	init->promt = ft_strnew(0);
 	init->kote = NULL;

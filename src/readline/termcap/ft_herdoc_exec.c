@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:09:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/23 18:33:50 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/24 14:59:26 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,14 @@ void				ft_init_free(void)
 	ft_strdel(&init->out_put);
 	ft_strdel(&init->promt);
 	ft_strdel(&init->str_search);
+}
+
+void				ft_chang_size(void)
+{
+	t_init			*init;
+
+	init = get_shell_cfg(0)->init;
+	g_sig_win = 0;
+	ft_putstr_fd(&init->out_put[(int)ft_strlen(init->promt)], 1);
+	init->s_cursor = ft_strlen(init->out_put);
 }
