@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:46:41 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 20:27:05 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/24 10:01:37 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,10 @@ void			remove_unwanted_chars(char **eof,
 				char *str, int old_i, int i);
 int				is_not_blank(char *line, int j, int i);
 void			apply_expansions(t_process *process);
+char			**get_assignments(char ***args);
+void			free_arg_list(t_arg **h);
 void			valid_assignment(char *args, char *flag, int pos);
+int				expand_and_append(t_arg **h, t_arg **t, char ***args);
 void			store_args(t_arg *c, char **args, int *size);
 char			**convert_args(t_arg *h, int size);
 int				expand(char **args, t_arg *c);

@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 11:43:16 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/23 15:34:36 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/24 10:04:47 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ char		**convert_args(t_arg *h, int size)
 	char	**new;
 	int		i;
 	int		j;
+	t_arg	*tmp;
 
 	if (!(new = (char **)ft_memalloc(sizeof(char *) * (size + 1))))
 		exit(EXIT_FAILURE);
 	j = 0;
+	tmp = h;
 	while (h)
 	{
 		i = -1;
@@ -28,6 +30,7 @@ char		**convert_args(t_arg *h, int size)
 			new[j++] = h->arg[i];
 		h = h->next;
 	}
+	free_arg_list(&tmp);
 	return (new);
 }
 

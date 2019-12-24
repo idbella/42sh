@@ -6,11 +6,21 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 16:12:10 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/23 09:12:09 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/24 09:54:20 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+void	replace_tilde(char **args, char *expansion, int j, int len)
+{
+	char	*s;
+
+	s = NULL;
+	s = ft_strsub(*args, j, (len - j <= 0) ? 1 : (len - j));
+	free(*args);
+	*args = ft_fstrjoin(expansion, s ? s : ft_strnew(0));
+}
 
 void	expand_tilde(char **args)
 {
@@ -18,7 +28,6 @@ void	expand_tilde(char **args)
 	char	*tilde;
 	char	*expansion;
 	int		len;
-	char	*s;
 
 	tilde = NULL;
 	if ((j = ft_strpos((*args), "~")) != -1)
@@ -35,11 +44,7 @@ void	expand_tilde(char **args)
 		free(tilde);
 		len = ft_strlen(*args);
 		if (expansion)
-		{
-			s = ft_strsub(*args, j, (len - j <= 0) ? 1 : (len - j));
-			free(*args);
-			*args = ft_fstrjoin(expansion, s);
-		}
+			replace_tilde(args, expansion, j, len);
 	}
 }
 
