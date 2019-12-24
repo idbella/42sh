@@ -6,17 +6,17 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 15:29:13 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 15:38:09 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/24 19:16:59 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int ft_path_dir(char **to_complete, char **old_to_complete, char **path)
+int		ft_path_dir(char **to_complete, char **old_to_complete, char **path)
 {
-	char *home_dir;
-	struct stat st;
-	char *tmp;
+	char		*home_dir;
+	struct stat	st;
+	char		*tmp;
 
 	tmp = NULL;
 	if ((*to_complete)[0] == '~')
@@ -36,10 +36,11 @@ int ft_path_dir(char **to_complete, char **old_to_complete, char **path)
 	return (0);
 }
 
-int ft_check_if_is_dir(char **path, char **old_to_complete, char **new_to_complete, char **tilda)
+int		ft_check_if_is_dir(char **path, char **old_to_complete,
+	char **new_to_complete, char **tilda)
 {
-	struct stat st;
-	int i;
+	struct stat	st;
+	int			i;
 
 	i = 0;
 	if (!stat(*path, &st))
@@ -48,7 +49,8 @@ int ft_check_if_is_dir(char **path, char **old_to_complete, char **new_to_comple
 		{
 			if (*old_to_complete)
 			{
-				i = ft_strlen(*old_to_complete) - ft_strlen(*new_to_complete);
+				i = ft_strlen(*old_to_complete) - 
+					ft_strlen(*new_to_complete);
 				*tilda = ft_strsub(*old_to_complete, 0, i);
 				ft_strdel(old_to_complete);
 			}
@@ -72,12 +74,13 @@ int		ft_free_return_2(char **tmp, char *to_complete, int ret)
 		return (ret);
 }
 
-int ft_if_is_dir_2(char **to_complete, char **path, char **new_to_complete, char **tilda)
+int ft_if_is_dir_2(char **to_complete, char **path,
+	char **new_to_complete, char **tilda)
 {
-	int i;
-	char *old_to_complete;
-	char *tmp;
-	int n;
+	int		i;
+	char	*old_to_complete;
+	char	*tmp;
+	int		n;
 
 	tmp = *to_complete;
 	old_to_complete = NULL;
