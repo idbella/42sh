@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 16:29:20 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 16:52:54 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/24 17:52:07 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completi
 	char *path;
 	char *tilda;
 
-	i = 0;
+	i = 0 ;
 	completion = NULL;
 	str = NULL;
 	tilda = NULL;
