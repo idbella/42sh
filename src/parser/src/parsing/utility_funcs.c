@@ -103,7 +103,8 @@ int		get_list_node(char type, void **curr, char *str)
 {
 	if (type)
 	{
-		*curr = (t_job *)ft_memalloc(sizeof(t_job));
+		if (!(*curr = (t_job *)ft_memalloc(sizeof(t_job))))
+			exit(EXIT_FAILURE);
 		if (!(((t_job *)*curr)->processes = get_process_list(str, type)))
 			return (0);
 		((t_job *)*curr)->command = get_cmd_string(str);
@@ -113,7 +114,8 @@ int		get_list_node(char type, void **curr, char *str)
 	}
 	else
 	{
-		*curr = (t_process *)ft_memalloc(sizeof(t_process));
+		if (!(*curr = (t_process *)ft_memalloc(sizeof(t_process))))
+			exit(EXIT_FAILURE);
 		((t_process *)*curr)->p0 = -1;
 		((t_process *)*curr)->heredoc_fd = -1;
 		if ((check_redirections(str, ((t_process *)*curr))) == (char *)-1)

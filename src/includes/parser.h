@@ -111,6 +111,7 @@ char			*skip_operators(char type, char *token, int *start, int *j);
 int				get_list_node(char type, void **curr, char *str);
 char			*check_redirections(char *str, t_process *cmd);
 char			escape_char(char c);
+void			get_redir_type(t_redir *curr, char *str, int i);
 int				get_redir_fds(t_redir *curr, char *str, int *i);
 void			get_redir_file(t_redir *curr, char *str, int *i);
 char			*get_heredoc(char *str, int *i, int *hd_fd);

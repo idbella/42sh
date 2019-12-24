@@ -40,30 +40,6 @@ static t_redir	*get_node(void)
 	return (node);
 }
 
-void			get_redir_type(t_redir *curr, char *str, int i)
-{
-	if (str[i + 1] != '&' && (str[i] == OUT_RED_OP || str[i] == IN_RED_OP))
-		curr->type = (str[i] == OUT_RED_OP) ? O_WRONLY : O_RDONLY;
-	else if (str[i] == APP_OUT_RED_OP)
-		curr->type = O_APPEND;
-	if (curr->type != O_APPEND)
-	{
-		if (str[i] == OUT_RED_OP && (str[(i - 1 > 0) ? i - 1 : 0] == '&' ||
-		(str[i + 1] == '&' && !ft_isdigit(str[i + 2])
-		&& !ft_isdigit(str[(i - 1 > 0) ? i - 1 : 0])
-		&& str[i + 2] != '-')))
-		{
-			curr->src_fd = BOTH_FDS;
-			curr->type = O_WRONLY;
-			if (i > 0)
-				str[i - 1] = (str[i - 1] == '&') ? BLANK : str[i - 1];
-			str[i + 1] = (str[i + 1] == '&') ? BLANK : str[i + 1];
-		}
-	}
-	if (curr->type != O_APPEND && str[i + 2] && str[i + 1] == '&')
-		curr->type = (str[i + 2] == '-') ? CLOSE_FD : FD_AGGR;
-}
-
 int				get_redir_info(t_redir *curr, char *str, int *i)
 {
 	get_redir_type(curr, str, *i);
@@ -74,6 +50,13 @@ int				get_redir_info(t_redir *curr, char *str, int *i)
 	}
 	get_redir_file(curr, str, i);
 	return (1);
+}
+
+void			check_heredoc(t_process *cmd, char *str, int *i)
+{
+	if (cmd->heredoc)
+		ft_strdel(&cmd->heredoc);
+	cmd->heredoc = get_heredoc(str, i, &cmd->heredoc_fd);
 }
 
 char			*check_redirections(char *str, t_process *cmd)
@@ -97,7 +80,7 @@ char			*check_redirections(char *str, t_process *cmd)
 				continue ;
 		}
 		else if (str[i] == HEREDOC_OP)
-			cmd->heredoc = get_heredoc(str, &i, &cmd->heredoc_fd);
+			check_heredoc(cmd, str, &i);
 		i++;
 	}
 	cmd->redir = head;
