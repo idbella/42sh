@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:44:09 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/23 20:34:16 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/24 19:25:48 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,24 @@ int			errors_container(int err, t_recipes *recipes)
 		ft_putstr_fd("42sh: chdir failed\n", 2);
 	if (err == 2)
 	{
-		ft_putstr_fd("42sh: ", 2);
+		ft_putstr_fd("42sh: cd: ", 2);
 		ft_putstr_fd("permission denied: ", 2);
 		ft_putendl_fd(recipes->curpath, 2);
+		ft_strdel(&recipes->cwd);
 	}
 	if (err == 3)
 	{
-		ft_putstr_fd("42sh: ", 2);
+		ft_putstr_fd("42sh: cd: ", 2);
 		ft_putstr_fd(recipes->curpath, 2);
 		ft_putstr_fd(" not a directory\n", 2);
+		ft_strdel(&recipes->cwd);
 	}
 	if (err == 4)
 	{
-		ft_putstr_fd("42sh :", 2);
+		ft_putstr_fd("42sh: cd:", 2);
 		ft_putstr_fd(" No such file or directory: ", 2);
 		ft_putendl_fd(recipes->curpath, 2);
 	}
-	ft_strdel(&(recipes->curpath));
-	ft_strdel(&(recipes->cwd));
 	return (-1);
 }
 
@@ -100,7 +100,7 @@ static char	*curpath_handling(t_recipes *recipes)
 			recipes->curpath = ft_join("%s/%f",
 					get_shell_cfg(0)->pwd, recipes->curpath);
 	}
-	free(recipes->cwd);
+	ft_strdel(&recipes->cwd);
 	recipes->curpath = operate_dots(&(recipes->paths), recipes->curpath);
 	if (recipes->curpath)
 	{
@@ -124,7 +124,6 @@ int			chdir_operations(t_recipes *recipes)
 				{
 					ft_addtohashmap("PWD", recipes->curpath, 1)->exported = 1;
 					ft_strdel(&(get_shell_cfg(0)->pwd));
-					ft_strdel(&(recipes->curpath));
 					get_shell_cfg(0)->pwd = ft_strdup(recipes->curpath);
 				}
 				else
