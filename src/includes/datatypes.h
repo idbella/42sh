@@ -95,7 +95,6 @@ typedef struct			s_process
 	char				**holder;
 	pid_t				pid;
 	int					status;
-	int					p0;
 	t_redir				*redir;
 	int					flag;
 	char				*heredoc;
