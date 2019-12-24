@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:59:01 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/23 20:29:17 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/24 19:20:16 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ int		cd_wheels(t_recipes *recipes)
 			tmp = recipes->curpath;
 			recipes->curpath = cdpath_concatenation(recipes->cdpath,
 					recipes->curpath);
+			recipes->mute = 1;
 			if (recipes->curpath)
 			{
-				recipes->mute = 1;
 				chdir_operations(recipes);
+				ft_strdel(&tmp);
 			}
-			else if ((recipes->curpath = tmp))
-				return (errors_container(4, recipes));
 		}
+		ft_strdel(&(recipes->curpath));
+		return (1);
 	}
-	else
-		return (-1);
+	ft_strdel(&(recipes->curpath));
 	return (0);
 }
