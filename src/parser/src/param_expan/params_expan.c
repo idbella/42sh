@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:46:25 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/22 11:55:01 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/24 11:47:32 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int		check_param(char *param)
 			(param[i + 1] != '-' && param[i + 1] != '+' &&
 			param[i + 1] != '=' && param[i + 1] != '?'))
 			return (-1);
+		else
+			return (0);
 		i++;
 	}
 	return (0);
