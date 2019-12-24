@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 20:14:38 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/23 15:32:15 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/24 11:18:16 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void		param_subst(char *s, char *tmp, char **str)
 		else
 			*str = exp;
 	}
+	else if (exp && !ft_strlen(exp))
+		free(exp);
 	else
 		get_shell_cfg(0)->abort = 1;
 	free(param);
@@ -50,13 +52,15 @@ void		get_expansion(char *s, char *tmp, char **str)
 		*str = ft_strdup(s + len + 1);
 	if (param[0] == '{')
 		param = ft_fstrsub(param, 1, len - 2);
-	if ((exp = get_param_expan(param)))
+	if ((exp = get_param_expan(param)) && ft_strlen(exp))
 	{
 		if (*str)
 			*str = ft_fstrjoin(exp, *str);
 		else
 			*str = exp;
 	}
+	else if (exp && !ft_strlen(exp))
+		free(exp);
 	else
 		get_shell_cfg(0)->abort = 1;
 	free(param);

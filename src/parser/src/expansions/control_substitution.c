@@ -6,7 +6,7 @@
 /*   By: yoyassin <yoyassin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 11:30:51 by yoyassin          #+#    #+#             */
-/*   Updated: 2019/12/24 10:22:07 by yoyassin         ###   ########.fr       */
+/*   Updated: 2019/12/24 11:18:50 by yoyassin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void		get_buffer(char **str, int pipe_fd, char type)
 			else
 				*str = ft_join("%f%c%s", *str, type ? '\n' : BLANK, buffer);
 		}
-		free(buffer);
+		ft_strdel(&buffer);
 	}
 }
 
