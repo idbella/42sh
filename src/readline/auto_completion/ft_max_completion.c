@@ -6,12 +6,11 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 16:29:20 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 17:52:07 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/24 19:32:42 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
 
 void	ft_get_the_max_completion(char *max_completion, 
 	char *tilda, char *path, char **completion)
@@ -24,10 +23,10 @@ void	ft_get_the_max_completion(char *max_completion,
 	ft_strdel(&tilda);
 }
 
-char *ft_min_completion(t_auto *lst)
+char	*ft_min_completion(t_auto *lst)
 {
-	char *str;
-	size_t min_len;
+	char	*str;
+	size_t	min_len;
 
 	str = lst->str;
 	min_len = ft_strlen(lst->str);
@@ -43,9 +42,9 @@ char *ft_min_completion(t_auto *lst)
 	return (str);
 }
 
-int ft_char_exist(t_auto *lst, int i, char *min_completion)
+int		ft_char_exist(t_auto *lst, int i, char *min_completion)
 {
-	int n;
+	int	n;
 
 	n = 0;
 	while (lst)
@@ -57,11 +56,11 @@ int ft_char_exist(t_auto *lst, int i, char *min_completion)
 	return (1);
 }
 
-char *ft_max_completion(t_auto *lst)
+char	*ft_max_completion(t_auto *lst)
 {
-	char *min_cplt;
-	int i;
-	char *str;
+	char	*min_cplt;
+	int		i;
+	char	*str;
 
 	i = 0;
 	min_cplt = ft_min_completion(lst);
@@ -82,13 +81,13 @@ char *ft_max_completion(t_auto *lst)
 
 void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completion)
 {
-	int i;
-	char *completion;
-	char *str;
-	char *path;
-	char *tilda;
+	int		i;
+	char	*completion;
+	char	*str;
+	char	*path;
+	char	*tilda;
 
-	i = 0 ;
+	i = 0;
 	completion = NULL;
 	str = NULL;
 	tilda = NULL;
@@ -96,7 +95,7 @@ void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completi
 	{
 		while (to_complete[i] && to_complete[i] != '$')
 			i++;
-        if (to_complete[i] && to_complete[i] == '$' && to_complete[i + 1] == '{')
+		if (to_complete[i] && to_complete[i] == '$' && to_complete[i + 1] == '{')
 			i++;
 		str = ft_strsub(to_complete, 0, i + 1);
 		completion = ft_strjoin(str, (max_completion));
