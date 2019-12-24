@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 13:50:51 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 14:34:20 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int		ft_init_run(t_params *params, t_process *process)
 		{
 			if (!ft_redirect(process->redir))
 				return (1);
-			return (func(process->arg + 1));
+			if (process->ass)
+				return (ft_gettmpvars(process, func));
+			else
+				return (func(process->arg + 1));
 		}
 	}
 	if (process->ass)
@@ -53,6 +56,7 @@ int		ft_init_run(t_params *params, t_process *process)
 
 void	ft_initexec(int *fds, t_params *params, char *status)
 {
+	get_shell_cfg(0)->abort = 0;
 	fds[0] = -1;
 	params->fdscopy[0] = dup(1);
 	params->fdscopy[1] = dup(2);
@@ -68,6 +72,8 @@ char	ft_exec_job(t_params *params, t_process *process)
 	while (process)
 	{
 		apply_expansions(process);
+		if (get_shell_cfg(0)->abort && (status = 1))
+			break ;
 		ft_init_proc(process);
 		if (fds[0] > 0 && dup2(fds[0], 0) != -1)
 			close(fds[0]);

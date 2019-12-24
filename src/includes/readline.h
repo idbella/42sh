@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 19:33:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/23 19:40:53 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/24 14:59:46 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int				read_file_(char *fille);
 char			*get_name_randm(void);
 int				ft_printusage(int c);
 int				ft_printerror(void);
+void			ft_chang_size(void);
 int				get_start_end(int *s, int *e, char **args);
 
 #endif

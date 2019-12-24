@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/23 14:58:54 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/24 10:48:25 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ hashtable/ft_mapdelete_one.o\
 hashtable/ft_printtable.o\
 interns/ft_getinters.o\
 interns/ft_isintern.o\
+interns/ft_cpyvars.o\
 env/ft_getenv.o\
 env/ft_export.o\
 env/ft_set.o\
@@ -34,8 +35,8 @@ cd/chdir_and_path_handling.o\
 cd/cd_tools.o\
 cd/cd_wheels.o\
 echo/ft_echo.o\
-alias/ft_alias.o         alias/ft_free_aliases.o   alias/ft_showaliases.o  alias/ft_unalias.o\
-test/ft_eval.o          test/ft_numbertest.o    test/ft_test.o\
+alias/ft_alias.o        alias/ft_free_aliases.o		alias/ft_showaliases.o	alias/ft_unalias.o\
+test/ft_eval.o          test/ft_numbertest.o		test/ft_test.o\
 test/ft_rd_wr_ex.o      test/ft_usergroup.o\
 test/ft_getoperators.o  test/ft_sizetest.o\
 test/ft_isnbr.o         test/ft_strtest.o\

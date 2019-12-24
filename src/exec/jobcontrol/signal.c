@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 23:03:34 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 13:07:40 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 09:19:23 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_terminated_action(t_job *job,
 		else if (WIFEXITED(proc->status))
 			*st = ft_join("[%d]+ Done\t\t%s\n", job->id, job->command);
 		else
-			*st = ft_join("[%d]+ %s:\t\t%d %s\n", job->id,
+			*st = ft_join("[%d]+ %s: %d\t\t%s\n", job->id,
 				ft_strsignal(WTERMSIG(proc->status)),
 					WTERMSIG(proc->status), job->command);
 	}

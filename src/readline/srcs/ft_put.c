@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 20:35:10 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/16 21:09:55 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/24 15:24:43 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_init_terminal(void)
 	term.c_cc[VTIME] = 1;
 	term.c_cc[VMIN] = 0;
 	tcsetattr(0, TCSANOW, &term);
+	ft_init_output(get_shell_cfg(0)->init);
 }
 
 void	ft_alt_up_2(int *x, int *a, t_init *init)

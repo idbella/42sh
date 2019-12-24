@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:12:08 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 21:42:03 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 13:44:11 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*ft_getusername(void)
 void	init_(t_shell *shell, char **env, t_init *init)
 {
 	get_shell_cfg(shell);
+	shell->tmpvars = NULL;
 	shell->interractive = 1;
 	ft_init_exec();
 	ft_init_builtins(env);
@@ -43,4 +44,5 @@ void	init_(t_shell *shell, char **env, t_init *init)
 	shell->last_exit = 0;
 	shell->subshell = 0;
 	shell->abort = 0;
+	shell->newmaps = NULL;
 }

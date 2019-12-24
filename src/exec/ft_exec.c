@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/22 13:05:21 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 12:09:34 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int		ft_exec_wait(t_params *p, t_job *job)
 	status = ft_exec_job(p, job->processes);
 	ft_wait(job, status);
 	signal(SIGCHLD, ft_sigchld);
+	if (get_shell_cfg(0)->abort)
+		return (-1);
 	status = !status ? ft_getjobstatus(job->processes) : status;
 	return (status);
 }
@@ -47,7 +49,7 @@ t_job	*ft_and_or(t_job *job, int status)
 int		exec(t_job *job)
 {
 	t_params	p;
-	uint8_t		status;
+	int			status;
 
 	status = 0;
 	ft_getset(0)->params = &p;
@@ -61,7 +63,8 @@ int		exec(t_job *job)
 			ft_execbg(job);
 		else
 		{
-			status = ft_exec_wait(&p, job);
+			if ((status = ft_exec_wait(&p, job)) < 0)
+				break ;
 			job = ft_and_or(job, status);
 		}
 		job = job->next;
