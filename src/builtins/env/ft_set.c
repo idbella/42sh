@@ -6,21 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 11:25:32 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/03 22:02:25 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 19:45:49 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-/*
-** escape():
-** not yet :-(
-*/
-
-static char	*escape(char *str)
-{
-	return (str);
-}
 
 int			ft_set(void)
 {
@@ -38,7 +28,7 @@ int			ft_set(void)
 		{
 			map = l->content;
 			if (map->type == INTERN)
-				ft_printf_fd(1, "%s=%s\n", map->key, escape(map->value));
+				ft_printf_fd(1, "%s=%s\n", map->key, map->value);
 			l = l->next;
 		}
 		i++;

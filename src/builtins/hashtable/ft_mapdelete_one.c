@@ -6,17 +6,17 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 23:50:06 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/11/28 08:55:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 19:58:47 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static void	ft_free(t_map *alias, t_list **next, t_list *lst)
+static void	ft_free(t_map *map, t_list *lst)
 {
-	free(alias->key);
-	free(alias->value);
-	*next = lst->next;
+	free(map->key);
+	free(map->value);
+	free(map);
 	free(lst);
 }
 
@@ -36,7 +36,8 @@ void		ft_hashdelete_one(char *key, char type)
 		map = lst->content;
 		if (map->type == type && ft_strequ(key, map->key))
 		{
-			ft_free(map, &next, lst);
+			next = lst->next;
+			ft_free(map, lst);
 			if (prev)
 				prev->next = next;
 			else

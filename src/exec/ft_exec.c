@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 17:04:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/24 12:09:34 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 19:37:33 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_init_exec(void)
 {
+	ft_restorestd(1, 1, 1);
 	ft_init_jobcontrol();
 }
 

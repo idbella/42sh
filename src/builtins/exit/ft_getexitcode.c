@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/23 14:57:35 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 15:01:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 19:26:00 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,16 @@ static void	ft_sign(int *n1sign, char **n1)
 	}
 }
 
-char		ft_exitcode(char *arg, uint8_t *code)
+char		ft_exitcode(char *nbr, uint8_t *code)
 {
-	char	*n1;
 	int		n1signed;
 	int		r;
 
 	r = 0;
-	n1 = ft_isnbr(arg);
-	if (!n1)
-	{
-		ft_printf("42: exit: integer expression expected\n");
-		r = 2;
-	}
-	else
-	{
-		ft_sign(&n1signed, &n1);
-		*code = 255;
-		if (!(r = ft_maxinteger(n1, n1signed)))
-			*code = ft_atoi(n1);
-	}
-	free(n1);
+	ft_sign(&n1signed, &nbr);
+	*code = 255;
+	if (!(r = ft_maxinteger(nbr, n1signed)))
+		*code = ft_atoi(nbr);
+	free(nbr);
 	return (r);
 }

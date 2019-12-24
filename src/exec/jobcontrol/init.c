@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 16:48:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/18 13:05:03 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/24 19:39:27 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		ft_init_jobcontrol(void)
 	pid_t			pid;
 	pid_t			pgid;
 
-	pid = getpid();
+	pid = getpgrp();
 	while (1)
 	{
 		pgid = tcgetpgrp(0);
@@ -35,7 +35,7 @@ void		ft_init_jobcontrol(void)
 			break ;
 		kill(pid, SIGTTIN);
 	}
-	container = malloc(sizeof(t_container));
+	container = ft_memalloc(sizeof(t_container));
 	container->list = NULL;
 	container->current = NULL;
 	container->notify = NULL;
