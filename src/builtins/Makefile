@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/25 20:27:22 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/25 22:01:41 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ interns/ft_cpyvars.o\
 env/ft_getenv.o\
 env/ft_export.o\
 env/ft_set.o\
+env/ft_printenv.o\
 cd/ft_cd.o\
 cd/chdir_and_path_handling.o\
 cd/cd_tools.o\
