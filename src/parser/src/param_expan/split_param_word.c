@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 09:18:20 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/24 10:57:43 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/25 16:12:27 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ void	split_param_expan(char *param_expan, t_param_expan_st *param_word)
 			(param_expan[i] == '?' && i != 0) || param_expan[i] == '+' ||
 			param_expan[i] == '=' || param_expan[i] == '%' ||
 			param_expan[i] == '#') &&
-				((i - 1 >= 0 && param_expan[i - 1] != '\\') || i == 0))
+			((i > 0 && param_expan[i - 1] != UQ_ESCAPE &&
+			param_expan[i - 1] != Q_ESCAPE) || i == 0))
 		{
 			if (param_expan[i] == '%' || param_expan[i] == '#')
 				specify_pattern_expan(param_word, param_expan, i);
