@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 15:06:50 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/23 22:56:02 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/25 16:03:49 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	suffix_globing(t_mtools *t, char pattern_size)
 {
 	int		globing;
 
-	if ((t->i_suffix - 1 >= 0 && t->suffix[t->i_suffix - 1] != UQ_ESCAPE &&
-				t->suffix[t->i_suffix - 1] != UQ_ESCAPE) || t->i_suffix == 0)
+	if ((t->i_suffix > 0 && t->suffix[t->i_suffix - 1] != UQ_ESCAPE &&
+				t->suffix[t->i_suffix - 1] != Q_ESCAPE) || t->i_suffix == 0)
 	{
 		if (t->i_suffix - 1 >= 0 && t->suffix[t->i_suffix - 1])
 		{
@@ -46,17 +46,36 @@ void	suffix_globing(t_mtools *t, char pattern_size)
 			t->ret = pattern_size == 'S' ? 1 : 2;
 	}
 	else
-		t->i_suffix -= 2;
+		t->i_suffix -= 1;
+}
+
+void	two_in_one(t_mtools *tools, char *src, char *suffix, char mission)
+{
+	if (mission == 'I')
+	{
+		tools->i_src = ft_strlen(src);
+		tools->i_suffix = ft_strlen(suffix);
+		tools->src = src;
+		tools->suffix = suffix;
+	}
+	if (mission == 'E')
+	{
+		if (tools->i_suffix > 0 &&
+			(tools->suffix[tools->i_suffix - 1] == UQ_ESCAPE ||
+			tools->suffix[tools->i_suffix - 1] == Q_ESCAPE))
+			tools->i_suffix--;
+		if (tools->i_src > 0 &&
+			(tools->src[tools->i_src - 1] == UQ_ESCAPE ||
+			tools->src[tools->i_src - 1] == Q_ESCAPE))
+			tools->i_src--;
+	}
 }
 
 int		find_suffix(char *src, char *suffix, char suffix_size)
 {
 	t_mtools	tools;
 
-	tools.i_src = ft_strlen(src);
-	tools.i_suffix = ft_strlen(suffix);
-	tools.src = src;
-	tools.suffix = suffix;
+	two_in_one(&tools, src, suffix, 'I');
 	while (tools.i_src >= 0 && tools.i_suffix >= 0)
 	{
 		if (suffix[tools.i_suffix] == '*')
@@ -68,6 +87,7 @@ int		find_suffix(char *src, char *suffix, char suffix_size)
 			if (tools.ret == 2)
 				return (tools.i_src + 1);
 		}
+		two_in_one(&tools, src, suffix, 'E');
 		if (src[tools.i_src] != suffix[tools.i_suffix] || !tools.i_suffix)
 			break ;
 		tools.i_src--;

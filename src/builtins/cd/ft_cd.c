@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:08:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/25 11:01:01 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/25 17:48:06 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	*ft_home(t_recipes *recipes)
 {
 	if (recipes->home)
 		return (ft_strdup(recipes->home));
-	ft_strdel(&(recipes->cwd));
 	ft_putstr_fd("42sh: HOME not set\n", 2);
 	return (NULL);
 }
@@ -54,16 +53,14 @@ char	*ft_treat_single_arg(t_recipes *recipes, char **cmd)
 	{
 		if (recipes->oldpwd)
 			return (ft_strdup(recipes->oldpwd));
-		ft_strdel(&(recipes->cwd));
 		ft_putstr_fd("42sh: OLDPWD not set\n", 2);
 		return (NULL);
 	}
 	return (ft_strdup(cmd[0]));
 }
 
-int		print_error(t_recipes *recipes)
+int		print_error(void)
 {
-	ft_strdel(&(recipes->cwd));
 	ft_putstr_fd("42sh: too much argument\n", 2);
 	return (1);
 }
@@ -86,7 +83,7 @@ int		ft_cd(char **cmd)
 	else if (i - 1 >= 0)
 		recipes.options = cmd[i - 1][ft_strlen(cmd[i - 1]) - 1];
 	if ((len = ft_arraylen(cmd + i)) > 1)
-		return (print_error(&recipes));
+		return (print_error());
 	else if (len == 0)
 		recipes.curpath = ft_home(&recipes);
 	else if (len == 1)

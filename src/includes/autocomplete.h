@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/23 18:06:24 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/24 16:19:56 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/25 17:12:38 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,10 @@ void	ft_ls_print_42(t_auto *lst, int print_len, int lst_len);
 int ft_8_multipl(int l);
 char *ft_max_completion(t_auto *lst);
 void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completion);
+int		ft_cursor_position(char *s, int cursor);
+int		ft_char_exist(t_auto *lst, int i, char *min_completion);
+void	ft_free_auto_lst(t_auto **lst);
+int		ft_free_return(char **to_complete, int ret);
+int		ft_free_return_2(char **tmp, char *to_complete, int ret);
 
 #endif

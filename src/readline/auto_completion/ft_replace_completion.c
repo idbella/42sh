@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 16:08:20 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 16:39:03 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/25 17:19:08 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ void	ft_completion_display(t_init *init, char *completion)
 
 void	replace_the_auto_comlete_42(t_init *init, char *completion)
 {
-	int i;
-	int j;
-	char *tmp;
+	int		i;
+	int		j;
+	char	*tmp;
 
 	j = 0;
 	i = init->s_cursor - 1;
 	tmp = ft_strdup(init->out_put);
 	mark_operators(tmp);
 	mark_bg_op(tmp);
-	while (i > (int)ft_promptlen(init->promt) && tmp[i] != BLANK && tmp[i] != PIPE 
+	while (i > (int)ft_promptlen(init->promt) && tmp[i] != BLANK && tmp[i] != PIPE
 	&& tmp[i] != OR && tmp[i] != AND && tmp[i] != SEMI_COL && tmp[i] != BG)
 		i--;
 	ft_strdel(&tmp);
@@ -62,9 +62,9 @@ void	replace_the_auto_comlete_42(t_init *init, char *completion)
 
 void	ft_print_one_completion(t_init *init, char *to_complete)
 {
-	char *completion;
-	int i;
-	char *str;
+	char	*completion;
+	int		i;
+	char	*str;
 
 	i = 0;
 	completion = NULL;
@@ -106,13 +106,13 @@ void	ft_print_completion_posibilities(t_init *init, int lst_len, int max_len)
 
 void	ft_print_completion_42(t_init *init)
 {
-	int max_len;
-	int lst_len;
-	char *min_completion;
-	char *old_to_complete;
+	int		max_len;
+	int		lst_len;
+	char	*min_completion;
+	char	*old_to_complete;
 
 	if (init->completion_lst == NULL)
-		return;
+		return ;
 	max_len = ft_max_len_lst_42(init->completion_lst, &lst_len);
 	if (lst_len == 1)
 		ft_print_one_completion(init, init->to_complete);

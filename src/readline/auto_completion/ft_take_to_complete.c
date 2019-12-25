@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 14:55:41 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 14:59:14 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/25 16:56:57 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_move_left_word(t_init *init, char *tmp)
 {
-	char c;
+	char	c;
 
 	if (tmp[init->s_cursor] == BLANK)
 	{
@@ -26,8 +26,8 @@ void	ft_move_left_word(t_init *init, char *tmp)
 	}
 	c = tmp[init->s_cursor];
 	while (init->s_cursor > (int)ft_promptlen(init->promt) &&
-		   c != BLANK && c != PIPE && c != OR &&
-		   c != AND && c != SEMI_COL && c != BG)
+		c != BLANK && c != PIPE && c != OR &&
+		c != AND && c != SEMI_COL && c != BG)
 	{
 		if (init->s_cursor > (int)ft_promptlen(init->promt))
 		{
@@ -40,7 +40,7 @@ void	ft_move_left_word(t_init *init, char *tmp)
 
 void	ft_move_right_word(t_init *init, char *tmp)
 {
-	char c;
+	char	c;
 
 	c = tmp[init->s_cursor];
 	if (c == BLANK || c == PIPE || c == OR ||
@@ -54,8 +54,8 @@ void	ft_move_right_word(t_init *init, char *tmp)
 	}
 	c = tmp[init->s_cursor];
 	while (init->s_cursor < init->s_l &&
-		   c != BLANK && c != PIPE && c != OR &&
-		   c != AND && c != SEMI_COL && c != BG)
+		c != BLANK && c != PIPE && c != OR &&
+		c != AND && c != SEMI_COL && c != BG)
 	{
 		if (init->s_cursor < init->s_l)
 		{
@@ -68,7 +68,7 @@ void	ft_move_right_word(t_init *init, char *tmp)
 
 void	ft_move_by_word(int flg, t_init *init)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = ft_strdup(init->out_put);
 	mark_operators(tmp);
@@ -80,11 +80,11 @@ void	ft_move_by_word(int flg, t_init *init)
 	ft_strdel(&tmp);
 }
 
-char *ft_take_to_complte_42(t_init *init)
+char	*ft_take_to_complte_42(t_init *init)
 {
-	char *str;
-	int start;
-	int end;
+	char	*str;
+	int		start;
+	int		end;
 
 	str = NULL;
 	ft_move_by_word(1, init);

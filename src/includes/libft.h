@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/25 11:38:21 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 17:46:15 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdarg.h>
 # define _CHAR 1
 # define _INT 3
-# define BUFF_SIZE 100
+# define BUFF_SIZE 8192
 
 typedef struct			s_list
 {

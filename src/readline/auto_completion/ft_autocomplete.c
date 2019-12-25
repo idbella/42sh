@@ -6,29 +6,17 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 18:31:52 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 16:33:25 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/25 17:05:51 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	ft_free_auto_lst(t_auto **lst)
+int		ft_is_var(char *to_complete)
 {
-	if ((*lst))
-	{
-		if ((*lst)->next)
-			ft_free_auto_lst(&(*lst)->next);
-		ft_strdel(&((*lst)->str));
-		free(*lst);
-		*lst = NULL;
-	}
-}
-
-int	ft_is_var(char *to_complete)
-{
-	int i;
-	int n;
-	char *tmp;
+	int		i;
+	int		n;
+	char	*tmp;
 
 	i = 0;
 	n = 0;
@@ -52,10 +40,11 @@ int	ft_is_var(char *to_complete)
 
 void	ft_autocomplete_42(t_init *init)
 {
-	char *line;
+	char	*line;
+	int		len;
 
 	init->completion_lst = NULL;
-	int len = ft_strlen(init->promt);
+	len = ft_strlen(init->promt);
 	line = &(init->out_put[len]);
 	init->to_complete = ft_take_to_complte_42(init);
 	ft_get_completion_from_x(init, line);

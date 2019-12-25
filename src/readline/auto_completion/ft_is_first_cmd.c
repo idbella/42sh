@@ -6,34 +6,11 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 15:09:44 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 19:28:54 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/25 17:11:16 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-int		ft_cursor_position(char *s, int cursor)
-{
-	int	start;
-	int	end;
-
-	start = 0;
-	end = 0;
-	while (ft_isspace(*s))
-	{
-		start++;
-		s++;
-	}
-	end = start;
-	while (*s && !ft_isspace(*s))
-	{
-		end++;
-		s++;
-	}
-	if (cursor >= start && cursor <= end)
-		return (1);
-	return (0);
-}
 
 int		ft_if_empty_first_word(char *line, t_init *init, int cursor)
 {

@@ -6,24 +6,24 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 15:42:34 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 15:45:30 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/24 19:58:19 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-
-t_auto	*ft_get_completion_built_42(t_init *init, t_auto **lst)
+t_auto		*ft_get_completion_built_42(t_init *init, t_auto **lst)
 {
-	int len;
-	int i;
-	char **alias;
+	int		len;
+	int		i;
+	char	**alias;
 
 	i = 0;
 	len = ft_strlen(init->to_complete);
 	while (i < BUILTINS_COUNT)
 	{
-		if (ft_strncmp(get_shell_cfg(0)->builtins[i].key, init->to_complete, len) == 0)
+		if (ft_strncmp(get_shell_cfg(0)->builtins[i].key,
+			init->to_complete, len) == 0)
 			*lst = add_to_auto_42(*lst, get_shell_cfg(0)->builtins[i].key);
 		i++;
 	}
@@ -39,7 +39,7 @@ t_auto	*ft_get_completion_built_42(t_init *init, t_auto **lst)
 	return (*lst);
 }
 
-char ft_keyexist(t_auto *lst, char *key)
+char		ft_keyexist(t_auto *lst, char *key)
 {
 	while (lst)
 	{
@@ -50,10 +50,10 @@ char ft_keyexist(t_auto *lst, char *key)
 	return (0);
 }
 
-t_auto *add_to_auto_42(t_auto *lst, char *str)
+t_auto		*add_to_auto_42(t_auto *lst, char *str)
 {
-	t_auto *new;
-	t_auto *tmp;
+	t_auto	*new;
+	t_auto	*tmp;
 
 	if (ft_keyexist(lst, str))
 		return (lst);
@@ -79,10 +79,10 @@ t_auto *add_to_auto_42(t_auto *lst, char *str)
 	}
 }
 
-char **ft_catpath(void)
+char		**ft_catpath(void)
 {
-	char **array;
-	char *path;
+	char	**array;
+	char	*path;
 
 	array = NULL;
 	path = ft_getenv("PATH");
@@ -92,18 +92,17 @@ char **ft_catpath(void)
 	return (array);
 }
 
-t_auto *ft_get_completion_path_42(t_init *init)
+t_auto		*ft_get_completion_path_42(t_init *init)
 {
-	t_auto *lst;
-	char **str;
-	DIR *dir;
-	struct dirent *drt;
-	char **tmp;
+	t_auto			*lst;
+	char			**str;
+	DIR				*dir;
+	struct dirent	*drt;
+	char			**tmp;
 
 	lst = NULL;
 	str = ft_catpath();
-	tmp = str;
-	if (str == NULL)
+	if (!(tmp = str))
 		return (NULL);
 	while (*str)
 	{

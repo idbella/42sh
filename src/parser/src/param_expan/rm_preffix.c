@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 14:47:38 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/22 12:04:20 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/25 16:11:20 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,33 @@ void	preffix_globing(t_mtools *t, char pattern_size)
 		t->i_preffix += 1;
 }
 
+void	ptwo_in_one(t_mtools *tools, char *src, char *preffix, char mission)
+{
+	if (mission == 'I')
+	{
+		tools->i_src = 0;
+		tools->i_preffix = 0;
+		tools->src = src;
+		tools->preffix = preffix;
+	}
+	if (mission == 'E')
+	{
+		if (tools->i_preffix > 0 &&
+			(tools->preffix[tools->i_preffix - 1] == UQ_ESCAPE ||
+			tools->preffix[tools->i_preffix - 1] == Q_ESCAPE))
+			tools->i_preffix++;
+		if (tools->i_src > 0 &&
+			(tools->src[tools->i_src - 1] == UQ_ESCAPE ||
+			tools->src[tools->i_src - 1] == Q_ESCAPE))
+			tools->i_src++;
+	}
+}
+
 int		find_preffix(char *src, char *preffix, char preffix_size)
 {
 	t_mtools	tools;
 
-	tools.i_src = 0;
-	tools.i_preffix = 0;
-	tools.src = src;
-	tools.preffix = preffix;
+	ptwo_in_one(&tools, src, preffix, 'I');
 	while (src[tools.i_src] && preffix[tools.i_preffix])
 	{
 		if (preffix[tools.i_preffix] == '*')
@@ -60,6 +79,7 @@ int		find_preffix(char *src, char *preffix, char preffix_size)
 			if (tools.ret == 2)
 				return (tools.i_src);
 		}
+		ptwo_in_one(&tools, src, preffix, 'E');
 		if (src[tools.i_src] != preffix[tools.i_preffix] ||
 				!preffix[tools.i_preffix])
 			break ;
