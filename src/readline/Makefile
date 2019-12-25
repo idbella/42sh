@@ -6,7 +6,7 @@
 #    By: oherba <oherba@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/24 16:32:51 by oherba           ###   ########.fr        #
+#    Updated: 2019/12/25 17:07:56 by oherba           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ auto_completion/ft_search_dir_completion.o\
 auto_completion/ft_replace_completion.o\
 auto_completion/ft_ls_print_posibilities.o\
 auto_completion/ft_max_completion.o\
+auto_completion/ft_free_autocomplete.o\
 termcap/help_string.o\
 termcap/help_string_2.o       history_/history.o\
 #auto_completion/ft_take_to_complete.o
