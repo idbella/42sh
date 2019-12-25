@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:20:17 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/23 16:56:41 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/25 14:32:37 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ char			*ft_check_qout(char *str, t_init *init)
 			if (str[i] != c)
 				return (call_qote(init, c, str));
 		}
-		else if ((((str[i] == '\\' && ft_cke_c_eskip(i - 1, str))) ||
+		else if (ft_cke_c_eskip(i - 1, str) && ((str[i] == '\\' ||
 		str[i] == '|' || (i > 0 && str[i - 1] == '&' &&
-		str[i] == '&')) && str[i + 1] == '\0')
+		str[i] == '&')) && str[i + 1] == '\0'))
 			return (ft_check_qout(call_esqp(str, init), init));
 	}
 	return (str);
@@ -63,7 +63,8 @@ int				ft_searh_(char *str)
 	while (str[i])
 	{
 		if (str[i] == '!' && str[i + 1] != ' ' &&
-		str[i + 1] != '\t' && str[i + 1] != '\0')
+		str[i + 1] != '=' && str[i + 1] != '\t' &&
+		str[i + 1] != '\0')
 			return (1);
 		i++;
 	}

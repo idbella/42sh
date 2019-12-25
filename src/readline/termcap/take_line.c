@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:13:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 16:01:48 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/25 14:16:56 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ void			ft_get_pos_(t_init *init)
 		buf[i] = ch;
 		i++;
 	}
-	init->y0 = ft_atoi(ft_strchr(buf, '[') + 1);
-	init->x0 = ft_atoi(ft_strchr(buf, ';') + 1);
+	if (ft_strchr(buf, '['))
+		init->y0 = ft_atoi(ft_strchr(buf, '[') + 1);
+	if (ft_strchr(buf, ';'))
+		init->x0 = ft_atoi(ft_strchr(buf, ';') + 1);
 }
 
 int				ft_cat_of_line(char *str, t_init *init)
