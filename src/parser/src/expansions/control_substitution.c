@@ -76,6 +76,7 @@ void		get_buffer(char **str, int pipe_fd, char type)
 	char	*buffer;
 	int		i;
 
+	buffer = NULL;
 	while (get_next_line(pipe_fd, '\n', &buffer))
 	{
 		if (buffer && ft_strlen(buffer))
