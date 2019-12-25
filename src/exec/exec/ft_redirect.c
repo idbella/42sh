@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 12:00:43 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 15:29:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 22:51:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,33 @@ void	ft_chmod(t_redir *redir)
 	}
 }
 
+void	ft_catchsiginit(int sig)
+{
+	sig = 0;
+	signal(SIGINT, SIG_DFL);
+	kill(getpid(), SIGINT);
+}
+
+void	ft_namedpipe(t_redir *io)
+{
+	t_job			*job;
+	t_params		*p;
+	struct stat		st;
+
+	job = NULL;
+	if ((p = ft_getset(0)->params))
+		job = p->job;
+	stat(io->file, &st);
+	if (job && !job->foreground && S_ISFIFO(st.st_mode))
+		signal(SIGINT, ft_catchsiginit);
+}
+
 int		ft_getfile(t_redir *io)
 {
-	int	fd;
+	int				fd;
 
 	ft_chmod(io);
+	ft_namedpipe(io);
 	if ((fd = open(io->file, io->type, 0644)) < 0)
 	{
 		if (io->type == O_RDONLY)

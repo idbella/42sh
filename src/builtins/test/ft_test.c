@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 12:09:56 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/25 09:22:33 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 23:38:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		ft_test(char **args)
 		return (!id);
 	}
 	if (ft_getoprators(args, &l_oper, &oper, &r_oper))
-		return (1);
+		return (2);
 	if (!r_oper && oper)
 	{
 		r_oper = oper;
