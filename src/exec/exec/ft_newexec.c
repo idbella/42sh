@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 23:05:30 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/24 14:34:20 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 19:42:41 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,15 @@ void	ft_initexec(int *fds, t_params *params, char *status)
 	*status = 0;
 }
 
+void	ft_stdin(int *fds)
+{
+	if (fds[0] > 0)
+	{
+		dup2(fds[0], 0);
+		close(fds[0]);
+	}
+}
+
 char	ft_exec_job(t_params *params, t_process *process)
 {
 	int			fds[2];
@@ -75,8 +84,7 @@ char	ft_exec_job(t_params *params, t_process *process)
 		if (get_shell_cfg(0)->abort && (status = 1))
 			break ;
 		ft_init_proc(process);
-		if (fds[0] > 0 && dup2(fds[0], 0) != -1)
-			close(fds[0]);
+		ft_stdin(fds);
 		params->pipe_stdin = ft_pipe(fds, process, params->fdscopy);
 		if (ft_printheredoc(process))
 			continue ;

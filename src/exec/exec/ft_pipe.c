@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 12:08:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/24 20:07:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 19:42:03 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		ft_printheredoc(t_process *process)
 {
 	if (process->heredoc)
 	{
-		ft_printf_fd(process->heredoc_fd, "%s\n", process->heredoc);
+		ft_printf_fd(1, "%s\n", process->heredoc);
 		free(process->heredoc);
 		process->heredoc = NULL;
 		return (1);

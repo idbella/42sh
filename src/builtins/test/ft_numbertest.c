@@ -6,40 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 13:39:28 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/23 17:53:25 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 20:24:58 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-int			ft_maxinteger(char *nb, int sign)
-{
-	int		i;
-	int		n1;
-	int		n2;
-
-	if (ft_strlen(nb) > 19)
-		return (2);
-	else if (ft_strlen(nb) == 19)
-	{
-		i = -1;
-		while (++i < 19)
-		{
-			n1 = MAXNBR[i] - '0';
-			n2 = nb[i] - '0';
-			if (n2 > n1)
-			{
-				if (i == 18 && sign && n2 == 8)
-					return (0);
-				ft_printf("42sh: test: %s: integer expression expected\n", nb);
-				return (2);
-			}
-			else if (n1 > n2)
-				return (0);
-		}
-	}
-	return (0);
-}
 
 int			ft_cmp(int id, char *n1, char *n2)
 {

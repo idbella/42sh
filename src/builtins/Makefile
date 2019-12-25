@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 16:55:55 by sid-bell          #+#    #+#              #
-#    Updated: 2019/12/24 10:48:25 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/12/25 20:27:22 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ cd/cd_wheels.o\
 echo/ft_echo.o\
 alias/ft_alias.o        alias/ft_free_aliases.o		alias/ft_showaliases.o	alias/ft_unalias.o\
 test/ft_eval.o          test/ft_numbertest.o		test/ft_test.o\
-test/ft_rd_wr_ex.o      test/ft_usergroup.o\
+test/ft_rd_wr_ex.o      test/ft_usergroup.o			test/ft_maxint.o\
 test/ft_getoperators.o  test/ft_sizetest.o\
 test/ft_isnbr.o         test/ft_strtest.o\
 fc/fc.o         fc/fc_.o        fc/fc_flg.o \

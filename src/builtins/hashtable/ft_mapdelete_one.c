@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 23:50:06 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/25 11:12:05 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 20:31:14 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ static void	ft_free(t_map *map, t_list *lst)
 	free(map->value);
 	free(map);
 	free(lst);
+}
+
+void		ft_checkkey(char *key)
+{
+	if (ft_strequ(key, "PATH"))
+		ft_empty(COMMANDS);
+	return ;
 }
 
 void		ft_hashdelete_one(char *key, char type)
@@ -38,15 +45,13 @@ void		ft_hashdelete_one(char *key, char type)
 		{
 			next = lst->next;
 			ft_free(map, lst);
-			if (prev)
-				prev->next = next;
-			else
+			prev ? prev->next = next : 0;
+			if (!prev)
 				get_shell_cfg(0)->hashmap[index] = next;
-			if (ft_strequ(key, "PATH"))
-				ft_empty(COMMANDS);
-			return ;
+			break ;
 		}
 		prev = lst;
 		lst = lst->next;
 	}
+	return (ft_checkkey(key));
 }
