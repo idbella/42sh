@@ -6,38 +6,35 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:44:09 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/25 09:40:09 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/25 11:57:33 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int			errors_container(int err, t_recipes *recipes)
+int			errors_container(char *curpath, int err)
 {
-	if (recipes->mute == 1)
-		return (-1);
 	if (err == 1)
 		ft_putstr_fd("42sh: chdir failed\n", 2);
 	if (err == 2)
 	{
 		ft_putstr_fd("42sh: cd: ", 2);
 		ft_putstr_fd("permission denied: ", 2);
-		ft_putendl_fd(recipes->curpath, 2);
+		ft_putendl_fd(curpath, 2);
 	}
 	if (err == 3)
 	{
 		ft_putstr_fd("42sh: cd: ", 2);
-		ft_putstr_fd(recipes->curpath, 2);
+		ft_putstr_fd(curpath, 2);
 		ft_putstr_fd(" not a directory\n", 2);
 	}
 	if (err == 4)
 	{
 		ft_putstr_fd("42sh: cd:", 2);
 		ft_putstr_fd(" No such file or directory: ", 2);
-		ft_putendl_fd(recipes->curpath, 2);
+		ft_putendl_fd(curpath, 2);
 	}
-	ft_strdel(&recipes->cwd);
-	ft_strdel(&recipes->curpath);
+	ft_strdel(&curpath);
 	return (-1);
 }
 
@@ -100,7 +97,6 @@ static char	*curpath_handling(t_recipes *recipes)
 			recipes->curpath = ft_join("%s/%f",
 					get_shell_cfg(0)->pwd, recipes->curpath);
 	}
-	ft_strdel(&recipes->cwd);
 	recipes->curpath = operate_dots(&(recipes->paths), recipes->curpath);
 	if (recipes->curpath)
 	{
@@ -125,16 +121,16 @@ int			chdir_operations(t_recipes *recipes)
 					ft_addtohashmap("PWD", recipes->curpath, 1)->exported = 1;
 					ft_strdel(&(get_shell_cfg(0)->pwd));
 					get_shell_cfg(0)->pwd = ft_strdup(recipes->curpath);
+					return (0);
 				}
 				else
-					return (errors_container(1, recipes));
+					return (1);
 			}
 			else
-				return (errors_container(2, recipes));
+				return (2);
 		}
 		else
-			return (errors_container(3, recipes));
-		return (0);
+			return (3);
 	}
-	return (errors_container(4, recipes));
+	return (4);
 }

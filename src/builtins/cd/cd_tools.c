@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:54:19 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/23 22:58:59 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/25 11:49:29 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void	recipes_preparations(t_recipes *recipes)
 {
+	char	tmp[4097];
+
 	recipes->oldpwd = ft_getenv("OLDPWD");
 	recipes->home = ft_getenv("HOME");
-	recipes->cwd = getcwd(NULL, 0);
+	recipes->cwd = getcwd(tmp, 4097);
 	recipes->pwd = get_shell_cfg(0)->pwd;
 	recipes->cdpath = ft_getvlaue_bykey("CDPATH", INTERN);
 	recipes->curpath = NULL;
 	recipes->options = 0;
+	recipes->error = 0;
 	recipes->mute = 0;
 }

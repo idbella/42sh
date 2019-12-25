@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:59:01 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/25 09:43:09 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/25 11:57:38 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,30 @@
 
 int		cd_wheels(t_recipes *recipes)
 {
-	char	*tmp;
-
 	if (recipes->curpath)
 	{
-		if (chdir_operations(recipes) == -1)
+		recipes->second_curpath = cdpath_concatenation(recipes->cdpath,
+									recipes->curpath);
+		recipes->error = chdir_operations(recipes);
+		if (recipes->error)
 		{
-			tmp = recipes->curpath;
-			recipes->curpath = cdpath_concatenation(recipes->cdpath,
-					recipes->curpath);
-			recipes->mute = 1;
-			if (recipes->curpath)
+			if (!recipes->second_curpath)
+				return (errors_container(recipes->curpath, recipes->error));
+			recipes->tmp = recipes->curpath;
+			recipes->curpath = recipes->second_curpath;
+			if (chdir_operations(recipes))
 			{
-				ft_strdel(&tmp);
-				return (chdir_operations(recipes));
+				ft_strdel(&recipes->curpath);
+				ft_strdel(&recipes->cwd);
+				return (errors_container(recipes->tmp, recipes->error));
 			}
-			return (-1);
+			ft_strdel(&recipes->curpath);
+			ft_strdel(&recipes->tmp);
+			return (0);
 		}
 		ft_strdel(&recipes->curpath);
-		ft_strdel(&recipes->cwd);
 		return (0);
+
 	}
 	return (-1);
 }

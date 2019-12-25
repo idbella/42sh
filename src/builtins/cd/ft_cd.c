@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:08:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/25 09:34:56 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/25 11:01:01 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ char	*cdpath_concatenation(char *cdpath, char *directory)
 			path = ft_join("%s%s", cdpaths[i], directory);
 		if (!stat(path, &buf) && S_ISDIR(buf.st_mode))
 		{
-			ft_strdel(&directory);
 			ft_free_array(cdpaths);
 			return (path);
 		}
 		ft_strdel(&path);
 	}
-	ft_strdel(&directory);
 	ft_free_array(cdpaths);
 	return (NULL);
 }

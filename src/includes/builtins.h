@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:18:09 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/24 19:30:51 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 11:31:25 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char				*cdpath_concatenation(char *cdpath, char *directory);
 int					cd_wheels(t_recipes *recipes);
 void				recipes_preparations(t_recipes *recipes);
 char				check_param_for_cd(char *param);
-int					errors_container(int err, t_recipes *recipes);
+int					errors_container(char *curpath, int err);
 int					chdir_operations(t_recipes *recipes);
 int					ft_cd(char **args);
 
