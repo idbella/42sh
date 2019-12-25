@@ -6,24 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 20:43:27 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 14:34:58 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 22:04:39 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-int			ft_printenv(void)
-{
-	char	**env;
-
-	env = ft_serialize_env(EXPORTED_ONLY);
-	while (*env)
-	{
-		ft_printf("export %s\n", *env);
-		env++;
-	}
-	return (0);
-}
 
 int			ft_free_kv(char *key, char *val)
 {
@@ -77,16 +64,16 @@ int			ft_export(char **args)
 	char	buffer[127];
 
 	if (!args || !args[0])
-		return (ft_printenv());
-	if ((i = ft_getopt(args, buffer, "P")) < 0)
+		return (ft_printenv(NULL));
+	if ((i = ft_getopt(args, buffer, "p")) < 0)
 	{
 		ft_printf_fd(2, "42sh: export: -%c: invalid option\n", -i);
 		ft_printf_fd(2,
 				"42sh: usage: export [-p] [name[=value] ...]\n");
 		return (1);
 	}
-	if (buffer['P'])
-		return (ft_printenv());
+	if (buffer['p'])
+		return (ft_printenv(buffer));
 	rvalue = 0;
 	while (args[i])
 	{
