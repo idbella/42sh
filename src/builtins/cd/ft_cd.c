@@ -6,7 +6,7 @@
 /*   By: mmostafa <mmostafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 12:08:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/25 17:48:06 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/25 17:56:45 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*ft_treat_single_arg(t_recipes *recipes, char **cmd)
 
 int		print_error(void)
 {
-	ft_putstr_fd("42sh: too much argument\n", 2);
+	ft_putstr_fd("42sh: too many arguments\n", 2);
 	return (1);
 }
 
