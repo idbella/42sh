@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 18:28:55 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/22 18:36:21 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/25 16:06:54 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int			        get_(char *str)
 	}
 	return (i);
 }
+
 void static		    ft_new_help(t_init *init, char *line, t_history	**tmp)
 {
 	t_history	    *new;

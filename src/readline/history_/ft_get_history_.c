@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_history_.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 08:16:33 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/22 18:38:43 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/25 16:06:39 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,13 @@ void			ft_read_file_(t_init *init)
 	close(fd);
 }
 
-void				ft_write_file(t_init *init)
+void			ft_write_file(t_init *init)
 {
 	int				fd;
 	char			c;
+	char			*name;
 
 	c = -3;
-	char *name;
-
 	name = ft_join("/Users/%s/.history", ft_getusername());
 	if (0 > (fd = open(name, O_CREAT | O_RDWR | O_APPEND, 0777)))
 	{
