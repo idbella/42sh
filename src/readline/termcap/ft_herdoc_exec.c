@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 01:09:38 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 19:36:21 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/25 14:39:34 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void			ft_free_history(t_history *lst)
 	{
 		tmp = lst;
 		lst = lst->next;
+		ft_strdel(&tmp->str);
 		ft_memdel((void **)&tmp);
 	}
 }
