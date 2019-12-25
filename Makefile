@@ -24,8 +24,6 @@ FT=src/libft
 
 BUILTINS=src/builtins
 
-MAIN=src/main.o src/init.o
-
 LIBPARSER= $(PARSER)/libparser.a
 
 LIBREADLINE= $(READLINE)/libreadline.a
@@ -42,7 +40,10 @@ CFLAGS=-Isrc/includes $(FLAGS)
 
 all: $(NAME)
 
-$(NAME): $(MAIN)
+$(NAME): $(LIBs)
+	gcc $(LIBs) $(FLAGS) -o $(NAME) -Isrc/includes -ltermcap
+
+$(LIBs):
 	@echo "\tCompiling LIB-FT"
 	@make -C $(FT)
 	@echo "\tCompiling LIB-PARSER"
@@ -53,7 +54,6 @@ $(NAME): $(MAIN)
 	@make -C $(EXEC)
 	@echo "\tCompiling LIB-BUILTINS"
 	@make -C $(BUILTINS)
-	gcc $(MAIN) $(LIBs) $(FLAGS) -o $(NAME) -Isrc/includes -ltermcap
 
 clean:
 	rm -rf $(MAIN)
@@ -72,6 +72,6 @@ fclean:
 	make -C $(EXEC) fclean
 	make -C $(BUILTINS) fclean
 
-.PHONY: $(LIBFT) $(LIBEXEC) $(LIBREADLINE) $(LIBPARSER) $(LIBBUILTINS)
+# .PHONY: $(LIBFT) $(LIBEXEC) $(LIBREADLINE) $(LIBPARSER) $(LIBBUILTINS)
 
 re:fclean all

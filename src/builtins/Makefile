@@ -16,6 +16,8 @@ OBJ=ft_getopt.o prompt.o type/ft_type.o\
 exit/ft_exit.o\
 exit/ft_getexitcode.o\
 builtins.o\
+init.o\
+main.o\
 hashtable/ft_addtomap.o\
 hashtable/ft_empty.o\
 hashtable/ft_get_hash.o\
