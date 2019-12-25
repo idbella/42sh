@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 23:50:06 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/24 19:58:47 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 11:12:05 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void		ft_hashdelete_one(char *key, char type)
 				prev->next = next;
 			else
 				get_shell_cfg(0)->hashmap[index] = next;
+			if (ft_strequ(key, "PATH"))
+				ft_empty(COMMANDS);
 			return ;
 		}
 		prev = lst;
