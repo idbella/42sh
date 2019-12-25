@@ -6,7 +6,7 @@
 /*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 17:47:48 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/23 16:54:52 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/25 18:00:52 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void			ft_search_init(t_init *init)
 	ft_printf("\033[%dD", init->s_col);
 	tputs(tgetstr("cd", NULL), 0, my_putchar);
 	ft_strdel(&init->promt);
-	init->promt = ft_strdup("$> ");
+	init->promt = ft_getprompt();
 	ft_strdel(&init->out_put);
 	init->out_put = ft_strjoin(init->promt, init->str_search);
 	init->s_cursor = ft_strlen(init->out_put);
