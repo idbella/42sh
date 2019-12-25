@@ -66,6 +66,10 @@
 # define _PARAM(x) get_dollar_var(tmp, &i, x)
 # define INDEX(i) (i - 1 > 0) ? i - 1 : 0
 # define IS_DOLLAR(dq) is_dollar(L, i, dq)
+# define IS_EMPTY (!(*i) || str[*i - 1] == BLANK || ft_isalpha(str[*i - 1]))
+# define T str
+# define PR ft_isprint
+# define PART_OF_EOF (PR(T[*i]) || T[*i] == -16 || T[*i] == -17 || T[*i] == -18)
 
 typedef	struct	s_token
 {

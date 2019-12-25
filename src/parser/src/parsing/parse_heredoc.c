@@ -99,8 +99,7 @@ char	*get_heredoc(char *str, int *i, int *hd_fd)
 	int		j;
 
 	old_i = *i;
-	*hd_fd = (!(*i) || str[*i - 1] == BLANK || ft_isalpha(str[*i - 1])) ?
-	0 : get_heredoc_fd(str, i);
+	*hd_fd = IS_EMPTY ? 0 : get_heredoc_fd(str, i);
 	ft_memset(str + *i, BLANK, old_i - (*i) + 2);
 	*i = old_i + 2;
 	old_i = *i;
@@ -111,8 +110,7 @@ char	*get_heredoc(char *str, int *i, int *hd_fd)
 		old_i++;
 		(*i)++;
 	}
-	while (str[*i] && (ft_isprint(str[*i]) || str[*i] == UQ_ESCAPE
-	|| str[*i] == Q_ESCAPE || str[*i] == DOLLAR))
+	while (str[*i] && PART_OF_EOF)
 		(*i)++;
 	eof = ft_strsub(str, old_i, *i - old_i);
 	j = -1;
