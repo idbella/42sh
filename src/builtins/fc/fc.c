@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fc.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 11:56:54 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/22 19:29:53 by yelazrak         ###   ########.fr       */
+/*   Updated: 2019/12/25 16:03:49 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int					ft_creat_cmd(char *edit, char *options, char **args)
 	char			*fille;
 	int				fd;
 	t_job			*tokens;
+	int				status;
 
 	cmd = NULL;
 	if ((fd = ft_open_(&fille, options, args)) < 0)
@@ -52,16 +53,18 @@ int					ft_creat_cmd(char *edit, char *options, char **args)
 		edit = ft_strdup(edit);
 	cmd = ft_join("%s%s%s", edit, "  ", fille);
 	ft_strdel(&edit);
+	status = 1;
 	if ((tokens = parse(cmd)))
 	{
-		exec(tokens);
+		status = exec(tokens);
 		ft_free_job(tokens);
 	}
 	close(fd);
-	read_file_(fille);
+	if (!status)
+		read_file_(fille);
 	ft_strdel(&cmd);
 	ft_strdel(&fille);
-	return (0);
+	return (status);
 }
 
 static void			ft__ex(int i, char **args, char *options)
