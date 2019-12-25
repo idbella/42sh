@@ -6,60 +6,87 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 14:49:37 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/25 11:34:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 15:38:53 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int			ft_freeline(t_line *alst, char **line, char c)
+ssize_t	ft_endl(char *str, char n)
 {
-	t_line	*lst;
-	int		k;
+	ssize_t pos;
+
+	pos = 0;
+	while (str[pos])
+	{
+		if (str[pos] == n)
+			return (pos);
+		pos++;
+	}
+	return (-1);
+}
+
+int		ft_norm(char **line, char **array)
+{
 	char	*tmp;
 
-	lst = alst;
-	k = 0;
-	while ((lst)->str1[k] != c && (lst)->str1[k] != '\0')
-		k++;
-	if (ft_strlen(lst->str1) != 0)
-	{
-		if ((lst)->str1[k] == '\0')
-		{
-			*line = ft_strdup(lst->str1);
-			free(lst->str1);
-			lst->str1 = ft_strnew(0);
-			return (1);
-		}
-		tmp = lst->str1;
-		*line = ft_strsub(lst->str1, 0, k);
-		lst->str1 = ft_strdup(lst->str1 + k + 1);
+	tmp = *line;
+	*line = *array;
+	if (tmp)
 		free(tmp);
-		tmp = NULL;
-		return (1);
+	if (!**array)
+	{
+		*line = NULL;
+		return (0);
 	}
+	if (*array)
+		free(*array);
+	*array = NULL;
 	return (0);
 }
 
-int					get_next_line(int fd, char c, char **line)
+int		ft_adjust(char **line, char **array, int pos)
 {
-	static t_line	alst;
-	char			buff[BUFF_SIZE + 1];
-	int				j;
-	char			*tmp;
+	char *tmp;
 
-	if (read(fd, buff, 0) < 0 || line == NULL)
-		return (-1);
-	if (!alst.str1)
-		alst.str1 = ft_strnew(0);
-	while ((j = read(fd, buff, BUFF_SIZE)) > 0)
+	if (pos >= 0)
 	{
-		buff[j] = '\0';
-		tmp = alst.str1;
-		alst.str1 = ft_strjoin(alst.str1, buff);
-		ft_strdel(&tmp);
-		if (ft_strchr(alst.str1, c) != NULL)
-			break ;
+		tmp = *line;
+		*line = ft_strsub(*array, 0, pos);
+		if (tmp)
+			free(tmp);
+		tmp = *array;
+		*array = ft_strdup(*array + pos + 1);
+		free(tmp);
 	}
-	return (ft_freeline(&alst, line, c));
+	else
+		return (ft_norm(line, array));
+	return (1);
+}
+
+int		get_next_line(const int fd, char n, char **line)
+{
+	static char *array;
+	ssize_t		lenght;
+	ssize_t		pos;
+	char		*tmp;
+
+	if (!array)
+		array = ft_strnew(1);
+	if ((pos = ft_endl(array, n)) == -1)
+	{
+		*line = ft_strnew(BUFF_SIZE);
+		while ((lenght = read(fd, *line, BUFF_SIZE)) > 0)
+		{
+			(*line)[lenght] = '\0';
+			tmp = array;
+			array = ft_strjoin(array, *line);
+			free(tmp);
+			if ((pos = ft_endl(array, n)) >= 0)
+				break ;
+		}
+		if (lenght < 0)
+			return (-1);
+	}
+	return (ft_adjust(line, &array, pos));
 }
