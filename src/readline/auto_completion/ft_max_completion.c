@@ -6,13 +6,13 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 16:29:20 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 19:32:42 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/25 17:12:21 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	ft_get_the_max_completion(char *max_completion, 
+void	ft_get_the_max_completion(char *max_completion,
 	char *tilda, char *path, char **completion)
 {
 	if (tilda)
@@ -42,20 +42,6 @@ char	*ft_min_completion(t_auto *lst)
 	return (str);
 }
 
-int		ft_char_exist(t_auto *lst, int i, char *min_completion)
-{
-	int	n;
-
-	n = 0;
-	while (lst)
-	{
-		if (lst->str[i] != min_completion[i])
-			return (0);
-		lst = lst->next;
-	}
-	return (1);
-}
-
 char	*ft_max_completion(t_auto *lst)
 {
 	char	*min_cplt;
@@ -69,7 +55,7 @@ char	*ft_max_completion(t_auto *lst)
 		if (ft_char_exist(lst, i, min_cplt))
 			i++;
 		else
-			break;
+			break ;
 	}
 	if (i)
 	{
@@ -79,28 +65,37 @@ char	*ft_max_completion(t_auto *lst)
 	return (NULL);
 }
 
-void	ft_print_max_completion(t_init *init, char *to_complete, char *max_completion)
+void	ft_if_is_var(char *to_complete,
+	char **completion, char *max_completion)
 {
 	int		i;
+	char	*str;
+
+	str = NULL;
+	i = 0;
+	while (to_complete[i] && to_complete[i] != '$')
+		i++;
+	if (to_complete[i] && to_complete[i] == '$' &&
+	to_complete[i + 1] == '{')
+		i++;
+	str = ft_strsub(to_complete, 0, i + 1);
+	*completion = ft_strjoin(str, (max_completion));
+	ft_strdel(&str);
+}
+
+void	ft_print_max_completion(t_init *init,
+	char *to_complete, char *max_completion)
+{
 	char	*completion;
 	char	*str;
 	char	*path;
 	char	*tilda;
 
-	i = 0;
 	completion = NULL;
 	str = NULL;
 	tilda = NULL;
 	if (ft_is_var(to_complete) == 1)
-	{
-		while (to_complete[i] && to_complete[i] != '$')
-			i++;
-		if (to_complete[i] && to_complete[i] == '$' && to_complete[i + 1] == '{')
-			i++;
-		str = ft_strsub(to_complete, 0, i + 1);
-		completion = ft_strjoin(str, (max_completion));
-		ft_strdel(&str);
-	}
+		ft_if_is_var(to_complete, &completion, max_completion);
 	else if (ft_if_is_dir_2(&to_complete, &path, &str, &tilda) == 1)
 		ft_get_the_max_completion(max_completion, tilda, path, &completion);
 	else

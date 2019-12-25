@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 15:50:19 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 15:53:23 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/25 16:44:14 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_loup_to_env_var(char **env, char *to_complete, t_auto **lst)
 {
 	int		i;
-	int len;
+	int		len;
 
 	i = 0;
 	len = ft_strlen(to_complete);
@@ -29,11 +29,11 @@ void	ft_loup_to_env_var(char **env, char *to_complete, t_auto **lst)
 
 t_auto	*ft_get_completion_env_var_42(t_init *init)
 {
-	t_auto *lst;
-	char **env;
-	int i;
-	int n;
-	char *to_complete;
+	t_auto	*lst;
+	char	**env;
+	int		i;
+	int		n;
+	char	*to_complete;
 
 	to_complete = init->to_complete;
 	n = ft_is_var(to_complete);
@@ -44,7 +44,8 @@ t_auto	*ft_get_completion_env_var_42(t_init *init)
 		env = ft_serialize_env(INCLUDE_UNEXPORTED | KEYS_ONLY);
 		while (to_complete[i] && to_complete[i] != '$')
 			i++;
-		if (to_complete[i] && to_complete[i] == '$' && to_complete[i + 1] == '{')
+		if (to_complete[i] && to_complete[i] == '$' &&
+			to_complete[i + 1] == '{')
 			i++;
 		to_complete = &(to_complete[i + 1]);
 		i = 0;
@@ -59,7 +60,8 @@ void	ft_get_completion_42(t_init *init, char from)
 	if (from == 'C')
 	{
 		init->completion_lst = ft_get_completion_path_42(init);
-		init->completion_lst = ft_get_completion_built_42(init, &(init->completion_lst));
+		init->completion_lst =
+		ft_get_completion_built_42(init, &(init->completion_lst));
 	}
 	else if (from == 'V')
 		init->completion_lst = ft_get_completion_env_var_42(init);
@@ -81,8 +83,8 @@ void	ft_get_completion_as_cmd(t_init *init)
 
 void	ft_get_completion_from_x(t_init *init, char *line)
 {
-	char *tmp;
-	int ret;
+	char	*tmp;
+	int		ret;
 
 	ret = ft_is_first_word_42(line, init);
 	if (ret != 1)
@@ -102,8 +104,8 @@ void	ft_get_completion_from_x(t_init *init, char *line)
 		{
 			ft_get_completion_42(init, 'V');
 			if (init->completion_lst == NULL)
-				init->completion_lst = ft_search_complete_dir_42(init->to_complete,
-				".");
+				init->completion_lst =
+				ft_search_complete_dir_42(init->to_complete, ".");
 		}
 	}
 }

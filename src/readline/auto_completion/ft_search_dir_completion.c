@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 16:00:59 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 16:05:16 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/25 17:14:09 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 void	ft_one_dir_completion(t_init *init, char *path, char *tilda)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = NULL;
 	tmp = init->completion_lst->str;
 	if (tilda)
-		init->completion_lst->str = ft_strjoin(tilda, init->completion_lst->str);
+		init->completion_lst->str =
+		ft_strjoin(tilda, init->completion_lst->str);
 	else
 		init->completion_lst->str = ft_strjoin(path, init->completion_lst->str);
 	free(tmp);
 }
 
-int ft_max_len_lst_42(t_auto *lst, int *lst_len)
+int		ft_max_len_lst_42(t_auto *lst, int *lst_len)
 {
-	int i;
-	size_t max;
+	int		i;
+	size_t	max;
 
 	max = 0;
 	i = 0;
@@ -43,12 +44,12 @@ int ft_max_len_lst_42(t_auto *lst, int *lst_len)
 	return (max);
 }
 
-t_auto *ft_search_complete_dir_42(char *to_complete, char *directory)
+t_auto	*ft_search_complete_dir_42(char *to_complete, char *directory)
 {
-	DIR *dir;
-	struct dirent *lst;
-	t_auto *auto_lst;
-	char *name;
+	DIR				*dir;
+	struct dirent	*lst;
+	t_auto			*auto_lst;
+	char			*name;
 
 	auto_lst = NULL;
 	if (!(dir = opendir(directory)))
@@ -56,7 +57,8 @@ t_auto *ft_search_complete_dir_42(char *to_complete, char *directory)
 	while ((lst = readdir(dir)))
 	{
 		name = lst->d_name;
-		if ((*to_complete != '.' && *name == '.') || ft_strequ("..", name) || ft_strequ(".", name))
+		if ((*to_complete != '.' && *name == '.') ||
+		ft_strequ("..", name) || ft_strequ(".", name))
 			continue;
 		if (ft_strncmp(lst->d_name, to_complete, ft_strlen(to_complete)) == 0)
 			auto_lst = add_to_auto_42(auto_lst, lst->d_name);
@@ -65,10 +67,11 @@ t_auto *ft_search_complete_dir_42(char *to_complete, char *directory)
 	return (auto_lst);
 }
 
-void	ft_is_direct_path_dir(char *to_complete, t_init *init, char *path, char *tilda)
+void	ft_is_direct_path_dir(char *to_complete,
+	t_init *init, char *path, char *tilda)
 {
-	char *tmp;
-	int i;
+	char	*tmp;
+	int		i;
 
 	tmp = NULL;
 	i = ft_strlen(to_complete);
@@ -82,7 +85,7 @@ void	ft_is_direct_path_dir(char *to_complete, t_init *init, char *path, char *ti
 	{
 		init->completion_lst = ft_search_complete_dir_42("", path);
 		if (!(init->completion_lst))
-			return;
+			return ;
 		ft_max_len_lst_42(init->completion_lst, &i);
 		if (i == 1)
 			ft_one_dir_completion(init, path, tilda);
@@ -91,11 +94,11 @@ void	ft_is_direct_path_dir(char *to_complete, t_init *init, char *path, char *ti
 
 void	ft_get_completion_dir_42(t_init *init)
 {
-	char *path;
-	char *new_completion;
-	int n;
-	int i;
-	char *tilda;
+	char	*path;
+	char	*new_completion;
+	int		n;
+	int		i;
+	char	*tilda;
 
 	path = NULL;
 	new_completion = NULL;
@@ -113,8 +116,7 @@ void	ft_get_completion_dir_42(t_init *init)
 	}
 	else
 		init->completion_lst = NULL;
-	if (new_completion)
-		ft_strdel(&new_completion);
+	ft_strdel(&new_completion);
 	ft_strdel(&tilda);
 	ft_strdel(&path);
 }

@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 15:29:13 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/24 19:25:23 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/25 17:06:49 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_path_dir(char **to_complete, char **old_to_complete, char **path)
 			*to_complete = ft_strjoin(home_dir, &((*to_complete)[1]));
 		}
 	}
-	if ((!stat(*to_complete, &st) && (S_ISDIR(st.st_mode))))
+	if (*to_complete && (!stat(*to_complete, &st) && (S_ISDIR(st.st_mode))))
 	{
 		*path = ft_strdup(*to_complete);
 		ft_strdel(old_to_complete);
@@ -43,7 +43,7 @@ int		ft_check_if_is_dir(char **path, char **old_to_complete,
 	int			i;
 
 	i = 0;
-	if (!stat(*path, &st))
+	if (*path && !stat(*path, &st))
 	{
 		if (S_ISDIR(st.st_mode))
 		{
@@ -58,20 +58,6 @@ int		ft_check_if_is_dir(char **path, char **old_to_complete,
 		}
 	}
 	return (0);
-}
-
-int		ft_free_return(char **to_complete, int ret)
-{
-	if (get_shell_cfg(0)->init->to_complete != (*to_complete))
-		free(*to_complete);
-	return (ret);
-}
-
-int		ft_free_return_2(char **tmp, char *to_complete, int ret)
-{
-	if ((*tmp) != to_complete)
-		free(*tmp);
-	return (ret);
 }
 
 int		ft_if_is_dir_2(char **to_complete, char **path,
