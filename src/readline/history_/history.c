@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelazrak <yelazrak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/22 18:28:55 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/25 16:06:54 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/12/25 20:30:26 by yelazrak          #+#    #+#             */
+/*   Updated: 2019/12/25 20:33:01 by yelazrak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ char				*ft_expansion(t_init *init, char *str)
 			ft_strdel(&tmp);
 		}
 	}
-    return (str);
+	return (str);
 }
 
-int			        get_(char *str)
+int					get_(char *str)
 {
 	int				a;
 	int				i;
@@ -83,24 +83,23 @@ int			        get_(char *str)
 	return (i);
 }
 
-void static		    ft_new_help(t_init *init, char *line, t_history	**tmp)
+static void			ft_new_help(t_init *init, char *line, t_history **tmp)
 {
-	t_history	    *new;
+	t_history		*new;
 
 	new = NULL;
 	(void)line;
 	new = *tmp;
-		new->prvet = init->last_history;
+	new->prvet = init->last_history;
 	(init->last_history)->next = new;
 	init->last_history = new;
 	if (init->history_postoin)
 		init->history_postoin = new;
-
 }
 
-void			    ft_new_history_(t_init *init, char *line)
+void				ft_new_history_(t_init *init, char *line)
 {
-	t_history	    *new;
+	t_history		*new;
 
 	new = NULL;
 	init->index++;
