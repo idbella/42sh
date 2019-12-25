@@ -6,7 +6,7 @@
 /*   By: oherba <oherba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 16:08:20 by oherba            #+#    #+#             */
-/*   Updated: 2019/12/25 17:19:08 by oherba           ###   ########.fr       */
+/*   Updated: 2019/12/25 17:48:56 by oherba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ void	replace_the_auto_comlete_42(t_init *init, char *completion)
 	tmp = ft_strdup(init->out_put);
 	mark_operators(tmp);
 	mark_bg_op(tmp);
-	while (i > (int)ft_promptlen(init->promt) && tmp[i] != BLANK && tmp[i] != PIPE
-	&& tmp[i] != OR && tmp[i] != AND && tmp[i] != SEMI_COL && tmp[i] != BG)
+	while (i > (int)ft_promptlen(init->promt) && IS_STOP_CHAR(i))
 		i--;
 	ft_strdel(&tmp);
 	if (i != (int)ft_promptlen(init->promt))
@@ -73,7 +72,8 @@ void	ft_print_one_completion(t_init *init, char *to_complete)
 	{
 		while (to_complete[i] && to_complete[i] != '$')
 			i++;
-		if (to_complete[i] && to_complete[i] == '$' && to_complete[i + 1] == '{')
+		if (to_complete[i] && to_complete[i] == '$' &&
+		to_complete[i + 1] == '{')
 			i++;
 		str = ft_strsub(to_complete, 0, i + 1);
 		completion = ft_strjoin(str, (init->completion_lst->str));
