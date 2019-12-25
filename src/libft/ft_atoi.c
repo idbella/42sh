@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/05 18:34:47 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 10:02:15 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ long long int	ft_atoi(const char *str)
 
 	result = 0;
 	negative = 1;
+	if (!str)
+		return (0);
 	while (ft_isspace(*str))
 		str++;
-	if (*str == '-')
-	{
-		negative = -1;
+	if (*str == '-' && (negative = -1))
 		str++;
-	}
 	if (negative == 1 && *str == '+')
 		str++;
 	i = *str - '0';

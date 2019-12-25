@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:19:10 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/21 14:43:21 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 09:33:25 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ void		ft_init_builtins(char **env)
 		shell->builtins[i++].key = NULL;
 	ft_addblt();
 	ft_getset(0)->test_operators = ft_strsplit("\127,-b,-c,-d,-e,-f,-L,-p,-S,\
--u,-g,-r,-w,-x,-z,-s,=,!=,-eq,-ne,-ge,-lt,-le,-gt", ',');
+-u,-g,-r,-w,-x,-s,-z,=,!=,-eq,-ne,-ge,-lt,-le,-gt", ',');
 	ft_setoprations();
 }

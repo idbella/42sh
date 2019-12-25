@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/21 14:49:37 by yelazrak          #+#    #+#             */
-/*   Updated: 2019/12/23 22:37:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 11:34:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int			ft_freeline(t_line *alst, char **line, char c)
 
 int					get_next_line(int fd, char c, char **line)
 {
-	
 	static t_line	alst;
 	char			buff[BUFF_SIZE + 1];
 	int				j;
@@ -52,14 +51,14 @@ int					get_next_line(int fd, char c, char **line)
 	if (read(fd, buff, 0) < 0 || line == NULL)
 		return (-1);
 	if (!alst.str1)
-		alst.str1 = ft_strnew(0);;
+		alst.str1 = ft_strnew(0);
 	while ((j = read(fd, buff, BUFF_SIZE)) > 0)
 	{
 		buff[j] = '\0';
 		tmp = alst.str1;
 		alst.str1 = ft_strjoin(alst.str1, buff);
 		ft_strdel(&tmp);
-		if (ft_strchr(alst.str1, c ) != NULL)
+		if (ft_strchr(alst.str1, c) != NULL)
 			break ;
 	}
 	return (ft_freeline(&alst, line, c));

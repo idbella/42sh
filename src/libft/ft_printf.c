@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 02:28:02 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/15 14:29:32 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 11:33:05 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_printf_fd(int fd, char *format, ...)
+int				ft_printf_fd(int fd, char *format, ...)
 {
 	va_list	lst;
 	int		status;
@@ -47,7 +47,7 @@ void			ft_append(t_printf_params *param)
 	free(str);
 }
 
-int			ft_vprintf(int fd, va_list *list, char *format)
+int				ft_vprintf(int fd, va_list *list, char *format)
 {
 	t_printf_params	*param;
 	int				status;
@@ -76,7 +76,7 @@ int			ft_vprintf(int fd, va_list *list, char *format)
 	return (status);
 }
 
-int			ft_printf(char *format, ...)
+int				ft_printf(char *format, ...)
 {
 	va_list	lst;
 	int		status;

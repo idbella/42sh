@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 06:05:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/20 18:49:45 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 11:34:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 int		ft_csd(t_printf_params *param)
 {
 	if (*param->format == 's')
-	{
-		ft_getstr(param, 0);
-		return (1);
-	}
+		return (ft_getstr(param, 0));
 	else if (*param->format == 'c')
 	{
 		ft_getchar(param);
@@ -35,10 +32,7 @@ int		ft_csd(t_printf_params *param)
 		return (1);
 	}
 	else if (*param->format == 'f')
-	{
-		ft_getstr(param, 1);
-		return (1);
-	}
+		return (ft_getstr(param, 1));
 	return (0);
 }
 
@@ -68,7 +62,7 @@ void	ft_padding(int padding, char **str, char leading)
 	}
 }
 
-void	ft_getstr(t_printf_params *param, char fr)
+int		ft_getstr(t_printf_params *param, char fr)
 {
 	char	*str;
 	char	*tmp;
@@ -89,6 +83,7 @@ void	ft_getstr(t_printf_params *param, char fr)
 	param->str = ft_strjoin(param->str, str);
 	free(tmp);
 	free(str);
+	return (1);
 }
 
 void	ft_getint(t_printf_params *param)
