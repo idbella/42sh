@@ -28,7 +28,7 @@ jobcontrol/ft_bg.o              jobcontrol/ft_free.o            jobcontrol/ft_no
 jobcontrol/job_builtins.o		jobcontrol/ft_changestate.o     jobcontrol/ft_jobs.o            jobcontrol/ft_proccess.o\
 jobcontrol/ft_tools.o			jobcontrol/signal.o				jobcontrol/ft_cpyjob.o			jobcontrol/ft_joingroup.o
 
-CFLAGS=-g -Wall -Wextra -Werror -I../includes
+CFLAGS=-Wall -Wextra -Werror -I../includes
 
 all:$(NAME)
 

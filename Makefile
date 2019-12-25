@@ -38,34 +38,22 @@ LIBFT=$(FT)/libft.a
 
 LIBs= $(LIBEXEC) $(LIBPARSER) $(LIBREADLINE) $(LIBFT) $(LIBBUILTINS)
 
-CFLAGS=-g -Isrc/includes $(FLAGS)
+CFLAGS=-Isrc/includes $(FLAGS)
 
 all: $(NAME)
 
-$(NAME): $(MAIN) 
-	gcc $(MAIN) $(LIBs) $(FLAGS) -o $(NAME) -Isrc/includes -ltermcap
-
-$(MAIN): $(LIBs)
-
-$(LIBFT):
+$(NAME): $(MAIN)
 	@echo "\tCompiling LIB-FT"
 	@make -C $(FT)
-
-$(LIBPARSER):
 	@echo "\tCompiling LIB-PARSER"
 	@make -C $(PARSER)
-
-$(LIBREADLINE):
 	@echo "\tCompiling LIB-READLINE"
 	@make -C $(READLINE)
-
-$(LIBEXEC):
 	@echo "\tCompiling LIB-EXEC"
 	@make -C $(EXEC)
-
-$(LIBBUILTINS):
 	@echo "\tCompiling LIB-BUILTINS"
 	@make -C $(BUILTINS)
+	gcc $(MAIN) $(LIBs) $(FLAGS) -o $(NAME) -Isrc/includes -ltermcap
 
 clean:
 	rm -rf $(MAIN)

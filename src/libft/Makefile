@@ -25,7 +25,7 @@ ft_strnstr.o ft_strpos.o ft_strrchr.o ft_strrepeat.o ft_strreplace.o ft_strrev.o
 ft_strstr.o ft_strsub.o ft_strtrim.o ft_tolower.o ft_toupper.o get_next_line.o ft_free_array.o \
 ft_fstrjoin.o ft_fstrsub.o ft_join.o ft_isalphanum.o ft_isnumber.o ft_arraylen.o
 
-CFLAGS = -g -Wall -Wextra -Werror -I../includes
+CFLAGS = -Wall -Wextra -Werror -I../includes
 
 all : $(NAME)
 

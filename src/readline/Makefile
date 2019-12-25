@@ -32,8 +32,8 @@ auto_completion/ft_max_completion.o\
 auto_completion/ft_free_autocomplete.o\
 termcap/help_string.o\
 termcap/help_string_2.o       history_/history.o\
-#auto_completion/ft_take_to_complete.o
-CFLAGS=-g -Wall -Wextra -Werror -I../includes
+
+CFLAGS= -Wall -Wextra -Werror -I../includes
 
 all:$(NAME)
 

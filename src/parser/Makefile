@@ -17,9 +17,8 @@ INC = ../includes
 HDRS = ../includes/shell.h ../includes/parser.h ../includes/param_expan.h
 LIB = libft
 CC = gcc
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 INCLUDE = -I$(INC) -I$(LIB)/includes
-# LIBFT = $(LIB)/libft.a
 SRC_SUBDIRS = expansions parsing param_expan
 
 SRC_PARAM_EXPAN = $(addprefix param_expan/, params_expan.c rm_mpattern.c params_expan_operaters.c split_param_word.c rm_preffix.c rm_suffix.c)

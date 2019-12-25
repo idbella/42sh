@@ -42,7 +42,7 @@ test/ft_getoperators.o  test/ft_sizetest.o\
 test/ft_isnbr.o         test/ft_strtest.o\
 fc/fc.o         fc/fc_.o        fc/fc_flg.o \
 fc/fc_help.o 	fc/fc_help_flg.o 
-CFLAGS=-g -Wall -Wextra -Werror -I../includes
+CFLAGS=-Wall -Wextra -Werror -I../includes
 
 all:$(NAME)
 
