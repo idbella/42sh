@@ -6,7 +6,7 @@
 /*   By: mmostafa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:44:09 by mmostafa          #+#    #+#             */
-/*   Updated: 2019/12/24 20:25:48 by mmostafa         ###   ########.fr       */
+/*   Updated: 2019/12/25 09:40:09 by mmostafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ int			errors_container(int err, t_recipes *recipes)
 		ft_putstr_fd("42sh: cd: ", 2);
 		ft_putstr_fd("permission denied: ", 2);
 		ft_putendl_fd(recipes->curpath, 2);
-		ft_strdel(&recipes->cwd);
 	}
 	if (err == 3)
 	{
 		ft_putstr_fd("42sh: cd: ", 2);
 		ft_putstr_fd(recipes->curpath, 2);
 		ft_putstr_fd(" not a directory\n", 2);
-		ft_strdel(&recipes->cwd);
 	}
 	if (err == 4)
 	{
@@ -38,6 +36,8 @@ int			errors_container(int err, t_recipes *recipes)
 		ft_putstr_fd(" No such file or directory: ", 2);
 		ft_putendl_fd(recipes->curpath, 2);
 	}
+	ft_strdel(&recipes->cwd);
+	ft_strdel(&recipes->curpath);
 	return (-1);
 }
 
@@ -112,7 +112,7 @@ static char	*curpath_handling(t_recipes *recipes)
 
 int			chdir_operations(t_recipes *recipes)
 {
-	if (stat(recipes->curpath, &recipes->buf))
+	if (!stat(recipes->curpath, &recipes->buf))
 	{
 		if (S_ISDIR(recipes->buf.st_mode))
 		{
@@ -134,6 +134,7 @@ int			chdir_operations(t_recipes *recipes)
 		}
 		else
 			return (errors_container(3, recipes));
+		return (0);
 	}
 	return (errors_container(4, recipes));
 }
