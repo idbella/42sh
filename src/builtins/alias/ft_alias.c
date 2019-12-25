@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 18:38:24 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/12/25 23:29:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/12/25 23:45:09 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char		**ft_getaliaskeys(void)
 	return (ptr);
 }
 
-int		ft_isvalid(char *key)
+int			ft_isvalid(char *key)
 {
 	if (!ft_isalphanum(key))
 	{
